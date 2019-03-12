@@ -2,6 +2,7 @@ package app.dao.impl;
 
 import app.dao.EmployeeDao;
 import app.entities.Employee;
+import app.entities.Project;
 import app.exceptions.EntityAlreadyExistsException;
 import app.exceptions.EntityNotFoundException;
 import org.springframework.stereotype.Repository;
@@ -57,10 +58,20 @@ public class EmployeeDaoImpl implements EmployeeDao {
     }
 
     @Override
+    public synchronized void delete(int id) {
+        delete(findById(id));
+    }
+
+    @Override
     public synchronized void edit(Employee employee) {
         Employee oldEmployee = findById(employee.getId());
         int index = employees.indexOf(oldEmployee);
         employees.remove(oldEmployee);
         employees.add(index, employee);
+    }
+
+    @Override
+    public synchronized void assignToProject(Employee employee, Project project) {
+        employee.assignToProject(project);
     }
 }

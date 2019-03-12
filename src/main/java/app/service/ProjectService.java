@@ -1,22 +1,55 @@
 package app.service;
 
+import app.dao.ProjectDao;
 import app.entities.Project;
-import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Autowired;
 
+import javax.ws.rs.*;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import java.util.List;
 
-@Service
-public interface ProjectService {
+@Path("/project")
+public class ProjectService {
 
-    List<Project> getProjects();
+    @Autowired
+    private ProjectDao projectDao;
 
-    Project findById(int id);
+    @GET
+    @Path("/all")
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<Project> getAll() {
+        return projectDao.getAll();
+    }
 
-    void save(Project project);
+    @GET
+    @Path("/{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Project get(@PathParam("id") int id) {
+        return projectDao.findById(id);
+    }
 
-    void delete(Project project);
+    @POST
+    @Path("/add")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response add(Project project) {
+        projectDao.save(project);
+        return Response.status(Response.Status.CREATED.getStatusCode()).build();
+    }
 
-    void delete(int id);
+    @PUT
+    @Path("/edit/{id}")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response edit(@PathParam("id") int id, Project project) {
+        projectDao.edit(project);
+        return Response.status(Response.Status.CREATED.getStatusCode()).build();
+    }
 
-    void edit(Project project);
+    @DELETE
+    @Path("/delete/{id}")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response delete(@PathParam("id") int id) {
+        projectDao.delete(id);
+        return Response.status(Response.Status.OK.getStatusCode()).build();
+    }
 }
