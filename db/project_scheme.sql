@@ -33,3 +33,12 @@ periodId bigint NOT NULL,
 timesheetJson json NOT NULL,
 status varchar(100) NOT NULL
 );
+
+CREATE TABLE `logs` (
+  `projectId` bigint(20) NOT NULL,
+  `employeeId` bigint(25) NOT NULL,
+  `time` double NOT NULL,
+  `comment` varchar(100) NOT NULL,
+  `date` date NOT NULL,
+  PRIMARY KEY (`projectId`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
