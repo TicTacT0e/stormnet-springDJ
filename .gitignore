@@ -24,7 +24,6 @@
 *.iml
 *.iws
 out/
-classes/
 
 # Maven
 log/
