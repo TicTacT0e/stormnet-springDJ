@@ -42,7 +42,7 @@ email VARCHAR(150) NOT NULL,
 invitationsCode VARCHAR(40) NOT NULL,
 dateEnd datetime NOT NULL,
 status varchar(25) NOT NULL
-);
+ );
 
 create table Timesheet (
 id bigint NOT NULL primary key,
