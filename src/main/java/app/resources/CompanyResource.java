@@ -5,6 +5,7 @@ import app.entities.Company;
 import app.service.CompanyService;
 import app.service.EmployeeService;
 import app.service.ProjectService;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.ws.rs.*;
@@ -14,6 +15,8 @@ import java.util.List;
 
 @Path("/company")
 public class CompanyResource {
+
+    private static final Logger log = Logger.getLogger(CompanyResource.class);
 
     @Autowired
     private CompanyService companyService;
@@ -26,6 +29,7 @@ public class CompanyResource {
     @Path("/all")
     @Produces(MediaType.APPLICATION_JSON)
     public List<Company> getAll() {
+        log.warn("getAll method called");
         return companyService.getCompanies();
     }
 
