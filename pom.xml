@@ -28,6 +28,7 @@
         <jersey-media-json-jackson.version>2.28</jersey-media-json-jackson.version>
         <jersey-media-moxy.version>2.28</jersey-media-moxy.version>
         <jersey-spring.version>2.28</jersey-spring.version>
+        <mysql-connector.version>8.0.15</mysql-connector.version>
     </properties>
 
     <dependencies>
@@ -110,6 +111,13 @@
             <artifactId>jersey-spring4</artifactId>
             <version>${jersey-spring.version}</version>
         </dependency>
+
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>${mysql-connector.version}</version>
+        </dependency>
+
     </dependencies>
 
     <build>
