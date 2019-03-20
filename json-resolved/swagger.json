@@ -1,0 +1,170 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "description" : "logs",
+    "version" : "1.0.0",
+    "title" : "Logs"
+  },
+  "host" : "virtserver.swaggerhub.com",
+  "basePath" : "/igorkraskovskiii/TimeSheet/1.0.0",
+  "tags" : [ {
+    "name" : "Logs",
+    "description" : "All about time develop project"
+  } ],
+  "schemes" : [ "https", "http" ],
+  "paths" : {
+    "/logs/get/day" : {
+      "get" : {
+        "tags" : [ "Logs" ],
+        "summary" : "Get logs for today",
+        "operationId" : "get logs for Today",
+        "produces" : [ "application/json" ],
+        "parameters" : [ ],
+        "responses" : {
+          "default" : {
+            "description" : "Success",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/definitions/Logs"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/logs/get/week" : {
+      "get" : {
+        "tags" : [ "Logs" ],
+        "summary" : "Get logs for this week",
+        "operationId" : "get log for Week",
+        "produces" : [ "application/json" ],
+        "parameters" : [ ],
+        "responses" : {
+          "default" : {
+            "description" : "Success",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/definitions/Logs"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/logs/get/month" : {
+      "get" : {
+        "tags" : [ "Logs" ],
+        "summary" : "Get logs for this month",
+        "operationId" : "get log for Month",
+        "produces" : [ "application/json" ],
+        "parameters" : [ ],
+        "responses" : {
+          "default" : {
+            "description" : "Success",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/definitions/Logs"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/logs/get/Year" : {
+      "get" : {
+        "tags" : [ "Logs" ],
+        "summary" : "Get ogs for this year",
+        "operationId" : "get logs for Year",
+        "produces" : [ "application/json" ],
+        "parameters" : [ ],
+        "responses" : {
+          "default" : {
+            "description" : "Success",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/definitions/Logs"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/logs/add" : {
+      "post" : {
+        "tags" : [ "Logs" ],
+        "summary" : "Add new logs",
+        "operationId" : "add logs",
+        "consumes" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "logs",
+          "description" : "New logs",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/Logs"
+          }
+        } ],
+        "responses" : {
+          "201" : {
+            "description" : "Success"
+          }
+        }
+      }
+    },
+    "/logs/delete" : {
+      "delete" : {
+        "tags" : [ "Logs" ],
+        "summary" : "Delete logs",
+        "operationId" : "delete logs",
+        "consumes" : [ "appliaction/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "logs",
+          "description" : "logs to delete",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/Logs"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success"
+          },
+          "404" : {
+            "description" : "Logs not found"
+          }
+        }
+      }
+    }
+  },
+  "definitions" : {
+    "Logs" : {
+      "type" : "object",
+      "properties" : {
+        "employee" : {
+          "type" : "object",
+          "properties" : { }
+        },
+        "project" : {
+          "type" : "object",
+          "properties" : { }
+        },
+        "time" : {
+          "type" : "integer",
+          "format" : "double"
+        },
+        "comment" : {
+          "type" : "string"
+        },
+        "date" : {
+          "type" : "object",
+          "properties" : { }
+        }
+      }
+    }
+  }
+}
