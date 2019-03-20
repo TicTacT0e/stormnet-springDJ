@@ -1,13 +1,13 @@
 CREATE TABLE `project` (
   `id` int(11) NOT NULL,
   `name` varchar(45) NOT NULL,
-  `logoUrl` varchar(45) NOT NULL,
+  `logoUrl` varchar(200) NOT NULL,
   `startDate` date NOT NULL,
   `endDate` date NOT NULL,
   `manHours` int(11) NOT NULL,
-  `code` varchar(45) NOT NULL,
-  `colour` varchar(45) NOT NULL,
-  `description` varchar(45) NOT NULL,
+  `code` varchar(6) NOT NULL,
+  `colour` varchar(6) NOT NULL,
+  `description` varchar(500) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -59,3 +59,14 @@ CREATE TABLE `logs` (
   `date` date NOT NULL,
   PRIMARY KEY (`projectId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+
+create table Notification (
+id bigint NOT NULL PRIMARY KEY,
+createdAt DATETIME NOT NULL,
+employeId bigint NOT NULL,
+status varchar(100) NOT NULL,
+title varchar(100) NOT NULL,
+description text(200),
+link varchar(100)
+);
