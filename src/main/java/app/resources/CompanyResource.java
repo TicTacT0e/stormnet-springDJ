@@ -1,4 +1,4 @@
-package app.service;
+package app.resources;
 
 
 import app.dao.CompanyDao;
@@ -15,7 +15,7 @@ import java.util.List;
 
 @Component
 @Path("/company")
-public class CompanyService {
+public class CompanyResource {
 
     @Autowired
     private CompanyDao companyDao;

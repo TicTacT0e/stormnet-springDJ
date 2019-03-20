@@ -1,6 +1,10 @@
 package app.config;
 
-import app.service.*;
+
+import app.resources.CompanyResource;
+import app.resources.EmployeeResource;
+import app.resources.LogsResource;
+import app.resources.ProjectResource;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.springframework.context.annotation.Configuration;
 
@@ -11,10 +15,9 @@ import javax.ws.rs.ApplicationPath;
 public class JerseyConfig extends ResourceConfig {
 
     public JerseyConfig() {
-        register(CompanyService.class);
-        register(EmployeeService.class);
-        register(LogsService.class);
-        register(ProjectService.class);
-        register(TestWeb.class);
+        register(CompanyResource.class);
+        register(EmployeeResource.class);
+        register(LogsResource.class);
+        register(ProjectResource.class);
     }
 }

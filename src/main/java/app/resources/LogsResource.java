@@ -1,4 +1,4 @@
-package app.service;
+package app.resources;
 
 
 import app.dao.LogsDao;
@@ -14,7 +14,7 @@ import java.util.List;
 
 @Component
 @Path("/logs")
-public class LogsService {
+public class LogsResource {
 
     @Autowired
     private LogsDao logsDao;

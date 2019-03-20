@@ -1,4 +1,4 @@
-package app.service;
+package app.resources;
 
 import app.dao.EmployeeDao;
 import app.dao.ProjectDao;
@@ -13,7 +13,7 @@ import java.util.List;
 
 @Component
 @Path("/employee")
-public class EmployeeService {
+public class EmployeeResource {
 
     @Autowired
     private EmployeeDao employeeDao;
