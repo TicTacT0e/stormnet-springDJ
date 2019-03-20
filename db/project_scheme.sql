@@ -11,6 +11,23 @@ CREATE TABLE `project` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+CREATE TABLE `employee` (
+  `id` BIGINT NOT NULL,
+  `firstName` VARCHAR(40) NOT NULL,
+  `lastName` VARCHAR(40) NOT NULL,
+  `email` VARCHAR(45) NOT NULL,
+  `positionId` BIGINT NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE INDEX `email_UNIQUE` (`email` ASC) VISIBLE
+ );
+
+CREATE TABLE  `position` (
+  `id` BIGINT NOT NULL,
+  `position` VARCHAR(100) NOT NULL,
+  `companyId` BIGINT NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE INDEX `companyId_UNIQUE, position_UNIQUE` (`companyId, position` ASC) VISIBLE
+ );
 
 create table Assigment (
 projectId bigint NOT NULL, 
