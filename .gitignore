@@ -23,7 +23,7 @@
 .idea/
 *.iws
 out/
-classes/ 
+classes/
 
 # Maven
 log/
