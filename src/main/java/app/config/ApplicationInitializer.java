@@ -11,14 +11,16 @@ import javax.servlet.ServletException;
 
 @Order(Ordered.HIGHEST_PRECEDENCE)
 public class ApplicationInitializer implements WebApplicationInitializer {
+
     @Override
     public void onStartup(ServletContext servletContext)
             throws ServletException {
-        AnnotationConfigWebApplicationContext context
+        AnnotationConfigWebApplicationContext springContext
                 = new AnnotationConfigWebApplicationContext();
-        servletContext.addListener(new ContextLoaderListener(context));
+        servletContext.addListener(new ContextLoaderListener(springContext));
         servletContext.setInitParameter("contextConfigLocation",
                 "app.config.beans");
+        springContext.setServletContext(servletContext);
     }
 
 }

@@ -72,6 +72,11 @@ public class ProjectDaoImpl implements ProjectDao {
     }
 
     @Override
+    public synchronized void delete(int id) {
+        delete(findById(id));
+    }
+
+    @Override
     public synchronized void edit(Project project) {
         Project oldProject = findById(project.getId());
         int index = projects.indexOf(oldProject);
