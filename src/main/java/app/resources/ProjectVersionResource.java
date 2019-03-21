@@ -23,6 +23,5 @@ public class ProjectVersionResource {
     @Produces(MediaType.APPLICATION_JSON)
     public ProjectVersion getProjectVersion() {
         return projectVersionService.getProjectVersion();
-//        return version.getVersion(new PropertiesConfig().version);
     }
 }
