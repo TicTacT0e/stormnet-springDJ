@@ -17,10 +17,12 @@ public class ProjectVersionResource {
     @Autowired
     private ProjectVersionService projectVersionService;
 
+
     @GET
     @Path("/get")
     @Produces(MediaType.APPLICATION_JSON)
     public ProjectVersion getProjectVersion() {
         return projectVersionService.getProjectVersion();
+//        return version.getVersion(new PropertiesConfig().version);
     }
 }

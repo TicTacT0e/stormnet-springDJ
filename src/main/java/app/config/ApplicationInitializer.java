@@ -24,5 +24,4 @@ public class ApplicationInitializer implements WebApplicationInitializer {
                 "app.config.beans");
         springContext.setServletContext(servletContext);
     }
-
 }
