@@ -32,7 +32,7 @@ CREATE TABLE  `position` (
 create table Assigment (
 projectId bigint NOT NULL, 
 employeeId bigint NOT NULL, 
-workLoadInMinuts int 
+workLoadInMinutes int 
 );
 
 create table Invitations (
