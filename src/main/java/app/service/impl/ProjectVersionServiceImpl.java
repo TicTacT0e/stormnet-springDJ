@@ -14,8 +14,6 @@ public class ProjectVersionServiceImpl implements ProjectVersionService {
 
     @Override
     public ProjectVersion getProjectVersion() {
-        System.out.println("version = " + version);
-
         return new ProjectVersion(version);
     }
 }
