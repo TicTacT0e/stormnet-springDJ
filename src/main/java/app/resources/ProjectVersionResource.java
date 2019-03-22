@@ -1,7 +1,7 @@
 package app.resources;
 
+import app.Services.ProjectVersionService;
 import app.entities.ProjectVersion;
-import app.service.ProjectVersionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -15,8 +15,7 @@ import javax.ws.rs.core.MediaType;
 public class ProjectVersionResource {
 
     @Autowired
-    private ProjectVersionService projectVersionService;
-
+    ProjectVersionService projectVersionService;
 
     @GET
     @Path("/get")

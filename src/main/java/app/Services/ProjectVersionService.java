@@ -1,19 +1,17 @@
-package app.service.impl;
+package app.Services;
 
 import app.entities.ProjectVersion;
-import app.service.ProjectVersionService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-
 @Service
-public class ProjectVersionServiceImpl implements ProjectVersionService {
+public class ProjectVersionService {
 
     @Value("${version}")
     String version;
 
-    @Override
     public ProjectVersion getProjectVersion() {
+        System.out.println(version);
         return new ProjectVersion(version);
     }
 }

@@ -1,10 +1,10 @@
 package app.resources;
 
 
+import app.dao.CompanyDao;
+import app.dao.EmployeeDao;
+import app.dao.ProjectDao;
 import app.entities.Company;
-import app.service.CompanyService;
-import app.service.EmployeeService;
-import app.service.ProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -18,31 +18,31 @@ import java.util.List;
 public class CompanyResource {
 
     @Autowired
-    private CompanyService companyService;
+    private CompanyDao companyDao;
     @Autowired
-    private EmployeeService employeeService;
+    private EmployeeDao employeeDao;
     @Autowired
-    private ProjectService projectService;
+    private ProjectDao projectDao;
 
     @GET
     @Path("/all")
     @Produces(MediaType.APPLICATION_JSON)
     public List<Company> getAll() {
-        return companyService.getCompanies();
+        return companyDao.getAll();
     }
 
     @GET
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public Company get(@PathParam("id") int id) {
-        return companyService.findById(id);
+        return companyDao.findById(id);
     }
 
     @POST
     @Path("/add")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response add(Company company) {
-        companyService.save(company);
+        companyDao.save(company);
         return Response.status(Response.Status.CREATED.getStatusCode()).build();
     }
 
@@ -50,7 +50,7 @@ public class CompanyResource {
     @Path("/edit/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response edit(@PathParam("id") int id, Company company) {
-        companyService.edit(company);
+        companyDao.edit(company);
         return Response.status(Response.Status.CREATED.getStatusCode()).build();
     }
 
@@ -58,27 +58,29 @@ public class CompanyResource {
     @Path("/delete/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response delete(@PathParam("id") int id) {
-        companyService.delete(id);
+        companyDao.delete(id);
         return Response.status(Response.Status.OK.getStatusCode()).build();
     }
 
     @POST
     @Path("/add/employee/{companyId}/{employeeId}")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response addEmployeeToCompany(@PathParam("companyId") int companyId,
-                                         @PathParam("employeeId") int employeeId) {
-        companyService.addEmployee(companyService.findById(companyId),
-                employeeService.findById(employeeId));
+    public Response addEmployeeToCompany(
+            @PathParam("companyId") int companyId,
+            @PathParam("employeeId") int employeeId) {
+        companyDao.addEmployeeToCompany(companyDao.findById(companyId),
+                employeeDao.findById(employeeId));
         return Response.status(Response.Status.OK.getStatusCode()).build();
     }
 
     @POST
     @Path("/add/project/{companyId}/{projectId}")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response addProjectToCompany(@PathParam("companyId") int companyId,
-                                        @PathParam("projectId") int projectId) {
-        companyService.addProject(companyService.findById(companyId),
-                projectService.findById(projectId));
+    public Response addProjectToCompany(
+            @PathParam("companyId") int companyId,
+            @PathParam("projectId") int projectId) {
+        companyDao.addProjectToCompany(companyDao.findById(companyId),
+                projectDao.findById(projectId));
         return Response.status(Response.Status.OK.getStatusCode()).build();
     }
 }

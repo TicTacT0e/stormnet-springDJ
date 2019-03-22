@@ -1,9 +1,9 @@
 package app.resources;
 
 
+import app.dao.LogsDao;
 import app.entities.Logs;
 import app.entities.namespace.LogsNamespace;
-import app.service.LogsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -17,41 +17,41 @@ import java.util.List;
 public class LogsResource {
 
     @Autowired
-    private LogsService logsService;
+    private LogsDao logsDao;
 
     @GET
     @Path("/all")
     @Produces(MediaType.APPLICATION_JSON)
     public List<Logs> getAll() {
-        return logsService.getAllLogs();
+        return logsDao.getAll();
     }
 
     @GET
     @Path("/get/today")
     @Produces(MediaType.APPLICATION_JSON)
     public List<Logs> getForToday() {
-        return logsService.getLogFor(LogsNamespace.TODAY);
+        return logsDao.getLogFor(LogsNamespace.TODAY);
     }
 
     @GET
     @Path("/get/week")
     @Produces(MediaType.APPLICATION_JSON)
     public List<Logs> getForThisWeek() {
-        return logsService.getLogFor(LogsNamespace.THIS_WEEK);
+        return logsDao.getLogFor(LogsNamespace.THIS_WEEK);
     }
 
     @GET
     @Path("/get/month")
     @Produces(MediaType.APPLICATION_JSON)
     public List<Logs> getForThisMonth() {
-        return logsService.getLogFor(LogsNamespace.THIS_MONTH);
+        return logsDao.getLogFor(LogsNamespace.THIS_MONTH);
     }
 
     @POST
     @Path("/add")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response add(Logs logs) {
-        logsService.save(logs);
+        logsDao.save(logs);
         return Response.status(Response.Status.CREATED.getStatusCode()).build();
     }
 
@@ -59,7 +59,7 @@ public class LogsResource {
     @Path("/delete")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response delete(Logs logs) {
-        logsService.delete(logs);
+        logsDao.delete(logs);
         return Response.status(Response.Status.OK.getStatusCode()).build();
     }
 }
