@@ -1,64 +1,66 @@
-CREATE TABLE `project` (
+CREATE TABLE `Project` (
   `id` int(11) NOT NULL,
-  `name` varchar(45) NOT NULL,
-  `logoUrl` varchar(200) NOT NULL,
+  `name` VARCHAR(45) NOT NULL,
+  `logoUrl` VARCHAR(200) NOT NULL,
   `startDate` date NOT NULL,
   `endDate` date NOT NULL,
   `manHours` int(11) NOT NULL,
-  `code` varchar(6) NOT NULL,
-  `colour` varchar(6) NOT NULL,
-  `description` varchar(500) NOT NULL,
+  `code` VARCHAR(6) NOT NULL,
+  `colour` VARCHAR(6) NOT NULL,
+  `description` VARCHAR(500) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `employee` (
+CREATE TABLE `Employee` (
   `id` BIGINT NOT NULL,
-  `firstName` VARCHAR(40) NOT NULL,
-  `lastName` VARCHAR(40) NOT NULL,
-  `email` VARCHAR(45) NOT NULL,
-  `positionId` BIGINT NOT NULL,
+  `firstName` VARCHAR(40) NULL,
+  `lastName` VARCHAR(40) NULL,
+  `email` VARCHAR(150) NOT NULL,
+  `positionId` BIGINT NULL,
+  `photoUrl` VARCHAR(200) NULL,
   PRIMARY KEY (`id`),
   UNIQUE INDEX `email_UNIQUE` (`email` ASC) VISIBLE
- );
+ ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE  `position` (
+CREATE TABLE  `Position` (
   `id` BIGINT NOT NULL,
   `position` VARCHAR(100) NOT NULL,
   `companyId` BIGINT NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE INDEX `companyId_UNIQUE, position_UNIQUE` (`companyId, position` ASC) VISIBLE
- );
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 create table Assigment (
-projectId bigint NOT NULL, 
-employeeId bigint NOT NULL, 
-workLoadInMinutes int 
-);
+  projectId BIGINT NOT NULL,
+  employeeId BIGINT NOT NULL,
+  workLoadInMinutes int
+  PRIMARY KEY (`projectId`, `employeeId`),
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 create table Invitations (
-employeeId bigint NOT NULL PRIMARY KEY,
-companyId bigint NOT NULL,
-email VARCHAR(150) NOT NULL,
-invitationsCode VARCHAR(40) NOT NULL,
-dateEnd datetime NOT NULL,
-status varchar(25) NOT NULL
- );
+  employeeId BIGINT NOT NULL PRIMARY KEY,
+  companyId BIGINT NOT NULL,
+  email VARCHAR(150) NOT NULL,
+  invitationsCode VARCHAR(40) NOT NULL,
+  dateEnd DATETIME NOT NULL,
+  status varchar(25) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 create table Timesheet (
-id bigint NOT NULL primary key,
-periodId bigint NOT NULL,
-timesheetJson json NOT NULL,
-status varchar(100) NOT NULL
-);
+  id BIGINT NOT NULL primary key,
+  periodId BIGINT NOT NULL,
+  timesheetJson json NOT NULL,
+  status varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `logs` (
-  `projectId` bigint(20) NOT NULL,
-  `employeeId` bigint(25) NOT NULL,
+CREATE TABLE `Logs` (
+  `projectId` BIGINT(20) NOT NULL,
+  `employeeId` BIGINT(25) NOT NULL,
   `time` double NOT NULL,
   `comment` varchar(100) NOT NULL,
   `date` date NOT NULL,
   PRIMARY KEY (`projectId`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
 create table Notification (
