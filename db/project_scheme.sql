@@ -33,8 +33,9 @@ CREATE TABLE  `Position` (
 create table Assigment (
   projectId BIGINT NOT NULL,
   employeeId BIGINT NOT NULL,
-  workLoadInMinutes int
-  PRIMARY KEY (`projectId`, `employeeId`),
+  WorkLoadInMinutes int,
+  CONSTRAINT PK_Assigment PRIMARY KEY 
+  (projectId, employeeId)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 create table Invitations (
