@@ -2,21 +2,21 @@ package app.entities;
 
 import java.util.Objects;
 
-public class Assigment {
+public class Assignment {
 
     private int projectId;
     private int employeeId;
     private int workLoadInMinutes;
 
-    public Assigment() {}
+    public Assignment() {}
 
-    public Assigment(int projectId, int employeeId, int workLoadInMinutes) {
+    public Assignment(int projectId, int employeeId, int workLoadInMinutes) {
         this.projectId = projectId;
         this.employeeId = employeeId;
         this.workLoadInMinutes = workLoadInMinutes;
     }
 
-    public Assigment(Assigment assigment) {
+    public Assignment(Assignment assigment) {
         this(
                 assigment.getProjectId(),
                 assigment.getEmployeeId(),
@@ -51,8 +51,8 @@ public class Assigment {
     @Override
     public boolean equals(Object object) {
         if (this == object) { return true; }
-        if (!(object instanceof Assigment)) { return false; }
-        Assigment assigment = (Assigment) object;
+        if (!(object instanceof Assignment)) { return false; }
+        Assignment assigment = (Assignment) object;
         return getProjectId() == assigment.getProjectId() &&
                 getEmployeeId() == assigment.getEmployeeId() &&
                 getWorkLoadInMinutes() == assigment.getWorkLoadInMinutes();
@@ -65,7 +65,7 @@ public class Assigment {
 
     @Override
     public String toString() {
-        return "Assigment{" +
+        return "Assignment{" +
                 "projectId=" + projectId +
                 ", employeeId=" + employeeId +
                 ", workLoadInMinutes=" + workLoadInMinutes +

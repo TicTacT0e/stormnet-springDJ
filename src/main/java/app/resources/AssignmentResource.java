@@ -1,7 +1,7 @@
 package app.resources;
 
-import app.dao.AssigmentDao;
-import app.entities.Assigment;
+import app.dao.AssignmentDao;
+import app.entities.Assignment;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -11,23 +11,23 @@ import javax.ws.rs.core.Response;
 import java.util.List;
 
 @Component
-@Path("/assigment")
-public class AssigmentResource {
+@Path("/assignment")
+public class AssignmentResource {
 
     @Autowired
-    AssigmentDao assigmentDao;
+    AssignmentDao assigmentDao;
 
     @GET
     @Path("/all")
     @Produces(MediaType.APPLICATION_JSON)
-    public List<Assigment> getAll() {
+    public List<Assignment> getAll() {
         return assigmentDao.getAll();
     }
 
     @GET
     @Path("/{projectId}/{employeeId}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Assigment get(
+    public Assignment get(
             @PathParam("projectId") int projectId,
             @PathParam("employeeId") int employeeId
     ) {
@@ -37,8 +37,8 @@ public class AssigmentResource {
     @POST
     @Path("/add")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response add(Assigment assigment) {
-        assigmentDao.save(assigment);
+    public Response add(Assignment assignment) {
+        assigmentDao.save(assignment);
         return Response.status(Response.Status.CREATED.getStatusCode()).build();
     }
 
@@ -48,13 +48,13 @@ public class AssigmentResource {
     public Response edit(
             @PathParam("projectId") int projectId,
             @PathParam("employeeId") int employeeId,
-            Assigment assigment
+            Assignment assignment
     ) {
-        if (projectId != assigment.getProjectId() ||
-                employeeId != assigment.getEmployeeId()) {
+        if (projectId != assignment.getProjectId() ||
+                employeeId != assignment.getEmployeeId()) {
             return Response.status(Response.Status.CONFLICT.getStatusCode()).build();
         }
-        assigmentDao.edit(assigment);
+        assigmentDao.edit(assignment);
         return Response.status(Response.Status.CREATED.getStatusCode()).build();
     }
 

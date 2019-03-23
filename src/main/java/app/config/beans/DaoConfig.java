@@ -32,7 +32,7 @@ public class DaoConfig {
     }
 
     @Bean
-    public AssigmentDao getAssigmentDao() {
-        return new AssigmentDaoImpl();
+    public AssignmentDao getAssigmentDao() {
+        return new AssignmentDaoImpl();
     }
 }

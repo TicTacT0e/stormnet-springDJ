@@ -13,6 +13,6 @@ public class JerseyConfig extends ResourceConfig {
         register(EmployeeResource.class);
         register(LogsResource.class);
         register(ProjectResource.class);
-        register(AssigmentResource.class);
+        register(AssignmentResource.class);
     }
 }
