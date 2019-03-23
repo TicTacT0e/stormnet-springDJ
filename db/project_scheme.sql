@@ -30,7 +30,7 @@ CREATE TABLE  `Position` (
   UNIQUE INDEX `companyId_UNIQUE, position_UNIQUE` (`companyId, position` ASC) VISIBLE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-create table Assigment (
+create table Assignment (
   projectId BIGINT NOT NULL,
   employeeId BIGINT NOT NULL,
   workLoadInMinutes int,
