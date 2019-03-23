@@ -15,7 +15,7 @@ import java.util.List;
 public class AssignmentResource {
 
     @Autowired
-    AssignmentDao assigmentDao;
+    private AssignmentDao assigmentDao;
 
     @GET
     @Path("/all")
@@ -50,9 +50,10 @@ public class AssignmentResource {
             @PathParam("employeeId") int employeeId,
             Assignment assignment
     ) {
-        if (projectId != assignment.getProjectId() ||
-                employeeId != assignment.getEmployeeId()) {
-            return Response.status(Response.Status.CONFLICT.getStatusCode()).build();
+        if (projectId != assignment.getProjectId()
+                || employeeId != assignment.getEmployeeId()) {
+            return Response
+                    .status(Response.Status.CONFLICT.getStatusCode()).build();
         }
         assigmentDao.edit(assignment);
         return Response.status(Response.Status.CREATED.getStatusCode()).build();

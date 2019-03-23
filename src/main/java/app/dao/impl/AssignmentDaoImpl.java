@@ -25,7 +25,6 @@ public class AssignmentDaoImpl implements AssignmentDao {
 
     private Connection connection = null;
 
-    private static final int ROW_NOT_EXISTS = 0;
     private static final int ROW_EXISTS = 1;
 
     private void openDatabaseConnection() {
@@ -48,7 +47,8 @@ public class AssignmentDaoImpl implements AssignmentDao {
         List<Assignment> assignmentList = null;
         try {
             PreparedStatement preparedStatement = connection
-                    .prepareStatement("SELECT * FROM timesheet_dev.Assignment");
+                    .prepareStatement("SELECT * FROM "
+                            + "timesheet_dev.Assignment");
             ResultSet resultSet = preparedStatement.executeQuery();
             assignmentList = assignmentListMapper(resultSet);
             preparedStatement.close();
@@ -65,8 +65,9 @@ public class AssignmentDaoImpl implements AssignmentDao {
         Assignment assignment = null;
         try {
             PreparedStatement preparedStatement = connection
-                    .prepareStatement("SELECT * FROM timesheet_dev.Assignment " +
-                            "WHERE projectId=? AND employeeId=?");
+                    .prepareStatement("SELECT * FROM "
+                            + "timesheet_dev.Assignment "
+                            + "WHERE projectId=? AND employeeId=?");
             preparedStatement.setInt(1, projectId);
             preparedStatement.setInt(2, employeeId);
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -89,9 +90,10 @@ public class AssignmentDaoImpl implements AssignmentDao {
         openDatabaseConnection();
         try {
             PreparedStatement preparedStatement = connection
-                    .prepareStatement("INSERT INTO timesheet_dev.Assignment " +
-                            "(projectId, employeeId, workLoadInMinutes) " +
-                            "VALUE (?, ?, ?)");
+                    .prepareStatement("INSERT INTO "
+                            + "timesheet_dev.Assignment "
+                            + "(projectId, employeeId, workLoadInMinutes) "
+                            + "VALUE (?, ?, ?)");
             preparedStatement.setInt(1, assignment.getProjectId());
             preparedStatement.setInt(2, assignment.getEmployeeId());
             preparedStatement.setInt(3, assignment.getWorkLoadInMinutes());
@@ -118,8 +120,9 @@ public class AssignmentDaoImpl implements AssignmentDao {
         openDatabaseConnection();
         try {
             PreparedStatement preparedStatement = connection
-                    .prepareStatement("DELETE FROM timesheet_dev.Assignment " +
-                            "WHERE projectId=? AND employeeId=?");
+                    .prepareStatement("DELETE FROM "
+                            + "timesheet_dev.Assignment "
+                            + "WHERE projectId=? AND employeeId=?");
             preparedStatement.setInt(1, projectId);
             preparedStatement.setInt(2, employeeId);
             preparedStatement.executeUpdate();
@@ -132,15 +135,17 @@ public class AssignmentDaoImpl implements AssignmentDao {
 
     @Override
     public void edit(Assignment assignment) {
-        if (!isAssignmentExists(assignment.getProjectId(), assignment.getEmployeeId())) {
+        if (!isAssignmentExists(assignment.getProjectId(),
+                assignment.getEmployeeId())) {
             throw new EntityNotFoundException();
         }
         openDatabaseConnection();
         try {
             PreparedStatement preparedStatement = connection
-                    .prepareStatement("UPDATE timesheet_dev.Assignment " +
-                            "SET workLoadInMinutes=? " +
-                            "WHERE projectId=? AND employeeId=?");
+                    .prepareStatement("UPDATE "
+                            + "timesheet_dev.Assignment "
+                            + "SET workLoadInMinutes=? "
+                            + "WHERE projectId=? AND employeeId=?");
             preparedStatement.setInt(1, assignment.getWorkLoadInMinutes());
             preparedStatement.setInt(2, assignment.getProjectId());
             preparedStatement.setInt(3, assignment.getEmployeeId());
@@ -156,14 +161,15 @@ public class AssignmentDaoImpl implements AssignmentDao {
         openDatabaseConnection();
         try {
             PreparedStatement preparedStatement = connection
-                    .prepareStatement("SELECT EXISTS" +
-                            "(SELECT projectId, employeeId FROM timesheet_dev.Assignment " +
-                            "WHERE projectId=? AND employeeId=?)");
+                    .prepareStatement("SELECT EXISTS"
+                            + "(SELECT projectId, employeeId FROM "
+                            + "timesheet_dev.Assignment "
+                            + "WHERE projectId=? AND employeeId=?)");
             preparedStatement.setInt(1, projectId);
             preparedStatement.setInt(2, employeeId);
             ResultSet resultSet = preparedStatement.executeQuery();
-            if (resultSet.next() &&
-                    resultSet.getInt(1) == ROW_EXISTS) {
+            if (resultSet.next()
+                    && resultSet.getInt(1) == ROW_EXISTS) {
                 return true;
             }
         } catch (SQLException exception) {
@@ -189,7 +195,9 @@ public class AssignmentDaoImpl implements AssignmentDao {
         if (!resultSet.wasNull()) {
             assignment.setProjectId(resultSet.getInt("projectId"));
             assignment.setEmployeeId(resultSet.getInt("employeeId"));
-            assignment.setWorkLoadInMinutes(resultSet.getInt("workLoadInMinutes"));
+            assignment.setWorkLoadInMinutes(
+                    resultSet.getInt("workLoadInMinutes")
+            );
         }
         return assignment;
     }

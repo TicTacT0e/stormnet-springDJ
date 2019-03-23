@@ -8,7 +8,8 @@ public class Assignment {
     private int employeeId;
     private int workLoadInMinutes;
 
-    public Assignment() {}
+    public Assignment() {
+    }
 
     public Assignment(int projectId, int employeeId, int workLoadInMinutes) {
         this.projectId = projectId;
@@ -50,25 +51,33 @@ public class Assignment {
 
     @Override
     public boolean equals(Object object) {
-        if (this == object) { return true; }
-        if (!(object instanceof Assignment)) { return false; }
+        if (this == object) {
+            return true;
+        }
+        if (!(object instanceof Assignment)) {
+            return false;
+        }
         Assignment assigment = (Assignment) object;
-        return getProjectId() == assigment.getProjectId() &&
-                getEmployeeId() == assigment.getEmployeeId() &&
-                getWorkLoadInMinutes() == assigment.getWorkLoadInMinutes();
+        return getProjectId() == assigment.getProjectId()
+                && getEmployeeId() == assigment.getEmployeeId()
+                && getWorkLoadInMinutes() == assigment.getWorkLoadInMinutes();
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getProjectId(), getEmployeeId(), getWorkLoadInMinutes());
+        return Objects.hash(
+                getProjectId(),
+                getEmployeeId(),
+                getWorkLoadInMinutes()
+        );
     }
 
     @Override
     public String toString() {
-        return "Assignment{" +
-                "projectId=" + projectId +
-                ", employeeId=" + employeeId +
-                ", workLoadInMinutes=" + workLoadInMinutes +
-                '}';
+        return "Assignment{"
+                + "projectId=" + projectId
+                + ", employeeId=" + employeeId
+                + ", workLoadInMinutes=" + workLoadInMinutes
+                + '}';
     }
 }
