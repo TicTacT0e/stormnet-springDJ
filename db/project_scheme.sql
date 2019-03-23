@@ -33,7 +33,7 @@ CREATE TABLE  `Position` (
 create table Assigment (
   projectId BIGINT NOT NULL,
   employeeId BIGINT NOT NULL,
-  WorkLoadInMinutes int,
+  workLoadInMinutes int,
   CONSTRAINT PK_Assigment PRIMARY KEY 
   (projectId, employeeId)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
