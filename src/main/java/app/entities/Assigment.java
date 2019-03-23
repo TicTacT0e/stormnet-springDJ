@@ -4,14 +4,14 @@ public class Assigment {
 
     private int projectId;
     private int employeeId;
-    private int workLoadInMinuts;
+    private int workLoadInMinutes;
 
     public Assigment() {}
 
-    public Assigment(int projectId, int employeeId, int workLoadInMinuts) {
+    public Assigment(int projectId, int employeeId, int workLoadInMinutes) {
         this.projectId = projectId;
         this.employeeId = employeeId;
-        this.workLoadInMinuts = workLoadInMinuts;
+        this.workLoadInMinutes = workLoadInMinutes;
     }
 
     public int getProjectId() {
@@ -30,11 +30,11 @@ public class Assigment {
         this.employeeId = employeeId;
     }
 
-    public int getWorkLoadInMinuts() {
-        return workLoadInMinuts;
+    public int getWorkLoadInMinutes() {
+        return workLoadInMinutes;
     }
 
-    public void setWorkLoadInMinuts(int workLoadInMinuts) {
-        this.workLoadInMinuts = workLoadInMinuts;
+    public void setWorkLoadInMinutes(int workLoadInMinutes) {
+        this.workLoadInMinutes = workLoadInMinutes;
     }
 }
