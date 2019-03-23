@@ -45,16 +45,23 @@ public class AssignmentDaoImpl implements AssignmentDao {
     public List<Assignment> getAll() {
         openDatabaseConnection();
         List<Assignment> assignmentList = null;
-        try {
-            PreparedStatement preparedStatement = connection
-                    .prepareStatement("SELECT * FROM "
-                            + "timesheet_dev.Assignment");
+        try (PreparedStatement preparedStatement = connection
+                .prepareStatement("SELECT * FROM "
+                        + "timesheet_dev.Assignment")) {
             ResultSet resultSet = preparedStatement.executeQuery();
             assignmentList = assignmentListMapper(resultSet);
             preparedStatement.close();
             connection.close();
         } catch (SQLException exception) {
             exception.printStackTrace();
+        } finally {
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
         }
         return assignmentList;
     }
@@ -63,37 +70,42 @@ public class AssignmentDaoImpl implements AssignmentDao {
     public Assignment findById(int projectId, int employeeId) {
         openDatabaseConnection();
         Assignment assignment = null;
-        try {
-            PreparedStatement preparedStatement = connection
-                    .prepareStatement("SELECT * FROM "
-                            + "timesheet_dev.Assignment "
-                            + "WHERE projectId=? AND employeeId=?");
+        try (PreparedStatement preparedStatement = connection
+                .prepareStatement("SELECT * FROM "
+                        + "timesheet_dev.Assignment "
+                        + "WHERE projectId=? AND employeeId=?")) {
             preparedStatement.setInt(1, projectId);
             preparedStatement.setInt(2, employeeId);
             ResultSet resultSet = preparedStatement.executeQuery();
             resultSet.next();
             assignment = assigmentMapper(resultSet);
+            if (assignment == null) {
+                throw new EntityNotFoundException();
+            }
             preparedStatement.close();
             connection.close();
         } catch (SQLException exception) {
             exception.printStackTrace();
+        } finally {
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
         }
-        if (assignment == null) {
-            throw new EntityNotFoundException();
-        } else {
-            return assignment;
-        }
+        return assignment;
     }
 
     @Override
     public void save(Assignment assignment) {
         openDatabaseConnection();
-        try {
-            PreparedStatement preparedStatement = connection
-                    .prepareStatement("INSERT INTO "
-                            + "timesheet_dev.Assignment "
-                            + "(projectId, employeeId, workLoadInMinutes) "
-                            + "VALUE (?, ?, ?)");
+        try (PreparedStatement preparedStatement = connection
+                .prepareStatement("INSERT INTO "
+                        + "timesheet_dev.Assignment "
+                        + "(projectId, employeeId, workLoadInMinutes) "
+                        + "VALUE (?, ?, ?)")) {
             preparedStatement.setInt(1, assignment.getProjectId());
             preparedStatement.setInt(2, assignment.getEmployeeId());
             preparedStatement.setInt(3, assignment.getWorkLoadInMinutes());
@@ -104,6 +116,14 @@ public class AssignmentDaoImpl implements AssignmentDao {
             throw new EntityAlreadyExistsException();
         } catch (SQLException exception) {
             exception.printStackTrace();
+        } finally {
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
         }
     }
 
@@ -118,11 +138,10 @@ public class AssignmentDaoImpl implements AssignmentDao {
             throw new EntityNotFoundException();
         }
         openDatabaseConnection();
-        try {
-            PreparedStatement preparedStatement = connection
-                    .prepareStatement("DELETE FROM "
-                            + "timesheet_dev.Assignment "
-                            + "WHERE projectId=? AND employeeId=?");
+        try (PreparedStatement preparedStatement = connection
+                .prepareStatement("DELETE FROM "
+                        + "timesheet_dev.Assignment "
+                        + "WHERE projectId=? AND employeeId=?")) {
             preparedStatement.setInt(1, projectId);
             preparedStatement.setInt(2, employeeId);
             preparedStatement.executeUpdate();
@@ -130,6 +149,14 @@ public class AssignmentDaoImpl implements AssignmentDao {
             connection.close();
         } catch (SQLException exception) {
             exception.printStackTrace();
+        } finally {
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
         }
     }
 
@@ -140,12 +167,11 @@ public class AssignmentDaoImpl implements AssignmentDao {
             throw new EntityNotFoundException();
         }
         openDatabaseConnection();
-        try {
-            PreparedStatement preparedStatement = connection
-                    .prepareStatement("UPDATE "
-                            + "timesheet_dev.Assignment "
-                            + "SET workLoadInMinutes=? "
-                            + "WHERE projectId=? AND employeeId=?");
+        try (PreparedStatement preparedStatement = connection
+                .prepareStatement("UPDATE "
+                        + "timesheet_dev.Assignment "
+                        + "SET workLoadInMinutes=? "
+                        + "WHERE projectId=? AND employeeId=?")) {
             preparedStatement.setInt(1, assignment.getWorkLoadInMinutes());
             preparedStatement.setInt(2, assignment.getProjectId());
             preparedStatement.setInt(3, assignment.getEmployeeId());
@@ -154,17 +180,24 @@ public class AssignmentDaoImpl implements AssignmentDao {
             connection.close();
         } catch (SQLException exception) {
             exception.printStackTrace();
+        } finally {
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
         }
     }
 
     private boolean isAssignmentExists(int projectId, int employeeId) {
         openDatabaseConnection();
-        try {
-            PreparedStatement preparedStatement = connection
-                    .prepareStatement("SELECT EXISTS"
-                            + "(SELECT projectId, employeeId FROM "
-                            + "timesheet_dev.Assignment "
-                            + "WHERE projectId=? AND employeeId=?)");
+        try (PreparedStatement preparedStatement = connection
+                .prepareStatement("SELECT EXISTS"
+                        + "(SELECT projectId, employeeId FROM "
+                        + "timesheet_dev.Assignment "
+                        + "WHERE projectId=? AND employeeId=?)")) {
             preparedStatement.setInt(1, projectId);
             preparedStatement.setInt(2, employeeId);
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -174,6 +207,14 @@ public class AssignmentDaoImpl implements AssignmentDao {
             }
         } catch (SQLException exception) {
             exception.printStackTrace();
+        } finally {
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
         }
         return false;
     }

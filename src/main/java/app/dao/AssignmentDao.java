@@ -3,6 +3,7 @@ package app.dao;
 import app.entities.Assignment;
 import org.springframework.stereotype.Repository;
 
+import java.sql.SQLException;
 import java.util.List;
 
 @Repository
