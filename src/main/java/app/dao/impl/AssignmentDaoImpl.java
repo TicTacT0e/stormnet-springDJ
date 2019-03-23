@@ -46,7 +46,6 @@ public class AssignmentDaoImpl implements AssignmentDao {
 
     @Override
     public List<Assignment> getAll() {
-        openDatabaseConnection();
         List<Assignment> assignmentList = null;
         try (Connection connection = openDatabaseConnection();
              PreparedStatement preparedStatement = connection
@@ -62,7 +61,6 @@ public class AssignmentDaoImpl implements AssignmentDao {
 
     @Override
     public Assignment findById(int projectId, int employeeId) {
-        openDatabaseConnection();
         Assignment assignment = null;
         try (Connection connection = openDatabaseConnection();
              PreparedStatement preparedStatement = connection
@@ -85,7 +83,6 @@ public class AssignmentDaoImpl implements AssignmentDao {
 
     @Override
     public void save(Assignment assignment) {
-        openDatabaseConnection();
         try (Connection connection = openDatabaseConnection();
              PreparedStatement preparedStatement = connection
                      .prepareStatement("INSERT INTO "
@@ -113,7 +110,6 @@ public class AssignmentDaoImpl implements AssignmentDao {
         if (!isAssignmentExists(projectId, employeeId)) {
             throw new EntityNotFoundException();
         }
-        openDatabaseConnection();
         try (Connection connection = openDatabaseConnection();
              PreparedStatement preparedStatement = connection
                      .prepareStatement("DELETE FROM "
@@ -133,7 +129,6 @@ public class AssignmentDaoImpl implements AssignmentDao {
                 assignment.getEmployeeId())) {
             throw new EntityNotFoundException();
         }
-        openDatabaseConnection();
         try (Connection connection = openDatabaseConnection();
              PreparedStatement preparedStatement = connection
                      .prepareStatement("UPDATE "
@@ -150,7 +145,6 @@ public class AssignmentDaoImpl implements AssignmentDao {
     }
 
     private boolean isAssignmentExists(int projectId, int employeeId) {
-        openDatabaseConnection();
         try (Connection connection = openDatabaseConnection();
              PreparedStatement preparedStatement = connection
                      .prepareStatement("SELECT EXISTS"
