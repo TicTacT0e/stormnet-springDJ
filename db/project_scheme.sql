@@ -54,14 +54,15 @@ create table Timesheet (
   status varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `Logs` (
-  `projectId` BIGINT(20) NOT NULL,
-  `employeeId` BIGINT(25) NOT NULL,
+CREATE TABLE `logs` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `projectId` bigint(20) NOT NULL,
+  `employeeId` bigint(20) NOT NULL,
   `time` double NOT NULL,
   `comment` varchar(100) NOT NULL,
   `date` date NOT NULL,
-  PRIMARY KEY (`projectId`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
 
 
 create table Notification (
@@ -73,3 +74,32 @@ title varchar(100) NOT NULL,
 description text(200),
 link varchar(100)
 );
+
+CREATE TABLE `company` (
+  `id` BIGINT NOT NULL,
+  `name` VARCHAR(45) NOT NULL,
+  `logo` VARCHAR(45) NOT NULL,
+  `ownerId` BIGINT NOT NULL,
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
+
+CREATE TABLE `settings` (
+  `id` BIGINT NOT NULL,
+  `type` VARCHAR(45) NOT NULL,
+  `value` VARCHAR(45) NOT NULL,
+  `companyId` BIGINT NOT NULL,
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
+
+CREATE TABLE `integration` (
+  `id` BIGINT NOT NULL,
+  `type` VARCHAR(45) NOT NULL,
+  `url` VARCHAR(45) NOT NULL,
+  `login` VARCHAR(45) NOT NULL,
+  `pass` VARCHAR(45) NOT NULL,
+  `companyId` BIGINT NOT NULL,
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
