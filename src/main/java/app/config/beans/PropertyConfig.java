@@ -15,9 +15,9 @@ public class PropertyConfig {
         return new ProjectVersionService();
     }
 
-/*    @Bean
+    @Bean
     public JDBCConnection getJDBCConnection() {
         return new JDBCConnection();
-    }*/
+    }
 
 }
