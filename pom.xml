@@ -19,10 +19,10 @@
         <maven.compiler.target>1.8</maven.compiler.target>
 
         <driver>com.mysql.jdbc.Driver</driver>
-        <!--<db.url>jdbc:mysql://localhost:3306/timesheet_dev</db.url>-->
-        <db.url>jdbc:mysql://localhost:3306/jdbc</db.url>
-        <db.username>username</db.username>
-        <db.password>qwerty123</db.password>
+        <db.url>jdbc:mysql://localhost:3306/timesheet_dev</db.url>
+        <!--<db.url>jdbc:mysql://localhost:3306/jdbc</db.url>-->
+        <db.username>root</db.username>
+        <db.password>morfilia119</db.password>
 
         <junit.version>4.11</junit.version>
         <joda-time.version>2.10</joda-time.version>

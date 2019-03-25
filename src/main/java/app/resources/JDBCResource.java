@@ -1,12 +1,12 @@
 package app.resources;
 
-import app.Services.JDBCConnection;
+import app.Services.JDBCService;
 import app.dao.impl.NotificationDao;
 import app.entities.Database;
-import app.entities.ProjectVersion;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import javax.management.Notification;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -17,12 +17,22 @@ import javax.ws.rs.core.MediaType;
 public class JDBCResource {
 
     @Autowired
-    JDBCConnection jdbcConnection;
+    JDBCService jdbcService;
+
+    @Autowired
+    NotificationDao notificationDao;
 
     @GET
     @Path("/get")
     @Produces(MediaType.APPLICATION_JSON)
-    public Database getProjectVersion() {
-        return jdbcConnection.getDatabase();
+    public Database getDatabase() {
+        return jdbcService.getDatabase();
+    }
+
+    @GET
+    @Path("/g")
+    @Produces(MediaType.TEXT_HTML)
+    public String getAll() {
+        return notificationDao.getAll();
     }
 }

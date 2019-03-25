@@ -2,16 +2,12 @@ package app.Services;
 
 import app.entities.Database;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.stereotype.Service;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-
 @Service
-public class JDBCConnection {
+public class JDBCService {
+
+    private Database database;
 
     @Value("${jdbc.driver}")
     private String driver;
@@ -25,14 +21,32 @@ public class JDBCConnection {
     @Value("${db.password}")
     public String password;
 
-    //private static Connection connection;
-
     public Database getDatabase() {
         System.out.println(driver);
         System.out.println(URL);
         System.out.println(username);
         System.out.println(password);
 
-        return new Database(driver, URL, username, password);
+        if(this.database == null) {
+            database = new Database(driver, URL, username, password);
+            return database;
+        }
+        return database;
+    }
+
+    public String getDriver() {
+        return driver;
+    }
+
+    public String getURL() {
+        return URL;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public String getPassword() {
+        return password;
     }
 }

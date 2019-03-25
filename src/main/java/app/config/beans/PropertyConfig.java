@@ -1,6 +1,6 @@
 package app.config.beans;
 
-import app.Services.JDBCConnection;
+import app.Services.JDBCService;
 import app.Services.ProjectVersionService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -16,8 +16,8 @@ public class PropertyConfig {
     }
 
     @Bean
-    public JDBCConnection getJDBCConnection() {
-        return new JDBCConnection();
+    public JDBCService getJDBCConnection() {
+        return new JDBCService();
     }
 
 }
