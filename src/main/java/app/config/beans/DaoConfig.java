@@ -32,10 +32,4 @@ public class DaoConfig {
         return new ProjectDaoImpl();
     }
 
-
-
-    @Bean
-    public NotificationDao getNotificationDao() {
-        return new NotificationDao();
-    }
 }

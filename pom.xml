@@ -15,14 +15,8 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
-
-        <driver>com.mysql.jdbc.Driver</driver>
-        <db.url>jdbc:mysql://localhost:3306/timesheet_dev</db.url>
-        <!--<db.url>jdbc:mysql://localhost:3306/jdbc</db.url>-->
-        <db.username>root</db.username>
-        <db.password>morfilia119</db.password>
+        <maven.compiler.source>1.9</maven.compiler.source>
+        <maven.compiler.target>1.9</maven.compiler.target>
 
         <junit.version>4.11</junit.version>
         <joda-time.version>2.10</joda-time.version>
@@ -187,27 +181,27 @@
                 </configuration>
             </plugin>
 
-            <!--<plugin>-->
-                <!--<groupId>org.apache.maven.plugins</groupId>-->
-                <!--<artifactId>maven-checkstyle-plugin</artifactId>-->
-                <!--<version>3.0.0</version>-->
-                <!--<executions>-->
-                    <!--<execution>-->
-                        <!--<phase>verify</phase>-->
-                        <!--<goals>-->
-                            <!--<goal>check</goal>-->
-                        <!--</goals>-->
-                        <!--<configuration>-->
-                            <!--<suppressionsLocation>-->
-                                <!--checkstyle-suppressions-->
-                            <!--</suppressionsLocation>-->
-                            <!--<suppressionsFileExpression>-->
-                                <!--checkstyle.suppressions.file-->
-                            <!--</suppressionsFileExpression>-->
-                        <!--</configuration>-->
-                    <!--</execution>-->
-                <!--</executions>-->
-            <!--</plugin>-->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-checkstyle-plugin</artifactId>
+                <version>3.0.0</version>
+                <executions>
+                    <execution>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
+                        <configuration>
+                            <suppressionsLocation>
+                                checkstyle-suppressions
+                            </suppressionsLocation>
+                            <suppressionsFileExpression>
+                                checkstyle.suppressions.file
+                            </suppressionsFileExpression>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
 
         <resources>
