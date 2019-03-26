@@ -1,6 +1,5 @@
 package app.dao;
 
-import app.entities.Logs;
 import app.entities.namespace.LogsNamespace;
 import org.springframework.stereotype.Repository;
 
