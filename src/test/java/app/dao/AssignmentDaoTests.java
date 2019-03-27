@@ -11,23 +11,35 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.Objects;
+import java.util.Properties;
+
 public class AssignmentDaoTests {
 
-    private static final String DRIVER = "com.mysql.cj.jdbc.Driver";
-    private static final String URL = "jdbc:mysql://localhost:3306";
-    private static final String USERNAME = "root";
-    private static final String PASSWORD = "admin";
-    private static final String SCHEMA = "timesheet_dev";
+    private String assignmentTable;
 
     private IDatabaseTester databaseTester;
 
-
     @Before
     public void setUp() throws Exception {
-        databaseTester = new MySqlDatabaseTester(DRIVER, URL, USERNAME, PASSWORD, SCHEMA);
+        Properties properties = new Properties();
+        properties.load(Objects.requireNonNull(getClass()
+                .getClassLoader()
+                .getResourceAsStream("assignmentTest.properties")));
+
+        String driver = properties.getProperty("db-driver");
+        String url = properties.getProperty("db-url");
+        String username = properties.getProperty("db-username");
+        String password = properties.getProperty("db-password");
+        String assignmentSchema = properties.getProperty("assignment-schema");
+        assignmentTable = properties.getProperty("assignment-table");
+
+        databaseTester = new MySqlDatabaseTester(driver, url, username, password, assignmentSchema);
 
         IDataSet dataSet = new FlatXmlDataSetBuilder()
-                .build(getClass().getClassLoader().getResourceAsStream("initial-dataset.xml"));
+                .build(getClass()
+                        .getClassLoader()
+                        .getResourceAsStream("initial-dataset.xml"));
         databaseTester.setDataSet(dataSet);
         databaseTester.onSetup();
     }
@@ -40,21 +52,15 @@ public class AssignmentDaoTests {
     @Test
     public void initialTest() {
         try {
-            System.out.println(databaseTester.getDataSet().getTable("Assignment").getRowCount());
-            Assert.assertNotNull(databaseTester.getDataSet().getTable("Assignment"));
-
+            Assert.assertNotNull(databaseTester.getDataSet().getTable(assignmentTable));
             IDataSet actualDataSet = databaseTester.getDataSet();
-            ITable actualTable = actualDataSet.getTable("Assignment");
-
-
+            ITable actualTable = actualDataSet.getTable(assignmentTable);
             IDataSet expectedDataSet = new FlatXmlDataSetBuilder()
                     .build(getClass()
                             .getClassLoader()
-                            .getResourceAsStream("expected.xml"));
-            ITable expectedTable = expectedDataSet.getTable("Assignment");
-
+                            .getResourceAsStream("initial-dataset.xml"));
+            ITable expectedTable = expectedDataSet.getTable(assignmentTable);
             Assertion.assertEquals(expectedTable, actualTable);
-
         } catch (Exception exception) {
             exception.printStackTrace();
         }
@@ -64,17 +70,17 @@ public class AssignmentDaoTests {
     public void insertTest() {
         try {
             IDataSet dataSet = new FlatXmlDataSetBuilder()
-                    .build(getClass().getClassLoader().getResourceAsStream("someSet.xml"));
+                    .build(getClass().getClassLoader().getResourceAsStream("someSet(trash).xml"));
 
             DatabaseOperation.INSERT.execute(databaseTester.getConnection(), dataSet);
             IDataSet actualDataSet = databaseTester.getConnection().createDataSet();
-            ITable actualTable = actualDataSet.getTable("Assignment");
+            ITable actualTable = actualDataSet.getTable(assignmentTable);
 
             IDataSet expectedDataSet = new FlatXmlDataSetBuilder()
                     .build(getClass()
                             .getClassLoader()
-                            .getResourceAsStream("expected.xml"));
-            ITable expectedTable = expectedDataSet.getTable("Assignment");
+                            .getResourceAsStream("expected(trash).xml"));
+            ITable expectedTable = expectedDataSet.getTable(assignmentTable);
 
             Assertion.assertEquals(expectedTable, actualTable);
         } catch (Exception exception) {
