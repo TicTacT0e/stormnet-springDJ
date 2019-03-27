@@ -1,13 +1,13 @@
-package app.dao;
+package app.dao.assignmentDaoTests;
 
 import app.config.beans.DaoConfig;
-import app.entities.Assignment;
+import app.dao.AssignmentDao;
+import app.dao.MySqlDatabaseTester;
 import org.dbunit.Assertion;
 import org.dbunit.IDatabaseTester;
 import org.dbunit.dataset.IDataSet;
 import org.dbunit.dataset.ITable;
 import org.dbunit.dataset.xml.FlatXmlDataSetBuilder;
-import org.dbunit.operation.DatabaseOperation;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -17,7 +17,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import java.util.List;
 import java.util.Objects;
 import java.util.Properties;
 
@@ -62,7 +61,7 @@ public class AssignmentDaoTests {
     }
 
     @Test
-    public void initialTest() {
+    public void setUpDatabaseTest() {
         try {
             Assert.assertNotNull(databaseTester.getDataSet().getTable(assignmentTable));
             IDataSet actualDataSet = databaseTester.getDataSet();
@@ -75,37 +74,6 @@ public class AssignmentDaoTests {
             Assertion.assertEquals(expectedTable, actualTable);
         } catch (Exception exception) {
             exception.printStackTrace();
-        }
-    }
-
-    @Test
-    public void insertTest() {
-        try {
-            IDataSet dataSet = new FlatXmlDataSetBuilder()
-                    .build(getClass().getClassLoader().getResourceAsStream("someSet(trash).xml"));
-
-            DatabaseOperation.INSERT.execute(databaseTester.getConnection(), dataSet);
-            IDataSet actualDataSet = databaseTester.getConnection().createDataSet();
-            ITable actualTable = actualDataSet.getTable(assignmentTable);
-
-            IDataSet expectedDataSet = new FlatXmlDataSetBuilder()
-                    .build(getClass()
-                            .getClassLoader()
-                            .getResourceAsStream("expected(trash).xml"));
-            ITable expectedTable = expectedDataSet.getTable(assignmentTable);
-
-            Assertion.assertEquals(expectedTable, actualTable);
-        } catch (Exception exception) {
-            exception.printStackTrace();
-        }
-    }
-
-    @Test
-    public void getAllTest() {
-        List<Assignment> assignments = assignmentDao.getAll();
-
-        for (Assignment assignment : assignments) {
-            System.out.println(assignment.toString());
         }
     }
 }
