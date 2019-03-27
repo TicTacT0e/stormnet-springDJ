@@ -8,6 +8,7 @@ import org.dbunit.IDatabaseTester;
 import org.dbunit.dataset.IDataSet;
 import org.dbunit.dataset.ITable;
 import org.dbunit.dataset.xml.FlatXmlDataSetBuilder;
+import org.dbunit.operation.DatabaseOperation;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -24,9 +25,9 @@ import java.util.Properties;
 @ContextConfiguration(classes = DaoConfig.class)
 public class AssignmentDaoTests {
 
-    private String assignmentTable;
+    protected String assignmentTable;
 
-    private IDatabaseTester databaseTester;
+    protected IDatabaseTester databaseTester;
 
     @Autowired
     AssignmentDao assignmentDao;
@@ -59,6 +60,13 @@ public class AssignmentDaoTests {
     public void tearDown() throws Exception {
         databaseTester.onTearDown();
     }
+
+    @After
+    public void clearData() throws Exception {
+        DatabaseOperation.DELETE_ALL.execute(databaseTester.getConnection(),
+                databaseTester.getDataSet());
+    }
+
 
     @Test
     public void setUpDatabaseTest() {

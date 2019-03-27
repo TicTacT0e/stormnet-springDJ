@@ -5,6 +5,7 @@ import org.dbunit.database.DatabaseConfig;
 import org.dbunit.database.IDatabaseConnection;
 import org.dbunit.ext.mysql.MySqlDataTypeFactory;
 import org.dbunit.ext.mysql.MySqlMetadataHandler;
+import org.dbunit.operation.DatabaseOperation;
 
 public class MySqlDatabaseTester extends JdbcDatabaseTester {
 
@@ -29,5 +30,10 @@ public class MySqlDatabaseTester extends JdbcDatabaseTester {
         dbConfig.setProperty(DatabaseConfig.PROPERTY_METADATA_HANDLER,
                 new MySqlMetadataHandler());
         return connection;
+    }
+
+    @Override
+    public DatabaseOperation getSetUpOperation() {
+        return DatabaseOperation.REFRESH;
     }
 }
