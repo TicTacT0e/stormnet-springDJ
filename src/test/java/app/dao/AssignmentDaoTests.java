@@ -1,5 +1,7 @@
 package app.dao;
 
+import app.config.beans.DaoConfig;
+import app.entities.Assignment;
 import org.dbunit.Assertion;
 import org.dbunit.IDatabaseTester;
 import org.dbunit.dataset.IDataSet;
@@ -10,15 +12,25 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.Properties;
 
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(classes = DaoConfig.class)
 public class AssignmentDaoTests {
 
     private String assignmentTable;
 
     private IDatabaseTester databaseTester;
+
+    @Autowired
+    AssignmentDao assignmentDao;
 
     @Before
     public void setUp() throws Exception {
@@ -85,6 +97,15 @@ public class AssignmentDaoTests {
             Assertion.assertEquals(expectedTable, actualTable);
         } catch (Exception exception) {
             exception.printStackTrace();
+        }
+    }
+
+    @Test
+    public void getAllTest() {
+        List<Assignment> assignments = assignmentDao.getAll();
+
+        for (Assignment assignment : assignments) {
+            System.out.println(assignment.toString());
         }
     }
 }
