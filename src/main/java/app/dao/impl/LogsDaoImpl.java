@@ -1,7 +1,6 @@
 package app.dao.impl;
 
 import app.entities.Logs;
-
 import java.sql.*;
 import java.util.Calendar;
 
@@ -15,8 +14,8 @@ public class LogsDaoImpl {
     public LogsDaoImpl() {
         try {
             connection = DriverManager.getConnection(HOST, USERNAME, PASSWORD);
-            preparedStatement = connection.prepareStatement("INSERT INTO logs (id,projectId,employeeId,time,comment,date) " +
-                    "values (?,?,?,?,?,?)");
+            preparedStatement = connection.prepareStatement("INSERT INTO logs (projectId,employeeId,time,comment,date) " +
+                    "values (?,?,?,?,?)");
             preparedStatement = connection.prepareStatement("delete from logs where id=?");
         } catch (SQLException e) {
             e.printStackTrace();
@@ -37,8 +36,8 @@ public class LogsDaoImpl {
                 logs.setComment(resultSet.getString(5));
                 logs.setDate(resultSet.getDate(6));
                 System.out.println(logs.toString());
-                st.close();
             }
+            st.close();
         } catch (SQLException e) {
         }
         return logs.toString();
@@ -46,12 +45,11 @@ public class LogsDaoImpl {
 
     public void save() {
         try {
-            preparedStatement.setInt(1, 8);
-            preparedStatement.setInt(2, 2);
-            preparedStatement.setInt(3, 3);
-            preparedStatement.setInt(4, 8);
-            preparedStatement.setString(5, "Добавить рисунок");
-            preparedStatement.setDate(6, new Date(Calendar.getInstance().getTimeInMillis()));
+            preparedStatement.setInt(1, 2);
+            preparedStatement.setInt(2, 3);
+            preparedStatement.setInt(3, 8);
+            preparedStatement.setString(4, "Добавить рисунок");
+            preparedStatement.setDate(5, new Date(Calendar.getInstance().getTimeInMillis()));
             preparedStatement.execute();
             preparedStatement.close();
         } catch (SQLException e) {
