@@ -20,8 +20,7 @@ public class TimesheetDao {
         String query = "select * from timesheet where id = ?";
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            connection = DriverManager.getConnection(url, user, password);
-            preparedStatement = connection.prepareStatement(query);
+            preparedStatement = createConnection().prepareStatement(query);
             preparedStatement.setInt(1, id);
             resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
@@ -42,8 +41,7 @@ public class TimesheetDao {
         String query = "select * from timesheet";
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            connection = DriverManager.getConnection(url, user, password);
-            preparedStatement = connection.prepareStatement(query);
+            preparedStatement = createConnection().prepareStatement(query);
             resultSet = preparedStatement.executeQuery();
             StringBuilder stringBuilder = new StringBuilder();
             while (resultSet.next()) {
@@ -65,8 +63,7 @@ public class TimesheetDao {
         String query = "insert into timesheet (id, periodId, timesheetJson, status) values (?, ?, ?, ?)";
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            connection = DriverManager.getConnection(url, user, password);
-            preparedStatement = connection.prepareStatement(query);
+            preparedStatement = createConnection().prepareStatement(query);
             preparedStatement.setInt(1, timesheet.getId());
             preparedStatement.setInt(2, timesheet.getPeriodId());
             preparedStatement.setString(3, timesheet.getTimesheetJson());
@@ -86,8 +83,7 @@ public class TimesheetDao {
         String query = "delete from timesheet where id = ?";
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            connection = DriverManager.getConnection(url, user, password);
-            preparedStatement = connection.prepareStatement(query);
+            preparedStatement = createConnection().prepareStatement(query);
             preparedStatement.setInt(1, id);
             preparedStatement.executeUpdate();
         } catch (SQLException sqlException) {
@@ -104,8 +100,7 @@ public class TimesheetDao {
         String query = "update timesheet set periodId = ?, timesheetJson = ?, status = ? where id = ?";
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            connection = DriverManager.getConnection(url, user, password);
-            preparedStatement = connection.prepareStatement(query);
+            preparedStatement = createConnection().prepareStatement(query);
             preparedStatement.setInt(4, timesheet.getId());
             preparedStatement.setInt(1, timesheet.getPeriodId());
             preparedStatement.setString(2, timesheet.getTimesheetJson());
@@ -118,6 +113,11 @@ public class TimesheetDao {
         } finally {
             closeConnections(preparedStatement, connection);
         }
+    }
+
+    public static Connection createConnection() throws SQLException {
+        connection = DriverManager.getConnection(url, user, password);
+        return connection;
     }
 
     public static void closeConnections(PreparedStatement preparedStatement, Connection connection) {
