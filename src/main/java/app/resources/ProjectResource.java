@@ -8,7 +8,6 @@ import org.springframework.stereotype.Component;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.sql.SQLException;
 import java.util.List;
 
 @Component
@@ -21,7 +20,7 @@ public class ProjectResource {
     @GET
     @Path("/all")
     @Produces(MediaType.APPLICATION_JSON)
-    public List<Project> getAll() throws SQLException, ClassNotFoundException {
+    public List<Project> getAll() {
         return projectDao.getAll();
     }
 
