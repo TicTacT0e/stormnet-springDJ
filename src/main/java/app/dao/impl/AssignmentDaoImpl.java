@@ -1,9 +1,11 @@
 package app.dao.impl;
 
+import app.Services.JDBCConnection;
 import app.dao.AssignmentDao;
 import app.entities.Assignment;
 import app.exceptions.EntityAlreadyExistsException;
 import app.exceptions.EntityNotFoundException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 
@@ -14,40 +16,15 @@ import java.util.List;
 @Repository
 public class AssignmentDaoImpl implements AssignmentDao {
 
-    @Value("${db-driver}")
-    private String driver;
-
-    @Value("${db-url}")
-    private String url;
-
-    @Value("${db-username}")
-    private String username;
-
-    @Value("${db-password}")
-    private String password;
+    @Autowired
+    JDBCConnection jdbcConnection;
 
     private static final int ROW_EXISTS = 1;
-
-    private Connection openDatabaseConnection() {
-        Connection connection = null;
-        try {
-            Class.forName(driver);
-        } catch (ClassNotFoundException exception) {
-            exception.printStackTrace();
-        }
-        try {
-            connection = DriverManager
-                    .getConnection(url, username, password);
-        } catch (SQLException exception) {
-            exception.printStackTrace();
-        }
-        return connection;
-    }
 
     @Override
     public List<Assignment> getAll() {
         List<Assignment> assignmentList = null;
-        try (Connection connection = openDatabaseConnection();
+        try (Connection connection = jdbcConnection.getConnection();
              PreparedStatement preparedStatement = connection
                      .prepareStatement("SELECT * FROM "
                              + "timesheet_dev.Assignment")) {
@@ -62,7 +39,7 @@ public class AssignmentDaoImpl implements AssignmentDao {
     @Override
     public Assignment findById(int projectId, int employeeId) {
         Assignment assignment = null;
-        try (Connection connection = openDatabaseConnection();
+        try (Connection connection = jdbcConnection.getConnection();
              PreparedStatement preparedStatement = connection
                      .prepareStatement("SELECT * FROM "
                              + "timesheet_dev.Assignment "
@@ -83,7 +60,7 @@ public class AssignmentDaoImpl implements AssignmentDao {
 
     @Override
     public void save(Assignment assignment) {
-        try (Connection connection = openDatabaseConnection();
+        try (Connection connection = jdbcConnection.getConnection();
              PreparedStatement preparedStatement = connection
                      .prepareStatement("INSERT INTO "
                              + "timesheet_dev.Assignment "
@@ -110,7 +87,7 @@ public class AssignmentDaoImpl implements AssignmentDao {
         if (!isAssignmentExists(projectId, employeeId)) {
             throw new EntityNotFoundException();
         }
-        try (Connection connection = openDatabaseConnection();
+        try (Connection connection = jdbcConnection.getConnection();
              PreparedStatement preparedStatement = connection
                      .prepareStatement("DELETE FROM "
                              + "timesheet_dev.Assignment "
@@ -129,7 +106,7 @@ public class AssignmentDaoImpl implements AssignmentDao {
                 assignment.getEmployeeId())) {
             throw new EntityNotFoundException();
         }
-        try (Connection connection = openDatabaseConnection();
+        try (Connection connection = jdbcConnection.getConnection();
              PreparedStatement preparedStatement = connection
                      .prepareStatement("UPDATE "
                              + "timesheet_dev.Assignment "
@@ -145,7 +122,7 @@ public class AssignmentDaoImpl implements AssignmentDao {
     }
 
     private boolean isAssignmentExists(int projectId, int employeeId) {
-        try (Connection connection = openDatabaseConnection();
+        try (Connection connection = jdbcConnection.getConnection();
              PreparedStatement preparedStatement = connection
                      .prepareStatement("SELECT EXISTS"
                              + "(SELECT projectId, employeeId FROM "
