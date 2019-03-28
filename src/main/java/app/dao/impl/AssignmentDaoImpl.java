@@ -6,7 +6,6 @@ import app.entities.Assignment;
 import app.exceptions.EntityAlreadyExistsException;
 import app.exceptions.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 
 import java.sql.*;
@@ -84,7 +83,7 @@ public class AssignmentDaoImpl implements AssignmentDao {
 
     @Override
     public void delete(int projectId, int employeeId) {
-        if (!isAssignmentExists(projectId, employeeId)) {
+        if (isAssignmentExists(projectId, employeeId)) {
             throw new EntityNotFoundException();
         }
         try (Connection connection = jdbcConnection.getConnection();
@@ -102,7 +101,7 @@ public class AssignmentDaoImpl implements AssignmentDao {
 
     @Override
     public void edit(Assignment assignment) {
-        if (!isAssignmentExists(assignment.getProjectId(),
+        if (isAssignmentExists(assignment.getProjectId(),
                 assignment.getEmployeeId())) {
             throw new EntityNotFoundException();
         }
@@ -133,12 +132,12 @@ public class AssignmentDaoImpl implements AssignmentDao {
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()
                     && resultSet.getInt(1) == ROW_EXISTS) {
-                return true;
+                return false;
             }
         } catch (SQLException exception) {
             exception.printStackTrace();
         }
-        return false;
+        return true;
     }
 
     private List<Assignment> assignmentListMapper(ResultSet resultSet)
