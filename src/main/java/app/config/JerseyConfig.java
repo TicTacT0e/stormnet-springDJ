@@ -14,5 +14,6 @@ public class JerseyConfig extends ResourceConfig {
         register(LogsResource.class);
         register(ProjectResource.class);
         register(AssignmentResource.class);
+        register(ProjectVersionResource.class);
     }
 }
