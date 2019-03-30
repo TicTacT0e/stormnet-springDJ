@@ -1,9 +1,6 @@
 package app.config;
 
-import app.resources.CompanyResource;
-import app.resources.EmployeeResource;
-import app.resources.LogsResource;
-import app.resources.ProjectResource;
+import app.resources.*;
 import org.glassfish.jersey.server.ResourceConfig;
 
 import javax.ws.rs.ApplicationPath;
@@ -16,5 +13,6 @@ public class JerseyConfig extends ResourceConfig {
         register(EmployeeResource.class);
         register(LogsResource.class);
         register(ProjectResource.class);
+        register(ProjectVersionResource.class);
     }
 }
