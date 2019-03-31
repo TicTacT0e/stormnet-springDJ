@@ -5,6 +5,10 @@ import app.dao.NotificationDao;
 import app.entities.Notification;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
 
 public class NotificationDaoImpl implements NotificationDao {
@@ -15,16 +19,30 @@ public class NotificationDaoImpl implements NotificationDao {
     public static final String UPDATE = "UPDATE notification SET ? = ? WHERE id = ?";
 
     @Autowired
-    JDBCConnection connection;
+    JDBCConnection jdbcConnection;
 
     @Override
     public Notification create() {
-        connection.getConnection();
+        try {
+            Connection connection = jdbcConnection.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(CREATE_NOIFICATION);
+            //todo
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return null;
     }
 
     @Override
     public Notification findById(int id) {
+        try {
+            Connection connection = jdbcConnection.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(FIND_BY_ID);
+            preparedStatement.setInt(1, id);
+            ResultSet resultset = preparedStatement.executeQuery();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return null;
     }
 
@@ -42,4 +60,5 @@ public class NotificationDaoImpl implements NotificationDao {
     public Notification delete(int id) {
         return null;
     }
+
 }
