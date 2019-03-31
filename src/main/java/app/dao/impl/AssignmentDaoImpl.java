@@ -15,8 +15,12 @@ import java.util.List;
 @Repository
 public class AssignmentDaoImpl implements AssignmentDao {
 
-    @Autowired
-    JDBCConnection jdbcConnection;
+
+//    @Autowired
+//    JDBCConnection jdbcConnection;
+
+    JDBCConnection jdbcConnection = new JDBCConnection();
+
 
     private static final int ROW_EXISTS = 1;
 
