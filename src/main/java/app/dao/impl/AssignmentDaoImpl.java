@@ -20,13 +20,35 @@ public class AssignmentDaoImpl implements AssignmentDao {
 
     private static final int ROW_EXISTS = 1;
 
+    private static final String GET_ALL =
+            "SELECT * FROM timesheet_dev.Assignment";
+    private static final String GET =
+            "SELECT * FROM timesheet_dev.Assignment "
+                    + "WHERE projectId=? AND employeeId=?";
+    private static final String INSERT =
+            "INSERT INTO timesheet_dev.Assignment "
+                    + "(projectId, employeeId, workLoadInMinutes) "
+                    + "VALUE (?, ?, ?)";
+    private static final String DELETE =
+            "DELETE FROM timesheet_dev.Assignment "
+                    + "WHERE projectId=? AND employeeId=?";
+    private static final String UPDATE =
+            "UPDATE timesheet_dev.Assignment "
+                    + "SET workLoadInMinutes=? "
+                    + "WHERE projectId=? AND employeeId=?";
+    private static final String IS_EXISTS =
+            "SELECT EXISTS " +
+                    "(SELECT projectId, employeeId "
+                    + "FROM timesheet_dev.Assignment"
+                    + " WHERE projectId=? AND employeeId=?)";
+
+
     @Override
     public List<Assignment> getAll() {
         List<Assignment> assignmentList = null;
         try (Connection connection = jdbcConnection.getConnection();
              PreparedStatement preparedStatement = connection
-                     .prepareStatement("SELECT * FROM "
-                             + "timesheet_dev.Assignment")) {
+                     .prepareStatement(GET_ALL)) {
             ResultSet resultSet = preparedStatement.executeQuery();
             assignmentList = assignmentListMapper(resultSet);
         } catch (SQLException exception) {
@@ -40,9 +62,7 @@ public class AssignmentDaoImpl implements AssignmentDao {
         Assignment assignment = null;
         try (Connection connection = jdbcConnection.getConnection();
              PreparedStatement preparedStatement = connection
-                     .prepareStatement("SELECT * FROM "
-                             + "timesheet_dev.Assignment "
-                             + "WHERE projectId=? AND employeeId=?")) {
+                     .prepareStatement(GET)) {
             preparedStatement.setInt(1, projectId);
             preparedStatement.setInt(2, employeeId);
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -61,10 +81,7 @@ public class AssignmentDaoImpl implements AssignmentDao {
     public void save(Assignment assignment) {
         try (Connection connection = jdbcConnection.getConnection();
              PreparedStatement preparedStatement = connection
-                     .prepareStatement("INSERT INTO "
-                             + "timesheet_dev.Assignment "
-                             + "(projectId, employeeId, workLoadInMinutes) "
-                             + "VALUE (?, ?, ?)")) {
+                     .prepareStatement(INSERT)) {
             preparedStatement.setInt(1, assignment.getProjectId());
             preparedStatement.setInt(2, assignment.getEmployeeId());
             preparedStatement.setInt(3, assignment.getWorkLoadInMinutes());
@@ -88,9 +105,7 @@ public class AssignmentDaoImpl implements AssignmentDao {
         }
         try (Connection connection = jdbcConnection.getConnection();
              PreparedStatement preparedStatement = connection
-                     .prepareStatement("DELETE FROM "
-                             + "timesheet_dev.Assignment "
-                             + "WHERE projectId=? AND employeeId=?")) {
+                     .prepareStatement(DELETE)) {
             preparedStatement.setInt(1, projectId);
             preparedStatement.setInt(2, employeeId);
             preparedStatement.executeUpdate();
@@ -107,10 +122,7 @@ public class AssignmentDaoImpl implements AssignmentDao {
         }
         try (Connection connection = jdbcConnection.getConnection();
              PreparedStatement preparedStatement = connection
-                     .prepareStatement("UPDATE "
-                             + "timesheet_dev.Assignment "
-                             + "SET workLoadInMinutes=? "
-                             + "WHERE projectId=? AND employeeId=?")) {
+                     .prepareStatement(UPDATE)) {
             preparedStatement.setInt(1, assignment.getWorkLoadInMinutes());
             preparedStatement.setInt(2, assignment.getProjectId());
             preparedStatement.setInt(3, assignment.getEmployeeId());
@@ -123,10 +135,7 @@ public class AssignmentDaoImpl implements AssignmentDao {
     private boolean isAssignmentExists(int projectId, int employeeId) {
         try (Connection connection = jdbcConnection.getConnection();
              PreparedStatement preparedStatement = connection
-                     .prepareStatement("SELECT EXISTS"
-                             + "(SELECT projectId, employeeId FROM "
-                             + "timesheet_dev.Assignment "
-                             + "WHERE projectId=? AND employeeId=?)")) {
+                     .prepareStatement(IS_EXISTS)) {
             preparedStatement.setInt(1, projectId);
             preparedStatement.setInt(2, employeeId);
             ResultSet resultSet = preparedStatement.executeQuery();
