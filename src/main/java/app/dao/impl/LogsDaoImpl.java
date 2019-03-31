@@ -7,25 +7,13 @@ import java.util.Calendar;
 public class LogsDaoImpl {
     private final String HOST = "jdbc:mysql://localhost:3306/logs";
     private final String USERNAME = "root";
-    private final String PASSWORD = "123";
-    private Connection connection;
+    private final String PASSWORD = "Kraskovski K30197";
+    private final String query = "select*from logs";
     PreparedStatement preparedStatement = null;
-
-    public LogsDaoImpl() {
-        try {
-            connection = DriverManager.getConnection(HOST, USERNAME, PASSWORD);
-            preparedStatement = connection.prepareStatement("INSERT INTO logs (projectId,employeeId,time,comment,date) " +
-                    "values (?,?,?,?,?)");
-            preparedStatement = connection.prepareStatement("delete from logs where id=?");
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
 
     public String getAll() {
         Logs logs = new Logs();
-        String query = "select*from logs";
-        try {
+        try (Connection connection = DriverManager.getConnection(HOST, USERNAME, PASSWORD)) {
             Statement st = connection.createStatement();
             ResultSet resultSet = st.executeQuery(query);
             while (resultSet.next()) {
@@ -44,9 +32,11 @@ public class LogsDaoImpl {
     }
 
     public void save() {
-        try {
-            preparedStatement.setInt(1, 2);
-            preparedStatement.setInt(2, 3);
+        try (Connection connection = DriverManager.getConnection(HOST, USERNAME, PASSWORD)) {
+            preparedStatement = connection.prepareStatement("INSERT INTO logs (projectId,employeeId," +
+                    "time,comment,date) values (?,?,?,?,?)");
+            preparedStatement.setInt(1, 256);
+            preparedStatement.setInt(2, 366);
             preparedStatement.setInt(3, 8);
             preparedStatement.setString(4, "Добавить рисунок");
             preparedStatement.setDate(5, new Date(Calendar.getInstance().getTimeInMillis()));
@@ -58,8 +48,9 @@ public class LogsDaoImpl {
     }
 
     public void delete() {
-        try {
-            preparedStatement.setInt(1, 2);
+        try (Connection connection = DriverManager.getConnection(HOST, USERNAME, PASSWORD)) {
+            preparedStatement = connection.prepareStatement("delete from logs where id=?");
+            preparedStatement.setInt(1, 9);
             preparedStatement.executeUpdate();
             preparedStatement.close();
         } catch (SQLException e) {
