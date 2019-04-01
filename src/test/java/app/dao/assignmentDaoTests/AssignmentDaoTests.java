@@ -51,7 +51,7 @@ public class AssignmentDaoTests {
         IDataSet dataSet = new FlatXmlDataSetBuilder()
                 .build(getClass()
                         .getClassLoader()
-                        .getResourceAsStream("initial-dataset"));
+                        .getResourceAsStream("initial-dataset.xml"));
         databaseTester.setDataSet(dataSet);
         databaseTester.onSetup();
     }
@@ -77,7 +77,7 @@ public class AssignmentDaoTests {
             IDataSet expectedDataSet = new FlatXmlDataSetBuilder()
                     .build(getClass()
                             .getClassLoader()
-                            .getResourceAsStream("initial-dataset"));
+                            .getResourceAsStream("initial-dataset.xml"));
             ITable expectedTable = expectedDataSet.getTable(assignmentTable);
             Assertion.assertEquals(expectedTable, actualTable);
         } catch (Exception exception) {
