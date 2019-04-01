@@ -48,10 +48,10 @@ public class AssignmentDaoImpl implements AssignmentDao {
             preparedStatement.setInt(2, employeeId);
             ResultSet resultSet = preparedStatement.executeQuery();
             resultSet.next();
-            assignment = assigmentMapper(resultSet);
-            if (assignment == null) {
+            if (!resultSet.first()) {
                 throw new EntityNotFoundException();
             }
+            assignment = assigmentMapper(resultSet);
         } catch (SQLException exception) {
             exception.printStackTrace();
         }
@@ -155,13 +155,10 @@ public class AssignmentDaoImpl implements AssignmentDao {
     private Assignment assigmentMapper(ResultSet resultSet)
             throws SQLException {
         Assignment assignment = new Assignment();
-        if (!resultSet.wasNull()) {
-            assignment.setProjectId(resultSet.getInt("projectId"));
-            assignment.setEmployeeId(resultSet.getInt("employeeId"));
-            assignment.setWorkLoadInMinutes(
-                    resultSet.getInt("workLoadInMinutes")
-            );
-        }
+        assignment.setProjectId(resultSet.getInt("projectId"));
+        assignment.setEmployeeId(resultSet.getInt("employeeId"));
+        assignment.setWorkLoadInMinutes(
+                resultSet.getInt("workLoadInMinutes"));
         return assignment;
     }
 }

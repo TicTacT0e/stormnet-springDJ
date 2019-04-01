@@ -2,14 +2,9 @@ package app.config.beans;
 
 
 import app.dao.*;
-import app.dao.CompanyDao;
-import app.dao.EmployeeDao;
-import app.dao.LogsDao;
-import app.dao.ProjectDao;
 import app.dao.impl.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
 
 @Configuration
 public class DaoConfig {

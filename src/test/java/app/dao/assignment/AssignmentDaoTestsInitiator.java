@@ -3,7 +3,6 @@ package app.dao.assignment;
 import app.config.beans.DaoConfig;
 import app.config.beans.PropertyConfig;
 import app.dao.AssignmentDao;
-import app.entities.Assignment;
 import org.dbunit.Assertion;
 import org.dbunit.DBTestCase;
 import org.dbunit.PropertiesBasedJdbcDatabaseTester;
@@ -111,20 +110,5 @@ public class AssignmentDaoTestsInitiator extends DBTestCase {
         ITable actualTable = actualDataSet.getTable(assignmentTable);
 
         Assertion.assertEquals(expectedTable, actualTable);
-    }
-
-    @Test
-    public void testInsrt() throws Exception {
-        IDataSet expectedD = new FlatXmlDataSetBuilder()
-                .build(getClass().getClassLoader().getResourceAsStream("saveDataSets/save-dataset.xml"));
-        ITable expectedT = expectedD.getTable(assignmentTable);
-
-        Assignment assignment =
-                new Assignment(4, 7, 12000);
-        assignmentDao.save(assignment);
-
-        IDataSet actualD = getMySqlConnection().createDataSet();
-        ITable actualT = actualD.getTable(assignmentTable);
-        Assertion.assertEquals(expectedT, actualT);
     }
 }
