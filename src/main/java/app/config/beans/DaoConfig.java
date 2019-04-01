@@ -5,8 +5,10 @@ import app.dao.*;
 import app.dao.impl.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
 
 @Configuration
+@PropertySource("classpath:project.properties")
 public class DaoConfig {
 
     @Bean
