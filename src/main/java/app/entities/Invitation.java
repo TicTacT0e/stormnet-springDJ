@@ -10,6 +10,9 @@ public class Invitation {
     private Date dateEnd;
     private String status;
 
+    public Invitation(){
+    }
+
     public Invitation(int employeeId, int companyId, String email, String invitationsCode, Date dateEnd, String status) {
         this.companyId = companyId;
         this.employeeId = employeeId;
@@ -17,9 +20,6 @@ public class Invitation {
         this.invitationsCode = invitationsCode;
         this.dateEnd = dateEnd;
         this.status = status;
-    }
-
-    public Invitation(){
     }
 
     public Invitation(Invitation invitation){

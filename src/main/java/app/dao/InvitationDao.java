@@ -9,15 +9,15 @@ import java.util.List;
 @Repository
 public interface InvitationDao {
 
-    List<Invitation> getAll() throws SQLException, ClassNotFoundException;
+    List<Invitation> getAll();
 
-    Invitation findById(int projectId, int employeeId);
+    Invitation findById(int employeeId);
 
     void save(Invitation invitation);
 
     void delete(Invitation invitation);
 
-    void delete(int companyId, int employeeId);
+    void delete(int employeeId);
 
     void edit(Invitation invitation);
 }

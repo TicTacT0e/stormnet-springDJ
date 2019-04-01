@@ -8,7 +8,6 @@ import org.springframework.stereotype.Component;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.sql.SQLException;
 import java.util.List;
 
 @Component
@@ -16,44 +15,47 @@ import java.util.List;
 public class InvitationResource {
 
     @Autowired
-    InvitationDao invitationDao;
+    private InvitationDao invitationDao;
 
     @GET
     @Path("/all")
     @Produces(MediaType.APPLICATION_JSON)
-    public List<Invitation> getAll() throws SQLException, ClassNotFoundException {
+    public List<Invitation> getAll() {
         return invitationDao.getAll();
     }
 
     @GET
-    @Path("/{companyId}/{employeeId}")
+    @Path("/{employeeId}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Invitation get(@PathParam("companyId") int companyId, @PathParam("employeeId") int employeeId){
-        return invitationDao.findById(companyId, employeeId);
+    public Invitation get(@PathParam("employeeId") int employeeId) {
+        return invitationDao.findById(employeeId);
     }
 
     @POST
     @Path("/add")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response add(Invitation invitation){
+    public Response add(Invitation invitation) {
         invitationDao.save(invitation);
         return Response.status(Response.Status.CREATED.getStatusCode()).build();
     }
 
     @PUT
-    @Path("/edit/{companyId}/{employeeId}")
+    @Path("/edit/{employeeId}")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response edit(Invitation invitation){
+    public Response edit(@PathParam("employeeId") int employeeId,
+                         Invitation invitation) {
+        if (employeeId != invitation.getEmployeeId()) {
+            return Response.status(Response.Status.CONFLICT.getStatusCode()).build();
+        }
         invitationDao.edit(invitation);
         return Response.status(Response.Status.CREATED.getStatusCode()).build();
     }
 
     @DELETE
-    @Path("/delete/{companyId}/{employeeId}")
+    @Path("/delete/{employeeId}")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response delete(@PathParam("companyId") int companyId, @PathParam("employeeId") int employeeId){
-        invitationDao.delete(companyId, employeeId);
+    public Response delete(@PathParam("employeeId") int employeeId) {
+        invitationDao.delete(employeeId);
         return Response.status(Response.Status.OK.getStatusCode()).build();
     }
-
 }
