@@ -23,7 +23,7 @@ public class GetAllTests extends AssignmentDaoTestsInitiator {
         ITable expectedTable = expectedDataSet.getTable(assignmentTable);
         List<Assignment> assignments = assignmentDao.getAll();
         int index = NUMBER_OF_FIRST_ROW;
-        for(Assignment assignment : assignments) {
+        for (Assignment assignment : assignments) {
             Assert.assertEquals(expectedTable.getValue(index, "projectId")
                             .toString(),
                     String.valueOf(assignment.getProjectId()));

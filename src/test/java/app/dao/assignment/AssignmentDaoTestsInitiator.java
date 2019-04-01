@@ -103,7 +103,8 @@ public class AssignmentDaoTestsInitiator extends DBTestCase {
     public void setUpDatabaseTest() throws Exception {
         IDataSet expectedDataSet = new FlatXmlDataSetBuilder()
                 .build(getClass()
-                        .getClassLoader().getResourceAsStream("initial-dataset.xml"));
+                        .getClassLoader()
+                        .getResourceAsStream("initial-dataset.xml"));
         ITable expectedTable = expectedDataSet.getTable(assignmentTable);
 
         IDataSet actualDataSet = getMySqlConnection().createDataSet();
