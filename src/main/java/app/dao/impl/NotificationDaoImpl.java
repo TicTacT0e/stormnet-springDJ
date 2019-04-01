@@ -14,7 +14,7 @@ public class NotificationDaoImpl implements NotificationDao {
     public static final String FIND_ALL = "SELECT * FROM notification";
     public static final String FIND_BY_ID = "SELECT * FROM notification WHERE id = ?";
     public static final String DELETE_BY_ID = "DELETE * FROM notification WHERE id = ?";
-    public static final String UPDATE = "UPDATE notification SET ? = ? WHERE id = ?";
+    public static final String UPDATE = "UPDATE notification SET createdAt = ?, employeeId = ?, status = ?, title = ?, description = ?, link = ? WHERE id = ?";
 
     @Autowired
     JDBCConnection jdbcConnection;
@@ -25,13 +25,13 @@ public class NotificationDaoImpl implements NotificationDao {
             Connection connection = jdbcConnection.getConnection();
             PreparedStatement statement = connection.prepareStatement(CREATE_NOTIFICATION);
             statement.setInt(1, notification.getId());
-            statement.setDate(2, (Date) notification.getCreatedAt());
+            statement.setDate(2, (Date) notification.getCreatedAt());//todo
             statement.setInt(3, notification.getEmployeeId());
             statement.setString(4, notification.getStatus());
             statement.setString(5, notification.getTitle());
             statement.setString(6, notification.getDescription());
             statement.setString(7, notification.getLink());
-            statement.execute();
+            statement.executeUpdate();
             close(connection, statement);
         } catch (SQLException e) {
             e.printStackTrace();
@@ -46,7 +46,7 @@ public class NotificationDaoImpl implements NotificationDao {
             statement.setInt(1, id);
             ResultSet resultSet = statement.executeQuery();
             resultSet.next();
-            return new Notification(
+            Notification notification = new Notification(
                     resultSet.getInt("id"),
                     resultSet.getDate("createdAt"),
                     resultSet.getInt("employeeId"),
@@ -54,6 +54,8 @@ public class NotificationDaoImpl implements NotificationDao {
                     resultSet.getString("title"),
                     resultSet.getString("description"),
                     resultSet.getString("link"));
+            close(connection, statement, resultSet);
+            return notification;
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -86,11 +88,36 @@ public class NotificationDaoImpl implements NotificationDao {
     }
 
     @Override
-    public void update(Notification notification) {
+    public void update(Notification notification, int id) {
+        try {
+            Connection connection = jdbcConnection.getConnection();
+            PreparedStatement statement = connection.prepareStatement(UPDATE);
+            statement.setDate(1, (Date) notification.getCreatedAt());//todo
+            statement.setInt(2, notification.getEmployeeId());
+            statement.setString(3, notification.getStatus());
+            statement.setString(4, notification.getTitle());
+            statement.setString(5, notification.getDescription());
+            statement.setString(6, notification.getLink());
+            statement.setInt(7, id);
+            statement.executeUpdate();
+            close(connection, statement);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public void delete(int id) {
+        try {
+            Connection connection = jdbcConnection.getConnection();
+            PreparedStatement statement = connection.prepareStatement(DELETE_BY_ID);
+            statement.setInt(1, id);
+            statement.executeUpdate();
+            close(connection, statement);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
     }
 
     public void close(Connection connection, Statement statement) throws SQLException {
