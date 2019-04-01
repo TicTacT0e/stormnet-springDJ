@@ -107,7 +107,7 @@ public class Invitation {
     @Override
     public String toString() {
         return "Invitation{" +
-                "projectId=" + companyId +
+                "companyId=" + companyId +
                 ", employeeId=" + employeeId +
                 ", email='" + email + '\'' +
                 ", invitationsCode='" + invitationsCode + '\'' +
