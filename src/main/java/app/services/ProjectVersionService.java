@@ -12,7 +12,6 @@ public class ProjectVersionService {
 
 
     public ProjectVersion getProjectVersion() {
-        System.out.println(version);
         return new ProjectVersion(version);
     }
 }
