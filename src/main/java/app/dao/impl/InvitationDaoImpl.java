@@ -105,7 +105,7 @@ public class InvitationDaoImpl implements InvitationDao {
         try (Connection connection = jdbcConnection.getConnection()) {
             PreparedStatement preparedStatement = connection.prepareStatement(DELETE);
             preparedStatement.setInt(1, employeeId);
-            preparedStatement.execute();
+            preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
