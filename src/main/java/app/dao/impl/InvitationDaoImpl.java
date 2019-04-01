@@ -121,7 +121,7 @@ public class InvitationDaoImpl implements InvitationDao {
                      .prepareStatement("SELECT EXISTS"
                              + "(SELECT companyId, employeeId FROM "
                              + "timesheet_dev.Assignment "
-                             + "WHERE projectId=? AND employeeId=?)")) {
+                             + "WHERE companyId=? AND employeeId=?)")) {
             preparedStatement.setInt(1, companyId);
             preparedStatement.setInt(2, employeeId);
             ResultSet resultSet = preparedStatement.executeQuery();
