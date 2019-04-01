@@ -14,19 +14,42 @@ import java.util.List;
 @Repository
 public class InvitationDaoImpl implements InvitationDao {
 
-    private static List<Invitation> invitationList = new LinkedList<>();
-
     private static final String tableName = "timesheet_dev.Invitations";
-    private static final String GET_ALL = "SELECT * FROM " + tableName;
-    private static final String GET_FINDBYID = "SELECT * FROM " + tableName + " WHERE companyId = ? AND employeeId = ?";
-    private static final String SAVE = "INSERT INTO" + tableName
-            + " employeeId, companyId, email, invitationsCode, dateEnd, status VALUE (?, ?, ?, ?, ?, ?)";
-    private static final String DELETE = "DELETE FROM " + tableName
-            + " WHERE employeeId = ? AND companyId = ?";
-    private static final String UPDATE = "UPDATE " + tableName
-            + " SET invitationsCode = ? WHERE employeeId = ? AND companyId = ?";
-    private static final String IS_EXISTS = "SELECT EXISTS (SELECT companyId, employeeId FROM " + tableName
-            + " where companyId=? AND employeeId=?)";
+
+    private static final String GET_ALL =
+            "SELECT * FROM " + tableName;
+
+    private static final String GET_FINDBYID =
+            "SELECT * FROM " + tableName +
+                    " WHERE companyId = ? " +
+                    "AND employeeId = ?";
+
+    private static final String SAVE =
+            "INSERT INTO" + tableName +
+                    " employeeId, " +
+                    "companyId, " +
+                    "email, " +
+                    "invitationsCode, " +
+                    "dateEnd, " +
+                    "status " +
+                    "VALUE (?, ?, ?, ?, ?, ?)";
+
+    private static final String DELETE =
+            "DELETE FROM " + tableName +
+                    " WHERE employeeId = ? " +
+                    "AND companyId = ?";
+
+    private static final String UPDATE =
+            "UPDATE " +
+                    tableName +
+                    " SET invitationsCode = ? " +
+                    "WHERE employeeId = ? " +
+                    "AND companyId = ?";
+
+    private static final String IS_EXISTS =
+            "SELECT EXISTS (SELECT companyId, employeeId FROM " + tableName
+                    + " WHERE companyId=? " +
+                    "AND employeeId=?)";
 
 
     @Autowired
@@ -36,11 +59,12 @@ public class InvitationDaoImpl implements InvitationDao {
 
     @Override
     public synchronized List<Invitation> getAll() {
+        List<Invitation> invitationList = null;
         try (Connection connection = jdbcConnection.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(GET_ALL)) {
             ResultSet resultSet = preparedStatement.executeQuery();
             invitationList = invitationListMapper(resultSet);
-            resultSet.close();
+//            resultSet.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
