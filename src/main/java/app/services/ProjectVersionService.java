@@ -10,7 +10,6 @@ public class ProjectVersionService {
     @Value("${version}")
     String version;
 
-
     public ProjectVersion getProjectVersion() {
         return new ProjectVersion(version);
     }
