@@ -82,7 +82,7 @@ public class InvitationDaoImpl implements InvitationDao {
             preparedStatement.setInt(2, invitation.getCompanyId());
             preparedStatement.setString(3, invitation.getEmail());
             preparedStatement.setString(4, invitation.getInvitationsCode());
-            preparedStatement.setDate(5, (Date) invitation.getDateEnd());
+            preparedStatement.setDate(5, invitation.getDateEnd());
             preparedStatement.setString(6, invitation.getStatus());
             preparedStatement.execute();
         } catch (SQLIntegrityConstraintViolationException exception) {
