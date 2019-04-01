@@ -12,17 +12,17 @@ public class JDBCConnection {
 
     private Connection connection;
 
-//    @Value("${jdbc.driver}")
-    private String driver = "com.mysql.jdbc.Driver";
+    @Value("${jdbc.driver}")
+    private String driver;
 
-//    @Value("${db.url}")
-    public String URL = "jdbc:mysql://localhost:3306/timesheet_dev";
+    @Value("${db.url}")
+    public String URL;
 
-//    @Value("${db.username}")
-    public String username = "root";
+    @Value("${db.username}")
+    public String username;
 
-//    @Value("${db.password}")
-    public String password = "admin";
+    @Value("${db.password}")
+    public String password;
 
 
     public Connection getConnection() {

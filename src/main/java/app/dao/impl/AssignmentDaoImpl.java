@@ -16,11 +16,8 @@ import java.util.List;
 public class AssignmentDaoImpl implements AssignmentDao {
 
 
-//    @Autowired
-//    JDBCConnection jdbcConnection;
-
-    JDBCConnection jdbcConnection = new JDBCConnection();
-
+    @Autowired
+    JDBCConnection jdbcConnection;
 
     private static final int ROW_EXISTS = 1;
 
