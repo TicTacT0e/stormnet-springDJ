@@ -5,10 +5,7 @@ import app.dao.NotificationDao;
 import app.entities.Notification;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.List;
 
 public class NotificationDaoImpl implements NotificationDao {
@@ -59,6 +56,18 @@ public class NotificationDaoImpl implements NotificationDao {
     @Override
     public Notification delete(int id) {
         return null;
+    }
+
+    public void close(Connection connection, Statement statement, ResultSet resultSet) throws SQLException {
+        if(connection != null) {
+            connection.close();
+        }
+        if(statement != null) {
+            statement.close();
+        }
+        if(resultSet != null) {
+            resultSet.close();
+        }
     }
 
 }
