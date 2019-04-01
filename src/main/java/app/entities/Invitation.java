@@ -53,7 +53,7 @@ public class Invitation {
         return status;
     }
 
-    public void getProjectId(int companyId) {
+    public void setCompanyId(int companyId) {
         this.companyId = companyId;
     }
 
