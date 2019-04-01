@@ -22,8 +22,8 @@ public class InvitationDaoImpl implements InvitationDao {
             "SELECT * FROM timesheet_dev.Invitations WHERE employeeId=?";
 
     private static final String SAVE =
-            "INSERT INTO timesheet_dev.Invitations employeeId, companyId, email, " +
-                    "invitationsCode, dateEnd, status VALUE (?, ?, ?, ?, ?, ?)";
+            "INSERT INTO timesheet_dev.Invitations (employeeId, companyId, email, " +
+                    "invitationsCode, dateEnd, status) VALUE (?, ?, ?, ?, ?, ?)";
 
     private static final String DELETE =
             "DELETE FROM timesheet_dev.Invitations WHERE employeeId=?";
