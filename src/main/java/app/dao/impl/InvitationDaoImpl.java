@@ -5,7 +5,6 @@ import app.entities.Invitation;
 import app.exceptions.EntityNotFoundException;
 import app.services.JDBCConnection;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 
 import java.sql.*;
@@ -17,7 +16,18 @@ public class InvitationDaoImpl implements InvitationDao {
 
     private static List<Invitation> invitationList = new LinkedList<>();
 
-    private String tableName = "timeesheet_dev.Invitations";
+    private static final String tableName = "timesheet_dev.Invitations";
+    private static final String GET_ALL = "SELECT * FROM " + tableName;
+    private static final String GET_FINDBYID = "SELECT * FROM " + tableName + " WHERE companyId = ? AND employeeId = ?";
+    private static final String SAVE = "INSERT INTO" + tableName
+            + " employeeId, companyId, email, invitationsCode, dateEnd, status VALUE (?, ?, ?, ?, ?, ?)";
+    private static final String DELETE = "DELETE FROM " + tableName
+            + " WHERE employeeId = ? AND companyId = ?";
+    private static final String UPDATE = "UPDATE " + tableName
+            + " SET invitationsCode = ? WHERE employeeId = ? AND companyId = ?";
+    private static final String IS_EXISTS = "SELECT EXISTS (SELECT companyId, employeeId FROM " + tableName
+            + " where companyId=? AND employeeId=?)";
+
 
     @Autowired
     JDBCConnection jdbcConnection;
@@ -27,7 +37,7 @@ public class InvitationDaoImpl implements InvitationDao {
     @Override
     public synchronized List<Invitation> getAll() {
         try (Connection connection = jdbcConnection.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM " + tableName)) {
+             PreparedStatement preparedStatement = connection.prepareStatement(GET_ALL)) {
             ResultSet resultSet = preparedStatement.executeQuery();
             invitationList = invitationListMapper(resultSet);
             resultSet.close();
@@ -42,8 +52,7 @@ public class InvitationDaoImpl implements InvitationDao {
     public synchronized Invitation findById(int employeeId, int companyId) {
         Invitation invitation = null;
         try (Connection connection = jdbcConnection.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement("select * from " + tableName +
-                     "where companyId = ? and employeeId = ?")) {
+             PreparedStatement preparedStatement = connection.prepareStatement(GET_FINDBYID)) {
             preparedStatement.setInt(1, companyId);
             preparedStatement.setInt(2, employeeId);
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -63,8 +72,7 @@ public class InvitationDaoImpl implements InvitationDao {
     @Override
     public synchronized void save(Invitation invitation) {
         try (Connection connection = jdbcConnection.getConnection()) {
-            PreparedStatement preparedStatement = connection.prepareStatement("insert into" + tableName +
-                    "employeeId, companyId, email, invitationsCode, dateEnd, status" + "value (?, ?, ?, ?, ?, ?)");
+            PreparedStatement preparedStatement = connection.prepareStatement(SAVE);
             preparedStatement.setInt(1, invitation.getEmployeeId());
             preparedStatement.setInt(2, invitation.getCompanyId());
             preparedStatement.setString(3, invitation.getEmail());
@@ -88,8 +96,7 @@ public class InvitationDaoImpl implements InvitationDao {
             throw new EntityNotFoundException();
         }
         try (Connection connection = jdbcConnection.getConnection()) {
-            PreparedStatement preparedStatement = connection.prepareStatement("delete from" +
-                    tableName + "where employeeId = ? and companyId = ?");
+            PreparedStatement preparedStatement = connection.prepareStatement(DELETE);
             preparedStatement.setInt(1, employeeId);
             preparedStatement.setInt(2, companyId);
             preparedStatement.executeUpdate();
@@ -104,8 +111,7 @@ public class InvitationDaoImpl implements InvitationDao {
             throw new EntityNotFoundException();
         }
         try (Connection connection = jdbcConnection.getConnection()) {
-            PreparedStatement preparedStatement = connection.prepareStatement("update" + tableName +
-                    "set invitationsCode = ? where employeeId = ? and companyId = ?");
+            PreparedStatement preparedStatement = connection.prepareStatement(UPDATE);
             preparedStatement.setString(1, invitation.getInvitationsCode());
             preparedStatement.setInt(2, invitation.getEmployeeId());
             preparedStatement.setInt(3, invitation.getCompanyId());
@@ -118,10 +124,7 @@ public class InvitationDaoImpl implements InvitationDao {
     private boolean isInvitationExists(int companyId, int employeeId) {
         try (Connection connection = jdbcConnection.getConnection();
              PreparedStatement preparedStatement = connection
-                     .prepareStatement("SELECT EXISTS"
-                             + "(SELECT companyId, employeeId FROM "
-                             + "timesheet_dev.Assignment "
-                             + "WHERE companyId=? AND employeeId=?)")) {
+                     .prepareStatement(IS_EXISTS)) {
             preparedStatement.setInt(1, companyId);
             preparedStatement.setInt(2, employeeId);
             ResultSet resultSet = preparedStatement.executeQuery();
