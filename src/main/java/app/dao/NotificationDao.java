@@ -6,9 +6,9 @@ import java.util.List;
 
 public interface NotificationDao {
 
-    Notification create();
+    void create(Notification notification);
     Notification findById(int id);
     List<Notification> findAll();
-    Notification update();
-    Notification delete(int id);
+    void update(Notification notification);
+    void delete(int id);
 }
