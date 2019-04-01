@@ -2,6 +2,7 @@ package app.dao.impl;
 
 import app.dao.InvitationDao;
 import app.entities.Invitation;
+import app.exceptions.EntityNotFoundException;
 import app.services.JDBCConnection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -14,7 +15,7 @@ import java.util.List;
 @Repository
 public class InvitationDaoImpl implements InvitationDao {
 
-    private static List<Invitation> invitations = new LinkedList<>();
+    private static List<Invitation> invitationList = new LinkedList<>();
 
     private String tableName = "timeesheet_dev.Invitations";
 
@@ -28,13 +29,13 @@ public class InvitationDaoImpl implements InvitationDao {
         try (Connection connection = jdbcConnection.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM " + tableName)) {
             ResultSet resultSet = preparedStatement.executeQuery();
-            invitations.add((Invitation) resultSet);
+            invitationList = invitationListMapper(resultSet);
             resultSet.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
-        return invitations;
+        return invitationList;
     }
 
     @Override
@@ -47,8 +48,9 @@ public class InvitationDaoImpl implements InvitationDao {
             preparedStatement.setInt(2, employeeId);
             ResultSet resultSet = preparedStatement.executeQuery();
             resultSet.next();
-            while (resultSet.next()) {
-
+            invitation = invitationMapper(resultSet);
+            if (invitation == null) {
+                throw new EntityNotFoundException();
             }
             resultSet.close();
         } catch (SQLException e) {
@@ -82,6 +84,9 @@ public class InvitationDaoImpl implements InvitationDao {
 
     @Override
     public synchronized void delete(int companyId, int employeeId) {
+        if (isInvitationExists(companyId, employeeId)) {
+            throw new EntityNotFoundException();
+        }
         try (Connection connection = jdbcConnection.getConnection()) {
             PreparedStatement preparedStatement = connection.prepareStatement("delete from" +
                     tableName + "where employeeId = ? and companyId = ?");
@@ -95,6 +100,9 @@ public class InvitationDaoImpl implements InvitationDao {
 
     @Override
     public synchronized void edit(Invitation invitation) {
+        if (isInvitationExists(invitation.getCompanyId(), invitation.getEmployeeId())) {
+            throw new EntityNotFoundException();
+        }
         try (Connection connection = jdbcConnection.getConnection()) {
             PreparedStatement preparedStatement = connection.prepareStatement("update" + tableName +
                     "set invitationsCode = ? where employeeId = ? and companyId = ?");
@@ -105,5 +113,50 @@ public class InvitationDaoImpl implements InvitationDao {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    private boolean isInvitationExists(int companyId, int employeeId) {
+        try (Connection connection = jdbcConnection.getConnection();
+             PreparedStatement preparedStatement = connection
+                     .prepareStatement("SELECT EXISTS"
+                             + "(SELECT companyId, employeeId FROM "
+                             + "timesheet_dev.Assignment "
+                             + "WHERE projectId=? AND employeeId=?)")) {
+            preparedStatement.setInt(1, companyId);
+            preparedStatement.setInt(2, employeeId);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()
+                    && resultSet.getInt(1) == ROW_EXISTS) {
+                return false;
+            }
+        } catch (SQLException exception) {
+            exception.printStackTrace();
+        }
+        return true;
+    }
+
+    private List<Invitation> invitationListMapper(ResultSet resultSet)
+            throws SQLException {
+        List<Invitation> invitationList = new LinkedList<>();
+        Invitation invitation;
+        while (resultSet.next()) {
+            invitation = invitationMapper(resultSet);
+            invitationList.add(invitation);
+        }
+        return invitationList;
+    }
+
+    private Invitation invitationMapper(ResultSet resultSet)
+            throws SQLException {
+        Invitation invitation = new Invitation();
+        if (!resultSet.wasNull()) {
+            invitation.setCompanyId(resultSet.getInt("companyId"));
+            invitation.setEmployeeId(resultSet.getInt("employeeId"));
+            invitation.setEmail(resultSet.getString("email"));
+            invitation.setInvitationsCode(resultSet.getString("invitationsCode"));
+            invitation.setDateEnd(resultSet.getDate("dateEnd"));
+            invitation.setStatus(resultSet.getString("status"));
+        }
+        return invitation;
     }
 }
