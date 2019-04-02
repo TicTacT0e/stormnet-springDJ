@@ -1,6 +1,7 @@
 package app.dao.Invitation;
 
 import app.entities.Invitation;
+import app.exceptions.EntityNotFoundException;
 import org.dbunit.Assertion;
 import org.dbunit.dataset.DataSetException;
 import org.dbunit.dataset.IDataSet;
@@ -55,5 +56,10 @@ public class DeleteInvitationDaoTest extends InitilizationInvitationDaoTest {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    @Test(expected = EntityNotFoundException.class)
+    public void deleteInvitationException() {
+        invitationDao.delete(34);
     }
 }

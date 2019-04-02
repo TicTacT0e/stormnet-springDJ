@@ -39,7 +39,7 @@ public class UpdateInvitationDaoTest extends InitilizationInvitationDaoTest {
     }
 
     @Test(expected = EntityNotFoundException.class)
-    public void saveInvitationException(){
+    public void saveInvitationException() {
         invitationDao.edit(new Invitation(
                 1, 1, "email",
                 "invatationCode", new Date(2019 - 03 - 03), "status"
