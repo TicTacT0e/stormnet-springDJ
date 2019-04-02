@@ -82,7 +82,7 @@ public class InitilizationInvitationDaoTest extends DBTestCase {
     @Override
     protected IDataSet getDataSet() throws Exception {
         return new FlatXmlDataSetBuilder().build(getClass().getClassLoader()
-                .getResourceAsStream("initilization-dataset.xml"));
+                .getResourceAsStream("/datasets/Invitationinitilization-dataset.xml"));
     }
 
     protected DatabaseOperation getSetUpOperation() throws Exception {
@@ -96,7 +96,7 @@ public class InitilizationInvitationDaoTest extends DBTestCase {
     @Test
     public void setUpDatabaseTest() throws Exception {
         IDataSet expectedDataSet = new FlatXmlDataSetBuilder().build(getClass()
-                .getClassLoader().getResourceAsStream("initilization-dataset.xml"));
+                .getClassLoader().getResourceAsStream("/datasets/Invitation/initilization-dataset.xml"));
         ITable expectedTable = expectedDataSet.getTable(table);
         IDataSet actualDataSet = getMySqlConnection().createDataSet();
         ITable actualTable = actualDataSet.getTable(table);
