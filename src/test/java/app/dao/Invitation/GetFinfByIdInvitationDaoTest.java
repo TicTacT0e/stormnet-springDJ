@@ -5,19 +5,16 @@ import app.exceptions.EntityNotFoundException;
 import org.dbunit.dataset.DataSetException;
 import org.dbunit.dataset.IDataSet;
 import org.dbunit.dataset.ITable;
-import org.dbunit.dataset.xml.FlatXmlDataSet;
 import org.dbunit.dataset.xml.FlatXmlDataSetBuilder;
 import org.junit.Assert;
 import org.junit.Test;
-
-import java.util.List;
 
 public class GetFinfByIdInvitationDaoTest extends InitilizationInvitationDaoTest {
 
     private static final int NUMBER_OF_FIRST_ROW = 0;
 
     @Test
-    public void getFindById(){
+    public void getFindById() {
         try {
             IDataSet iDataSet = new FlatXmlDataSetBuilder().build(getClass().getClassLoader()
                     .getResourceAsStream("/datasets/Invitation/getFindById-dataset.xml"));
@@ -43,7 +40,7 @@ public class GetFinfByIdInvitationDaoTest extends InitilizationInvitationDaoTest
     }
 
     @Test(expected = EntityNotFoundException.class)
-    public void getFindByIdException(){
+    public void getFindByIdException() {
         invitationDao.findById(7);
     }
 }
