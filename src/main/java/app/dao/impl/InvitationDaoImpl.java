@@ -29,7 +29,8 @@ public class InvitationDaoImpl implements InvitationDao {
             "DELETE FROM timesheet_dev.Invitations WHERE employeeId=?";
 
     private static final String UPDATE =
-            "UPDATE timesheet_dev.Invitations SET invitationsCode=? WHERE employeeId=?";
+            "UPDATE timesheet_dev.Invitations SET companyId=?, email=?, invitationsCode=?, dateEnd=?, status=?" +
+                    " WHERE employeeId=?";
 
     private static final String IS_EXISTS =
             "SELECT EXISTS (SELECT employeeId FROM timesheet_dev.Invitations " +
@@ -46,7 +47,10 @@ public class InvitationDaoImpl implements InvitationDao {
         try (Connection connection = jdbcConnection.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(GET_ALL)) {
             ResultSet resultSet = preparedStatement.executeQuery();
+
             invitationList = invitationListMapper(resultSet);
+
+            resultSet.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -62,7 +66,9 @@ public class InvitationDaoImpl implements InvitationDao {
             preparedStatement.setInt(1, employeeId);
             ResultSet resultSet = preparedStatement.executeQuery();
             resultSet.next();
+
             invitation = invitationMapper(resultSet);
+
             if (invitation == null) {
                 throw new EntityNotFoundException();
             }
@@ -118,8 +124,13 @@ public class InvitationDaoImpl implements InvitationDao {
         }
         try (Connection connection = jdbcConnection.getConnection()) {
             PreparedStatement preparedStatement = connection.prepareStatement(UPDATE);
-            preparedStatement.setString(1, invitation.getInvitationsCode());
-            preparedStatement.setInt(2, invitation.getEmployeeId());
+
+            preparedStatement.setInt(1, invitation.getCompanyId());
+            preparedStatement.setString(2, invitation.getEmail());
+            preparedStatement.setString(3, invitation.getInvitationsCode());
+            preparedStatement.setDate(4, invitation.getDateEnd());
+            preparedStatement.setString(5, invitation.getStatus());
+            preparedStatement.setInt(6, invitation.getEmployeeId());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -156,14 +167,14 @@ public class InvitationDaoImpl implements InvitationDao {
     private Invitation invitationMapper(ResultSet resultSet)
             throws SQLException {
         Invitation invitation = new Invitation();
-        if (!resultSet.wasNull()) {
-            invitation.setCompanyId(resultSet.getInt("companyId"));
-            invitation.setEmployeeId(resultSet.getInt("employeeId"));
-            invitation.setEmail(resultSet.getString("email"));
-            invitation.setInvitationsCode(resultSet.getString("invitationsCode"));
-            invitation.setDateEnd(resultSet.getDate("dateEnd"));
-            invitation.setStatus(resultSet.getString("status"));
-        }
+
+        invitation.setCompanyId(resultSet.getInt("companyId"));
+        invitation.setEmployeeId(resultSet.getInt("employeeId"));
+        invitation.setEmail(resultSet.getString("email"));
+        invitation.setInvitationsCode(resultSet.getString("invitationsCode"));
+        invitation.setDateEnd(resultSet.getDate("dateEnd"));
+        invitation.setStatus(resultSet.getString("status"));
+
         return invitation;
     }
 }
