@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<dataset>
+    <Invitation employeeId = "1" companyId = "1" email = "email@gmail.com"
+                invitationCode = "Hello 1" dateEnd = "2019/04/02" status = "Ok"/>
+
+    <Invitation employeeId = "2" companyId = "2" email = "email@gmail.com"
+                invitationCode = "Hello 2" dateEnd = "2019/04/01" status = "Error"/>
+
+    <Invitation employeeId = "3" companyId = "3" email = "email@gmail.com"
+                invitationCode = "Hello 3" dateEnd = "2019/03/31" status = "No"/>
+</dataset>
