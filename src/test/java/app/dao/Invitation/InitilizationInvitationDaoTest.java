@@ -81,7 +81,7 @@ public class InitilizationInvitationDaoTest extends DBTestCase {
 
     @Override
     protected IDataSet getDataSet() throws Exception {
-        return new FlatXmlDataSetBuilder().build(getClass().getClassLoader()
+        return new FlatXmlDataSetBuilder().build(this.getClass().getClassLoader()
                 .getResourceAsStream("/datasets/Invitationinitilization-dataset.xml"));
     }
 
