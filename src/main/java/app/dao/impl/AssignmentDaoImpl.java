@@ -78,11 +78,6 @@ public class AssignmentDaoImpl implements AssignmentDao {
     }
 
     @Override
-    public void delete(Assignment assignment) {
-        delete(assignment.getProjectId(), assignment.getEmployeeId());
-    }
-
-    @Override
     public void delete(int projectId, int employeeId) {
         if (isAssignmentExists(projectId, employeeId)) {
             throw new EntityNotFoundException();
