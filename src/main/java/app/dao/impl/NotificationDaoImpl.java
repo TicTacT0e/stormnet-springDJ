@@ -13,7 +13,7 @@ public class NotificationDaoImpl implements NotificationDao {
     public static final String CREATE_NOTIFICATION = "INSERT INTO notification (id, createdAt, employeeId, status, title, description, link) VALUES(?, ?, ?, ?, ?, ?, ?)";
     public static final String FIND_ALL = "SELECT * FROM notification";
     public static final String FIND_BY_ID = "SELECT * FROM notification WHERE id = ?";
-    public static final String DELETE_BY_ID = "DELETE * FROM notification WHERE id = ?";
+    public static final String DELETE_BY_ID = "DELETE FROM notification WHERE id = ?";
     public static final String UPDATE = "UPDATE notification SET createdAt = ?, employeeId = ?, status = ?, title = ?, description = ?, link = ? WHERE id = ?";
 
     @Autowired
@@ -25,7 +25,7 @@ public class NotificationDaoImpl implements NotificationDao {
             Connection connection = jdbcConnection.getConnection();
             PreparedStatement statement = connection.prepareStatement(CREATE_NOTIFICATION);
             statement.setInt(1, notification.getId());
-            statement.setDate(2, (Date) notification.getCreatedAt());//todo
+            statement.setTimestamp(2, new Timestamp(new java.util.Date().getTime()));
             statement.setInt(3, notification.getEmployeeId());
             statement.setString(4, notification.getStatus());
             statement.setString(5, notification.getTitle());
@@ -92,7 +92,7 @@ public class NotificationDaoImpl implements NotificationDao {
         try {
             Connection connection = jdbcConnection.getConnection();
             PreparedStatement statement = connection.prepareStatement(UPDATE);
-            statement.setDate(1, (Date) notification.getCreatedAt());//todo
+            statement.setTimestamp(1, new Timestamp(new java.util.Date().getTime()));
             statement.setInt(2, notification.getEmployeeId());
             statement.setString(3, notification.getStatus());
             statement.setString(4, notification.getTitle());
