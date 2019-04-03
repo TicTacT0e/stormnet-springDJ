@@ -139,12 +139,10 @@ public class InvitationDaoImpl implements InvitationDao {
 
     private boolean isInvitationExists(int employeeId) {
         try (Connection connection = jdbcConnection.getConnection();
-             PreparedStatement preparedStatement = connection
-                     .prepareStatement(IS_EXISTS)) {
+             PreparedStatement preparedStatement = connection.prepareStatement(IS_EXISTS)) {
             preparedStatement.setInt(1, employeeId);
             ResultSet resultSet = preparedStatement.executeQuery();
-            if (resultSet.next()
-                    && resultSet.getInt(1) == ROW_EXISTS) {
+            if (resultSet.next() && resultSet.getInt(1) == ROW_EXISTS) {
                 return false;
             }
         } catch (SQLException exception) {

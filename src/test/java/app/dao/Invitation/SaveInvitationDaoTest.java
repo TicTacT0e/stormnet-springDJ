@@ -16,8 +16,8 @@ public class SaveInvitationDaoTest extends InitilizationInvitationDaoTest {
     @Test
     public void saveInvitation() {
         invitationDao.save(new Invitation(
-                35, 1, "email",
-                "invatationCode", new Date(2019 - 03 - 03), "status"
+                5, 1, "email@gmail.com",
+                "invatationCode", new Date(2019,3,3), "status"
         ));
         try {
             IDataSet iDataSet = new FlatXmlDataSetBuilder().build(getClass().getClassLoader()
