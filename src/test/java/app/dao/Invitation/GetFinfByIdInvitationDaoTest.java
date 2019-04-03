@@ -17,7 +17,7 @@ public class GetFinfByIdInvitationDaoTest extends InitilizationInvitationDaoTest
     public void getFindById() {
         try {
             IDataSet iDataSet = new FlatXmlDataSetBuilder().build(getClass().getClassLoader()
-                    .getResourceAsStream("/datasets/Invitation/getFindById-dataset.xml"));
+                    .getResourceAsStream("datasets/Invitation/getFindById-dataset.xml"));
             ITable iTable = iDataSet.getTable(table);
 
             Invitation invitation = invitationDao.findById(3);

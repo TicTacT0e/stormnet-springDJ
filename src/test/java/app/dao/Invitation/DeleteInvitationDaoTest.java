@@ -16,10 +16,10 @@ public class DeleteInvitationDaoTest extends InitilizationInvitationDaoTest {
 
     @Test
     public void deleteById() {
-        invitationDao.delete(1);
+        invitationDao.delete(2);
         try {
             IDataSet iDataSet = new FlatXmlDataSetBuilder().build(getClass().getClassLoader()
-                    .getResourceAsStream("/datasets/Invitation/delete-dataset.xml"));
+                    .getResourceAsStream("datasets/Invitation/delete-dataset.xml"));
             ITable iTable = iDataSet.getTable(table);
 
             IDataSet actualDataSet = getMySqlConnection().createDataSet();

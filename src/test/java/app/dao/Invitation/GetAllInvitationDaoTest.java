@@ -18,7 +18,7 @@ public class GetAllInvitationDaoTest extends InitilizationInvitationDaoTest {
     public void getAllInvitation() {
         try {
             IDataSet iDataSet = new FlatXmlDataSetBuilder().build(getClass().getClassLoader().
-                    getResourceAsStream("/datasets/Invitation/getAll-dataset.xml"));
+                    getResourceAsStream("datasets/Invitation/getAll-dataset.xml"));
             ITable iTable = iDataSet.getTable(table);
             List<Invitation> invitationList = invitationDao.getAll();
             int index = NUMBER_OF_FIRST_ROW;

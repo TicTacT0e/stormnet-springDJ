@@ -1,7 +1,7 @@
 package app.dao.Invitation;
 
-import app.config.JerseyConfig;
 import app.config.beans.DaoConfig;
+import app.config.beans.PropertyConfig;
 import app.dao.InvitationDao;
 import org.dbunit.Assertion;
 import org.dbunit.DBTestCase;
@@ -27,7 +27,7 @@ import java.util.Properties;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = {DaoConfig.class, JerseyConfig.class})
+@ContextConfiguration(classes = {DaoConfig.class, PropertyConfig.class})
 public class InitilizationInvitationDaoTest extends DBTestCase {
 
     @Autowired
@@ -82,7 +82,7 @@ public class InitilizationInvitationDaoTest extends DBTestCase {
     @Override
     protected IDataSet getDataSet() throws Exception {
         return new FlatXmlDataSetBuilder().build(this.getClass().getClassLoader()
-                .getResourceAsStream("/datasets/Invitationinitilization-dataset.xml"));
+                .getResourceAsStream("datasets/Invitation/initilization-dataset.xml"));
     }
 
     protected DatabaseOperation getSetUpOperation() throws Exception {
@@ -95,8 +95,8 @@ public class InitilizationInvitationDaoTest extends DBTestCase {
 
     @Test
     public void setUpDatabaseTest() throws Exception {
-        IDataSet expectedDataSet = new FlatXmlDataSetBuilder().build(getClass()
-                .getClassLoader().getResourceAsStream("/datasets/Invitation/initilization-dataset.xml"));
+        IDataSet expectedDataSet = new FlatXmlDataSetBuilder().build(this.getClass().getClassLoader()
+                .getResourceAsStream("datasets/Invitation/initilization-dataset.xml"));
         ITable expectedTable = expectedDataSet.getTable(table);
         IDataSet actualDataSet = getMySqlConnection().createDataSet();
         ITable actualTable = actualDataSet.getTable(table);
