@@ -1,0 +1,47 @@
+@startuml
+
+class Company
+class CompanyEmployee
+class Employee {
+  name: String
+  email: String
+  phone: String
+  photo: URL
+
+}
+class Project
+class Integration
+class Settings
+enum AppRole {
+  owner
+  admin
+  manager
+  hr
+  employee
+}
+class Invitation
+class Notification
+class Assignment
+class Activity {
+  (PK) name
+}
+class Logs
+class Timesheets
+
+
+Project "*" o-- "1" Company
+Settings "*" o-- "1" Company
+Integration "*" o-- "1" Company
+CompanyEmployee "*" o-- "1" Company
+CompanyEmployee "*" o-- "1" Employee
+CompanyEmployee "*" *- "1" AppRole
+CompanyEmployee "1" o-- "1" Invitation
+CompanyEmployee "1" o-- "*" Notification
+Assignment "*" *-- "1" Project
+Assignment "*" *-- "1" Employee
+Assignment "*" *-- "1" Activity
+Assignment "*" --o "*" Logs
+Assignment "*" --o "*" Timesheets
+
+
+@enduml
