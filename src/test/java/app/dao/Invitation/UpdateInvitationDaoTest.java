@@ -41,7 +41,7 @@ public class UpdateInvitationDaoTest extends InitilizationInvitationDaoTest {
     @Test(expected = EntityNotFoundException.class)
     public void updateInvitationException() {
         invitationDao.edit(new Invitation(
-                7, 6, "email",
+                6, 1, "email",
                 "invatationCode", new Date(2019, 3, 3), "status"
         ));
     }

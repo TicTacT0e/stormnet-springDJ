@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.sql.SQLException;
 import java.util.List;
 
 @Component
@@ -43,7 +44,7 @@ public class InvitationResource {
     @Path("/edit/{employeeId}")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response edit(@PathParam("employeeId") int employeeId,
-                         Invitation invitation) {
+                         Invitation invitation) throws SQLException {
         if (employeeId != invitation.getEmployeeId()) {
             return Response.status(Response.Status.CONFLICT.getStatusCode()).build();
         }
