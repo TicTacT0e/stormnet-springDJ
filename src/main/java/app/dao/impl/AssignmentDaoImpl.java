@@ -27,14 +27,14 @@ public class AssignmentDaoImpl implements AssignmentDao {
                     + "WHERE projectId=? AND employeeId=?";
     private static final String INSERT =
             "INSERT INTO timesheet_dev.Assignment "
-                    + "(projectId, employeeId, workLoadInMinutes) "
-                    + "VALUE (?, ?, ?)";
+                    + "(projectId, employeeId, activityId, workLoadInMinutes) "
+                    + "VALUE (?, ?, ?, ?)";
     private static final String DELETE =
             "DELETE FROM timesheet_dev.Assignment "
                     + "WHERE projectId=? AND employeeId=?";
     private static final String UPDATE =
             "UPDATE timesheet_dev.Assignment "
-                    + "SET workLoadInMinutes=? "
+                    + "SET activityId=?, workLoadInMinutes=? "
                     + "WHERE projectId=? AND employeeId=?";
     private static final String IS_EXISTS =
             "SELECT EXISTS " +
@@ -84,7 +84,8 @@ public class AssignmentDaoImpl implements AssignmentDao {
                      .prepareStatement(INSERT)) {
             preparedStatement.setInt(1, assignment.getProjectId());
             preparedStatement.setInt(2, assignment.getEmployeeId());
-            preparedStatement.setInt(3, assignment.getWorkLoadInMinutes());
+            preparedStatement.setInt(3, assignment.getActivityId());
+            preparedStatement.setInt(4, assignment.getWorkLoadInMinutes());
             preparedStatement.execute();
         } catch (SQLIntegrityConstraintViolationException exception) {
             throw new EntityAlreadyExistsException();
@@ -118,9 +119,10 @@ public class AssignmentDaoImpl implements AssignmentDao {
         try (Connection connection = jdbcConnection.getConnection();
              PreparedStatement preparedStatement = connection
                      .prepareStatement(UPDATE)) {
-            preparedStatement.setInt(1, assignment.getWorkLoadInMinutes());
-            preparedStatement.setInt(2, assignment.getProjectId());
-            preparedStatement.setInt(3, assignment.getEmployeeId());
+            preparedStatement.setInt(1, assignment.getActivityId());
+            preparedStatement.setInt(2, assignment.getWorkLoadInMinutes());
+            preparedStatement.setInt(3, assignment.getProjectId());
+            preparedStatement.setInt(4, assignment.getEmployeeId());
             preparedStatement.executeUpdate();
         } catch (SQLException exception) {
             exception.printStackTrace();
@@ -158,11 +160,10 @@ public class AssignmentDaoImpl implements AssignmentDao {
     private Assignment assigmentMapper(ResultSet resultSet)
             throws SQLException {
         Assignment assignment = new Assignment();
-
         assignment.setProjectId(resultSet.getInt("projectId"));
         assignment.setEmployeeId(resultSet.getInt("employeeId"));
-        assignment.setWorkLoadInMinutes(
-                resultSet.getInt("workLoadInMinutes"));
+        assignment.setActivityId(resultSet.getInt("activityId"));
+        assignment.setWorkLoadInMinutes(resultSet.getInt("workLoadInMinutes"));
         return assignment;
     }
 }
