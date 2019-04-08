@@ -1,5 +1,6 @@
 package app.dao.impl;
 
+import app.entities.Notification;
 import org.dbunit.Assertion;
 import org.dbunit.DatabaseUnitException;
 import org.dbunit.database.IDatabaseConnection;
@@ -40,7 +41,7 @@ public class NotificationDaoTest {
     }
 
     @Before
-    public static void setUp() throws Exception {
+    public void setUp() throws Exception {
         // initialize your database connection here
         connection = new MySqlConnection(getConnection(), "timesheet_dev");
         // ...
@@ -52,7 +53,7 @@ public class NotificationDaoTest {
     }
 
     @After
-    public static void tearDown() throws SQLException {
+    public void tearDown() throws SQLException {
         connection.close();
     }
 
@@ -67,11 +68,13 @@ public class NotificationDaoTest {
     }
 
     @Test
-    public void testSave() throws SQLException, DatabaseUnitException, FileNotFoundException {
+    public void testCreate() throws SQLException, DatabaseUnitException, FileNotFoundException {
+        NotificationDaoImpl dao = new NotificationDaoImpl();
+        dao.create(new Notification(4, null, 3, "status4", "title4", "description4", "link4"));
         IDataSet tmpDataset = connection.createDataSet();
 
         IDataSet expectedDataSet = new FlatXmlDataSetBuilder().build(
-                new FileInputStream("D:\\Alena\\J2EE_projects\\TimesheetManagement\\src\\test\\resources\\app\\dao\\impl\\inputDbExpected.xml"));
+                new FileInputStream("C:\\FORTEST\\expected.xml"));
 
         Assertion.assertEquals(expectedDataSet, tmpDataset);
     }

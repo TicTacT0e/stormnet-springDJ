@@ -22,7 +22,12 @@ public class NotificationDaoImpl implements NotificationDao {
     @Override
     public void create(Notification notification) {
         try {
-            Connection connection = jdbcConnection.getConnection();
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            Connection connection = DriverManager.getConnection(
+                    "jdbc:mysql://localhost:3306/timesheet_dev?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC",
+                    "username",
+                    "qwerty123");
+//            Connection connection = jdbcConnection.getConnection();
             PreparedStatement statement = connection.prepareStatement(CREATE_NOTIFICATION);
             statement.setInt(1, notification.getId());
             statement.setTimestamp(2, new Timestamp(new java.util.Date().getTime()));
@@ -34,6 +39,8 @@ public class NotificationDaoImpl implements NotificationDao {
             statement.executeUpdate();
             close(connection, statement);
         } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
     }
