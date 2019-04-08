@@ -33,6 +33,7 @@ CREATE TABLE  `Position` (
 create table Assignment (
   projectId BIGINT NOT NULL,
   employeeId BIGINT NOT NULL,
+  activityId BIGINT NOT NULL,
   workLoadInMinutes int,
   CONSTRAINT PK_Assigment PRIMARY KEY 
   (projectId, employeeId)
