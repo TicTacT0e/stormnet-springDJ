@@ -1,6 +1,6 @@
 package app.resources;
 
-import app.Services.ProjectVersionService;
+import app.services.ProjectVersionService;
 import app.entities.ProjectVersion;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
