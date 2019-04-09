@@ -62,8 +62,12 @@ public class Assignment {
 
     @Override
     public boolean equals(Object object) {
-        if (this == object) { return true; }
-        if (!(object instanceof Assignment)) { return false; }
+        if (this == object) {
+            return true;
+        }
+        if (!(object instanceof Assignment)) {
+            return false;
+        }
         Assignment that = (Assignment) object;
         return getProjectId() == that.getProjectId()
                 && getEmployeeId() == that.getEmployeeId()
