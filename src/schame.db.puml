@@ -44,6 +44,7 @@
 	    *manHours: int
 	    *description: String
 	}
+
 	class Integration {
 	    #(PK) companyId: int
 	    --
