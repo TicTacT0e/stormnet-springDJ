@@ -15,13 +15,13 @@ import java.util.List;
 public class AssignmentResource {
 
     @Autowired
-    private AssignmentDao assigmentDao;
+    private AssignmentDao assignmentDao;
 
     @GET
     @Path("/all")
     @Produces(MediaType.APPLICATION_JSON)
     public List<Assignment> getAll() {
-        return assigmentDao.getAll();
+        return assignmentDao.getAll();
     }
 
     @GET
@@ -31,14 +31,14 @@ public class AssignmentResource {
             @PathParam("projectId") int projectId,
             @PathParam("employeeId") int employeeId
     ) {
-        return assigmentDao.findById(projectId, employeeId);
+        return assignmentDao.findById(projectId, employeeId);
     }
 
     @POST
     @Path("/add")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response add(Assignment assignment) {
-        assigmentDao.save(assignment);
+        assignmentDao.save(assignment);
         return Response.status(Response.Status.CREATED.getStatusCode()).build();
     }
 
@@ -55,7 +55,7 @@ public class AssignmentResource {
             return Response
                     .status(Response.Status.CONFLICT.getStatusCode()).build();
         }
-        assigmentDao.edit(assignment);
+        assignmentDao.edit(assignment);
         return Response.status(Response.Status.CREATED.getStatusCode()).build();
     }
 
@@ -66,7 +66,7 @@ public class AssignmentResource {
             @PathParam("projectId") int projectId,
             @PathParam("employeeId") int employeeId
     ) {
-        assigmentDao.delete(projectId, employeeId);
+        assignmentDao.delete(projectId, employeeId);
         return Response.status(Response.Status.OK.getStatusCode()).build();
     }
 }

@@ -6,14 +6,16 @@ public class Assignment {
 
     private int projectId;
     private int employeeId;
+    private int activityId;
     private int workLoadInMinutes;
 
     public Assignment() {
     }
 
-    public Assignment(int projectId, int employeeId, int workLoadInMinutes) {
+    public Assignment(int projectId, int employeeId, int activityId, int workLoadInMinutes) {
         this.projectId = projectId;
         this.employeeId = employeeId;
+        this.activityId = activityId;
         this.workLoadInMinutes = workLoadInMinutes;
     }
 
@@ -21,7 +23,8 @@ public class Assignment {
         this(
                 assigment.getProjectId(),
                 assigment.getEmployeeId(),
-                assigment.workLoadInMinutes
+                assigment.getActivityId(),
+                assigment.getWorkLoadInMinutes()
         );
     }
 
@@ -49,35 +52,28 @@ public class Assignment {
         this.workLoadInMinutes = workLoadInMinutes;
     }
 
+    public int getActivityId() {
+        return activityId;
+    }
+
+    public void setActivityId(int activityId) {
+        this.activityId = activityId;
+    }
+
     @Override
     public boolean equals(Object object) {
-        if (this == object) {
-            return true;
-        }
-        if (!(object instanceof Assignment)) {
-            return false;
-        }
-        Assignment assigment = (Assignment) object;
-        return getProjectId() == assigment.getProjectId()
-                && getEmployeeId() == assigment.getEmployeeId()
-                && getWorkLoadInMinutes() == assigment.getWorkLoadInMinutes();
+        if (this == object) { return true; }
+        if (!(object instanceof Assignment)) { return false; }
+        Assignment that = (Assignment) object;
+        return getProjectId() == that.getProjectId()
+                && getEmployeeId() == that.getEmployeeId()
+                && getActivityId() == that.getActivityId()
+                && getWorkLoadInMinutes() == that.getWorkLoadInMinutes();
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(
-                getProjectId(),
-                getEmployeeId(),
-                getWorkLoadInMinutes()
-        );
-    }
-
-    @Override
-    public String toString() {
-        return "Assignment{"
-                + "projectId=" + projectId
-                + ", employeeId=" + employeeId
-                + ", workLoadInMinutes=" + workLoadInMinutes
-                + '}';
+        return Objects
+                .hash(getProjectId(), getEmployeeId(), getActivityId(), getWorkLoadInMinutes());
     }
 }
