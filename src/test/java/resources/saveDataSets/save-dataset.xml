@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <dataset>
-    <Assignment projectId="1" employeeId="2" workLoadInMinutes="4500"/>
-    <Assignment projectId="1" employeeId="3" workLoadInMinutes="6750"/>
-    <Assignment projectId="2" employeeId="1" workLoadInMinutes="8000"/>
-    <Assignment projectId="3" employeeId="4" workLoadInMinutes="10000"/>
-    <Assignment projectId="4" employeeId="7" workLoadInMinutes="12000"/>
+    <Assignment projectId="1" employeeId="2" activityId = "2" workLoadInMinutes="4500"/>
+    <Assignment projectId="1" employeeId="3" activityId = "1" workLoadInMinutes="6750"/>
+    <Assignment projectId="2" employeeId="1" activityId = "3" workLoadInMinutes="8000"/>
+    <Assignment projectId="3" employeeId="4" activityId = "4" workLoadInMinutes="10000"/>
+    <Assignment projectId="4" employeeId="7" activityId = "5" workLoadInMinutes="12000"/>
 </dataset>

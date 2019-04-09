@@ -12,7 +12,7 @@ public class EditTests extends AssignmentDaoTestsInitiator {
 
     @Test
     public void edit() throws Exception {
-        Assignment assignment = new Assignment(1, 2, 15000);
+        Assignment assignment = new Assignment(1, 2, 6, 15000);
         assignmentDao.edit(assignment);
         IDataSet expectedDataSet = new FlatXmlDataSetBuilder()
                 .build(getClass()
@@ -26,6 +26,7 @@ public class EditTests extends AssignmentDaoTestsInitiator {
 
     @Test(expected = EntityNotFoundException.class)
     public void editWithNonExistsPrimaryKey() {
-        assignmentDao.edit(new Assignment(4, 7, 15000));
+        assignmentDao
+                .edit(new Assignment(4, 7, 1, 15000));
     }
 }

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <dataset>
-    <Assignment projectId="3" employeeId="4" workLoadInMinutes="10000"/>
+    <Assignment projectId="3" employeeId="4" activityId = "4" workLoadInMinutes="10000"/>
 </dataset>
