@@ -277,12 +277,6 @@
                 <filtering>true</filtering>
             </resource>
         </resources>
-        <testResources>
-            <testResource>
-                <directory>src/test/java/resources</directory>
-                <filtering>true</filtering>
-            </testResource>
-        </testResources>
     </build>
     <reporting>
         <plugins>
