@@ -2,32 +2,34 @@ package app.dao.impl;
 
 import app.dao.TimesheetDao;
 import app.entities.Timesheet;
-import app.utils.ConnectionToDB;
+import app.services.JDBCConnection;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
+import org.springframework.beans.factory.annotation.Autowired;
+
 import java.sql.*;
 
 
 public class TimesheetDaoImpl implements TimesheetDao {
 
+    @Autowired
+    JDBCConnection jdbcConnection;
+
 
     @Override
     public String findById(int id) {
         String query = "select * from timesheet where id = ?";
-        ConnectionToDB connectionToDB = new ConnectionToDB(query);
-        try {
-            PreparedStatement preparedStatement = connectionToDB.getPreparedStatement();
+        try (Connection connection = jdbcConnection.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(query)
+        ) {
             preparedStatement.setInt(1, id);
-            ResultSet resultSet = ConnectionToDB.getResultSet(connectionToDB);
-            while (resultSet.next()) {
-                return findElementInDBCastToString(resultSet);
-            }
+            ResultSet resultSet = preparedStatement.executeQuery();
+            resultSet.next();
+            return findElementInDBCastToString(resultSet);
+
         } catch (SQLException sqlException) {
             sqlException.printStackTrace();
-        } finally {
-            ConnectionToDB.closeConnections(connectionToDB);
-            ConnectionToDB.closeResultSet(connectionToDB);
         }
         return "object not found";
     }
@@ -35,19 +37,17 @@ public class TimesheetDaoImpl implements TimesheetDao {
     @Override
     public String findAll() {
         String query = "select * from timesheet";
-        ConnectionToDB connectionToDB = new ConnectionToDB(query);
-        try {
-            ResultSet resultSet = ConnectionToDB.getResultSet(connectionToDB);
+        try (Connection connection = jdbcConnection.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(query);
+        ) {
+            ResultSet resultSet = preparedStatement.executeQuery();
             StringBuilder stringBuilder = new StringBuilder();
             while (resultSet.next()) {
                 stringBuilder.append(findElementInDBCastToString(resultSet));
             }
             return String.valueOf(stringBuilder);
-        } catch (SQLException sqlException) {
-            sqlException.printStackTrace();
-        } finally {
-            ConnectionToDB.closeConnections(connectionToDB);
-            ConnectionToDB.closeResultSet(connectionToDB);
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
         return "objects not found";
     }
@@ -55,9 +55,8 @@ public class TimesheetDaoImpl implements TimesheetDao {
     @Override
     public void add(Timesheet timesheet) {
         String query = "insert into timesheet (id, periodId, timesheetJson, status) values (?, ?, ?, ?)";
-        ConnectionToDB connectionToDB = new ConnectionToDB(query);
-        try {
-            PreparedStatement preparedStatement = connectionToDB.getPreparedStatement();
+        try (Connection connection = jdbcConnection.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setInt(1, timesheet.getId());
             preparedStatement.setInt(2, timesheet.getPeriodId());
             preparedStatement.setString(3, timesheet.getTimesheetJson());
@@ -65,32 +64,26 @@ public class TimesheetDaoImpl implements TimesheetDao {
             preparedStatement.executeUpdate();
         } catch (SQLException sqlException) {
             sqlException.printStackTrace();
-        } finally {
-            ConnectionToDB.closeConnections(connectionToDB);
         }
     }
 
     @Override
     public void delete(int id) {
         String query = "delete from timesheet where id = ?";
-        ConnectionToDB connectionToDB = new ConnectionToDB(query);
-        try {
-            PreparedStatement preparedStatement = connectionToDB.getPreparedStatement();
+        try (Connection connection = jdbcConnection.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setInt(1, id);
             preparedStatement.executeUpdate();
         } catch (SQLException sqlException) {
             sqlException.printStackTrace();
-        } finally {
-            ConnectionToDB.closeConnections(connectionToDB);
         }
     }
 
     @Override
     public void update(Timesheet timesheet) {
         String query = "update timesheet set periodId = ?, timesheetJson = ?, status = ? where id = ?";
-        ConnectionToDB connectionToDB = new ConnectionToDB(query);
-        try {
-            PreparedStatement preparedStatement = connectionToDB.getPreparedStatement();
+        try (Connection connection = jdbcConnection.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setInt(4, timesheet.getId());
             preparedStatement.setInt(1, timesheet.getPeriodId());
             preparedStatement.setString(2, timesheet.getTimesheetJson());
@@ -98,8 +91,6 @@ public class TimesheetDaoImpl implements TimesheetDao {
             preparedStatement.executeUpdate();
         } catch (SQLException sqlException) {
             sqlException.printStackTrace();
-        } finally {
-            ConnectionToDB.closeConnections(connectionToDB);
         }
     }
 

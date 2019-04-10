@@ -1,20 +1,26 @@
 package app.resources;
 
-import app.dao.impl.TimesheetDao;
+import app.dao.TimesheetDao;
 import app.entities.Timesheet;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+@Component
 @Path("/Timesheet")
 public class TimesheetResource {
+
+    @Autowired
+    private TimesheetDao timesheetDao;
 
     @POST
     @Path("/add")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response add(Timesheet timesheet) {
-        TimesheetDao.add(timesheet);
+        timesheetDao.add(timesheet);
         return Response.status(Response.Status.CREATED.getStatusCode()).build();
     }
 
@@ -22,21 +28,21 @@ public class TimesheetResource {
     @Path("/all")
     @Produces(MediaType.APPLICATION_JSON)
     public String getAll() {
-        return TimesheetDao.findAll();
+        return timesheetDao.findAll();
     }
 
     @GET
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public String get(@PathParam("id") int id) {
-        return TimesheetDao.findById(id);
+        return timesheetDao.findById(id);
     }
 
     @DELETE
     @Path("/delete/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response delete(@PathParam("id") int id) {
-        TimesheetDao.delete(id);
+        timesheetDao.delete(id);
         return Response.status(Response.Status.OK.getStatusCode()).build();
     }
 
@@ -44,7 +50,7 @@ public class TimesheetResource {
     @Path("/edit")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response update(Timesheet timesheet) {
-        TimesheetDao.update(timesheet);
+        timesheetDao.update(timesheet);
         return Response.status(Response.Status.CREATED.getStatusCode()).build();
     }
 
