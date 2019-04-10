@@ -1,4 +1,4 @@
-package app.dao.Invitation;
+package app.dao;
 
 import app.entities.Invitation;
 import app.exceptions.EntityNotFoundException;

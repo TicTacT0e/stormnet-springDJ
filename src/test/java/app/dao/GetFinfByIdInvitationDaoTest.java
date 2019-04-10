@@ -1,7 +1,6 @@
-package app.dao.Invitation;
+package app.dao;
 
 import app.entities.Invitation;
-import app.exceptions.EntityNotFoundException;
 import org.dbunit.dataset.DataSetException;
 import org.dbunit.dataset.IDataSet;
 import org.dbunit.dataset.ITable;

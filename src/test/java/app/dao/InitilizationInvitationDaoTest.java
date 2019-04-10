@@ -1,4 +1,4 @@
-package app.dao.Invitation;
+package app.dao;
 
 import app.config.beans.DaoConfig;
 import app.config.beans.PropertyConfig;
