@@ -15,7 +15,7 @@ import java.util.List;
 public class ProjectResource {
 
     @Autowired
-    ProjectDao projectDao;
+    private ProjectDao projectDao;
 
     @GET
     @Path("/all")
