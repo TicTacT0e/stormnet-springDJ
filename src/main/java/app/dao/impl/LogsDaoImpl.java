@@ -31,14 +31,14 @@ public class LogsDaoImpl {
         return logs.toString();
     }
 
-    public void save() {
+    public void save(app.entities.Logs logs) {
         try (Connection connection = DriverManager.getConnection(HOST, USERNAME, PASSWORD)) {
             preparedStatement = connection.prepareStatement("INSERT INTO logs (projectId,employeeId," +
                     "time,comment,date) values (?,?,?,?,?)");
-            preparedStatement.setInt(1, 256);
-            preparedStatement.setInt(2, 366);
-            preparedStatement.setInt(3, 8);
-            preparedStatement.setString(4, "Добавить рисунок");
+            preparedStatement.setInt(1, logs.getProject());
+            preparedStatement.setInt(2, logs.getEmployee());
+            preparedStatement.setInt(3, logs.getTime());
+            preparedStatement.setString(4, logs.getComment());
             preparedStatement.setDate(5, new Date(Calendar.getInstance().getTimeInMillis()));
             preparedStatement.execute();
             preparedStatement.close();

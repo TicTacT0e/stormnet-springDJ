@@ -57,7 +57,7 @@ public class Logs {
         this.project = project;
     }
 
-    public long getTime() {
+    public int getTime() {
         return time;
     }
 
