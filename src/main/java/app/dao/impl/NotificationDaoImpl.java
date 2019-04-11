@@ -1,15 +1,15 @@
 package app.dao.impl;
 
-import app.Services.JDBCConnection;
-import app.dao.NotificationDao;
+import app.dao.BasicCrudDao;
 import app.entities.Notification;
+import app.services.JDBCConnection;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.sql.*;
 import java.util.LinkedList;
 import java.util.List;
 
-public class NotificationDaoImpl implements NotificationDao {
+public class NotificationDaoImpl implements BasicCrudDao<Notification> {
     public static final String CREATE_NOTIFICATION = "INSERT INTO notification (createdAt, employeeId, status, title, description, link) VALUES(?, ?, ?, ?, ?, ?)";
     public static final String FIND_ALL = "SELECT * FROM notification";
     public static final String FIND_BY_ID = "SELECT * FROM notification WHERE id = ?";
@@ -31,11 +31,11 @@ public class NotificationDaoImpl implements NotificationDao {
     }
 
     @Override
-    public void update(Notification notification, int id) {
+    public void update(Notification notification) {
         try (Connection connection = jdbcConnection.getConnection();
              PreparedStatement statement = connection.prepareStatement(UPDATE)) {
             setValues(statement, notification);
-            statement.setInt(7, id);
+            statement.setInt(7, notification.getId());
             statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -75,10 +75,21 @@ public class NotificationDaoImpl implements NotificationDao {
     }
 
     @Override
-    public void delete(int id) {
+    public void deleteById(int id) {
         try (Connection connection = jdbcConnection.getConnection();
              PreparedStatement statement = connection.prepareStatement(DELETE_BY_ID)) {
             statement.setInt(1, id);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void delete(Notification notification) {
+        try (Connection connection = jdbcConnection.getConnection();
+             PreparedStatement statement = connection.prepareStatement(DELETE_BY_ID)) {
+            statement.setInt(1, notification.getId());
             statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();

@@ -2,19 +2,21 @@ package app.dao;
 
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 
 @Repository
 public interface BasicCrudDao<T> {
 
     T findById(int id);
 
-    T getAll();
+    List<T> findAll();
 
     void deleteById(int id);
 
-    void deleteAll();
+    void delete(T entity);
 
-    void edit(T entity);
+    void create(T entity);
 
     void update(T entity);
 }

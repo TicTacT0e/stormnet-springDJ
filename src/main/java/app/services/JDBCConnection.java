@@ -10,14 +10,7 @@ import java.sql.SQLException;
 @Service
 public class JDBCConnection {
 
-    private Connection connection=null;
-
-    public JDBCConnection() {
-    }
-
-    public JDBCConnection(Connection connection) {
-        this.connection = connection;
-    }
+    private Connection connection;
 
     @Value("${jdbc.driver}")
     private String driver;
