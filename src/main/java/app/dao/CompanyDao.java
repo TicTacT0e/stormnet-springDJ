@@ -26,4 +26,9 @@ public interface CompanyDao {
     void addEmployeeToCompany(Company company, Employee employee);
 
     void addProjectToCompany(Company company, Project project);
+
+    List<Employee> getCompanyEmployees(Company company);
+
+    List<Project> getCompanyProjects(Company company);
+
 }
