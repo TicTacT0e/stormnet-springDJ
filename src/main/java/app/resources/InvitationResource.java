@@ -8,7 +8,6 @@ import org.springframework.stereotype.Component;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.sql.SQLException;
 import java.util.List;
 
 @Component
@@ -26,10 +25,10 @@ public class InvitationResource {
     }
 
     @GET
-    @Path("/{employeeId}")
+    @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Invitation get(@PathParam("employeeId") int employeeId) {
-        return invitationDao.findById(employeeId);
+    public Invitation get(@PathParam("id") int id) {
+        return invitationDao.findById(id);
     }
 
     @POST
@@ -41,11 +40,11 @@ public class InvitationResource {
     }
 
     @PUT
-    @Path("/edit/{employeeId}")
+    @Path("/edit/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response edit(@PathParam("employeeId") int employeeId,
-                         Invitation invitation) throws SQLException {
-        if (employeeId != invitation.getEmployeeId()) {
+    public Response edit(@PathParam("id") int id,
+                         Invitation invitation) {
+        if (id != invitation.getId()) {
             return Response.status(Response.Status.CONFLICT.getStatusCode()).build();
         }
         invitationDao.edit(invitation);
@@ -53,10 +52,10 @@ public class InvitationResource {
     }
 
     @DELETE
-    @Path("/delete/{employeeId}")
+    @Path("/delete/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response delete(@PathParam("employeeId") int employeeId) {
-        invitationDao.delete(employeeId);
+    public Response delete(@PathParam("id") int id) {
+        invitationDao.delete(id);
         return Response.status(Response.Status.OK.getStatusCode()).build();
     }
 }
