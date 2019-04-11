@@ -23,12 +23,10 @@ public class GetAllInvitationDaoTest extends InitilizationInvitationDaoTest {
             List<Invitation> invitationList = invitationDao.getAll();
             int index = NUMBER_OF_FIRST_ROW;
             for (Invitation invitation : invitationList) {
-                Assert.assertEquals(iTable.getValue(index, "employeeId").toString(),
-                        String.valueOf(invitation.getEmployeeId()));
-                Assert.assertEquals(iTable.getValue(index, "companyId").toString(),
-                        String.valueOf(invitation.getCompanyId()));
-                Assert.assertEquals(iTable.getValue(index, "email").toString(),
-                        String.valueOf(invitation.getEmail()));
+                Assert.assertEquals(iTable.getValue(index, "id").toString(),
+                        String.valueOf(invitation.getId()));
+                Assert.assertEquals(iTable.getValue(index, "partnerId").toString(),
+                        String.valueOf(invitation.getPartnerId()));
                 Assert.assertEquals(iTable.getValue(index, "invitationsCode").toString(),
                         String.valueOf(invitation.getInvitationsCode()));
                 Assert.assertEquals(iTable.getValue(index, "dateEnd").toString(),

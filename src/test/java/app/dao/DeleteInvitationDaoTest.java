@@ -37,7 +37,7 @@ public class DeleteInvitationDaoTest extends InitilizationInvitationDaoTest {
     @Test
     public void deleteByObject() {
         invitationDao.delete(new Invitation(
-                1, 1, "email",
+                1, 1,
                 "invatationCode", new Date(2019 - 03 - 03), "status"
         ));
 

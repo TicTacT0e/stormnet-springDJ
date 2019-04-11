@@ -21,12 +21,10 @@ public class GetFinfByIdInvitationDaoTest extends InitilizationInvitationDaoTest
 
             Invitation invitation = invitationDao.findById(1);
 
-            Assert.assertEquals(iTable.getValue(NUMBER_OF_FIRST_ROW, "employeeId").toString(),
-                    String.valueOf(invitation.getEmployeeId()));
-            Assert.assertEquals(iTable.getValue(NUMBER_OF_FIRST_ROW, "companyId").toString(),
-                    String.valueOf(invitation.getCompanyId()));
-            Assert.assertEquals(iTable.getValue(NUMBER_OF_FIRST_ROW, "email").toString(),
-                    String.valueOf(invitation.getEmail()));
+            Assert.assertEquals(iTable.getValue(NUMBER_OF_FIRST_ROW, "id").toString(),
+                    String.valueOf(invitation.getId()));
+            Assert.assertEquals(iTable.getValue(NUMBER_OF_FIRST_ROW, "partnerId").toString(),
+                    String.valueOf(invitation.getPartnerId()));
             Assert.assertEquals(iTable.getValue(NUMBER_OF_FIRST_ROW, "invitationsCode").toString(),
                     String.valueOf(invitation.getInvitationsCode()));
             Assert.assertEquals(iTable.getValue(NUMBER_OF_FIRST_ROW, "dateEnd").toString(),

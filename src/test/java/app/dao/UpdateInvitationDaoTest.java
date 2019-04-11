@@ -17,8 +17,8 @@ public class UpdateInvitationDaoTest extends InitilizationInvitationDaoTest {
     @Test
     public void updateInvitation() {
         invitationDao.edit(new Invitation(
-                1, 1, "email",
-                "invatationCode", new Date(2019,3,3), "status"
+                1, 1, "invatationCode",
+                new Date(2019, 3, 3), "status"
         ));
         try {
             IDataSet iDataSet = new FlatXmlDataSetBuilder().build(getClass().getClassLoader()
@@ -41,8 +41,8 @@ public class UpdateInvitationDaoTest extends InitilizationInvitationDaoTest {
     @Test(expected = EntityNotFoundException.class)
     public void updateInvitationException() {
         invitationDao.edit(new Invitation(
-                6, 1, "email",
-                "invatationCode", new Date(2019, 3, 3), "status"
+                6, 1, "invatationCode",
+                new Date(2019, 3, 3), "status"
         ));
     }
 }
