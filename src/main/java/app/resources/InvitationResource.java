@@ -40,11 +40,11 @@ public class InvitationResource {
     }
 
     @PUT
-    @Path("/edit/{employeeId}")
+    @Path("/edit/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response edit(@PathParam("employeeId") int employeeId,
+    public Response edit(@PathParam("id") int id,
                          Invitation invitation) {
-        if (employeeId != invitation.getEmployeeId()) {
+        if (id != invitation.getId()) {
             return Response.status(Response.Status.CONFLICT.getStatusCode()).build();
         }
         invitationDao.edit(invitation);
