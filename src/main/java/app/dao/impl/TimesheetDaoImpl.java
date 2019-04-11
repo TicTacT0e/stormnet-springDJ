@@ -3,75 +3,82 @@ package app.dao.impl;
 import app.dao.TimesheetDao;
 import app.entities.Timesheet;
 import app.services.JDBCConnection;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ObjectWriter;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.sql.*;
+import java.util.LinkedList;
+import java.util.List;
 
 
 public class TimesheetDaoImpl implements TimesheetDao {
+
+    private final String FIND_BY_ID = "select * from timesheet where id = ?";
+    private final String FIND_ALL = "select * from timesheet";
+    private final String ADD = "insert into timesheet (periodId, timesheetJson, status) values (?, ?, ?)";
+    private final String DELETE = "delete from timesheet where id = ?";
+    private final String UPDATE = "update timesheet set periodId = ?, timesheetJson = ?, status = ? where id = ?";
 
     @Autowired
     JDBCConnection jdbcConnection;
 
 
     @Override
-    public String findById(int id) {
-        String query = "select * from timesheet where id = ?";
+    public Timesheet findById(int id) {
         try (Connection connection = jdbcConnection.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(query)
+             PreparedStatement preparedStatement = connection.prepareStatement(FIND_BY_ID)
         ) {
             preparedStatement.setInt(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
             resultSet.next();
-            return findElementInDBCastToString(resultSet);
+            return new Timesheet(
+                    resultSet.getInt("id"),
+                    resultSet.getInt("periodId"),
+                    resultSet.getString("timesheetJson"),
+                    resultSet.getString("status")
+            );
 
         } catch (SQLException sqlException) {
             sqlException.printStackTrace();
         }
-        return "object not found";
+        return null;
     }
 
     @Override
-    public String findAll() {
-        String query = "select * from timesheet";
+    public List<Timesheet> findAll() {
         try (Connection connection = jdbcConnection.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(query);
+             PreparedStatement preparedStatement = connection.prepareStatement(FIND_ALL)
         ) {
             ResultSet resultSet = preparedStatement.executeQuery();
-            StringBuilder stringBuilder = new StringBuilder();
+            List<Timesheet> timesheets = new LinkedList<>();
             while (resultSet.next()) {
-                stringBuilder.append(findElementInDBCastToString(resultSet));
+                timesheets.add(new Timesheet(
+                        resultSet.getInt("id"),
+                        resultSet.getInt("periodId"),
+                        resultSet.getString("timesheetJson"),
+                        resultSet.getString("status")
+                ));
             }
-            return String.valueOf(stringBuilder);
+            return timesheets;
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return "objects not found";
+        return null;
     }
 
     @Override
     public void add(Timesheet timesheet) {
-        String query = "insert into timesheet (id, periodId, timesheetJson, status) values (?, ?, ?, ?)";
         try (Connection connection = jdbcConnection.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
-            preparedStatement.setInt(1, timesheet.getId());
-            preparedStatement.setInt(2, timesheet.getPeriodId());
-            preparedStatement.setString(3, timesheet.getTimesheetJson());
-            preparedStatement.setString(4, timesheet.getStatus());
+             PreparedStatement preparedStatement = getValues(ADD, timesheet, connection)) {
             preparedStatement.executeUpdate();
-        } catch (SQLException sqlException) {
-            sqlException.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 
     @Override
     public void delete(int id) {
-        String query = "delete from timesheet where id = ?";
         try (Connection connection = jdbcConnection.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+             PreparedStatement preparedStatement = connection.prepareStatement(DELETE)) {
             preparedStatement.setInt(1, id);
             preparedStatement.executeUpdate();
         } catch (SQLException sqlException) {
@@ -81,32 +88,26 @@ public class TimesheetDaoImpl implements TimesheetDao {
 
     @Override
     public void update(Timesheet timesheet) {
-        String query = "update timesheet set periodId = ?, timesheetJson = ?, status = ? where id = ?";
         try (Connection connection = jdbcConnection.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+             PreparedStatement preparedStatement = getValues(UPDATE, timesheet, connection)) {
             preparedStatement.setInt(4, timesheet.getId());
-            preparedStatement.setInt(1, timesheet.getPeriodId());
-            preparedStatement.setString(2, timesheet.getTimesheetJson());
-            preparedStatement.setString(3, timesheet.getStatus());
             preparedStatement.executeUpdate();
-        } catch (SQLException sqlException) {
-            sqlException.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 
-    public String findElementInDBCastToString(ResultSet resultSet) throws SQLException {
-        int timesheetId = resultSet.getInt("id");
-        int periodId = resultSet.getInt("periodId");
-        String timesheetJson = resultSet.getString("timesheetJson");
-        String status = resultSet.getString("status");
-        Timesheet timesheet = new Timesheet(timesheetId, periodId, timesheetJson, status);
-        ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
-        String js = null;
+    public PreparedStatement getValues(String query, Timesheet timesheet, Connection connection) {
+        PreparedStatement preparedStatement;
         try {
-            js = ow.writeValueAsString(timesheet);
-        } catch (JsonProcessingException e) {
+            preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setInt(1, timesheet.getPeriodId());
+            preparedStatement.setString(2, timesheet.getTimesheetJson());
+            preparedStatement.setString(3, timesheet.getStatus());
+            return preparedStatement;
+        } catch (SQLException e) {
             e.printStackTrace();
         }
-        return js;
+        return null;
     }
 }

@@ -3,12 +3,14 @@ package app.dao;
 import app.entities.Timesheet;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface TimesheetDao {
 
-    String  findById(int id);
+    Timesheet findById(int id);
 
-    String findAll();
+    List<Timesheet> findAll();
 
     void add(Timesheet timesheet);
 

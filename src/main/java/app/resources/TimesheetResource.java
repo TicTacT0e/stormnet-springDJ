@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.util.List;
 
 @Component
 @Path("/Timesheet")
@@ -27,14 +28,14 @@ public class TimesheetResource {
     @GET
     @Path("/all")
     @Produces(MediaType.APPLICATION_JSON)
-    public String getAll() {
+    public List<Timesheet> getAll() {
         return timesheetDao.findAll();
     }
 
     @GET
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public String get(@PathParam("id") int id) {
+    public Timesheet get(@PathParam("id") int id) {
         return timesheetDao.findById(id);
     }
 
