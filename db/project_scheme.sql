@@ -20,7 +20,6 @@ CREATE TABLE `assignment` (
   CONSTRAINT `project` FOREIGN KEY (`projectId`) REFERENCES `project` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8
 
-
 CREATE TABLE `company` (
   `id` bigint(20) NOT NULL,
   `name` varchar(45) NOT NULL,
@@ -64,6 +63,18 @@ CREATE TABLE `invitations` (
   UNIQUE KEY `code_UNIQUE` (`code`),
   CONSTRAINT `InvaitionPartner` FOREIGN KEY (`partnerId`) REFERENCES `partner` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8
+
+CREATE TABLE `logs` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `assignmentId` bigint(20) NOT NULL,
+  `date` date NOT NULL,
+  `order` int(11) NOT NULL,
+  `time` double NOT NULL,
+  `comment` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `LogsAssignment_idx` (`assignmentId`),
+  CONSTRAINT `LogsAssignment` FOREIGN KEY (`assignmentId`) REFERENCES `assignment` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8
 
 CREATE TABLE `logs` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
