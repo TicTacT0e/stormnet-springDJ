@@ -18,10 +18,18 @@ public class AssignmentResource {
     private AssignmentDao assignmentDao;
 
     @GET
-    @Path("/all")
     @Produces(MediaType.APPLICATION_JSON)
     public List<Assignment> getAll() {
         return assignmentDao.getAll();
+    }
+
+    @GET
+    @Path("/{assignmentId}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Assignment get(
+            @PathParam("assignmentId") int assignmentId
+    ) {
+        return assignmentDao.findById(assignmentId);
     }
 
     @GET
@@ -35,7 +43,6 @@ public class AssignmentResource {
     }
 
     @POST
-    @Path("/add")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response add(Assignment assignment) {
         assignmentDao.save(assignment);
@@ -43,7 +50,7 @@ public class AssignmentResource {
     }
 
     @PUT
-    @Path("/edit/{projectId}/{employeeId}")
+    @Path("/{projectId}/{employeeId}")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response edit(
             @PathParam("projectId") int projectId,
@@ -60,7 +67,7 @@ public class AssignmentResource {
     }
 
     @DELETE
-    @Path("/delete/{projectId}/{employeeId}")
+    @Path("/{projectId}/{employeeId}")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response delete(
             @PathParam("projectId") int projectId,

@@ -4,6 +4,7 @@ import java.util.Objects;
 
 public class Assignment {
 
+    private int id;
     private int projectId;
     private int employeeId;
     private int activityId;
@@ -12,7 +13,8 @@ public class Assignment {
     public Assignment() {
     }
 
-    public Assignment(int projectId, int employeeId, int activityId, int workLoadInMinutes) {
+    public Assignment(int id, int projectId, int employeeId, int activityId, int workLoadInMinutes) {
+        this.id = id;
         this.projectId = projectId;
         this.employeeId = employeeId;
         this.activityId = activityId;
@@ -21,6 +23,7 @@ public class Assignment {
 
     public Assignment(Assignment assigment) {
         this(
+                assigment.getId(),
                 assigment.getProjectId(),
                 assigment.getEmployeeId(),
                 assigment.getActivityId(),
@@ -60,12 +63,25 @@ public class Assignment {
         this.activityId = activityId;
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
     @Override
     public boolean equals(Object object) {
-        if (this == object) { return true; }
-        if (!(object instanceof Assignment)) { return false; }
+        if (this == object) {
+            return true;
+        }
+        if (!(object instanceof Assignment)) {
+            return false;
+        }
         Assignment that = (Assignment) object;
-        return getProjectId() == that.getProjectId()
+        return getId() == that.getId()
+                && getProjectId() == that.getProjectId()
                 && getEmployeeId() == that.getEmployeeId()
                 && getActivityId() == that.getActivityId()
                 && getWorkLoadInMinutes() == that.getWorkLoadInMinutes();
@@ -74,6 +90,7 @@ public class Assignment {
     @Override
     public int hashCode() {
         return Objects
-                .hash(getProjectId(), getEmployeeId(), getActivityId(), getWorkLoadInMinutes());
+                .hash(getId(), getProjectId(), getEmployeeId(),
+                        getActivityId(), getWorkLoadInMinutes());
     }
 }

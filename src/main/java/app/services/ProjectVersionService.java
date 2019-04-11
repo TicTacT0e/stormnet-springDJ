@@ -1,4 +1,4 @@
-package app.Services;
+package app.services;
 
 import app.entities.ProjectVersion;
 import org.springframework.beans.factory.annotation.Value;

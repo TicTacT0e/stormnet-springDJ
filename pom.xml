@@ -30,6 +30,13 @@
         <jersey-media-moxy.version>2.28</jersey-media-moxy.version>
         <jersey-spring.version>2.28</jersey-spring.version>
         <mysql-connector.version>8.0.15</mysql-connector.version>
+
+        <jdbc.driver>com.mysql.jdbc.Driver</jdbc.driver>
+        <db.url>jdbc:mysql://localhost:3306/timesheet_dev</db.url>
+        <db.username>root</db.username>
+        <db.password>admin</db.password>
+        <!-- username
+         qwerty123 -->
     </properties>
 
     <dependencies>
@@ -176,14 +183,9 @@
 
             <plugin>
                 <artifactId>maven-war-plugin</artifactId>
+                <version>3.2.2</version>
                 <configuration>
-                    <attachClasses>true</attachClasses>
-                    <webResources>
-                        <resource>
-                            <directory>src/main/java/app</directory>
-                            <filtering>true</filtering>
-                        </resource>
-                    </webResources>
+                    <failOnMissingWebXml>false</failOnMissingWebXml>
                 </configuration>
             </plugin>
 
