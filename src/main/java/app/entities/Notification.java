@@ -15,9 +15,8 @@ public class Notification {
     public Notification() {
     }
 
-    public Notification(int id, Date createdAt, int employeeId, String status, String title, String description, String link) {
+    public Notification(int id, int employeeId, String status, String title, String description, String link) {
         this.id = id;
-        this.createdAt = createdAt;
         this.employeeId = employeeId;
         this.status = status;
         this.title = title;

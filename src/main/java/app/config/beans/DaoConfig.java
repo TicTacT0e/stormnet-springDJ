@@ -1,7 +1,10 @@
 package app.config.beans;
 
 
-import app.dao.*;
+import app.dao.CompanyDao;
+import app.dao.EmployeeDao;
+import app.dao.LogsDao;
+import app.dao.ProjectDao;
 import app.dao.impl.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -30,7 +33,7 @@ public class DaoConfig {
     }
 
     @Bean
-    public NotificationDao getNotificationDao() {
+    public NotificationDaoImpl getNotificationDao() {
         return new NotificationDaoImpl();
     }
 

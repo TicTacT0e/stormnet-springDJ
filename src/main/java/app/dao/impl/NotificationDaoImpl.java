@@ -1,6 +1,6 @@
 package app.dao.impl;
 
-import app.dao.BasicCrudDao;
+import app.dao.DAO;
 import app.entities.Notification;
 import app.services.JDBCConnection;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +9,7 @@ import java.sql.*;
 import java.util.LinkedList;
 import java.util.List;
 
-public class NotificationDaoImpl implements BasicCrudDao<Notification> {
+public class NotificationDaoImpl implements DAO<Notification> {
     public static final String CREATE_NOTIFICATION = "INSERT INTO notification (createdAt, employeeId, status, title, description, link) VALUES(?, ?, ?, ?, ?, ?)";
     public static final String FIND_ALL = "SELECT * FROM notification";
     public static final String FIND_BY_ID = "SELECT * FROM notification WHERE id = ?";
@@ -100,7 +100,6 @@ public class NotificationDaoImpl implements BasicCrudDao<Notification> {
         try {
             return new Notification(
                     resultSet.getInt("id"),
-                    resultSet.getDate("createdAt"),
                     resultSet.getInt("employeeId"),
                     resultSet.getString("status"),
                     resultSet.getString("title"),

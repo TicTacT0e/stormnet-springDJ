@@ -1,6 +1,6 @@
 package app.resources;
 
-import app.dao.NotificationDao;
+import app.dao.impl.NotificationDaoImpl;
 import app.entities.Notification;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -15,7 +15,7 @@ import java.util.List;
 public class NotificationResource {
 
     @Autowired
-    private NotificationDao notificationDao;
+    private NotificationDaoImpl notificationDao;
 
     @GET
     @Path("/all")
@@ -40,18 +40,18 @@ public class NotificationResource {
     }
 
     @PUT
-    @Path("/update/{id}")
+    @Path("/update")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response update(@PathParam("id") int id, Notification notification) {
-        notificationDao.update(notification, id);
+    public Response update(Notification notification) {
+        notificationDao.update(notification);
         return Response.status(Response.Status.CREATED.getStatusCode()).build();
     }
 
     @DELETE
     @Path("/delete/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response delete(@PathParam("id") int id) {
-        notificationDao.delete(id);
+    public Response deleteById(@PathParam("id") int id) {
+        notificationDao.deleteById(id);
         return Response.status(Response.Status.OK.getStatusCode()).build();
     }
 }
