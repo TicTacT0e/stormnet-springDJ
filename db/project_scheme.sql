@@ -156,4 +156,4 @@ CREATE TABLE `timesheet` (
   KEY `TimesheetAssignment_idx` (`assignmentId`),
   CONSTRAINT `TimesheetAssignment` FOREIGN KEY (`assignmentId`) REFERENCES `assignment` (`id`),
   CONSTRAINT `TimesheetPeriod` FOREIGN KEY (`periodId`) REFERENCES `period` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 
