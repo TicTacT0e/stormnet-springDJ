@@ -84,7 +84,8 @@ public class InvitationDaoImpl implements InvitationDao {
     @Override
     public void save(Invitation invitation) {
         try (Connection connection = jdbcConnection.getConnection()) {
-            createPreparedStatement(invitation, connection, SAVE);
+            createPreparedStatement(invitation, connection, SAVE).executeUpdate();
+
         } catch (SQLIntegrityConstraintViolationException exception) {
             throw new EntityAlreadyExistsException();
         } catch (SQLException e) {
@@ -92,14 +93,14 @@ public class InvitationDaoImpl implements InvitationDao {
         }
     }
 
-    private void createPreparedStatement(Invitation invitation, Connection connection, String string) throws SQLException {
+    private PreparedStatement createPreparedStatement(Invitation invitation, Connection connection, String string) throws SQLException {
         PreparedStatement preparedStatement = connection.prepareStatement(string);
         preparedStatement.setInt(1, invitation.getPartnerId());
         preparedStatement.setString(2, invitation.getInvitationsCode());
         preparedStatement.setDate(3, invitation.getDateEnd());
         preparedStatement.setString(4, invitation.getStatus());
         preparedStatement.setInt(5, invitation.getId());
-        preparedStatement.executeUpdate();
+        return preparedStatement;
     }
 
     @Override
@@ -108,7 +109,7 @@ public class InvitationDaoImpl implements InvitationDao {
             throw new EntityNotFoundException();
         }
         try (Connection connection = jdbcConnection.getConnection()) {
-            createPreparedStatement(invitation, connection, UPDATE);
+            createPreparedStatement(invitation, connection, UPDATE).executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
