@@ -82,6 +82,7 @@ public class AssignmentDaoImpl implements AssignmentDao {
                      .prepareStatement(GET_UNIQUE_ID)) {
             preparedStatement.setInt(1, assignmentId);
             ResultSet resultSet = preparedStatement.executeQuery();
+            resultSet.next();
             assignment = assigmentMapper(resultSet);
         } catch (SQLException exception) {
             exception.printStackTrace();
@@ -102,9 +103,6 @@ public class AssignmentDaoImpl implements AssignmentDao {
             preparedStatement.setInt(2, employeeId);
             ResultSet resultSet = preparedStatement.executeQuery();
             resultSet.next();
-            if (!resultSet.first()) {
-                throw new EntityNotFoundException();
-            }
             assignment = assigmentMapper(resultSet);
         } catch (SQLException exception) {
             exception.printStackTrace();
