@@ -76,4 +76,14 @@ public class AssignmentResource {
         assignmentDao.delete(projectId, employeeId);
         return Response.status(Response.Status.OK.getStatusCode()).build();
     }
+
+    @DELETE
+    @Path("/{assignmentId}")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response delete(
+            @PathParam("assignmentId") int assignmentId
+    ) {
+        assignmentDao.delete(assignmentId);
+        return Response.status(Response.Status.OK.getStatusCode()).build();
+    }
 }

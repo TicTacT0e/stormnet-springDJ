@@ -16,6 +16,8 @@ public interface AssignmentDao {
 
     void save(Assignment assigment);
 
+    void delete(int assignmentId);
+
     void delete(int projectId, int employeeId);
 
     void edit(Assignment assigment);

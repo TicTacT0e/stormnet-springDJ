@@ -8,7 +8,10 @@ import app.services.JDBCConnection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -35,6 +38,9 @@ public class AssignmentDaoImpl implements AssignmentDao {
     private static final String DELETE =
             "DELETE FROM timesheet_dev.Assignment "
                     + "WHERE projectId=? AND employeeId=?";
+    private static final String DELETE_UNIQUE_ID =
+            "DELETE FROM timesheet_dev.Assignment "
+                    + "WHERE id=?";
     private static final String UPDATE =
             "UPDATE timesheet_dev.Assignment "
                     + "SET activityId=?, workLoadInMinutes=? "
@@ -120,6 +126,21 @@ public class AssignmentDaoImpl implements AssignmentDao {
             preparedStatement.setInt(4, assignment.getActivityId());
             preparedStatement.setInt(5, assignment.getWorkLoadInMinutes());
             preparedStatement.execute();
+        } catch (SQLException exception) {
+            exception.printStackTrace();
+        }
+    }
+
+    @Override
+    public void delete(int assignmentId) {
+        if (!isAssignmentExists(assignmentId)) {
+            throw new EntityNotFoundException();
+        }
+        try (Connection connection = jdbcConnection.getConnection();
+             PreparedStatement preparedStatement = connection
+                     .prepareStatement(DELETE_UNIQUE_ID)) {
+            preparedStatement.setInt(1, assignmentId);
+            preparedStatement.executeUpdate();
         } catch (SQLException exception) {
             exception.printStackTrace();
         }
