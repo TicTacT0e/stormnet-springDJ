@@ -31,6 +31,7 @@ CREATE TABLE  `Position` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 create table Assignment (
+  id BIGINT NOT NULL unique,
   projectId BIGINT NOT NULL,
   employeeId BIGINT NOT NULL,
   activityId BIGINT NOT NULL,
