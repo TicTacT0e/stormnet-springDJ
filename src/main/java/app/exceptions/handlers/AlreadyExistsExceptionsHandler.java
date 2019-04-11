@@ -12,6 +12,7 @@ public class AlreadyExistsExceptionsHandler
 
     @Override
     public Response toResponse(EntityAlreadyExistsException exception) {
-        return Response.status(Response.Status.CONFLICT.getStatusCode()).build();
+        return Response
+                .status(Response.Status.CONFLICT.getStatusCode()).build();
     }
 }

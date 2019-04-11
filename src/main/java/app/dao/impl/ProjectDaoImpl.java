@@ -109,6 +109,11 @@ public class ProjectDaoImpl implements ProjectDao {
     }
 
     @Override
+    public synchronized void delete(int id) {
+        delete(findById(id));
+    }
+
+    @Override
     public synchronized void edit(Project project) {
         try (Connection connection = setConnection()) {
             PreparedStatement preparedStatement = connection.prepareStatement("UPDATE" + table + "SET code = ? WHERE id = ?");
