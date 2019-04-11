@@ -33,6 +33,10 @@
         <dbunit.version>2.5.4</dbunit.version>
         <slf4j.version>1.7.26</slf4j.version>
 
+        <jdbc.driver>com.mysql.jdbc.Driver</jdbc.driver>
+        <db.url>jdbc:mysql://localhost:3306/timesheet_dev</db.url>
+        <db.username>username</db.username>
+        <db.password>qwerty123</db.password>
     </properties>
 
     <dependencies>
@@ -213,14 +217,9 @@
 
             <plugin>
                 <artifactId>maven-war-plugin</artifactId>
+                <version>3.2.2</version>
                 <configuration>
-                    <attachClasses>true</attachClasses>
-                    <webResources>
-                        <resource>
-                            <directory>src/main/java/app</directory>
-                            <filtering>true</filtering>
-                        </resource>
-                    </webResources>
+                    <failOnMissingWebXml>false</failOnMissingWebXml>
                 </configuration>
             </plugin>
 

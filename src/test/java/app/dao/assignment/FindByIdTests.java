@@ -23,16 +23,19 @@ public class FindByIdTests extends AssignmentDaoTestsInitiator {
 
         Assignment assignment = assignmentDao.findById(3, 4);
 
-        Assert.assertEquals(expectedTable
-                        .getValue(NUMBER_OF_FIRST_ROW, "projectId")
+        Assert.assertEquals(expectedTable.getValue(NUMBER_OF_FIRST_ROW, "id")
+                        .toString(),
+                String.valueOf(assignment.getId()));
+        Assert.assertEquals(expectedTable.getValue(NUMBER_OF_FIRST_ROW, "projectId")
                         .toString(),
                 String.valueOf(assignment.getProjectId()));
-        Assert.assertEquals(expectedTable
-                        .getValue(NUMBER_OF_FIRST_ROW, "employeeId")
+        Assert.assertEquals(expectedTable.getValue(NUMBER_OF_FIRST_ROW, "employeeId")
                         .toString(),
                 String.valueOf(assignment.getEmployeeId()));
-        Assert.assertEquals(expectedTable
-                        .getValue(NUMBER_OF_FIRST_ROW, "workLoadInMinutes")
+        Assert.assertEquals(expectedTable.getValue(NUMBER_OF_FIRST_ROW, "activityId")
+                        .toString(),
+                String.valueOf(assignment.getActivityId()));
+        Assert.assertEquals(expectedTable.getValue(NUMBER_OF_FIRST_ROW, "workLoadInMinutes")
                         .toString(),
                 String.valueOf(assignment.getWorkLoadInMinutes()));
     }

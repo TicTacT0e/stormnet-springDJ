@@ -1,4 +1,4 @@
-package app.Services;
+package app.services;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -16,13 +16,13 @@ public class JDBCConnection {
     private String driver;
 
     @Value("${db.url}")
-    public String URL;
+    private String URL;
 
     @Value("${db.username}")
-    public String username;
+    private String username;
 
     @Value("${db.password}")
-    public String password;
+    private String password;
 
 
     public Connection getConnection() {

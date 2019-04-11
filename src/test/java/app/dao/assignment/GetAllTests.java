@@ -24,12 +24,18 @@ public class GetAllTests extends AssignmentDaoTestsInitiator {
         List<Assignment> assignments = assignmentDao.getAll();
         int index = NUMBER_OF_FIRST_ROW;
         for (Assignment assignment : assignments) {
+            Assert.assertEquals(expectedTable.getValue(index, "id")
+                            .toString(),
+                    String.valueOf(assignment.getId()));
             Assert.assertEquals(expectedTable.getValue(index, "projectId")
                             .toString(),
                     String.valueOf(assignment.getProjectId()));
             Assert.assertEquals(expectedTable.getValue(index, "employeeId")
                             .toString(),
                     String.valueOf(assignment.getEmployeeId()));
+            Assert.assertEquals(expectedTable.getValue(index, "activityId")
+                            .toString(),
+                    String.valueOf(assignment.getActivityId()));
             Assert.assertEquals(expectedTable.getValue(index, "workLoadInMinutes")
                             .toString(),
                     String.valueOf(assignment.getWorkLoadInMinutes()));
