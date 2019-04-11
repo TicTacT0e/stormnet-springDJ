@@ -14,7 +14,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 @Repository
-public class InvitationDaoImpl implements InvitationDao, BasicCrudDao {
+public class InvitationDaoImpl implements InvitationDao {
 
     private static final String GET_ALL =
             "SELECT * FROM timesheet_dev.Invitations";
@@ -57,33 +57,6 @@ public class InvitationDaoImpl implements InvitationDao, BasicCrudDao {
         }
 
         return invitationList;
-    }
-
-    @Override
-    public void deleteById(int id) {
-
-    }
-
-    @Override
-    public void deleteAll() {
-
-    }
-
-    @Override
-    public void edit(Object entity) {
-        if (isInvitationExists(invitation.getId())) {
-            throw new EntityNotFoundException();
-        }
-        try (Connection connection = jdbcConnection.getConnection()) {
-            createPreparedStatement(invitation, connection, UPDATE);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    public void update(Object entity) {
-
     }
 
     @Override
@@ -199,5 +172,4 @@ public class InvitationDaoImpl implements InvitationDao, BasicCrudDao {
 
         return invitation;
     }
-
 }
