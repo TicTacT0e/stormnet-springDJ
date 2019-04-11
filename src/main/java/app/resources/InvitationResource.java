@@ -25,10 +25,10 @@ public class InvitationResource {
     }
 
     @GET
-    @Path("/{employeeId}")
+    @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Invitation get(@PathParam("employeeId") int employeeId) {
-        return invitationDao.findById(employeeId);
+    public Invitation get(@PathParam("id") int id) {
+        return invitationDao.findById(id);
     }
 
     @POST
@@ -52,10 +52,10 @@ public class InvitationResource {
     }
 
     @DELETE
-    @Path("/delete/{employeeId}")
+    @Path("/delete/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response delete(@PathParam("employeeId") int employeeId) {
-        invitationDao.delete(employeeId);
+    public Response delete(@PathParam("id") int id) {
+        invitationDao.delete(id);
         return Response.status(Response.Status.OK.getStatusCode()).build();
     }
 }
