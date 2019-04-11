@@ -3,6 +3,7 @@ package app.entities;
 import java.util.Date;
 
 public class Notification {
+
     private int id;
     private Date createdAt;
     private int employeeId;

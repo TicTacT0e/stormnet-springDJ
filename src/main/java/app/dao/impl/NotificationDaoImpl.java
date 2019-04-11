@@ -10,7 +10,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class NotificationDaoImpl implements NotificationDao {
-    public static final String CREATE_NOTIFICATION = "INSERT INTO notification (id, createdAt, employeeId, status, title, description, link) VALUES(?, ?, ?, ?, ?, ?, ?)";
+    public static final String CREATE_NOTIFICATION = "INSERT INTO notification (createdAt, employeeId, status, title, description, link) VALUES(?, ?, ?, ?, ?, ?)";
     public static final String FIND_ALL = "SELECT * FROM notification";
     public static final String FIND_BY_ID = "SELECT * FROM notification WHERE id = ?";
     public static final String DELETE_BY_ID = "DELETE FROM notification WHERE id = ?";
@@ -21,47 +21,35 @@ public class NotificationDaoImpl implements NotificationDao {
 
     @Override
     public void create(Notification notification) {
-        try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection connection = DriverManager.getConnection(
-                    "jdbc:mysql://localhost:3306/timesheet_dev?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC",
-                    "username",
-                    "qwerty123");
-//            Connection connection = jdbcConnection.getConnection();
-            PreparedStatement statement = connection.prepareStatement(CREATE_NOTIFICATION);
-            statement.setInt(1, notification.getId());
-            statement.setTimestamp(2, new Timestamp(new java.util.Date().getTime()));
-            statement.setInt(3, notification.getEmployeeId());
-            statement.setString(4, notification.getStatus());
-            statement.setString(5, notification.getTitle());
-            statement.setString(6, notification.getDescription());
-            statement.setString(7, notification.getLink());
+        try (Connection connection = jdbcConnection.getConnection();
+             PreparedStatement statement = connection.prepareStatement((CREATE_NOTIFICATION), Statement.RETURN_GENERATED_KEYS)) {
+            setValues(statement, notification);
             statement.executeUpdate();
-            close(connection, statement);
         } catch (SQLException e) {
             e.printStackTrace();
-        } catch (ClassNotFoundException e) {
+        }
+    }
+
+    @Override
+    public void update(Notification notification, int id) {
+        try (Connection connection = jdbcConnection.getConnection();
+             PreparedStatement statement = connection.prepareStatement(UPDATE)) {
+            setValues(statement, notification);
+            statement.setInt(7, id);
+            statement.executeUpdate();
+        } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
     @Override
     public Notification findById(int id) {
-        try {
-            Connection connection = jdbcConnection.getConnection();
-            PreparedStatement statement = connection.prepareStatement(FIND_BY_ID);
+        try (Connection connection = jdbcConnection.getConnection();
+             PreparedStatement statement = connection.prepareStatement(FIND_BY_ID)) {
             statement.setInt(1, id);
             ResultSet resultSet = statement.executeQuery();
             resultSet.next();
-            Notification notification = new Notification(
-                    resultSet.getInt("id"),
-                    resultSet.getDate("createdAt"),
-                    resultSet.getInt("employeeId"),
-                    resultSet.getString("status"),
-                    resultSet.getString("title"),
-                    resultSet.getString("description"),
-                    resultSet.getString("link"));
-            close(connection, statement, resultSet);
+            Notification notification = getNotification(resultSet);
             return notification;
         } catch (SQLException e) {
             e.printStackTrace();
@@ -71,22 +59,14 @@ public class NotificationDaoImpl implements NotificationDao {
 
     @Override
     public List<Notification> findAll() {
-        try {
+        try (Connection connection = jdbcConnection.getConnection();
+             PreparedStatement statement = connection.prepareStatement(FIND_ALL);
+             ResultSet resultSet = statement.executeQuery()) {
             List<Notification> notifications = new LinkedList<>();
-            Connection connection = jdbcConnection.getConnection();
-            PreparedStatement statement = connection.prepareStatement(FIND_ALL);
-            ResultSet resultSet = statement.executeQuery();
+
             while (resultSet.next()) {
-                notifications.add(new Notification(
-                        resultSet.getInt("id"),
-                        resultSet.getDate("createdAt"),
-                        resultSet.getInt("employeeId"),
-                        resultSet.getString("status"),
-                        resultSet.getString("title"),
-                        resultSet.getString("description"),
-                        resultSet.getString("link")));
+                notifications.add(getNotification(resultSet));
             }
-            close(connection, statement, resultSet);
             return notifications;
         } catch (SQLException e) {
             e.printStackTrace();
@@ -95,52 +75,44 @@ public class NotificationDaoImpl implements NotificationDao {
     }
 
     @Override
-    public void update(Notification notification, int id) {
+    public void delete(int id) {
+        try (Connection connection = jdbcConnection.getConnection();
+             PreparedStatement statement = connection.prepareStatement(DELETE_BY_ID)) {
+            statement.setInt(1, id);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public Notification getNotification(ResultSet resultSet) {
         try {
-            Connection connection = jdbcConnection.getConnection();
-            PreparedStatement statement = connection.prepareStatement(UPDATE);
+            return new Notification(
+                    resultSet.getInt("id"),
+                    resultSet.getDate("createdAt"),
+                    resultSet.getInt("employeeId"),
+                    resultSet.getString("status"),
+                    resultSet.getString("title"),
+                    resultSet.getString("description"),
+                    resultSet.getString("link"));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public void setValues(PreparedStatement statement, Notification notification) {
+        try {
             statement.setTimestamp(1, new Timestamp(new java.util.Date().getTime()));
             statement.setInt(2, notification.getEmployeeId());
             statement.setString(3, notification.getStatus());
             statement.setString(4, notification.getTitle());
             statement.setString(5, notification.getDescription());
             statement.setString(6, notification.getLink());
-            statement.setInt(7, id);
-            statement.executeUpdate();
-            close(connection, statement);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    public void delete(int id) {
-        try {
-            Connection connection = jdbcConnection.getConnection();
-            PreparedStatement statement = connection.prepareStatement(DELETE_BY_ID);
-            statement.setInt(1, id);
-            statement.executeUpdate();
-            close(connection, statement);
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
-    }
-
-    public void close(Connection connection, Statement statement) throws SQLException {
-        if (statement != null) {
-            statement.close();
-        }
-        if (connection != null) {
-            connection.close();
-        }
-    }
-
-    public void close(Connection connection, Statement statement, ResultSet resultSet) throws SQLException {
-        if (resultSet != null) {
-            resultSet.close();
-        }
-        close(connection, statement);
     }
 
 }
