@@ -22,37 +22,25 @@ public class AssignmentDaoImpl implements AssignmentDao {
 
     private static final String GET_ALL =
             "SELECT * FROM timesheet_dev.Assignment";
-    private static final String GET_UNIQUE_ID =
-            "SELECT * FROM timesheet_dev.Assignment "
-                    + "WHERE id=?";
     private static final String GET =
             "SELECT * FROM timesheet_dev.Assignment "
-                    + "WHERE projectId=? AND employeeId=?";
+                    + "WHERE id=?";
     private static final String INSERT =
             "INSERT INTO timesheet_dev.Assignment "
-                    + "(id, activityId, workLoadInMinutes, projectId, employeeId) "
+                    + "(projectId, employeeId, activityId, workLoadInMinutes, id) "
                     + "VALUE (?, ?, ?, ?, ?)";
     private static final String DELETE =
-            "DELETE FROM timesheet_dev.Assignment "
-                    + "WHERE projectId=? AND employeeId=?";
-    private static final String DELETE_UNIQUE_ID =
             "DELETE FROM timesheet_dev.Assignment "
                     + "WHERE id=?";
     private static final String UPDATE =
             "UPDATE timesheet_dev.Assignment "
-                    + "SET id=?, activityId=?, workLoadInMinutes=? "
-                    + "WHERE projectId=? AND employeeId=?";
-    private static final String IS_EXISTS_UNIQUE_ID =
+                    + "SET projectId=?, employeeId=?, activityId=?, workLoadInMinutes=? "
+                    + "WHERE id=?";
+    private static final String IS_EXISTS =
             "SELECT EXISTS " +
                     "(SELECT id "
                     + "FROM timesheet_dev.Assignment"
                     + " WHERE id=?)";
-    private static final String IS_EXISTS =
-            "SELECT EXISTS " +
-                    "(SELECT projectId, employeeId "
-                    + "FROM timesheet_dev.Assignment"
-                    + " WHERE projectId=? AND employeeId=?)";
-
 
     @Override
     public List<Assignment> getAll() {
@@ -69,31 +57,12 @@ public class AssignmentDaoImpl implements AssignmentDao {
     }
 
     @Override
-    public Assignment findById(int assignmentId) {
-        Assignment assignment = null;
-        try (Connection connection = jdbcConnection.getConnection();
-             PreparedStatement preparedStatement = connection
-                     .prepareStatement(GET_UNIQUE_ID)) {
-            preparedStatement.setInt(1, assignmentId);
-            ResultSet resultSet = preparedStatement.executeQuery();
-            if (isResultSetEmpty(resultSet)) {
-                throw new EntityNotFoundException();
-            }
-            assignment = assigmentMapper(resultSet);
-        } catch (SQLException exception) {
-            exception.printStackTrace();
-        }
-        return assignment;
-    }
-
-    @Override
-    public Assignment findById(int projectId, int employeeId) {
+    public Assignment findById(int id) {
         Assignment assignment = null;
         try (Connection connection = jdbcConnection.getConnection();
              PreparedStatement preparedStatement = connection
                      .prepareStatement(GET)) {
-            preparedStatement.setInt(1, projectId);
-            preparedStatement.setInt(2, employeeId);
+            preparedStatement.setInt(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
             if (isResultSetEmpty(resultSet)) {
                 throw new EntityNotFoundException();
@@ -119,31 +88,14 @@ public class AssignmentDaoImpl implements AssignmentDao {
     }
 
     @Override
-    public void delete(int assignmentId) {
-        if (!isAssignmentExists(assignmentId)) {
-            throw new EntityNotFoundException();
-        }
-        try (Connection connection = jdbcConnection.getConnection();
-             PreparedStatement preparedStatement
-                     = getPreparedStatementForDelete(DELETE_UNIQUE_ID,
-                     assignmentId,
-                     connection)) {
-            preparedStatement.executeUpdate();
-        } catch (SQLException exception) {
-            exception.printStackTrace();
-        }
-    }
-
-    @Override
-    public void delete(int projectId, int employeeId) {
-        if (!isAssignmentExists(projectId, employeeId)) {
+    public void delete(int id) {
+        if (!isAssignmentExists(id)) {
             throw new EntityNotFoundException();
         }
         try (Connection connection = jdbcConnection.getConnection();
              PreparedStatement preparedStatement
                      = getPreparedStatementForDelete(DELETE,
-                     projectId,
-                     employeeId,
+                     id,
                      connection)) {
             preparedStatement.executeUpdate();
         } catch (SQLException exception) {
@@ -165,27 +117,11 @@ public class AssignmentDaoImpl implements AssignmentDao {
         }
     }
 
-    private boolean isAssignmentExists(int assignmentId) {
-        try (Connection connection = jdbcConnection.getConnection();
-             PreparedStatement preparedStatement
-                     = getPreparedStatementForDelete(IS_EXISTS_UNIQUE_ID,
-                     assignmentId,
-                     connection)) {
-            ResultSet resultSet = preparedStatement.executeQuery();
-            return resultSet.next()
-                    && resultSet.getInt(1) == ROW_EXISTS;
-        } catch (SQLException exception) {
-            exception.printStackTrace();
-        }
-        return false;
-    }
-
-    private boolean isAssignmentExists(int projectId, int employeeId) {
+    private boolean isAssignmentExists(int id) {
         try (Connection connection = jdbcConnection.getConnection();
              PreparedStatement preparedStatement
                      = getPreparedStatementForDelete(IS_EXISTS,
-                     projectId,
-                     employeeId,
+                     id,
                      connection)) {
             ResultSet resultSet = preparedStatement.executeQuery();
             return resultSet.next()
@@ -206,29 +142,17 @@ public class AssignmentDaoImpl implements AssignmentDao {
         return preparedStatement;
     }
 
-    private PreparedStatement getPreparedStatementForDelete(
-            String query,
-            int projectId,
-            int employeeId,
-            Connection connection
-    ) throws SQLException {
-        PreparedStatement preparedStatement = connection.prepareStatement(query);
-        preparedStatement.setInt(1, projectId);
-        preparedStatement.setInt(2, employeeId);
-        return preparedStatement;
-    }
-
     private PreparedStatement getPreparedStatementForUpdate(
             String query,
             Assignment assignment,
             Connection connection
     ) throws SQLException {
         PreparedStatement preparedStatement = connection.prepareStatement(query);
-        preparedStatement.setInt(1, assignment.getId());
-        preparedStatement.setInt(2, assignment.getActivityId());
-        preparedStatement.setInt(3, assignment.getWorkLoadInMinutes());
-        preparedStatement.setInt(4, assignment.getProjectId());
-        preparedStatement.setInt(5, assignment.getEmployeeId());
+        preparedStatement.setInt(1, assignment.getProjectId());
+        preparedStatement.setInt(2, assignment.getEmployeeId());
+        preparedStatement.setInt(3, assignment.getActivityId());
+        preparedStatement.setInt(4, assignment.getWorkLoadInMinutes());
+        preparedStatement.setInt(5, assignment.getId());
         return preparedStatement;
     }
 

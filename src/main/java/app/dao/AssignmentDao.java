@@ -10,15 +10,11 @@ public interface AssignmentDao {
 
     List<Assignment> getAll();
 
-    Assignment findById(int assignmentId);
-
-    Assignment findById(int projectId, int employeeId);
+    Assignment findById(int id);
 
     void save(Assignment assigment);
 
-    void delete(int assignmentId);
-
-    void delete(int projectId, int employeeId);
+    void delete(int id);
 
     void edit(Assignment assigment);
 }
