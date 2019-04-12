@@ -10,6 +10,7 @@ public class Company {
     private int id;
     private String name;
     private String logoUrl;
+    private int OwnerId;
 
     private List<Employee> employees = new LinkedList<>();
     private List<Project> projects = new LinkedList<>();
@@ -17,16 +18,18 @@ public class Company {
     public Company() {
     }
 
-    public Company(int id, String name, String logoUrl) {
+    public Company(int id, String name, String logoUrl, int ownerId) {
         this.id = id;
         this.name = name;
         this.logoUrl = logoUrl;
+        this.OwnerId = ownerId;
     }
 
     public Company(Company company) {
         this(company.getId(),
                 company.getName(),
-                company.getLogoUrl());
+                company.getLogoUrl(),
+                company.getOwnerId());
         this.employees = company.getEmployees();
         this.projects = company.getProjects();
     }
@@ -41,6 +44,10 @@ public class Company {
 
     public String getLogoUrl() {
         return logoUrl;
+    }
+
+    public int getOwnerId() {
+        return OwnerId;
     }
 
     public void addEmployee(Employee employee) {
@@ -69,6 +76,10 @@ public class Company {
 
     public void setLogoUrl(String logoUrl) {
         this.logoUrl = logoUrl;
+    }
+
+    public void setOwnerId(int ownerId) {
+        OwnerId = ownerId;
     }
 
     @Override
