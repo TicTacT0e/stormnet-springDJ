@@ -1,11 +1,9 @@
 package app.config.beans;
 
 
-import app.dao.CompanyDao;
-import app.dao.EmployeeDao;
-import app.dao.LogsDao;
-import app.dao.ProjectDao;
+import app.dao.*;
 import app.dao.impl.*;
+import app.entities.Company;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -13,7 +11,7 @@ import org.springframework.context.annotation.Configuration;
 public class DaoConfig {
 
     @Bean
-    public CompanyDao getCompanyDao() {
+    public BasicCrudDao<Company> getCompanyDao() {
         return new CompanyDaoImpl();
     }
 

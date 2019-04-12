@@ -1,81 +1,110 @@
 package app.dao.impl;
 
-import app.dao.CompanyDao;
+import app.dao.BasicCrudDao;
 import app.entities.Company;
-import app.entities.Employee;
-import app.entities.Project;
-import app.exceptions.EntityAlreadyExistsException;
-import app.exceptions.EntityNotFoundException;
+import app.services.JDBCConnection;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.sql.*;
 import java.util.LinkedList;
 import java.util.List;
 
 @Repository
-public class CompanyDaoImpl implements CompanyDao {
+public class CompanyDaoImpl implements BasicCrudDao<Company> {
 
-    private static List<Company> companies = new LinkedList<>();
+    @Autowired
+    JDBCConnection jdbcConnection;
 
-    static {
-        companies.add(
-                new Company(0, "Horn&Hooves", "someHorn&HoovesUrl"));
+    private Company getCompany(ResultSet resultSet) throws Exception {
+        Company company = null;
+        try{
+            company = new Company(resultSet.getInt("id"),
+                    resultSet.getString("name"),
+                    resultSet.getString("logo"),
+                    resultSet.getInt("qwnerId"));
+        }
+        catch (SQLException e){
+            e.getMessage();
+        }
+        return company;
     }
 
     @Override
-    public synchronized List<Company> getAll() {
-        return companies;
+    public synchronized List<Company> getAll(){
+
+        List<Company> allCompanys = new LinkedList<>();
+
+        try(Connection connection = jdbcConnection.getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement("select * from Company")) {
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while(resultSet.next()){
+                allCompanys.add(getCompany(resultSet));
+            }
+
+        } catch (Exception e){
+            e.getMessage();
+        }
+        return allCompanys;
     }
+
+
 
     @Override
     public synchronized Company findById(int id) {
-        for (Company company : companies) {
-            if (company.getId() == id) {
-                return company;
-            }
+        Company company = null;
+        try(Connection connection = jdbcConnection.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement("select * from company where id = ?")) {
+            preparedStatement.setInt(1, id);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            company = getCompany(resultSet);
+        } catch (Exception e){
+            e.getMessage();
         }
-        throw new EntityNotFoundException();
+        return company;
     }
 
     @Override
-    public synchronized void save(Company company) {
-        for (Company savedCompany : companies) {
-            if (savedCompany.getId() == company.getId()) {
-                throw new EntityAlreadyExistsException();
-            }
+    public synchronized void update(Company company) {
+        try(Connection connection = jdbcConnection.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(
+                    "update company set name = ?, logo = ?," +
+                            " ownerId = ? where id = ? ")) {
+            preparedStatement.setString(1, company.getName());
+            preparedStatement.setString(2, company.getLogoUrl());
+            preparedStatement.setInt(3, company.getOwnerId());
+            preparedStatement.setInt(4, company.getId());
+            preparedStatement.execute();
+        } catch (SQLException e){
+            e.getMessage();
         }
-        companies.add(company);
     }
 
     @Override
-    public synchronized void delete(Company retiringCompany) {
-        if (!companies.contains(retiringCompany)) {
-            throw new EntityNotFoundException();
+    public synchronized void deleteById(int id) {
+        try(Connection connection = jdbcConnection.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(
+                    "delete from company where id = ?")) {
+            preparedStatement.setInt(1, id);
+            preparedStatement.execute();
+        } catch (SQLException e){
+            e.getMessage();
         }
-        companies.remove(retiringCompany);
     }
 
     @Override
-    public synchronized void delete(int id) {
-        delete(findById(id));
-    }
-
-    @Override
-    public synchronized void edit(Company company) {
-        Company oldCompany = findById(company.getId());
-        int index = companies.indexOf(oldCompany);
-        companies.remove(oldCompany);
-        companies.add(index, company);
-    }
-
-    @Override
-    public synchronized void addEmployeeToCompany(Company company,
-                                                  Employee employee) {
-        company.addEmployee(employee);
-    }
-
-    @Override
-    public synchronized void addProjectToCompany(Company company,
-                                                 Project project) {
-        company.addProject(project);
+    public void edit(Company company) {
+        try(Connection connection = jdbcConnection.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(
+                    "insert into company values (?, ?, ?, ?)")) {
+            preparedStatement.setInt(1, company.getId());
+            preparedStatement.setString(2, company.getName());
+            preparedStatement.setString(3, company.getLogoUrl());
+            preparedStatement.setInt(4, company.getOwnerId());
+            preparedStatement.execute();
+        }
+        catch (SQLException e){
+            e.getMessage();
+        }
     }
 }

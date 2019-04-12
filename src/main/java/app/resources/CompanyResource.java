@@ -1,7 +1,7 @@
 package app.resources;
 
 
-import app.dao.CompanyDao;
+import app.dao.BasicCrudDao;
 import app.dao.EmployeeDao;
 import app.dao.ProjectDao;
 import app.entities.Company;
@@ -21,7 +21,7 @@ public class CompanyResource {
     private static final Logger log = Logger.getLogger(CompanyResource.class);
 
     @Autowired
-    private CompanyDao companyDao;
+    private BasicCrudDao companyDao;
     @Autowired
     private EmployeeDao employeeDao;
     @Autowired
@@ -46,7 +46,7 @@ public class CompanyResource {
     @Path("/add")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response add(Company company) {
-        companyDao.save(company);
+        companyDao.update(company);
         return Response.status(Response.Status.CREATED.getStatusCode()).build();
     }
 
