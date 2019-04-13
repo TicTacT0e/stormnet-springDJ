@@ -1,55 +1,61 @@
 package app.dao.impl;
 
-import app.dao.LogsDao;
 import app.entities.Logs;
-import app.entities.namespace.LogsNamespace;
-import app.exceptions.EntityNotFoundException;
-import org.springframework.stereotype.Repository;
+import java.sql.*;
+import java.util.Calendar;
 
-import java.util.Date;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.ListIterator;
+public class LogsDaoImpl {
+    private final String HOST = "jdbc:mysql://localhost:3306/logs";
+    private final String USERNAME = "root";
+    private final String PASSWORD = "Kraskovski K30197";
+    private final String query = "select*from logs";
+    PreparedStatement preparedStatement = null;
 
-@Repository
-public class LogsDaoImpl implements LogsDao {
-
-    private static List<Logs> logsList = new LinkedList<>();
-
-    @Override
-    public synchronized List<Logs> getLogFor(LogsNamespace logsNamespace) {
-        Date boundaryDate = logsNamespace.getBoundaryDate();
-        LinkedList<Logs> resultLogsList = new LinkedList<>();
-
-        ListIterator<Logs> logsIterator
-                = logsList.listIterator(logsList.size());
-        Logs previous;
-        while (logsIterator.hasPrevious()) {
-            previous = logsIterator.previous();
-            if (previous.getDate().before(boundaryDate)) {
-                break;
+    public String getAll() {
+        Logs logs = new Logs();
+        try (Connection connection = DriverManager.getConnection(HOST, USERNAME, PASSWORD)) {
+            Statement st = connection.createStatement();
+            ResultSet resultSet = st.executeQuery(query);
+            while (resultSet.next()) {
+                logs.setId(resultSet.getInt(1));
+                logs.setProject(resultSet.getInt(2));
+                logs.setEmployee(resultSet.getInt(3));
+                logs.setTime(resultSet.getInt(4));
+                logs.setComment(resultSet.getString(5));
+                logs.setDate(resultSet.getDate(6));
+                System.out.println(logs.toString());
             }
-            resultLogsList.add(previous);
+            st.close();
+        } catch (SQLException e) {
         }
-        return resultLogsList;
+        return logs.toString();
     }
 
-    @Override
-    public synchronized List<Logs> getAll() {
-        return logsList;
-    }
-
-    @Override
-    public synchronized void save(Logs logs) {
-        logsList.add(logs);
-    }
-
-    @Override
-    public synchronized void delete(Logs retiringLogs) {
-        if (!logsList.contains(retiringLogs)) {
-            throw new EntityNotFoundException();
+    public void save(app.entities.Logs logs) {
+        try (Connection connection = DriverManager.getConnection(HOST, USERNAME, PASSWORD)) {
+            preparedStatement = connection.prepareStatement("INSERT INTO logs (projectId,employeeId," +
+                    "time,comment,date) values (?,?,?,?,?)");
+            preparedStatement.setInt(1, logs.getProject());
+            preparedStatement.setInt(2, logs.getEmployee());
+            preparedStatement.setInt(3, logs.getTime());
+            preparedStatement.setString(4, logs.getComment());
+            preparedStatement.setDate(5, new Date(Calendar.getInstance().getTimeInMillis()));
+            preparedStatement.execute();
+            preparedStatement.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-        logsList.remove(retiringLogs);
     }
 
+    public void delete() {
+        try (Connection connection = DriverManager.getConnection(HOST, USERNAME, PASSWORD)) {
+            preparedStatement = connection.prepareStatement("delete from logs where id=?");
+            preparedStatement.setInt(1, 9);
+            preparedStatement.executeUpdate();
+            preparedStatement.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }
+

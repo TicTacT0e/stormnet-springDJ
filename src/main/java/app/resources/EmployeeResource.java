@@ -1,42 +1,44 @@
 package app.resources;
 
+import app.dao.EmployeeDao;
+import app.dao.ProjectDao;
 import app.entities.Employee;
-import app.service.EmployeeService;
-import app.service.ProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.List;
 
+@Component
 @Path("/employee")
 public class EmployeeResource {
 
     @Autowired
-    private EmployeeService employeeService;
+    private EmployeeDao employeeDao;
     @Autowired
-    private ProjectService projectService;
+    private ProjectDao projectDao;
 
     @GET
     @Path("/all")
     @Produces(MediaType.APPLICATION_JSON)
     public List<Employee> getAll() {
-        return employeeService.getEmployees();
+        return employeeDao.getAll();
     }
 
     @GET
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public Employee get(@PathParam("id") int id) {
-        return employeeService.findById(id);
+        return employeeDao.findById(id);
     }
 
     @POST
     @Path("/add")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response add(Employee employee) {
-        employeeService.save(employee);
+        employeeDao.save(employee);
         return Response.status(Response.Status.CREATED.getStatusCode()).build();
     }
 
@@ -44,7 +46,7 @@ public class EmployeeResource {
     @Path("/edit/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response edit(@PathParam("id") int id, Employee employee) {
-        employeeService.edit(employee);
+        employeeDao.edit(employee);
         return Response.status(Response.Status.CREATED.getStatusCode()).build();
     }
 
@@ -52,17 +54,18 @@ public class EmployeeResource {
     @Path("/delete/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response delete(@PathParam("id") int id) {
-        employeeService.delete(id);
+        employeeDao.delete(id);
         return Response.status(Response.Status.OK.getStatusCode()).build();
     }
 
     @POST
     @Path("/assign/{employeeId}/{projectId}")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response assignToProject(@PathParam("employeeId") int employeeId,
-                                    @PathParam("projectId") int projectId) {
-        employeeService.assignToProject(employeeService.findById(employeeId),
-                projectService.findById(projectId));
+    public Response assignToProject(
+            @PathParam("employeeId") int employeeId,
+            @PathParam("projectId") int projectId) {
+        employeeDao.assignToProject(employeeDao.findById(employeeId),
+                projectDao.findById(projectId));
         return Response.status(Response.Status.OK.getStatusCode()).build();
     }
 }

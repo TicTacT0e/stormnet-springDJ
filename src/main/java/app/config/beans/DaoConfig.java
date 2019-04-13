@@ -7,8 +7,8 @@ import app.dao.LogsDao;
 import app.dao.ProjectDao;
 import app.dao.impl.CompanyDaoImpl;
 import app.dao.impl.EmployeeDaoImpl;
-import app.dao.impl.LogsDaoImpl;
 import app.dao.impl.ProjectDaoImpl;
+import app.dao.impl.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -34,4 +34,5 @@ public class DaoConfig {
     public ProjectDao getProjectDao() {
         return new ProjectDaoImpl();
     }
+
 }
