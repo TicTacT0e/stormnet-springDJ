@@ -1,7 +1,8 @@
 package app.dao.impl;
 
-import app.dao.AssignmentDao;
+import app.dao.BasicCrudDao;
 import app.entities.Assignment;
+import app.entities.Company;
 import app.exceptions.EntityAlreadyExistsException;
 import app.exceptions.EntityNotFoundException;
 import app.services.JDBCConnection;
@@ -13,7 +14,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 @Repository
-public class AssignmentDaoImpl implements AssignmentDao {
+public class AssignmentDaoImpl implements BasicCrudDao<Company> {
 
     @Autowired
     JDBCConnection jdbcConnection;
@@ -57,6 +58,25 @@ public class AssignmentDaoImpl implements AssignmentDao {
     }
 
     @Override
+    public void deleteById(int id) {
+
+    }
+
+    @Override
+    public void deleteAll() {
+
+    }
+
+    @Override
+    public void edit(Company company) {
+
+    }
+
+    @Override
+    public void update(Company company) {
+
+    }
+
     public Assignment findById(int id) {
         Assignment assignment = null;
         try (Connection connection = jdbcConnection.getConnection();
@@ -74,7 +94,6 @@ public class AssignmentDaoImpl implements AssignmentDao {
         return assignment;
     }
 
-    @Override
     public void save(Assignment assignment) {
         try (Connection connection = jdbcConnection.getConnection();
              PreparedStatement preparedStatement
@@ -87,7 +106,6 @@ public class AssignmentDaoImpl implements AssignmentDao {
         }
     }
 
-    @Override
     public void delete(int id) {
         if (!isAssignmentExists(id)) {
             throw new EntityNotFoundException();
@@ -103,7 +121,6 @@ public class AssignmentDaoImpl implements AssignmentDao {
         }
     }
 
-    @Override
     public void edit(Assignment assignment) {
         if (!isAssignmentExists(assignment.getId())) {
             throw new EntityNotFoundException();
