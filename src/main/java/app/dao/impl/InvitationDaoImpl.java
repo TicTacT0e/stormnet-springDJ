@@ -1,7 +1,6 @@
 package app.dao.impl;
 
 import app.dao.BasicCrudDao;
-import app.dao.InvitationDao;
 import app.entities.Invitation;
 import app.exceptions.EntityAlreadyExistsException;
 import app.exceptions.EntityNotFoundException;
@@ -14,7 +13,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 @Repository
-public class InvitationDaoImpl implements InvitationDao {
+public class InvitationDaoImpl implements BasicCrudDao<Invitation> {
 
     private static final String GET_ALL =
             "SELECT * FROM timesheet_dev.Invitations";
@@ -43,23 +42,6 @@ public class InvitationDaoImpl implements InvitationDao {
     private static final int ROW_EXISTS = 1;
 
     @Override
-    public List<Invitation> getAll() {
-        List<Invitation> invitationList = null;
-        try (Connection connection = jdbcConnection.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(GET_ALL)) {
-            ResultSet resultSet = preparedStatement.executeQuery();
-
-            invitationList = invitationListMapper(resultSet);
-
-            resultSet.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        return invitationList;
-    }
-
-    @Override
     public Invitation findById(int id) {
         Invitation invitation = null;
         try (Connection connection = jdbcConnection.getConnection();
@@ -82,9 +64,40 @@ public class InvitationDaoImpl implements InvitationDao {
     }
 
     @Override
-    public void save(Invitation invitation) {
+    public List<Invitation> findAll() {
+        List<Invitation> invitationList = null;
+        try (Connection connection = jdbcConnection.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(GET_ALL)) {
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            invitationList = invitationListMapper(resultSet);
+
+            resultSet.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return invitationList;
+    }
+
+    @Override
+    public void deleteById(int id) {
+        if (isInvitationExists(id)) {
+            throw new EntityNotFoundException();
+        }
         try (Connection connection = jdbcConnection.getConnection()) {
-            createPreparedStatement(invitation, connection, SAVE).executeUpdate();
+            PreparedStatement preparedStatement = connection.prepareStatement(DELETE);
+            preparedStatement.setInt(1, id);
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void create(Invitation entity) {
+        try (Connection connection = jdbcConnection.getConnection()) {
+            createPreparedStatement(entity, connection, SAVE).executeUpdate();
 
         } catch (SQLIntegrityConstraintViolationException exception) {
             throw new EntityAlreadyExistsException();
@@ -103,32 +116,19 @@ public class InvitationDaoImpl implements InvitationDao {
         return preparedStatement;
     }
 
+
     @Override
-    public void edit(Invitation invitation) {
-        if (isInvitationExists(invitation.getId())) {
-            throw new EntityNotFoundException();
-        }
-        try (Connection connection = jdbcConnection.getConnection()) {
-            createPreparedStatement(invitation, connection, UPDATE).executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+    public void delete(Invitation entity) {
+        deleteById(entity.getId());
     }
 
     @Override
-    public void delete(Invitation invitation) {
-        delete(invitation.getId());
-    }
-
-    @Override
-    public void delete(int id) {
-        if (isInvitationExists(id)) {
+    public void update(Invitation entity) {
+        if (isInvitationExists(entity.getId())) {
             throw new EntityNotFoundException();
         }
         try (Connection connection = jdbcConnection.getConnection()) {
-            PreparedStatement preparedStatement = connection.prepareStatement(DELETE);
-            preparedStatement.setInt(1, id);
-            preparedStatement.executeUpdate();
+            createPreparedStatement(entity, connection, UPDATE).executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }

@@ -1,6 +1,6 @@
 package app.resources;
 
-import app.dao.InvitationDao;
+import app.dao.BasicCrudDao;
 import app.entities.Invitation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -15,27 +15,27 @@ import java.util.List;
 public class InvitationResource {
 
     @Autowired
-    private InvitationDao invitationDao;
+    private BasicCrudDao<Invitation> basicCrudDao;
 
     @GET
     @Path("/all")
     @Produces(MediaType.APPLICATION_JSON)
     public List<Invitation> getAll() {
-        return invitationDao.getAll();
+        return basicCrudDao.findAll();
     }
 
     @GET
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public Invitation get(@PathParam("id") int id) {
-        return invitationDao.findById(id);
+        return (Invitation) basicCrudDao.findById(id);
     }
 
     @POST
     @Path("/add")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response add(Invitation invitation) {
-        invitationDao.save(invitation);
+        basicCrudDao.create(invitation);
         return Response.status(Response.Status.CREATED.getStatusCode()).build();
     }
 
@@ -47,7 +47,7 @@ public class InvitationResource {
         if (id != invitation.getId()) {
             return Response.status(Response.Status.CONFLICT.getStatusCode()).build();
         }
-        invitationDao.edit(invitation);
+        basicCrudDao.update(invitation);
         return Response.status(Response.Status.CREATED.getStatusCode()).build();
     }
 
@@ -55,7 +55,7 @@ public class InvitationResource {
     @Path("/delete/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response delete(@PathParam("id") int id) {
-        invitationDao.delete(id);
+        basicCrudDao.deleteById(id);
         return Response.status(Response.Status.OK.getStatusCode()).build();
     }
 }
