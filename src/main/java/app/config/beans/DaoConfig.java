@@ -3,6 +3,7 @@ package app.config.beans;
 
 import app.dao.*;
 import app.dao.impl.*;
+import app.entities.Assignment;
 import app.entities.Company;
 import app.entities.Invitation;
 import org.springframework.context.annotation.Bean;
@@ -37,7 +38,7 @@ public class DaoConfig {
     }
   
     @Bean
-    public AssignmentDao getAssignmentDao() {
+    public BasicCrudDao<Assignment> getAssignmentDao() {
         return new AssignmentDaoImpl();
     }
 

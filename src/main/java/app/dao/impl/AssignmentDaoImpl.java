@@ -1,6 +1,6 @@
 package app.dao.impl;
 
-import app.dao.AssignmentDao;
+import app.dao.BasicCrudDao;
 import app.entities.Assignment;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
@@ -12,18 +12,10 @@ import java.util.List;
 
 @Repository
 @Transactional
-public class AssignmentDaoImpl implements AssignmentDao {
+public class AssignmentDaoImpl implements BasicCrudDao<Assignment> {
 
     @Autowired
     private SessionFactory sessionFactory;
-
-    @Override
-    public List<Assignment> getAll() {
-        Query query
-                = sessionFactory.getCurrentSession()
-                .createQuery("from Assignment");
-        return query.getResultList();
-    }
 
     @Override
     public Assignment findById(int id) {
@@ -32,20 +24,34 @@ public class AssignmentDaoImpl implements AssignmentDao {
     }
 
     @Override
-    public void save(Assignment assignment) {
-        sessionFactory.getCurrentSession()
-                .save(assignment);
+    public List<Assignment> findAll() {
+        Query query
+                = sessionFactory.getCurrentSession()
+                .createQuery("from Assignment");
+        return query.getResultList();
     }
 
     @Override
-    public void delete(int id) {
+    public void deleteById(int id) {
         sessionFactory.getCurrentSession()
                 .delete(findById(id));
     }
 
     @Override
-    public void edit(Assignment assignment) {
+    public void create(Assignment entity) {
         sessionFactory.getCurrentSession()
-                .update(assignment);
+                .save(entity);
+    }
+
+    @Override
+    public void delete(Assignment entity) {
+        sessionFactory.getCurrentSession()
+                .delete(entity);
+    }
+
+    @Override
+    public void update(Assignment entity) {
+        sessionFactory.getCurrentSession()
+                .update(entity);
     }
 }

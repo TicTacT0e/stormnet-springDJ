@@ -1,6 +1,6 @@
 package app.resources;
 
-import app.dao.AssignmentDao;
+import app.dao.BasicCrudDao;
 import app.entities.Assignment;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -15,12 +15,12 @@ import java.util.List;
 public class AssignmentResource {
 
     @Autowired
-    private AssignmentDao assignmentDao;
+    private BasicCrudDao<Assignment> basicCrudDao;
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public List<Assignment> getAll() {
-        return assignmentDao.getAll();
+        return basicCrudDao.findAll();
     }
 
     @GET
@@ -29,13 +29,13 @@ public class AssignmentResource {
     public Assignment get(
             @PathParam("assignmentId") int assignmentId
     ) {
-        return assignmentDao.findById(assignmentId);
+        return basicCrudDao.findById(assignmentId);
     }
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     public Response add(Assignment assignment) {
-        assignmentDao.save(assignment);
+        basicCrudDao.create(assignment);
         return Response.status(Response.Status.CREATED.getStatusCode()).build();
     }
 
@@ -49,7 +49,7 @@ public class AssignmentResource {
         if (assignmentId != assignment.getId()) {
             return Response.status(Response.Status.CONFLICT.getStatusCode()).build();
         }
-        assignmentDao.edit(assignment);
+        basicCrudDao.update(assignment);
         return Response.status(Response.Status.CREATED.getStatusCode()).build();
     }
 
@@ -59,7 +59,7 @@ public class AssignmentResource {
     public Response delete(
             @PathParam("assignmentId") int assignmentId
     ) {
-        assignmentDao.delete(assignmentId);
+        basicCrudDao.deleteById(assignmentId);
         return Response.status(Response.Status.OK.getStatusCode()).build();
     }
 }
