@@ -5,9 +5,14 @@ import app.entities.Assignment;
 import app.exceptions.EntityAlreadyExistsException;
 import app.exceptions.EntityNotFoundException;
 import app.services.JDBCConnection;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import javax.persistence.Query;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 import java.sql.*;
 import java.util.LinkedList;
 import java.util.List;
@@ -18,6 +23,9 @@ public class AssignmentDaoImpl implements AssignmentDao {
     @Autowired
     JDBCConnection jdbcConnection;
 
+    @Autowired
+    private SessionFactory sessionFactory;
+
     private static final int ROW_EXISTS = 1;
 
     private static final String GET_ALL =
@@ -27,14 +35,14 @@ public class AssignmentDaoImpl implements AssignmentDao {
                     + "WHERE id=?";
     private static final String INSERT =
             "INSERT INTO timesheet_dev.Assignment "
-                    + "(projectId, employeeId, activityId, workLoadInMinutes, id) "
+                    + "(projectId, employeeId, activityId, workLoad, id) "
                     + "VALUE (?, ?, ?, ?, ?)";
     private static final String DELETE =
             "DELETE FROM timesheet_dev.Assignment "
                     + "WHERE id=?";
     private static final String UPDATE =
             "UPDATE timesheet_dev.Assignment "
-                    + "SET projectId=?, employeeId=?, activityId=?, workLoadInMinutes=? "
+                    + "SET projectId=?, employeeId=?, activityId=?, workLoad=? "
                     + "WHERE id=?";
     private static final String IS_EXISTS =
             "SELECT EXISTS " +
@@ -42,6 +50,7 @@ public class AssignmentDaoImpl implements AssignmentDao {
                     + "FROM timesheet_dev.Assignment"
                     + " WHERE id=?)";
 
+    /*
     @Override
     public List<Assignment> getAll() {
         List<Assignment> assignmentList = null;
@@ -54,6 +63,19 @@ public class AssignmentDaoImpl implements AssignmentDao {
             exception.printStackTrace();
         }
         return assignmentList;
+    }
+    */
+
+    @Override
+    public List<Assignment> getAll() {
+        Session session = sessionFactory.getCurrentSession();
+        CriteriaQuery<Assignment> criteriaQuery
+                = session.getCriteriaBuilder()
+                .createQuery(Assignment.class);
+        Root<Assignment> root = criteriaQuery.from(Assignment.class);
+        criteriaQuery.select(root);
+        Query query = session.createQuery(criteriaQuery);
+        return query.getResultList();
     }
 
     @Override
@@ -150,7 +172,7 @@ public class AssignmentDaoImpl implements AssignmentDao {
         preparedStatement.setInt(1, assignment.getProjectId());
         preparedStatement.setInt(2, assignment.getEmployeeId());
         preparedStatement.setInt(3, assignment.getActivityId());
-        preparedStatement.setInt(4, assignment.getWorkLoadInMinutes());
+        preparedStatement.setInt(4, assignment.getWorkLoad());
         preparedStatement.setInt(5, assignment.getId());
         return preparedStatement;
     }
@@ -173,7 +195,7 @@ public class AssignmentDaoImpl implements AssignmentDao {
         assignment.setProjectId(resultSet.getInt("projectId"));
         assignment.setEmployeeId(resultSet.getInt("employeeId"));
         assignment.setActivityId(resultSet.getInt("activityId"));
-        assignment.setWorkLoadInMinutes(resultSet.getInt("workLoadInMinutes"));
+        assignment.setWorkLoad(resultSet.getInt("workLoad"));
         return assignment;
     }
 
