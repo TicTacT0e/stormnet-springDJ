@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<dataset>
-    <project id="1" name="project_1" logoUrl="logo1" startDate="2019-02-01" endDate="2019-06-01" manHours="1000"
-             code="001" colour="white" description="description1"/>
-    <project id="2" name="project_2" logoUrl="logo2" startDate="2019-03-01" endDate="2019-07-01" manHours="1500"
-             code="002" colour="grey" description="description2"/>
-    <project id="3" name="project_3" logoUrl="logo3" startDate="2019-04-01" endDate="2019-08-01" manHours="1750"
-             code="003" colour="grey" description="description3"/>
-</dataset>

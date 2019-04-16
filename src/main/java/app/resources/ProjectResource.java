@@ -43,6 +43,9 @@ public class ProjectResource {
     @Path("/edit/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response edit(@PathParam("id") int id, Project project) {
+        if (id != project.getId()){
+            return Response.status(Response.Status.CONFLICT.getStatusCode()).build();
+        }
         projectDao.edit(project);
         return Response.status(Response.Status.CREATED.getStatusCode()).build();
     }

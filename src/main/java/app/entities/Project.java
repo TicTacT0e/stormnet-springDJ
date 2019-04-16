@@ -2,8 +2,7 @@ package app.entities;
 
 import app.utils.TimeUtil;
 
-import java.util.Date;
-import java.util.Objects;
+import java.sql.Date;
 
 public class Project {
 
@@ -14,7 +13,7 @@ public class Project {
     private Date endDate;
     private long manHours;
     private String code;
-    private String colour;
+    private String color;
     private String description;
 
 
@@ -22,7 +21,7 @@ public class Project {
     }
 
     public Project(int id, String name, String logoUrl,
-                   Date startDate, Date endDate, long manHoursInMilliseconds, String code, String colour, String description) {
+                   Date startDate, Date endDate, long manHoursInMilliseconds, String code, String color, String description) {
         this.id = id;
         this.name = name;
         this.logoUrl = logoUrl;
@@ -30,14 +29,14 @@ public class Project {
         this.endDate = endDate;
         this.manHours = manHoursInMilliseconds;
         this.code = code;
-        this.colour = colour;
+        this.color = color;
         this.description = description;
     }
 
     public Project(int id, String name, String logoUrl,
-                   Date startDate, Date endDate, int manHoursInHours, String code, String colour, String description) {
+                   Date startDate, Date endDate, int manHoursInHours, String code, String color, String description) {
         this(id, name, logoUrl, startDate, endDate,
-                TimeUtil.hoursToMillisecond(manHoursInHours), code, colour, description);
+                TimeUtil.hoursToMillisecond(manHoursInHours), code, color, description);
     }
 
     public Project(Project project) {
@@ -48,7 +47,7 @@ public class Project {
                 project.getEndDate(),
                 project.getManHours(),
                 project.getCode(),
-                project.getColour(),
+                project.getColor(),
                 project.getDescription());
     }
 
@@ -100,12 +99,12 @@ public class Project {
         this.code = code;
     }
 
-    public String getColour() {
-        return colour;
+    public String getColor() {
+        return color;
     }
 
-    public void setColour(String colour) {
-        this.colour = colour;
+    public void setColor(String color) {
+        this.color = color;
     }
 
     public String getDescription() {
@@ -129,28 +128,45 @@ public class Project {
     }
 
     @Override
-    public boolean equals(Object object) {
-        if (this == object) {
+    public boolean equals(Object o) {
+        if (this == o) {
             return true;
         }
-        if (!(object instanceof Project)) {
+        if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        Project project = (Project) object;
-        return id == project.id
-                && Double.compare(project.manHours, manHours) == 0
-                && Objects.equals(name, project.name)
-                && Objects.equals(logoUrl, project.logoUrl)
-                && Objects.equals(startDate, project.startDate)
-                && Objects.equals(endDate, project.endDate)
-                && Objects.equals(code, project.code)
-                && Objects.equals(colour, project.colour)
-                && Objects.equals(description, project.description);
+        Project project = (Project) o;
+        if (id != project.id)
+            return false;
+        if (manHours != project.manHours)
+            return false;
+        if (name != null ? !name.equals(project.name) : project.name != null)
+            return false;
+        if (logoUrl != null ? !logoUrl.equals(project.logoUrl) : project.logoUrl != null)
+            return false;
+        if (startDate != null ? !startDate.equals(project.startDate) : project.startDate != null)
+            return false;
+        if (endDate != null ? !endDate.equals(project.endDate) : project.endDate != null)
+            return false;
+        if (code != null ? !code.equals(project.code) : project.code != null)
+            return false;
+        if (color != null ? !color.equals(project.color) : project.color != null)
+            return false;
+        return description != null ? description.equals(project.description) : project.description == null;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, logoUrl, startDate, endDate, manHours, code, colour, description);
+        int result = id;
+        result = 31 * result + (int) manHours;
+        result = 31 * result + (name != null ? name.hashCode() : 0);
+        result = 31 * result + (logoUrl != null ? logoUrl.hashCode() : 0);
+        result = 31 * result + (startDate != null ? startDate.hashCode() : 0);
+        result = 31 * result + (endDate != null ? endDate.hashCode() : 0);
+        result = 31 * result + (code != null ? code.hashCode() : 0);
+        result = 31 * result + (color != null ? color.hashCode() : 0);
+        result = 31 * result + (description != null ? description.hashCode() : 0);
+        return result;
     }
 
     @Override
@@ -163,7 +179,7 @@ public class Project {
                 + ", endDate=" + endDate
                 + ", manHours=" + manHours + '\''
                 + ", code=" + code
-                + ", colour" + colour + '\''
+                + ", color" + color + '\''
                 + ", description=" + description
                 + '}';
     }
