@@ -34,4 +34,9 @@ public class DaoConfig {
     public InvitationDao getInvitationDao(){
         return new InvitationDaoImpl();
     }
+  
+    @Bean
+    public AssignmentDao getAssignmentDao() {
+        return new AssignmentDaoImpl();
+    }
 }
