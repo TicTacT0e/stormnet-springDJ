@@ -55,11 +55,21 @@ public class AssignmentResource {
 
     @DELETE
     @Path("/{assignmentId}")
-    @Consumes(MediaType.APPLICATION_JSON)
     public Response delete(
             @PathParam("assignmentId") int assignmentId
     ) {
         basicCrudDao.deleteById(assignmentId);
+        return Response.status(Response.Status.OK.getStatusCode()).build();
+    }
+
+    @DELETE
+    @Path("/{assignmentId}")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response delete(
+            @PathParam("assignmentId") int assignmentId,
+            Assignment assignment
+    ) {
+        basicCrudDao.delete(assignment);
         return Response.status(Response.Status.OK.getStatusCode()).build();
     }
 }
