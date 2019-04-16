@@ -1,13 +1,7 @@
 package app.config.beans;
 
 
-import app.dao.CompanyDao;
-import app.dao.EmployeeDao;
-import app.dao.LogsDao;
-import app.dao.ProjectDao;
-import app.dao.impl.CompanyDaoImpl;
-import app.dao.impl.EmployeeDaoImpl;
-import app.dao.impl.ProjectDaoImpl;
+import app.dao.*;
 import app.dao.impl.*;
 import app.entities.Company;
 import app.entities.Invitation;
