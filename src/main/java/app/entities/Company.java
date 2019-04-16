@@ -7,7 +7,7 @@ import java.util.Objects;
 
 public class Company {
 
-    private int id;
+    private Integer id;
     private String name;
     private String logoUrl;
     private Integer ownerId;
