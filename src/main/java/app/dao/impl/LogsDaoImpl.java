@@ -1,43 +1,77 @@
 package app.dao.impl;
 
+import app.dao.LogsDao;
 import app.entities.Logs;
+import app.services.JDBCConnection;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+
 import java.sql.*;
+import java.util.Date;
 import java.util.Calendar;
+import java.util.LinkedList;
+import java.util.List;
 
-public class LogsDaoImpl {
-    private final String HOST = "jdbc:mysql://localhost:3306/logs";
-    private final String USERNAME = "root";
-    private final String PASSWORD = "Kraskovski K30197";
-    private final String query = "select*from logs";
-    PreparedStatement preparedStatement = null;
+@Repository
+public class LogsDaoImpl implements LogsDao {
 
-    public String getAll() {
-        Logs logs = new Logs();
-        try (Connection connection = DriverManager.getConnection(HOST, USERNAME, PASSWORD)) {
-            Statement st = connection.createStatement();
-            ResultSet resultSet = st.executeQuery(query);
+    private final String QUERY_GET_ALL = "select * from logs where date <= ? and date >= ?";
+    private final String QUERY_SAVE = "INSERT INTO logs (assignmentId, order," +
+            "time,comment,date) values (?,?,?,?,?)";
+    private final String QUERY_DELETE = "delete from logs where id=?";
+
+    @Autowired
+    JDBCConnection jdbcconnection;
+
+    public List<Logs> getAll(Date from, Date to) {
+        List<Logs> logs = new LinkedList<>();
+        try (Connection connection = jdbcconnection.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(QUERY_GET_ALL)) {
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+
+            preparedStatement.setTimestamp(1,Timestamp.);
+            preparedStatement.setDate(2, new Timestamp(new java.util.Date().setTime());
+
+
             while (resultSet.next()) {
-                logs.setId(resultSet.getInt(1));
-                logs.setProject(resultSet.getInt(2));
-                logs.setEmployee(resultSet.getInt(3));
-                logs.setTime(resultSet.getInt(4));
-                logs.setComment(resultSet.getString(5));
-                logs.setDate(resultSet.getDate(6));
-                System.out.println(logs.toString());
+                Logs log = new Logs();
+                log.setId(resultSet.getInt(1));
+                log.setAssignmentId(resultSet.getInt(2));
+                log.setOrder(resultSet.getInt(3));
+                log.setTime(resultSet.getDouble(4));
+                log.setComment(resultSet.getString(5));
+                log.setDate(resultSet.getDate(6));
+
+                logs.add(log);
             }
-            st.close();
         } catch (SQLException e) {
+            e.printStackTrace();
         }
-        return logs.toString();
+
+        System.out.println(logs);
+        return logs;
+    }
+    public static java.util.Date convertFromSQLDateToJAVADate(
+            java.sql.Date sqlDate) {
+        java.util.Date javaDate = null;
+        if (sqlDate != null) {
+            javaDate = new Date(sqlDate.getTime());
+        }
+        return javaDate;
+    }
+    @Override
+    public List<Logs> getAll() {
+        return new LinkedList<>();
     }
 
-    public void save(app.entities.Logs logs) {
-        try (Connection connection = DriverManager.getConnection(HOST, USERNAME, PASSWORD)) {
-            preparedStatement = connection.prepareStatement("INSERT INTO logs (projectId,employeeId," +
-                    "time,comment,date) values (?,?,?,?,?)");
-            preparedStatement.setInt(1, logs.getProject());
-            preparedStatement.setInt(2, logs.getEmployee());
-            preparedStatement.setInt(3, logs.getTime());
+    @Override
+    public void save(Logs logs) {
+        try (Connection connection = jdbcconnection.getConnection()) {
+            PreparedStatement preparedStatement = connection.prepareStatement(QUERY_SAVE);
+            preparedStatement.setInt(1, logs.getAssignmentId());
+            preparedStatement.setInt(2, logs.getOrder());
+            preparedStatement.setDouble(3, logs.getTime());
             preparedStatement.setString(4, logs.getComment());
             preparedStatement.setDate(5, new Date(Calendar.getInstance().getTimeInMillis()));
             preparedStatement.execute();
@@ -47,10 +81,11 @@ public class LogsDaoImpl {
         }
     }
 
-    public void delete() {
-        try (Connection connection = DriverManager.getConnection(HOST, USERNAME, PASSWORD)) {
-            preparedStatement = connection.prepareStatement("delete from logs where id=?");
-            preparedStatement.setInt(1, 9);
+    @Override
+    public void delete(int id) {
+        try (Connection connection = jdbcconnection.getConnection()) {
+            PreparedStatement preparedStatement = connection.prepareStatement(QUERY_DELETE);
+            preparedStatement.setInt(1, id);
             preparedStatement.executeUpdate();
             preparedStatement.close();
         } catch (SQLException e) {
@@ -58,4 +93,5 @@ public class LogsDaoImpl {
         }
     }
 }
+
 

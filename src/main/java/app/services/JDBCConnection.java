@@ -16,7 +16,7 @@ public class JDBCConnection {
     private String driver;
 
     @Value("${db.url}")
-    private String URL;
+    private String url;
 
     @Value("${db.username}")
     private String username;
@@ -24,17 +24,18 @@ public class JDBCConnection {
     @Value("${db.password}")
     private String password;
 
-
+    /*private final String url = "jdbc:mysql://localhost:3306/logs";
+    private final String username = "root";
+    private final String password = "Kraskovski K30197";*/
     public Connection getConnection() {
-        try {
-            Class.forName(driver);
-            connection = DriverManager.getConnection(URL, username, password);
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (SQLException e) {
-            e.printStackTrace();
+
+            // Class.forName(driver);
+            try {
+                connection = DriverManager.getConnection(url, username, password);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            return connection;
         }
-        return connection;
     }
 
-}

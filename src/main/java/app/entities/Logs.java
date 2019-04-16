@@ -6,29 +6,29 @@ import java.util.Objects;
 public class Logs {
 
     private int id;
-    private int employee;
-    private int project;
-    private int time;
+    private int assignmentId;
+    private int order;
+    private double time;
     private String comment;
     private Date date;
 
     public Logs (){
-
     }
-    public Logs(int project, int employee, int time,
+
+    public Logs(int id, int assignmentId, int order, double time,
                 String comment, Date date) {
-        this.project = project;
-        this.employee = employee;
+        this.id = id;
+        this.assignmentId = assignmentId;
         this.time = time;
+        this.order = order;
         this.comment = comment;
         this.date = date;
     }
-    public Logs(int id, int project, int employee, int time,
-                String comment, Date date) {
-        this.id = id;
-        this.project = project;
-        this.employee = employee;
+
+    public Logs(int assignmentId,int order, double time,  String comment, Date date) {
+        this.assignmentId = assignmentId;
         this.time = time;
+        this.order = order;
         this.comment = comment;
         this.date = date;
     }
@@ -41,28 +41,28 @@ public class Logs {
         this.id = id;
     }
 
-    public int getEmployee() {
-        return employee;
+    public int getAssignmentId() {
+        return assignmentId;
     }
 
-    public void setEmployee(int employee) {
-        this.employee = employee;
+    public void setAssignmentId(int assignmentId) {
+        this.assignmentId = assignmentId;
     }
 
-    public int getProject() {
-        return project;
-    }
-
-    public void setProject(int project) {
-        this.project = project;
-    }
-
-    public int getTime() {
+    public double getTime() {
         return time;
     }
 
-    public void setTime(int time) {
+    public void setTime(double time) {
         this.time = time;
+    }
+
+    public int getOrder() {
+        return order;
+    }
+
+    public void setOrder(int order) {
+        this.order = order;
     }
 
     public String getComment() {
@@ -86,31 +86,31 @@ public class Logs {
         if (this == object) {
             return true;
         }
-        if (!(object instanceof Logs)) {
+        if (object == null || getClass() != object.getClass()){
             return false;
         }
         Logs logs = (Logs) object;
-        return Double.compare(logs.time, time) == 0
-                && Objects.equals(employee, logs.employee)
-                && Objects.equals(project, logs.project)
-                && Objects.equals(comment, logs.comment)
-                && Objects.equals(date, logs.date);
+        return id == logs.id &&
+                assignmentId == logs.assignmentId &&
+                Double.compare(logs.time, time) == 0 &&
+                order == logs.order &&
+                Objects.equals(comment, logs.comment) &&
+                Objects.equals(date, logs.date);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(employee, project, time, comment, date);
+        return Objects.hash(id, assignmentId, time, order, comment, date);
     }
 
     @Override
     public String toString() {
         return "Log{"
-                + " Project: " + project + ';'
-                + " Employee: " + employee + ';'
-                + " Time: " + time + ';'
-                + " Date: " + date + ';'
-                + '\n'
+                + "assignmentId: " + assignmentId +';'
+                + "order: " + order + ';'
+                + " time: " + time + ';'
                 + "comment: '" + comment + '\''
+                + " Date: " + date + ';'
                 + '}';
     }
 }
