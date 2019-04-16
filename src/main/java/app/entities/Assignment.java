@@ -1,7 +1,11 @@
 package app.entities;
 
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import java.util.Objects;
 
+@Entity
+@Table(name = "Assignment")
 public class Assignment {
 
     private int id;
