@@ -1,17 +1,11 @@
 package app.dao.impl;
 
 import app.dao.BasicCrudDao;
-import app.dao.CompanyDao;
-import app.dao.database.DBConnection;
 import app.entities.Company;
 import app.services.JDBCConnection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.sql.*;
 import java.util.LinkedList;
 import java.util.List;
@@ -37,19 +31,21 @@ public class CompanyDaoImpl implements BasicCrudDao<Company> {
     }
 
     @Override
-    public synchronized List<Company> getAll() {
-        List<Company> _companies = null;
-        try {
-            Statement statement = DBConnection.getInstance()
-                    .getConnection().createStatement();
-            ResultSet resultSet = statement
-                    .executeQuery("SELECT * FROM timesheet_dev.Company");
-            _companies = getCompanies(resultSet);
-            statement.close();
-        } catch (SQLException exception) {
-            exception.printStackTrace();
+    public synchronized List<Company> findAll(){
+
+        List<Company> allCompanys = new LinkedList<>();
+
+        try(Connection connection = jdbcConnection.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement("select * from Company")) {
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while(resultSet.next()){
+                allCompanys.add(getCompany(resultSet));
+            }
+
+        } catch (Exception e){
+            e.getMessage();
         }
-        return _companies;
+        return allCompanys;
     }
 
 
@@ -57,61 +53,43 @@ public class CompanyDaoImpl implements BasicCrudDao<Company> {
     @Override
     public synchronized Company findById(int id) {
         Company company = null;
-        try {
-            PreparedStatement preparedStatement =
-                    DBConnection.getInstance().getConnection()
-                            .prepareStatement("SELECT * FORM timesheet_dev.Company " +
-                                    "WHERE id=?");
+        try(Connection connection = jdbcConnection.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement("select * from company where id = ?")) {
             preparedStatement.setInt(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
-            company = mapping(resultSet);
-            preparedStatement.close();
-        } catch (SQLException exception) {
-            exception.printStackTrace();
-        }
-        if(company == null) {
-            throw new EntityNotFoundException();
+            company = getCompany(resultSet);
+        } catch (Exception e){
+            e.getMessage();
         }
         return company;
     }
 
     @Override
-    public synchronized void save(Company company) {
-        try {
-            PreparedStatement preparedStatement =
-                    DBConnection.getInstance().getConnection()
-                            .prepareStatement("INSERT INTO timesheet_dev.Company " +
-                                    "(id, companyName, logoUrl) " +
-                                    "VALUE (?, ?, ?)");
+    public synchronized void deleteById(int id) {
+        try(Connection connection = jdbcConnection.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(
+                    "delete from company where id = ?")) {
+            preparedStatement.setInt(1, id);
+            preparedStatement.execute();
+        } catch (SQLException e){
+            e.getMessage();
+        }
+    }
+
+    @Override
+    public void create(Company company) {
+        try(Connection connection = jdbcConnection.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(
+                    "insert into company values (?, ?, ?, ?)")) {
             preparedStatement.setInt(1, company.getId());
             preparedStatement.setString(2, company.getName());
             preparedStatement.setString(3, company.getLogoUrl());
+            preparedStatement.setInt(4, company.getOwnerId());
             preparedStatement.execute();
-            preparedStatement.close();
-        } catch (SQLException exception) {
-            exception.printStackTrace();
         }
-    }
-
-    @Override
-    public synchronized void delete(Company retiringCompany) {
-        try {
-            PreparedStatement preparedStatement =
-                    DBConnection.getInstance().getConnection()
-                            .prepareStatement("DELETE FROM timesheet_dev.Company " +
-                                    "WHERE id=?");
-            preparedStatement.setInt(1, retiringCompany.getId());
-            preparedStatement.executeUpdate();
-            preparedStatement.close();
-        } catch (SQLException exception) {
-            exception.printStackTrace();
+        catch (SQLException e){
+            e.getMessage();
         }
-
-    }
-
-    @Override
-    public synchronized void delete(int id) {
-        delete(findById(id));
     }
 
     @Override
@@ -120,68 +98,18 @@ public class CompanyDaoImpl implements BasicCrudDao<Company> {
     }
 
     @Override
-    public synchronized void edit(Company company) {
-        try {
-            PreparedStatement preparedStatement =
-                    DBConnection.getInstance().getConnection()
-                            .prepareStatement("UPDATE timesheet_dev.Company " +
-                                    "SET companyName=?, " +
-                                    "logoUrl=?, " +
-                                    "WHERE id=?");
+    public void update(Company company) {
+        try(Connection connection = jdbcConnection.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(
+                    "update company set name = ?, logo = ?," +
+                            " ownerId = ? where id = ? ")) {
             preparedStatement.setString(1, company.getName());
             preparedStatement.setString(2, company.getLogoUrl());
-            preparedStatement.setInt(3, company.getId());
-            preparedStatement.executeUpdate();
-            preparedStatement.close();
-        } catch (SQLException exception) {
-            exception.printStackTrace();
+            preparedStatement.setInt(3, company.getOwnerId());
+            preparedStatement.setInt(4, company.getId());
+            preparedStatement.execute();
+        } catch (SQLException e){
+            e.getMessage();
         }
-    }
-
-    @Override
-    public synchronized void addEmployeeToCompany(Company company, Employee employee) {
-        company.addEmployee(employee);
-    }
-
-    @Override
-    public synchronized void addProjectToCompany(Company company, Project project) {
-        company.addProject(project);
-    }
-
-    @Override
-    public synchronized List<Employee> getCompanyEmployees(Company company) {
-        return company.getEmployees();
-    }
-
-    @Override
-    public synchronized List<Project> getCompanyProjects(Company company) {
-        return company.getProjects();
-    }
-
-    private List<Company> getCompanies(ResultSet resultSet)
-            throws SQLException {
-        List<Company> _companies = new LinkedList<>();
-        Company company;
-        while (resultSet.next()) {
-            company = mapping(resultSet);
-            _companies.add(company);
-        }
-        return _companies;
-    }
-
-    private Company mapping(ResultSet resultSet)
-            throws SQLException {
-        Company company = new Company();
-        company.setId(resultSet.getInt("id"));
-        company.setName(resultSet.getString("companyName"));
-        company.setLogoUrl(resultSet.getString("logoUrl"));
-        return company;
-    }
-
-    @Override
-    public synchronized void addEmployeeToCompany(Company company,
-                                                  Employee employee) {
-        company.addEmployee(employee);
     }
 }
-
