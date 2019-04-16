@@ -52,13 +52,15 @@ CREATE TABLE `integration` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8
 
 CREATE TABLE `invitations` (
+  `id` bigint(20) NOT NULL,
   `partnerId` bigint(20) NOT NULL,
   `code` varchar(40) NOT NULL,
   `dateEnd` datetime NOT NULL,
   `status` varchar(25) NOT NULL,
-  PRIMARY KEY (`partnerId`),
+  PRIMARY KEY (`id`),
   UNIQUE KEY `code_UNIQUE` (`code`),
-  CONSTRAINT `InvaitionPartner` FOREIGN KEY (`partnerId`) REFERENCES `partner` (`id`)
+  KEY `InvationPartner_idx` (`partnerId`),
+  CONSTRAINT `InvationPartner` FOREIGN KEY (`partnerId`) REFERENCES `partner` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8
 
 CREATE TABLE `logs` (
