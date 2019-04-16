@@ -42,6 +42,9 @@
         <db.username>username</db.username>
         <db.password>qwerty123</db.password>
         -->
+        <hibernate.dialect>org.hibernate.dialect.MySQLDialect</hibernate.dialect>
+        <hibernate.show_sql>true</hibernate.show_sql>
+        <hibernate.format_sql>true</hibernate.format_sql>
     </properties>
 
     <dependencies>
