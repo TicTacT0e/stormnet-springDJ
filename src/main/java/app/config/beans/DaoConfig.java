@@ -38,4 +38,10 @@ public class DaoConfig {
     public AssignmentDao getAssignmentDao() {
         return new AssignmentDaoImpl();
     }
+
+    @Bean
+    public NotificationDaoImpl getNotificationDao() {
+        return new NotificationDaoImpl();
+    }
+
 }
