@@ -5,7 +5,6 @@ import app.dao.*;
 import app.dao.impl.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
 
 @Configuration
 public class DaoConfig {
@@ -33,5 +32,10 @@ public class DaoConfig {
     @Bean
     public InvitationDao getInvitationDao(){
         return new InvitationDaoImpl();
+    }
+  
+    @Bean
+    public AssignmentDao getAssignmentDao() {
+        return new AssignmentDaoImpl();
     }
 }
