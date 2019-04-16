@@ -4,6 +4,7 @@ package app.config.beans;
 import app.dao.*;
 import app.dao.impl.*;
 import app.entities.Company;
+import app.entities.Invitation;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -31,7 +32,7 @@ public class DaoConfig {
     }
 
     @Bean
-    public InvitationDao getInvitationDao(){
+    public BasicCrudDao<Invitation> getInvitationDao(){
         return new InvitationDaoImpl();
     }
   
