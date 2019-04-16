@@ -7,9 +7,10 @@ import java.util.Objects;
 
 public class Company {
 
-    private int id;
+    private Integer id;
     private String name;
     private String logoUrl;
+    private Integer ownerId;
 
     private List<Employee> employees = new LinkedList<>();
     private List<Project> projects = new LinkedList<>();
@@ -17,21 +18,23 @@ public class Company {
     public Company() {
     }
 
-    public Company(int id, String name, String logoUrl) {
+    public Company(Integer id, String name, String logoUrl, Integer ownerId) {
         this.id = id;
         this.name = name;
         this.logoUrl = logoUrl;
+        this.ownerId = ownerId;
     }
 
     public Company(Company company) {
         this(company.getId(),
                 company.getName(),
-                company.getLogoUrl());
+                company.getLogoUrl(),
+                company.getOwnerId());
         this.employees = company.getEmployees();
         this.projects = company.getProjects();
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
@@ -41,6 +44,10 @@ public class Company {
 
     public String getLogoUrl() {
         return logoUrl;
+    }
+
+    public Integer getOwnerId() {
+        return ownerId;
     }
 
     public void addEmployee(Employee employee) {
@@ -69,6 +76,10 @@ public class Company {
 
     public void setLogoUrl(String logoUrl) {
         this.logoUrl = logoUrl;
+    }
+
+    public void setOwnerId(int ownerId) {
+        this.ownerId = ownerId;
     }
 
     @Override
