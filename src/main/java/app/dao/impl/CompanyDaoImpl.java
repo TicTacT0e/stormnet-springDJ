@@ -22,7 +22,7 @@ public class CompanyDaoImpl implements BasicCrudDao<Company> {
             company = new Company(resultSet.getInt("id"),
                     resultSet.getString("name"),
                     resultSet.getString("logo"),
-                    resultSet.getInt("qwnerId"));
+                    resultSet.getInt("ownerId"));
         }
         catch (SQLException e){
             e.getMessage();
