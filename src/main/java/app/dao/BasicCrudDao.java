@@ -6,7 +6,7 @@ import java.util.List;
 
 
 @Repository
-public interface DAO<T> {
+public interface BasicCrudDao<T> {
 
     T findById(int id);
 
