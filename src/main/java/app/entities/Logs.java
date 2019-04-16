@@ -5,76 +5,66 @@ import java.util.Objects;
 
 public class Logs {
 
-    private int id;
-    private int employee;
-    private int project;
-    private int time;
+    private Employee employee;
+    private Project project;
+    private long time;
     private String comment;
     private Date date;
 
-    public Logs (){
+    public Logs() {
+    }
 
-    }
-    public Logs(int project, int employee, int time,
+    public Logs(Employee employee, Project project, long time,
                 String comment, Date date) {
-        this.project = project;
         this.employee = employee;
-        this.time = time;
-        this.comment = comment;
-        this.date = date;
-    }
-    public Logs(int id, int project, int employee, int time,
-                String comment, Date date) {
-        this.id = id;
         this.project = project;
-        this.employee = employee;
         this.time = time;
         this.comment = comment;
         this.date = date;
     }
 
-    public int getId() {
-        return id;
+    public Logs(Logs logs) {
+        this(logs.getEmployee(),
+                logs.getProject(),
+                logs.getTime(),
+                logs.getComment(),
+                logs.getDate());
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public int getEmployee() {
+    public Employee getEmployee() {
         return employee;
     }
 
-    public void setEmployee(int employee) {
-        this.employee = employee;
-    }
-
-    public int getProject() {
+    public Project getProject() {
         return project;
     }
 
-    public void setProject(int project) {
-        this.project = project;
-    }
-
-    public int getTime() {
+    public long getTime() {
         return time;
-    }
-
-    public void setTime(int time) {
-        this.time = time;
     }
 
     public String getComment() {
         return comment;
     }
 
-    public void setComment(String comment) {
-        this.comment = comment;
-    }
-
     public Date getDate() {
         return date;
+    }
+
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
+    }
+
+    public void setProject(Project project) {
+        this.project = project;
+    }
+
+    public void setTime(long time) {
+        this.time = time;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
     }
 
     public void setDate(Date date) {
@@ -105,8 +95,8 @@ public class Logs {
     @Override
     public String toString() {
         return "Log{"
-                + " Project: " + project + ';'
-                + " Employee: " + employee + ';'
+                + " Employee: " + employee.getName() + ';'
+                + " Project: " + project.getName() + ';'
                 + " Time: " + time + ';'
                 + " Date: " + date + ';'
                 + '\n'
