@@ -1,7 +1,7 @@
 package app.resources;
 
-import app.dao.BasicCrudDao;
-import app.entities.Invitation;
+import app.dao.AssignmentDao;
+import app.entities.Assignment;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -11,51 +11,55 @@ import javax.ws.rs.core.Response;
 import java.util.List;
 
 @Component
-@Path("/invitation")
-public class InvitationResource {
+@Path("/assignment")
+public class AssignmentResource {
 
     @Autowired
-    private BasicCrudDao<Invitation> basicCrudDao;
+    private AssignmentDao assignmentDao;
 
     @GET
-    @Path("/all")
     @Produces(MediaType.APPLICATION_JSON)
-    public List<Invitation> getAll() {
-        return basicCrudDao.findAll();
+    public List<Assignment> getAll() {
+        return assignmentDao.getAll();
     }
 
     @GET
-    @Path("/{id}")
+    @Path("/{assignmentId}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Invitation get(@PathParam("id") int id) {
-        return (Invitation) basicCrudDao.findById(id);
+    public Assignment get(
+            @PathParam("assignmentId") int assignmentId
+    ) {
+        return assignmentDao.findById(assignmentId);
     }
 
     @POST
-    @Path("/add")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response add(Invitation invitation) {
-        basicCrudDao.create(invitation);
+    public Response add(Assignment assignment) {
+        assignmentDao.save(assignment);
         return Response.status(Response.Status.CREATED.getStatusCode()).build();
     }
 
     @PUT
-    @Path("/edit/{id}")
+    @Path("/{assignmentId}")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response edit(@PathParam("id") int id,
-                         Invitation invitation) {
-        if (id != invitation.getId()) {
+    public Response edit(
+            @PathParam("assignmentId") int assignmentId,
+            Assignment assignment
+    ) {
+        if (assignmentId != assignment.getId()) {
             return Response.status(Response.Status.CONFLICT.getStatusCode()).build();
         }
-        basicCrudDao.update(invitation);
+        assignmentDao.edit(assignment);
         return Response.status(Response.Status.CREATED.getStatusCode()).build();
     }
 
     @DELETE
-    @Path("/delete/{id}")
+    @Path("/{assignmentId}")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response delete(@PathParam("id") int id) {
-        basicCrudDao.deleteById(id);
+    public Response delete(
+            @PathParam("assignmentId") int assignmentId
+    ) {
+        assignmentDao.delete(assignmentId);
         return Response.status(Response.Status.OK.getStatusCode()).build();
     }
 }

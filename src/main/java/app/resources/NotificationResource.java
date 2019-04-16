@@ -1,7 +1,7 @@
 package app.resources;
 
-import app.dao.BasicCrudDao;
-import app.entities.Invitation;
+import app.dao.impl.NotificationDaoImpl;
+import app.entities.Notification;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -11,51 +11,47 @@ import javax.ws.rs.core.Response;
 import java.util.List;
 
 @Component
-@Path("/invitation")
-public class InvitationResource {
+@Path("/notification")
+public class NotificationResource {
 
     @Autowired
-    private BasicCrudDao<Invitation> basicCrudDao;
+    private NotificationDaoImpl notificationDao;
 
     @GET
     @Path("/all")
     @Produces(MediaType.APPLICATION_JSON)
-    public List<Invitation> getAll() {
-        return basicCrudDao.findAll();
+    public List<Notification> getAll() {
+        return notificationDao.findAll();
     }
 
     @GET
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Invitation get(@PathParam("id") int id) {
-        return (Invitation) basicCrudDao.findById(id);
+    public Notification getById(@PathParam("id") int id) {
+        return notificationDao.findById(id);
     }
 
     @POST
     @Path("/add")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response add(Invitation invitation) {
-        basicCrudDao.create(invitation);
+    public Response create(Notification notification) {
+        notificationDao.create(notification);
         return Response.status(Response.Status.CREATED.getStatusCode()).build();
     }
 
     @PUT
-    @Path("/edit/{id}")
+    @Path("/update")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response edit(@PathParam("id") int id,
-                         Invitation invitation) {
-        if (id != invitation.getId()) {
-            return Response.status(Response.Status.CONFLICT.getStatusCode()).build();
-        }
-        basicCrudDao.update(invitation);
+    public Response update(Notification notification) {
+        notificationDao.update(notification);
         return Response.status(Response.Status.CREATED.getStatusCode()).build();
     }
 
     @DELETE
     @Path("/delete/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response delete(@PathParam("id") int id) {
-        basicCrudDao.deleteById(id);
+    public Response deleteById(@PathParam("id") int id) {
+        notificationDao.deleteById(id);
         return Response.status(Response.Status.OK.getStatusCode()).build();
     }
 }
