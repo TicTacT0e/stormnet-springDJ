@@ -10,7 +10,7 @@ public class Company {
     private int id;
     private String name;
     private String logoUrl;
-    private int OwnerId;
+    private Integer ownerId;
 
     private List<Employee> employees = new LinkedList<>();
     private List<Project> projects = new LinkedList<>();
@@ -22,7 +22,7 @@ public class Company {
         this.id = id;
         this.name = name;
         this.logoUrl = logoUrl;
-        this.OwnerId = ownerId;
+        this.ownerId = ownerId;
     }
 
     public Company(Company company) {
@@ -47,7 +47,7 @@ public class Company {
     }
 
     public int getOwnerId() {
-        return OwnerId;
+        return ownerId;
     }
 
     public void addEmployee(Employee employee) {
@@ -79,7 +79,7 @@ public class Company {
     }
 
     public void setOwnerId(int ownerId) {
-        OwnerId = ownerId;
+        this.ownerId = ownerId;
     }
 
     @Override
