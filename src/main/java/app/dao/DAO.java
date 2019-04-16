@@ -14,9 +14,9 @@ public interface DAO<T> {
 
     void deleteById(int id);
 
-    void delete(T entity);
-
     void create(T entity);
+
+    void delete(T entity);
 
     void update(T entity);
 }
