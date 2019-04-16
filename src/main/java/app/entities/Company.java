@@ -18,7 +18,7 @@ public class Company {
     public Company() {
     }
 
-    public Company(int id, String name, String logoUrl, int ownerId) {
+    public Company(Integer id, String name, String logoUrl, Integer ownerId) {
         this.id = id;
         this.name = name;
         this.logoUrl = logoUrl;
@@ -34,7 +34,7 @@ public class Company {
         this.projects = company.getProjects();
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
@@ -46,7 +46,7 @@ public class Company {
         return logoUrl;
     }
 
-    public int getOwnerId() {
+    public Integer getOwnerId() {
         return ownerId;
     }
 
