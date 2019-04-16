@@ -60,9 +60,8 @@ public class AssignmentDaoImpl implements AssignmentDao {
     public Assignment findById(int id) {
         Assignment assignment = null;
         try (Connection connection = jdbcConnection.getConnection();
-             PreparedStatement preparedStatement = connection
-                     .prepareStatement(GET)) {
-            preparedStatement.setInt(1, id);
+             PreparedStatement preparedStatement
+                     = getPreparedStatement(GET, id, connection)) {
             ResultSet resultSet = preparedStatement.executeQuery();
             if (isResultSetEmpty(resultSet)) {
                 throw new EntityNotFoundException();
