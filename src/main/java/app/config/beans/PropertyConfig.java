@@ -1,7 +1,8 @@
 package app.config.beans;
 
-import app.services.*;
 
+import app.services.JDBCConnection;
+import app.services.ProjectVersionService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
