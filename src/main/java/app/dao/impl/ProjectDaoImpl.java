@@ -31,8 +31,6 @@ public class ProjectDaoImpl implements ProjectDao {
     @Autowired
     JDBCConnection jdbcConnection;
 
-    //private String table = "timesheet_dev.project";
-
     @Override
     public synchronized List<Project> getAll() {
         List<Project> projectList = null;
