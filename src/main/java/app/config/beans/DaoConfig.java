@@ -35,4 +35,9 @@ public class DaoConfig {
         return new ProjectDaoImpl();
     }
 
+    @Bean
+    public AssignmentDao getAssignmentDao() {
+        return new AssignmentDaoImpl();
+    }
+
 }
