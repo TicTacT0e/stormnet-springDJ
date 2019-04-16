@@ -5,19 +5,22 @@ import app.entities.Assignment;
 import app.exceptions.EntityAlreadyExistsException;
 import app.exceptions.EntityNotFoundException;
 import app.services.JDBCConnection;
-import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.Query;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Root;
-import java.sql.*;
+import javax.persistence.TypedQuery;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.LinkedList;
 import java.util.List;
 
 @Repository
+@Transactional
 public class AssignmentDaoImpl implements AssignmentDao {
 
     @Autowired
@@ -68,6 +71,7 @@ public class AssignmentDaoImpl implements AssignmentDao {
 
     @Override
     public List<Assignment> getAll() {
+        /*
         Session session = sessionFactory.getCurrentSession();
         CriteriaQuery<Assignment> criteriaQuery
                 = session.getCriteriaBuilder()
@@ -75,6 +79,11 @@ public class AssignmentDaoImpl implements AssignmentDao {
         Root<Assignment> root = criteriaQuery.from(Assignment.class);
         criteriaQuery.select(root);
         Query query = session.createQuery(criteriaQuery);
+        return query.getResultList();
+        */
+        TypedQuery<Assignment> query
+                = sessionFactory.getCurrentSession()
+                .createQuery("from Assignment");
         return query.getResultList();
     }
 

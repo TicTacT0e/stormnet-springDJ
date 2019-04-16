@@ -40,12 +40,17 @@ public class HibernateConfig {
         dataSource.setPassword(environment.getRequiredProperty("jdbc.password"));
         */
         dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
-        dataSource.setUrl("jdbc:mysql://localhost:3306/timesheet_dev" +
-                "?useUnicode=true&amp;useJDBCCompliantTimezoneShift" +
-                "=true&amp;useLegacyDatetimeCode=false&amp;serverTimezone=UTC");
+        dataSource.setUrl("jdbc:mysql://localhost:3306/timesheet_dev");
         dataSource.setUsername("root");
         dataSource.setPassword("admin");
         return dataSource;
+    }
+
+    @Bean
+    public HibernateTransactionManager getTransactionManager() {
+        HibernateTransactionManager transactionManager = new HibernateTransactionManager();
+        transactionManager.setSessionFactory(getSessionFactory().getObject());
+        return transactionManager;
     }
 
     private Properties hibernateProperties() {
@@ -61,13 +66,6 @@ public class HibernateConfig {
         properties.put("hibernate.format_sql", true);
         properties.put("hibernate.hbm2ddl.auto", "update");
         return properties;
-    }
-
-    @Bean
-    public HibernateTransactionManager getTransactionManager() {
-        HibernateTransactionManager transactionManager = new HibernateTransactionManager();
-        transactionManager.setSessionFactory(getSessionFactory().getObject());
-        return transactionManager;
     }
 
 }
