@@ -31,7 +31,7 @@ public class CompanyResource {
     @Path("/all")
     @Produces(MediaType.APPLICATION_JSON)
     public List<Company> getAll() {
-        log.warn("getAll method called");
+        log.warn("getAll method called");      
         return companyDao.getAll();
     }
 
