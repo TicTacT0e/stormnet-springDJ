@@ -71,7 +71,8 @@ public class EmployeeDaoImpl implements EmployeeDao {
     }
 
     @Override
-    public synchronized void assignToProject(Employee employee, Project project) {
+    public synchronized void assignToProject(Employee employee,
+                                             Project project) {
         employee.assignToProject(project);
     }
 }
