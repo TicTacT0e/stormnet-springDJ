@@ -16,5 +16,7 @@ public class JerseyConfig extends ResourceConfig {
         register(AssignmentResource.class);
         register(ProjectVersionResource.class);
         register(NotificationResource.class);
+        register(InvitationResource.class);
+
     }
 }
