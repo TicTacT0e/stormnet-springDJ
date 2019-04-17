@@ -8,7 +8,7 @@ import java.util.List;
 @Repository
 public interface AssignmentDao {
 
-    List getAll();
+    List<Assignment> getAll();
 
     Assignment findById(int id);
 
