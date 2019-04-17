@@ -1,10 +1,13 @@
 package app.dao.impl;
 
-import app.dao.LogsDao;
+import app.dao.BasicCrudDao;
 import app.entities.Logs;
 import app.entities.namespace.LogsNamespace;
 import app.exceptions.EntityNotFoundException;
+import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.LinkedList;
@@ -12,44 +15,39 @@ import java.util.List;
 import java.util.ListIterator;
 
 @Repository
-public class LogsDaoImpl implements LogsDao {
+@Transactional
+public class LogsDaoImpl implements BasicCrudDao {
 
-    private static List<Logs> logsList = new LinkedList<>();
+    @Autowired
+    private SessionFactory sessionFactory;
 
     @Override
-    public synchronized List<Logs> getLogFor(LogsNamespace logsNamespace) {
-        Date boundaryDate = logsNamespace.getBoundaryDate();
-        LinkedList<Logs> resultLogsList = new LinkedList<>();
-
-        ListIterator<Logs> logsIterator
-                = logsList.listIterator(logsList.size());
-        Logs previous;
-        while (logsIterator.hasPrevious()) {
-            previous = logsIterator.previous();
-            if (previous.getDate().before(boundaryDate)) {
-                break;
-            }
-            resultLogsList.add(previous);
-        }
-        return resultLogsList;
+    public Object findById(int id) {
+        return null;
     }
 
     @Override
-    public synchronized List<Logs> getAll() {
-        return logsList;
+    public List findAll() {
+        return null;
     }
 
     @Override
-    public synchronized void save(Logs logs) {
-        logsList.add(logs);
+    public void deleteById(int id) {
+
     }
 
     @Override
-    public synchronized void delete(Logs retiringLogs) {
-        if (!logsList.contains(retiringLogs)) {
-            throw new EntityNotFoundException();
-        }
-        logsList.remove(retiringLogs);
+    public void create(Object entity) {
+
     }
 
+    @Override
+    public void delete(Object entity) {
+
+    }
+
+    @Override
+    public void update(Object entity) {
+
+    }
 }

@@ -6,6 +6,7 @@ import app.dao.impl.*;
 import app.entities.Assignment;
 import app.entities.Company;
 import app.entities.Invitation;
+import app.entities.Logs;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -23,7 +24,7 @@ public class DaoConfig {
     }
 
     @Bean
-    public LogsDao getLogsDao() {
+    public BasicCrudDao<Logs> getLogsDao() {
         return new LogsDaoImpl();
     }
 
