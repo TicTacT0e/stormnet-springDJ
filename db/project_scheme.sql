@@ -26,7 +26,8 @@ CREATE TABLE `company` (
   `logo` varchar(45) NOT NULL,
   `ownerId` bigint(20) NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `NameLogo_UNIQUE` (`name`,`logo`)
+  UNIQUE KEY `Name_UNIQUE` (`name`),
+  UNIQUE KEY `Logo_UNIQUE` (`logo`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8
 
 CREATE TABLE `employee` (
@@ -36,7 +37,8 @@ CREATE TABLE `employee` (
   `email` varchar(150) NOT NULL,
   `photoUrl` varchar(200) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `PhotoUrlEmailPhoneName_UNIQUE` (`photoUrl`,`email`,`phone`,`name`)
+  UNIQUE KEY `PhotoUrlPhoneName_UNIQUE` (`photoUrl`,`phone`,`name`),
+  UNIQUE KEY `Email_UNIQUE` (`email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8
 
 CREATE TABLE `integration` (
@@ -59,6 +61,7 @@ CREATE TABLE `invitations` (
   `status` varchar(25) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `code_UNIQUE` (`code`),
+  UNIQUE KEY `PartnerId_UNIQUE` (`partnerId`),
   KEY `InvationPartner_idx` (`partnerId`),
   CONSTRAINT `InvationPartner` FOREIGN KEY (`partnerId`) REFERENCES `partner` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8
