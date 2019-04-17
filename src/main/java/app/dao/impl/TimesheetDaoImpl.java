@@ -40,7 +40,7 @@ public class TimesheetDaoImpl implements TimesheetDao {
         } catch (SQLException sqlException) {
             sqlException.printStackTrace();
         }
-        return null;
+        throw new NullPointerException();
     }
 
     @Override
@@ -62,7 +62,7 @@ public class TimesheetDaoImpl implements TimesheetDao {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return null;
+        throw new NullPointerException();
     }
 
     @Override
@@ -108,6 +108,6 @@ public class TimesheetDaoImpl implements TimesheetDao {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return null;
+        throw new NullPointerException();
     }
 }
