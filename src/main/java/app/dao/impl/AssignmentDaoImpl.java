@@ -2,6 +2,7 @@ package app.dao.impl;
 
 import app.dao.BasicCrudDao;
 import app.entities.Assignment;
+import app.exceptions.EntityNotFoundException;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,8 +20,12 @@ public class AssignmentDaoImpl implements BasicCrudDao<Assignment> {
 
     @Override
     public Assignment findById(int id) {
-        return sessionFactory.getCurrentSession()
+        Assignment assignment = sessionFactory.getCurrentSession()
                 .get(Assignment.class, id);
+        if (assignment == null) {
+            throw new EntityNotFoundException();
+        }
+        return assignment;
     }
 
     @Override
