@@ -1,14 +1,14 @@
 package app.entities;
 
-public class Assigment {
+public class Assignment {
 
     private int projectId;
     private int employeeId;
     private int workLoadInMinuts;
 
-    public Assigment() {}
+    public Assignment() {}
 
-    public Assigment(int projectId, int employeeId, int workLoadInMinuts) {
+    public Assignment(int projectId, int employeeId, int workLoadInMinuts) {
         this.projectId = projectId;
         this.employeeId = employeeId;
         this.workLoadInMinuts = workLoadInMinuts;
