@@ -1,7 +1,9 @@
 package app.dao.impl;
 
+import app.dao.BasicCrudDao;
 import app.dao.TimesheetDao;
 import app.entities.Timesheet;
+import app.exceptions.EntityNotFoundException;
 import app.services.JDBCConnection;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -10,7 +12,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 
-public class TimesheetDaoImpl implements TimesheetDao {
+public class TimesheetDaoImpl implements BasicCrudDao<Timesheet> {
 
     private final String FIND_BY_ID = "select * from timesheet where id = ?";
     private final String FIND_ALL = "select * from timesheet";
@@ -40,7 +42,7 @@ public class TimesheetDaoImpl implements TimesheetDao {
         } catch (SQLException sqlException) {
             sqlException.printStackTrace();
         }
-        throw new NullPointerException();
+        throw new EntityNotFoundException();
     }
 
     @Override
@@ -62,11 +64,11 @@ public class TimesheetDaoImpl implements TimesheetDao {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        throw new NullPointerException();
+        throw new EntityNotFoundException();
     }
 
     @Override
-    public void add(Timesheet timesheet) {
+    public void create(Timesheet timesheet) {
         try (Connection connection = jdbcConnection.getConnection();
              PreparedStatement preparedStatement = getValues(ADD, timesheet, connection)) {
             preparedStatement.executeUpdate();
@@ -76,7 +78,11 @@ public class TimesheetDaoImpl implements TimesheetDao {
     }
 
     @Override
-    public void delete(int id) {
+    public void delete(Timesheet entity) {
+    }
+
+    @Override
+    public void deleteById(int id) {
         try (Connection connection = jdbcConnection.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(DELETE)) {
             preparedStatement.setInt(1, id);
