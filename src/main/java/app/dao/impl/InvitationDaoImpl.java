@@ -7,12 +7,14 @@ import app.exceptions.EntityNotFoundException;
 import app.services.JDBCConnection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.*;
 import java.util.LinkedList;
 import java.util.List;
 
 @Repository
+@Transactional
 public class InvitationDaoImpl implements BasicCrudDao<Invitation> {
 
     private static final String GET_ALL =
