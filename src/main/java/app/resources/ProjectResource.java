@@ -43,6 +43,9 @@ public class ProjectResource {
     @Path("/edit/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response edit(@PathParam("id") int id, Project project) {
+        if (id != project.getId()){
+            return Response.status(Response.Status.CONFLICT.getStatusCode()).build();
+        }
         projectDao.edit(project);
         return Response.status(Response.Status.CREATED.getStatusCode()).build();
     }
@@ -50,8 +53,8 @@ public class ProjectResource {
     @DELETE
     @Path("/delete/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response delete(@PathParam("id") int id) {
-        projectDao.delete(id);
+    public Response delete(@PathParam("id") int id, Project project) {
+        projectDao.delete(project);
         return Response.status(Response.Status.OK.getStatusCode()).build();
     }
 }

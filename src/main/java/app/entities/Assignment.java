@@ -1,24 +1,30 @@
 package app.entities;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.util.Objects;
 
+@Entity
+@Table(name = "Assignment")
 public class Assignment {
 
+    @Id
     private int id;
     private int projectId;
     private int employeeId;
     private int activityId;
-    private int workLoadInMinutes;
+    private int workLoad;
 
     public Assignment() {
     }
 
-    public Assignment(int id, int projectId, int employeeId, int activityId, int workLoadInMinutes) {
+    public Assignment(int id, int projectId, int employeeId, int activityId, int workLoad) {
         this.id = id;
         this.projectId = projectId;
         this.employeeId = employeeId;
         this.activityId = activityId;
-        this.workLoadInMinutes = workLoadInMinutes;
+        this.workLoad = workLoad;
     }
 
     public Assignment(Assignment assigment) {
@@ -27,7 +33,7 @@ public class Assignment {
                 assigment.getProjectId(),
                 assigment.getEmployeeId(),
                 assigment.getActivityId(),
-                assigment.getWorkLoadInMinutes()
+                assigment.getWorkLoad()
         );
     }
 
@@ -47,12 +53,12 @@ public class Assignment {
         this.employeeId = employeeId;
     }
 
-    public int getWorkLoadInMinutes() {
-        return workLoadInMinutes;
+    public int getWorkLoad() {
+        return workLoad;
     }
 
-    public void setWorkLoadInMinutes(int workLoadInMinutes) {
-        this.workLoadInMinutes = workLoadInMinutes;
+    public void setWorkLoad(int workLoadInMinutes) {
+        this.workLoad = workLoadInMinutes;
     }
 
     public int getActivityId() {
@@ -84,13 +90,13 @@ public class Assignment {
                 && getProjectId() == that.getProjectId()
                 && getEmployeeId() == that.getEmployeeId()
                 && getActivityId() == that.getActivityId()
-                && getWorkLoadInMinutes() == that.getWorkLoadInMinutes();
+                && getWorkLoad() == that.getWorkLoad();
     }
 
     @Override
     public int hashCode() {
         return Objects
                 .hash(getId(), getProjectId(), getEmployeeId(),
-                        getActivityId(), getWorkLoadInMinutes());
+                        getActivityId(), getWorkLoad());
     }
 }
