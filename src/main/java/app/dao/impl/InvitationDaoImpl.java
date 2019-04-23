@@ -3,160 +3,70 @@ package app.dao.impl;
 import app.config.beans.HibernateSessionFactoryUtil;
 import app.dao.BasicCrudDao;
 import app.entities.Invitation;
-import app.exceptions.EntityAlreadyExistsException;
 import app.exceptions.EntityNotFoundException;
-import app.services.JDBCConnection;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.sql.*;
-import java.util.LinkedList;
 import java.util.List;
 
 @Repository
 @Transactional
 public class InvitationDaoImpl implements BasicCrudDao<Invitation> {
 
-    private static final String GET_ALL =
-            "SELECT * FROM timesheet_dev.Invitations";
-
-    private static final String GET_FINDBYID =
-            "SELECT * FROM timesheet_dev.Invitations WHERE id=?";
-
-    private static final String SAVE =
-            "INSERT INTO timesheet_dev.Invitations (partnerId, " +
-                    "invitationsCode, dateEnd, status, id) VALUE (?, ?, ?, ?, ?)";
-
-    private static final String DELETE =
-            "DELETE FROM timesheet_dev.Invitations WHERE id=?";
-
-    private static final String UPDATE =
-            "UPDATE timesheet_dev.Invitations SET partnerId=?, invitationsCode=?, dateEnd=?, status=?" +
-                    " WHERE id=?";
-
-    private static final String IS_EXISTS =
-            "SELECT EXISTS (SELECT id FROM timesheet_dev.Invitations " +
-                    "WHERE id=?)";
-
-    @Autowired
-    JDBCConnection jdbcConnection;
-
-    private static final int ROW_EXISTS = 1;
-
     @Override
     public Invitation findById(int id) {
-        return HibernateSessionFactoryUtil.getSessionFactory().openSession().get(Invitation.class, id);
+        Invitation invitation = HibernateSessionFactoryUtil.getSessionFactory().openSession().get(Invitation.class, id);
+        if (invitation == null) {
+            throw new EntityNotFoundException();
+        }
+        return invitation;
     }
 
+    // don't working
     @Override
     public List<Invitation> findAll() {
-        List<Invitation> invitationList = null;
-        try (Connection connection = jdbcConnection.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(GET_ALL)) {
-            ResultSet resultSet = preparedStatement.executeQuery();
-
-            invitationList = invitationListMapper(resultSet);
-
-            resultSet.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
+        List<Invitation> invitationList = (List<Invitation>) HibernateSessionFactoryUtil.getSessionFactory()
+                .openSession().createQuery("From Invitations").list();
         return invitationList;
     }
 
-    @Override
-    public void deleteById(int id) {
-        if (isInvitationExists(id)) {
-            throw new EntityNotFoundException();
-        }
-        try (Connection connection = jdbcConnection.getConnection()) {
-            PreparedStatement preparedStatement = connection.prepareStatement(DELETE);
-            preparedStatement.setInt(1, id);
-            preparedStatement.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
+    // don't working
     @Override
     public void create(Invitation entity) {
-        try (Connection connection = jdbcConnection.getConnection()) {
-            createPreparedStatement(entity, connection, SAVE).executeUpdate();
-
-        } catch (SQLIntegrityConstraintViolationException exception) {
-            throw new EntityAlreadyExistsException();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
+        Transaction transaction = session.beginTransaction();
+        session.save(entity);
+        transaction.commit();
+        session.close();
     }
 
-    private PreparedStatement createPreparedStatement(Invitation invitation, Connection connection, String string) throws SQLException {
-        PreparedStatement preparedStatement = connection.prepareStatement(string);
-        preparedStatement.setInt(1, invitation.getPartnerId());
-        preparedStatement.setString(2, invitation.getInvitationsCode());
-        preparedStatement.setDate(3, invitation.getDateEnd());
-        preparedStatement.setString(4, invitation.getStatus());
-        preparedStatement.setInt(5, invitation.getId());
-        return preparedStatement;
+    // don't working
+    @Override
+    public void deleteById(int id) {
+        Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
+        Transaction transaction = session.beginTransaction();
+        session.delete(findById(id));
+        transaction.commit();
+        session.close();
     }
-
 
     @Override
     public void delete(Invitation entity) {
-        deleteById(entity.getId());
+        Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
+        Transaction transaction = session.beginTransaction();
+        session.delete(entity);
+        transaction.commit();
+        session.close();
     }
 
     @Override
     public void update(Invitation entity) {
-        if (isInvitationExists(entity.getId())) {
-            throw new EntityNotFoundException();
-        }
-        try (Connection connection = jdbcConnection.getConnection()) {
-            createPreparedStatement(entity, connection, UPDATE).executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private boolean isInvitationExists(int id) {
-        try (Connection connection = jdbcConnection.getConnection();
-             PreparedStatement preparedStatement = connection
-                     .prepareStatement(IS_EXISTS)) {
-            preparedStatement.setInt(1, id);
-            ResultSet resultSet = preparedStatement.executeQuery();
-            if (resultSet.next()
-                    && resultSet.getInt(1) == ROW_EXISTS) {
-                return false;
-            }
-        } catch (SQLException exception) {
-            exception.printStackTrace();
-        }
-        return true;
-    }
-
-    private List<Invitation> invitationListMapper(ResultSet resultSet)
-            throws SQLException {
-        List<Invitation> invitationList = new LinkedList<>();
-        Invitation invitation;
-        while (resultSet.next()) {
-            invitation = invitationMapper(resultSet);
-            invitationList.add(invitation);
-        }
-        return invitationList;
-    }
-
-    private Invitation invitationMapper(ResultSet resultSet)
-            throws SQLException {
-        Invitation invitation = new Invitation();
-
-        invitation.setId(resultSet.getInt("id"));
-        invitation.setPartnerId(resultSet.getInt("partnerId"));
-        invitation.setInvitationsCode(resultSet.getString("invitationsCode"));
-        invitation.setDateEnd(resultSet.getDate("dateEnd"));
-        invitation.setStatus(resultSet.getString("status"));
-
-        return invitation;
+        Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
+        Transaction transaction = session.beginTransaction();
+        session.update(entity);
+        transaction.commit();
+        session.close();
     }
 }
