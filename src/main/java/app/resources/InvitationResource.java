@@ -28,7 +28,7 @@ public class InvitationResource {
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public Invitation get(@PathParam("id") int id) {
-        return (Invitation) basicCrudDao.findById(id);
+        return basicCrudDao.findById(id);
     }
 
     @POST

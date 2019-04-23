@@ -1,5 +1,6 @@
 package app.dao.impl;
 
+import app.config.beans.HibernateSessionFactoryUtil;
 import app.dao.BasicCrudDao;
 import app.entities.Invitation;
 import app.exceptions.EntityAlreadyExistsException;
@@ -45,24 +46,7 @@ public class InvitationDaoImpl implements BasicCrudDao<Invitation> {
 
     @Override
     public Invitation findById(int id) {
-        Invitation invitation = null;
-        try (Connection connection = jdbcConnection.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(GET_FINDBYID)) {
-            preparedStatement.setInt(1, id);
-            ResultSet resultSet = preparedStatement.executeQuery();
-            resultSet.next();
-
-            invitation = invitationMapper(resultSet);
-
-            if (invitation == null) {
-                throw new EntityNotFoundException();
-            }
-            resultSet.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        return invitation;
+        return HibernateSessionFactoryUtil.getSessionFactory().openSession().get(Invitation.class, id);
     }
 
     @Override
