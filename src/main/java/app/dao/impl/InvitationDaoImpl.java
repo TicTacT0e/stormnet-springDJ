@@ -24,15 +24,13 @@ public class InvitationDaoImpl implements BasicCrudDao<Invitation> {
         return invitation;
     }
 
-    // don't working
     @Override
     public List<Invitation> findAll() {
         List<Invitation> invitationList = (List<Invitation>) HibernateSessionFactoryUtil.getSessionFactory()
-                .openSession().createQuery("From Invitations").list();
+                .openSession().createQuery("from Invitation").list();
         return invitationList;
     }
 
-    // don't working
     @Override
     public void create(Invitation entity) {
         Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
@@ -42,7 +40,6 @@ public class InvitationDaoImpl implements BasicCrudDao<Invitation> {
         session.close();
     }
 
-    // don't working
     @Override
     public void deleteById(int id) {
         Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();

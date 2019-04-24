@@ -33,13 +33,13 @@
         <hibernate.version>5.4.2.Final</hibernate.version>
 
         <jdbc.driver>com.mysql.cj.jdbc.Driver</jdbc.driver>
-        <db.url>jdbc:mysql://localhost:3306/timesheet_dev</db.url>
+        <db.url>jdbc:mysql://localhost:3306/timesheet_dev?useSSL=false</db.url>
         <db.username>root</db.username>
         <db.password>qwerty</db.password>
 
         <hibernate.dialect>org.hibernate.dialect.MySQLDialect</hibernate.dialect>
         <hibernate.connection.driver_class>com.mysql.cj.jdbc.Driver</hibernate.connection.driver_class>
-        <hibernate.connection.url>jdbc:mysql://localhost:3306/timesheet_dev</hibernate.connection.url>
+        <hibernate.connection.url>jdbc:mysql://localhost:3306/timesheet_dev?useSSL=false</hibernate.connection.url>
         <hibernate.connection.username>root</hibernate.connection.username>
         <hibernate.connection.password>qwerty</hibernate.connection.password>
         <hibernate.show_sql>true</hibernate.show_sql>
