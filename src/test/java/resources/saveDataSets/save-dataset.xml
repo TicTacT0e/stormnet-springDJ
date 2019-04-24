@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-
-<dataset>
-    <Assignment id="0" projectId="1" employeeId="2" activityId = "2" workLoadInMinutes="4500"/>
-    <Assignment id="1" projectId="1" employeeId="3" activityId = "1" workLoadInMinutes="6750"/>
-    <Assignment id="2" projectId="2" employeeId="1" activityId = "3" workLoadInMinutes="8000"/>
-    <Assignment id="3" projectId="3" employeeId="4" activityId = "4" workLoadInMinutes="10000"/>
-    <Assignment id="4" projectId="4" employeeId="7" activityId = "5" workLoadInMinutes="12000"/>
-</dataset>

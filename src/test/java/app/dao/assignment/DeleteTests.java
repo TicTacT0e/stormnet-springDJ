@@ -15,7 +15,7 @@ public class DeleteTests extends AssignmentDaoTestsInitiator {
         IDataSet expectedDataSet = new FlatXmlDataSetBuilder()
                 .build(getClass()
                         .getClassLoader()
-                        .getResourceAsStream("deleteDataSets/delete-dataset.xml"));
+                        .getResourceAsStream("assignment/deleteDataSets/delete-dataset.xml"));
         ITable expectedTable = expectedDataSet.getTable(assignmentTable);
         IDataSet actualDataSet = getMySqlConnection().createDataSet();
         ITable actualTable = actualDataSet.getTable(assignmentTable);

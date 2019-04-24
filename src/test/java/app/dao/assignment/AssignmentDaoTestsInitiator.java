@@ -1,8 +1,8 @@
 package app.dao.assignment;
 
 import app.config.beans.DaoConfig;
+import app.config.beans.HibernateConfig;
 import app.config.beans.PropertyConfig;
-import app.dao.AssignmentDao;
 import app.dao.BasicCrudDao;
 import app.entities.Assignment;
 import org.dbunit.Assertion;
@@ -28,7 +28,7 @@ import java.util.Objects;
 import java.util.Properties;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = {DaoConfig.class, PropertyConfig.class})
+@ContextConfiguration(classes = {DaoConfig.class, HibernateConfig.class, PropertyConfig.class})
 public class AssignmentDaoTestsInitiator extends DBTestCase {
 
     @Autowired
@@ -46,7 +46,7 @@ public class AssignmentDaoTestsInitiator extends DBTestCase {
         try {
             properties.load(Objects.requireNonNull(getClass()
                     .getClassLoader()
-                    .getResourceAsStream("assignmentTests.properties")));
+                    .getResourceAsStream("assignment/assignmentTests.properties")));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -90,7 +90,7 @@ public class AssignmentDaoTestsInitiator extends DBTestCase {
         return new FlatXmlDataSetBuilder()
                 .build(getClass()
                         .getClassLoader()
-                        .getResourceAsStream("initial-dataset.xml"));
+                        .getResourceAsStream("assignment/initial-dataset.xml"));
     }
 
     protected DatabaseOperation getSetUpOperation() throws Exception {
@@ -106,7 +106,7 @@ public class AssignmentDaoTestsInitiator extends DBTestCase {
         IDataSet expectedDataSet = new FlatXmlDataSetBuilder()
                 .build(getClass()
                         .getClassLoader()
-                        .getResourceAsStream("initial-dataset.xml"));
+                        .getResourceAsStream("assignment/initial-dataset.xml"));
         ITable expectedTable = expectedDataSet.getTable(assignmentTable);
 
         IDataSet actualDataSet = getMySqlConnection().createDataSet();

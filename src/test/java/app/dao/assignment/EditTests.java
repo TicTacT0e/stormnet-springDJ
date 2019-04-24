@@ -17,7 +17,7 @@ public class EditTests extends AssignmentDaoTestsInitiator {
         IDataSet expectedDataSet = new FlatXmlDataSetBuilder()
                 .build(getClass()
                         .getClassLoader()
-                        .getResourceAsStream("editDataSets/edit-dataset.xml"));
+                        .getResourceAsStream("assignment/editDataSets/edit-dataset.xml"));
         ITable expectedTable = expectedDataSet.getTable(assignmentTable);
         IDataSet actualDataSet = getMySqlConnection().createDataSet();
         ITable actualTable = actualDataSet.getTable(assignmentTable);
@@ -27,6 +27,6 @@ public class EditTests extends AssignmentDaoTestsInitiator {
     @Test(expected = EntityNotFoundException.class)
     public void editWithNonExistsPrimaryKey() {
         assignmentDao
-                .update(new Assignment(0, 4, 7, 1, 15000));
+                .update(new Assignment(15, 4, 7, 1, 15000));
     }
 }

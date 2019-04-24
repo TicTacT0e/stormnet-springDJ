@@ -17,7 +17,7 @@ public class SaveTests extends AssignmentDaoTestsInitiator {
         IDataSet expectedDataSet = new FlatXmlDataSetBuilder()
                 .build(getClass()
                         .getClassLoader()
-                        .getResourceAsStream("saveDataSets/save-dataset.xml"));
+                        .getResourceAsStream("assignment/saveDataSets/save-dataset.xml"));
         ITable expectedTable = expectedDataSet.getTable(assignmentTable);
         IDataSet actualDataSet = getMySqlConnection().createDataSet();
         ITable actualTable = actualDataSet.getTable(assignmentTable);

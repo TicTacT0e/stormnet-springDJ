@@ -19,7 +19,7 @@ public class GetAllTests extends AssignmentDaoTestsInitiator {
         IDataSet expectedDataSet = new FlatXmlDataSetBuilder()
                 .build(getClass()
                         .getClassLoader()
-                        .getResourceAsStream("initial-dataset.xml"));
+                        .getResourceAsStream("assignment/initial-dataset.xml"));
         ITable expectedTable = expectedDataSet.getTable(assignmentTable);
         List<Assignment> assignments = assignmentDao.findAll();
         int index = NUMBER_OF_FIRST_ROW;
@@ -36,7 +36,7 @@ public class GetAllTests extends AssignmentDaoTestsInitiator {
             Assert.assertEquals(expectedTable.getValue(index, "activityId")
                             .toString(),
                     String.valueOf(assignment.getActivityId()));
-            Assert.assertEquals(expectedTable.getValue(index, "workLoadInMinutes")
+            Assert.assertEquals(expectedTable.getValue(index, "workLoad")
                             .toString(),
                     String.valueOf(assignment.getWorkLoad()));
             index++;

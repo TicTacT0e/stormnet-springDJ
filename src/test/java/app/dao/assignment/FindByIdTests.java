@@ -18,7 +18,7 @@ public class FindByIdTests extends AssignmentDaoTestsInitiator {
         IDataSet expectedDataSet = new FlatXmlDataSetBuilder()
                 .build(getClass()
                         .getClassLoader()
-                        .getResourceAsStream("findByIdDataSets/find-by-id-dataset.xml"));
+                        .getResourceAsStream("assignment/findByIdDataSets/find-by-id-dataset.xml"));
         ITable expectedTable = expectedDataSet.getTable(assignmentTable);
 
         Assignment assignment = assignmentDao.findById(3);
@@ -35,7 +35,7 @@ public class FindByIdTests extends AssignmentDaoTestsInitiator {
         Assert.assertEquals(expectedTable.getValue(NUMBER_OF_FIRST_ROW, "activityId")
                         .toString(),
                 String.valueOf(assignment.getActivityId()));
-        Assert.assertEquals(expectedTable.getValue(NUMBER_OF_FIRST_ROW, "workLoadInMinutes")
+        Assert.assertEquals(expectedTable.getValue(NUMBER_OF_FIRST_ROW, "workLoad")
                         .toString(),
                 String.valueOf(assignment.getWorkLoad()));
     }
