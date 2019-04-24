@@ -3,6 +3,8 @@ package app.dao.assignment;
 import app.config.beans.DaoConfig;
 import app.config.beans.PropertyConfig;
 import app.dao.AssignmentDao;
+import app.dao.BasicCrudDao;
+import app.entities.Assignment;
 import org.dbunit.Assertion;
 import org.dbunit.DBTestCase;
 import org.dbunit.PropertiesBasedJdbcDatabaseTester;
@@ -30,7 +32,7 @@ import java.util.Properties;
 public class AssignmentDaoTestsInitiator extends DBTestCase {
 
     @Autowired
-    protected AssignmentDao assignmentDao;
+    protected BasicCrudDao<Assignment> assignmentDao;
 
     private String driver;
     private String url;

@@ -13,7 +13,7 @@ public class SaveTests extends AssignmentDaoTestsInitiator {
     public void save() throws Exception {
         Assignment assignment =
                 new Assignment(4, 4, 7, 5, 12000);
-        assignmentDao.save(assignment);
+        assignmentDao.create(assignment);
         IDataSet expectedDataSet = new FlatXmlDataSetBuilder()
                 .build(getClass()
                         .getClassLoader()

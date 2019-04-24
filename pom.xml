@@ -15,8 +15,8 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.source>1.9</maven.compiler.source>
-        <maven.compiler.target>1.9</maven.compiler.target>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
 
         <junit.version>4.12</junit.version>
         <joda-time.version>2.10</joda-time.version>
@@ -32,14 +32,23 @@
         <mysql-connector.version>8.0.15</mysql-connector.version>
         <dbunit.version>2.5.4</dbunit.version>
         <slf4j.version>1.7.26</slf4j.version>
+        <hibernate.version>5.4.2.Final</hibernate.version>
 
-        <jdbc.driver>com.mysql.jdbc.Driver</jdbc.driver>
-        <db.url>jdbc:mysql://localhost:3306/timesheet_dev</db.url>
+        <jdbc.driver>com.mysql.cj.jdbc.Driver</jdbc.driver>
+        <db.url>jdbc:mysql://localhost:3306/timesheet_dev?useUnicode=true&amp;useJDBCCompliantTimezoneShift=true&amp;useLegacyDatetimeCode=false&amp;serverTimezone=UTC</db.url>
+        <db.username>root</db.username>
+        <db.password>admin</db.password>
+        <!--
         <db.username>username</db.username>
         <db.password>qwerty123</db.password>
+        -->
+        <hibernate.dialect>org.hibernate.dialect.MySQLDialect</hibernate.dialect>
+        <hibernate.show_sql>true</hibernate.show_sql>
+        <hibernate.format_sql>true</hibernate.format_sql>
     </properties>
 
     <dependencies>
+
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
@@ -75,6 +84,12 @@
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-webmvc</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-orm</artifactId>
             <version>${spring.version}</version>
         </dependency>
 
@@ -143,6 +158,18 @@
             <groupId>com.github.springtestdbunit</groupId>
             <artifactId>spring-test-dbunit</artifactId>
             <version>1.3.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>1.7.5</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-simple</artifactId>
+            <version>1.7.25</version>
             <scope>test</scope>
         </dependency>
 
@@ -164,6 +191,18 @@
             <artifactId>slf4j-jdk14</artifactId>
             <version>${slf4j.version}</version>
             <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-core</artifactId>
+            <version>${hibernate.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-validator</artifactId>
+            <version>${hibernate.version}</version>
         </dependency>
 
     </dependencies>
@@ -214,7 +253,6 @@
         </pluginManagement>
 
         <plugins>
-
             <plugin>
                 <artifactId>maven-war-plugin</artifactId>
                 <version>3.2.2</version>

@@ -21,7 +21,7 @@ public class FindByIdTests extends AssignmentDaoTestsInitiator {
                         .getResourceAsStream("findByIdDataSets/find-by-id-dataset.xml"));
         ITable expectedTable = expectedDataSet.getTable(assignmentTable);
 
-        Assignment assignment = assignmentDao.findById(3, 4);
+        Assignment assignment = assignmentDao.findById(3);
 
         Assert.assertEquals(expectedTable.getValue(NUMBER_OF_FIRST_ROW, "id")
                         .toString(),
@@ -37,12 +37,12 @@ public class FindByIdTests extends AssignmentDaoTestsInitiator {
                 String.valueOf(assignment.getActivityId()));
         Assert.assertEquals(expectedTable.getValue(NUMBER_OF_FIRST_ROW, "workLoadInMinutes")
                         .toString(),
-                String.valueOf(assignment.getWorkLoadInMinutes()));
+                String.valueOf(assignment.getWorkLoad()));
     }
 
     @Test(expected = EntityNotFoundException.class)
     public void findByIdWithNonExistsPrimaryKey() {
         assignmentDao
-                .findById(4, 7);
+                .findById(4);
     }
 }

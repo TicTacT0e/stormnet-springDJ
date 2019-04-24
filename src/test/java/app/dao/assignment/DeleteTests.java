@@ -11,7 +11,7 @@ public class DeleteTests extends AssignmentDaoTestsInitiator {
 
     @Test
     public void deleteIdInParameters() throws Exception {
-        assignmentDao.delete(2, 1);
+        assignmentDao.deleteById(2);
         IDataSet expectedDataSet = new FlatXmlDataSetBuilder()
                 .build(getClass()
                         .getClassLoader()
@@ -24,6 +24,6 @@ public class DeleteTests extends AssignmentDaoTestsInitiator {
 
     @Test(expected = EntityNotFoundException.class)
     public void deleteWithNonExistsPrimaryKey() {
-        assignmentDao.delete(4, 7);
+        assignmentDao.deleteById(4);
     }
 }

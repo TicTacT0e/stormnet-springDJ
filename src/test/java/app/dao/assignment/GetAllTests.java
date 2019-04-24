@@ -21,7 +21,7 @@ public class GetAllTests extends AssignmentDaoTestsInitiator {
                         .getClassLoader()
                         .getResourceAsStream("initial-dataset.xml"));
         ITable expectedTable = expectedDataSet.getTable(assignmentTable);
-        List<Assignment> assignments = assignmentDao.getAll();
+        List<Assignment> assignments = assignmentDao.findAll();
         int index = NUMBER_OF_FIRST_ROW;
         for (Assignment assignment : assignments) {
             Assert.assertEquals(expectedTable.getValue(index, "id")
@@ -38,7 +38,7 @@ public class GetAllTests extends AssignmentDaoTestsInitiator {
                     String.valueOf(assignment.getActivityId()));
             Assert.assertEquals(expectedTable.getValue(index, "workLoadInMinutes")
                             .toString(),
-                    String.valueOf(assignment.getWorkLoadInMinutes()));
+                    String.valueOf(assignment.getWorkLoad()));
             index++;
         }
     }

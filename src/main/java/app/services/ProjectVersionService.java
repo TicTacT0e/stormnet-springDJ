@@ -10,9 +10,7 @@ public class ProjectVersionService {
     @Value("${version}")
     String version;
 
-
     public ProjectVersion getProjectVersion() {
-        System.out.println(version);
         return new ProjectVersion(version);
     }
 }
