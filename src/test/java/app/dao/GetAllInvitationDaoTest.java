@@ -20,7 +20,7 @@ public class GetAllInvitationDaoTest extends InitilizationInvitationDaoTest {
             IDataSet iDataSet = new FlatXmlDataSetBuilder().build(getClass().getClassLoader().
                     getResourceAsStream("datasets/Invitation/getAll-dataset.xml"));
             ITable iTable = iDataSet.getTable(table);
-            List<Invitation> invitationList = invitationDao.getAll();
+            List<Invitation> invitationList = basicCrudDao.findAll();
             int index = NUMBER_OF_FIRST_ROW;
             for (Invitation invitation : invitationList) {
                 Assert.assertEquals(iTable.getValue(index, "id").toString(),

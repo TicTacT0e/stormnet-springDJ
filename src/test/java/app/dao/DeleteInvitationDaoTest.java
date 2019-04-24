@@ -16,7 +16,7 @@ public class DeleteInvitationDaoTest extends InitilizationInvitationDaoTest {
 
     @Test
     public void deleteById() {
-        invitationDao.delete(4);
+        basicCrudDao.deleteById(4);
         try {
             IDataSet iDataSet = new FlatXmlDataSetBuilder().build(getClass().getClassLoader()
                     .getResourceAsStream("datasets/Invitation/delete-dataset.xml"));
@@ -36,7 +36,7 @@ public class DeleteInvitationDaoTest extends InitilizationInvitationDaoTest {
 
     @Test
     public void deleteByObject() {
-        invitationDao.delete(new Invitation(
+        basicCrudDao.delete(new Invitation(
                 1, 1,
                 "invatationCode", new Date(2019 - 03 - 03), "status"
         ));
@@ -60,6 +60,6 @@ public class DeleteInvitationDaoTest extends InitilizationInvitationDaoTest {
 
     @Test(expected = EntityNotFoundException.class)
     public void deleteInvitationException() {
-        invitationDao.delete(34);
+        basicCrudDao.deleteById(34);
     }
 }

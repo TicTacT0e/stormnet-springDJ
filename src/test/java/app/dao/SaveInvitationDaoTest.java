@@ -15,7 +15,7 @@ public class SaveInvitationDaoTest extends InitilizationInvitationDaoTest {
 
     @Test
     public void saveInvitation() {
-        invitationDao.save(new Invitation(
+        basicCrudDao.create(new Invitation(
                 5, 1,"invatationCode", new Date(2019,3,3), "status"
         ));
         try {

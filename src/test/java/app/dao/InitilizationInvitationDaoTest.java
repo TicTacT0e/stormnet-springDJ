@@ -3,6 +3,7 @@ package app.dao;
 import app.config.beans.DaoConfig;
 import app.config.beans.PropertyConfig;
 import app.dao.InvitationDao;
+import app.entities.Invitation;
 import org.dbunit.Assertion;
 import org.dbunit.DBTestCase;
 import org.dbunit.PropertiesBasedJdbcDatabaseTester;
@@ -31,7 +32,7 @@ import java.util.Properties;
 public class InitilizationInvitationDaoTest extends DBTestCase {
 
     @Autowired
-    protected InvitationDao invitationDao;
+    protected BasicCrudDao<Invitation> basicCrudDao;
 
     private String driver;
     private String url;

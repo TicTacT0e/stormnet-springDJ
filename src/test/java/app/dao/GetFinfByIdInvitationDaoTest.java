@@ -19,7 +19,7 @@ public class GetFinfByIdInvitationDaoTest extends InitilizationInvitationDaoTest
                     .getResourceAsStream("datasets/Invitation/getFindById-dataset.xml"));
             ITable iTable = iDataSet.getTable(table);
 
-            Invitation invitation = invitationDao.findById(1);
+            Invitation invitation = basicCrudDao.findById(1);
 
             Assert.assertEquals(iTable.getValue(NUMBER_OF_FIRST_ROW, "id").toString(),
                     String.valueOf(invitation.getId()));
@@ -38,6 +38,6 @@ public class GetFinfByIdInvitationDaoTest extends InitilizationInvitationDaoTest
 
 //    @Test(expected = EntityNotFoundException.class)
 //    public void getFindByIdException() {
-//        invitationDao.findById(6);
+//        basicCrudDao.findById(6);
 //    }
 }
