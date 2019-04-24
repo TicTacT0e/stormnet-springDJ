@@ -28,9 +28,9 @@ public class HibernateConfig {
     @Value("${hibernate.dialect}")
     private String hibernateDialect;
     @Value("${hibernate.show_sql}")
-    private boolean showSql;
+    private String showSql;
     @Value("${hibernate.format_sql}")
-    private boolean formatSql;
+    private String formatSql;
 
     @Bean
     public LocalSessionFactoryBean getSessionFactory() {

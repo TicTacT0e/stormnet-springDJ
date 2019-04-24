@@ -1,8 +1,9 @@
-package app.dao;
+package app.dao.impl;
 
 import app.config.beans.DaoConfig;
+import app.config.beans.HibernateConfig;
 import app.config.beans.PropertyConfig;
-import app.dao.InvitationDao;
+import app.dao.BasicCrudDao;
 import app.entities.Invitation;
 import org.dbunit.Assertion;
 import org.dbunit.DBTestCase;
@@ -26,9 +27,8 @@ import java.io.IOException;
 import java.util.Objects;
 import java.util.Properties;
 
-
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = {DaoConfig.class, PropertyConfig.class})
+@ContextConfiguration(classes = {DaoConfig.class, PropertyConfig.class, HibernateConfig.class})
 public class InitilizationInvitationDaoTest extends DBTestCase {
 
     @Autowired

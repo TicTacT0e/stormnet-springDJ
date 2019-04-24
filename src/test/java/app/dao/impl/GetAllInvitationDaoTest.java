@@ -1,4 +1,4 @@
-package app.dao;
+package app.dao.impl;
 
 import app.entities.Invitation;
 import org.dbunit.dataset.DataSetException;

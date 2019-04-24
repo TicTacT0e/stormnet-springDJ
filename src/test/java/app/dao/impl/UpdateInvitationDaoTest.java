@@ -1,7 +1,6 @@
-package app.dao;
+package app.dao.impl;
 
 import app.entities.Invitation;
-import app.exceptions.EntityNotFoundException;
 import org.dbunit.Assertion;
 import org.dbunit.dataset.DataSetException;
 import org.dbunit.dataset.IDataSet;
@@ -38,7 +37,7 @@ public class UpdateInvitationDaoTest extends InitilizationInvitationDaoTest {
         }
     }
 
-    @Test(expected = EntityNotFoundException.class)
+    @Test(expected = Exception.class)
     public void updateInvitationException() {
         basicCrudDao.update(new Invitation(
                 6, 1, "invatationCode",
