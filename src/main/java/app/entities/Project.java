@@ -2,10 +2,15 @@ package app.entities;
 
 import app.utils.TimeUtil;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.sql.Date;
 
+@Entity
+@Table(name = "timesheet_dev.project")
 public class Project {
-
+    @Id
     private int id;
     private String name;
     private String logoUrl;
