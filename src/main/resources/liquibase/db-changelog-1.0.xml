@@ -17,4 +17,18 @@
             <dropTable tableName="GoodTable"/>
         </rollback>
     </changeSet>
+
+    <changeSet id="2" author="Kiryll_Shalpuk">
+        <dropTable tableName="GoodTable"/>
+        <rollback>
+            <createTable tableName="GoodTable">
+                <column name="id" type="int">
+                    <constraints primaryKey="true" nullable="false"/>
+                </column>
+                <column name="name" type="varchar(50)">
+                    <constraints nullable="false"/>
+                </column>
+            </createTable>
+        </rollback>
+    </changeSet>
 </databaseChangeLog>
