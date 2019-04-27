@@ -1,4 +1,4 @@
-package app.dao.assignment;
+package app.dao.impl.assignment;
 
 import app.exceptions.EntityNotFoundException;
 import org.dbunit.Assertion;

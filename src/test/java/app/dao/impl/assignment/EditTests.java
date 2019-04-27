@@ -1,4 +1,4 @@
-package app.dao.assignment;
+package app.dao.impl.assignment;
 
 import app.entities.Assignment;
 import app.exceptions.EntityNotFoundException;
