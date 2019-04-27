@@ -47,4 +47,19 @@ public class DaoConfig {
         return new NotificationDaoImpl();
     }
 
+    @Bean
+    public SettingsDaoImpl getSettingsDao() {
+        return new SettingsDaoImpl();
+    }
+
+    @Bean
+    public ActivityDaoImpl getActivityDao() {
+        return new ActivityDaoImpl();
+    }
+
+    @Bean
+    public IntegrationDaoImpl getIntegrationDao() {
+        return new IntegrationDaoImpl(); 
+    }
+
 }
