@@ -10,7 +10,7 @@ import org.junit.Test;
 public class DeleteTests extends AssignmentDaoTestsInitiator {
 
     @Test
-    public void deleteIdInParameters() throws Exception {
+    public void deleteById() throws Exception {
         assignmentDao.deleteById(2);
         IDataSet expectedDataSet = new FlatXmlDataSetBuilder()
                 .build(getClass()

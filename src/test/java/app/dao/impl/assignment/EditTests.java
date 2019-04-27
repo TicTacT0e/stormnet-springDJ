@@ -7,6 +7,7 @@ import org.dbunit.dataset.IDataSet;
 import org.dbunit.dataset.ITable;
 import org.dbunit.dataset.xml.FlatXmlDataSetBuilder;
 import org.junit.Test;
+import org.springframework.orm.hibernate5.HibernateOptimisticLockingFailureException;
 
 public class EditTests extends AssignmentDaoTestsInitiator {
 
@@ -24,7 +25,7 @@ public class EditTests extends AssignmentDaoTestsInitiator {
         Assertion.assertEquals(expectedTable, actualTable);
     }
 
-    @Test(expected = EntityNotFoundException.class)
+    @Test(expected = HibernateOptimisticLockingFailureException.class)
     public void editWithNonExistsPrimaryKey() {
         assignmentDao
                 .update(new Assignment(15, 4, 7, 1, 15000));

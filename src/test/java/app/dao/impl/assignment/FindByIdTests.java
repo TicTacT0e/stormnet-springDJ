@@ -42,7 +42,6 @@ public class FindByIdTests extends AssignmentDaoTestsInitiator {
 
     @Test(expected = EntityNotFoundException.class)
     public void findByIdWithNonExistsPrimaryKey() {
-        assignmentDao
-                .findById(4);
+        assignmentDao.findById(4);
     }
 }
