@@ -59,7 +59,7 @@ public class DaoConfig {
 
     @Bean
     public IntegrationDaoImpl getIntegrationDao() {
-        return new IntegrationDaoImpl(); 
+        return new IntegrationDaoImpl();
     }
 
 }
