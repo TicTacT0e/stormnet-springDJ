@@ -1,0 +1,78 @@
+package app.entities;
+
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "Integration")
+public class Integration {
+
+    @Id
+    private int id;
+    private int companyId;
+    private String type;
+    private String login;
+    private String password;
+
+    public Integration() {
+    }
+
+    public Integration(int id, int companyId, String type, String login, String password) {
+        this.id = id;
+        this.companyId = companyId;
+        this.type = type;
+        this.login = login;
+        this.password = password;
+    }
+
+    public Integration(Integration integration) {
+        this(
+                integration.getId(),
+                integration.getCompanyId(),
+                integration.getType(),
+                integration.getLogin(),
+                integration.getPassword()
+        );
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getCompanyId() {
+        return companyId;
+    }
+
+    public void setCompanyId(int companyId) {
+        this.companyId = companyId;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getLogin() {
+        return login;
+    }
+
+    public void setLogin(String login) {
+        this.login = login;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+}
