@@ -3,17 +3,12 @@ package app.dto;
 import app.entities.Activity;
 import app.entities.Integration;
 import app.entities.Project;
-import com.fasterxml.jackson.annotation.JsonProperty;
 
-import javax.ws.rs.core.GenericEntity;
-import java.util.LinkedList;
 import java.util.List;
 
 public class CompanySettingsDto {
 
-    @JsonProperty("companyActivities")
     private List<Activity> companyActivities;
-    @JsonProperty("defaultProject")
     private List<Project> defaultProject;
     private String startWeek;
     private int workLoad;
@@ -25,7 +20,6 @@ public class CompanySettingsDto {
     private boolean forgetTimesheets;
     private boolean commentRequired;
     private String commentValidationRule;
-    @JsonProperty("integrations")
     private List<Integration> integrations;
 
     public CompanySettingsDto() {
@@ -69,7 +63,7 @@ public class CompanySettingsDto {
         return companyActivities;
     }
 
-    public void setCompanyActivities(List companyActivities) {
+    public void setCompanyActivities(List<Activity> companyActivities) {
         this.companyActivities = companyActivities;
     }
 
@@ -77,7 +71,7 @@ public class CompanySettingsDto {
         return defaultProject;
     }
 
-    public void setDefaultProject(List defaultProject) {
+    public void setDefaultProject(List<Project> defaultProject) {
         this.defaultProject = defaultProject;
     }
 
@@ -165,7 +159,7 @@ public class CompanySettingsDto {
         return integrations;
     }
 
-    public void setIntegrations(List integrations) {
+    public void setIntegrations(List<Integration> integrations) {
         this.integrations = integrations;
     }
 }

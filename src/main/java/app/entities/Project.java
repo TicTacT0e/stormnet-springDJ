@@ -7,6 +7,7 @@ import java.sql.Date;
 public class Project {
 
     private int id;
+    private int companyId;
     private String name;
     private String logoUrl;
     private Date startDate;
@@ -20,9 +21,10 @@ public class Project {
     public Project() {
     }
 
-    public Project(int id, String name, String logoUrl,
+    public Project(int id, int companyId, String name, String logoUrl,
                    Date startDate, Date endDate, long manHoursInMilliseconds, String code, String color, String description) {
         this.id = id;
+        this.companyId = companyId;
         this.name = name;
         this.logoUrl = logoUrl;
         this.startDate = startDate;
@@ -33,14 +35,15 @@ public class Project {
         this.description = description;
     }
 
-    public Project(int id, String name, String logoUrl,
+    public Project(int id, int companyId, String name, String logoUrl,
                    Date startDate, Date endDate, int manHoursInHours, String code, String color, String description) {
-        this(id, name, logoUrl, startDate, endDate,
+        this(id, companyId, name, logoUrl, startDate, endDate,
                 TimeUtil.hoursToMillisecond(manHoursInHours), code, color, description);
     }
 
     public Project(Project project) {
         this(project.getId(),
+                project.getCompanyId(),
                 project.getName(),
                 project.getLogoUrl(),
                 project.getStartDate(),
@@ -182,5 +185,13 @@ public class Project {
                 + ", color" + color + '\''
                 + ", description=" + description
                 + '}';
+    }
+
+    public int getCompanyId() {
+        return companyId;
+    }
+
+    public void setCompanyId(int companyId) {
+        this.companyId = companyId;
     }
 }
