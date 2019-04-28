@@ -1,6 +1,9 @@
 package app.entities;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -9,6 +12,8 @@ import javax.persistence.Table;
 public class Settings {
 
     @Id
+    @GeneratedValue(strategy =  GenerationType.AUTO)
+    @Column(name = "id", updatable = false, nullable = false)
     private int id;
     private int companyId;
     private String type;
@@ -19,6 +24,12 @@ public class Settings {
 
     public Settings(int id, int companyId, String type, String value) {
         this.id = id;
+        this.companyId = companyId;
+        this.type = type;
+        this.value = value;
+    }
+
+    public Settings(int companyId, String type, String value) {
         this.companyId = companyId;
         this.type = type;
         this.value = value;
