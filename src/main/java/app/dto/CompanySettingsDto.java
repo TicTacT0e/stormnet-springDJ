@@ -3,19 +3,21 @@ package app.dto;
 import app.entities.Activity;
 import app.entities.Integration;
 import app.entities.Project;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
-import java.sql.Date;
-import java.sql.Time;
+import javax.ws.rs.core.GenericEntity;
 import java.util.LinkedList;
 import java.util.List;
 
 public class CompanySettingsDto {
 
-    private List<Activity> companyActivities = new LinkedList<>();
-    private List<Project> defaultProject = new LinkedList<>();
-    private Date startWeek;
+    @JsonProperty("companyActivities")
+    private List<Activity> companyActivities;
+    @JsonProperty("defaultProject")
+    private List<Project> defaultProject;
+    private String startWeek;
     private int workLoad;
-    private Time approvalPeriod;
+    private int approvalPeriod;
     private boolean autoSubmitAtEndPeriod;
     private boolean timeDifferenceNotification;
     private int timeDifferenceParameter;
@@ -23,12 +25,13 @@ public class CompanySettingsDto {
     private boolean forgetTimesheets;
     private boolean commentRequired;
     private String commentValidationRule;
+    @JsonProperty("integrations")
     private List<Integration> integrations;
 
     public CompanySettingsDto() {
     }
 
-    public CompanySettingsDto(List<Activity> companyActivities, List<Project> defaultProject, Date startWeek, int workLoad, Time approvalPeriod, boolean autoSubmitAtEndPeriod, boolean timeDifferenceNotification, int timeDifferenceParameter, String timeDifferenceType, boolean forgetTimesheets, boolean commentRequired, String commentValidationRule, List<Integration> integrations) {
+    public CompanySettingsDto(List<Activity> companyActivities, List<Project> defaultProject, String startWeek, int workLoad, int approvalPeriod, boolean autoSubmitAtEndPeriod, boolean timeDifferenceNotification, int timeDifferenceParameter, String timeDifferenceType, boolean forgetTimesheets, boolean commentRequired, String commentValidationRule, List<Integration> integrations) {
         this.companyActivities = companyActivities;
         this.defaultProject = defaultProject;
         this.startWeek = startWeek;
@@ -66,7 +69,7 @@ public class CompanySettingsDto {
         return companyActivities;
     }
 
-    public void setCompanyActivities(List<Activity> companyActivities) {
+    public void setCompanyActivities(List companyActivities) {
         this.companyActivities = companyActivities;
     }
 
@@ -74,15 +77,15 @@ public class CompanySettingsDto {
         return defaultProject;
     }
 
-    public void setDefaultProject(List<Project> defaultProject) {
+    public void setDefaultProject(List defaultProject) {
         this.defaultProject = defaultProject;
     }
 
-    public Date getStartWeek() {
+    public String getStartWeek() {
         return startWeek;
     }
 
-    public void setStartWeek(Date startWeek) {
+    public void setStartWeek(String startWeek) {
         this.startWeek = startWeek;
     }
 
@@ -94,11 +97,11 @@ public class CompanySettingsDto {
         this.workLoad = workLoad;
     }
 
-    public Time getApprovalPeriod() {
+    public int getApprovalPeriod() {
         return approvalPeriod;
     }
 
-    public void setApprovalPeriod(Time approvalPeriod) {
+    public void setApprovalPeriod(int approvalPeriod) {
         this.approvalPeriod = approvalPeriod;
     }
 
@@ -162,7 +165,7 @@ public class CompanySettingsDto {
         return integrations;
     }
 
-    public void setIntegrations(List<Integration> integrations) {
+    public void setIntegrations(List integrations) {
         this.integrations = integrations;
     }
 }
