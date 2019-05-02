@@ -1,119 +1,55 @@
 package app.dao.impl;
 
 import app.dao.BasicCrudDao;
-import app.dao.TimesheetDao;
 import app.entities.Timesheet;
 import app.exceptions.EntityNotFoundException;
-import app.services.JDBCConnection;
+import org.hibernate.SessionFactory;
+import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.sql.*;
-import java.util.LinkedList;
 import java.util.List;
 
-
+@Repository
+@Transactional
 public class TimesheetDaoImpl implements BasicCrudDao<Timesheet> {
 
-    private final String FIND_BY_ID = "select * from timesheet where id = ?";
-    private final String FIND_ALL = "select * from timesheet";
-    private final String ADD = "insert into timesheet (periodId, timesheetJson, status) values (?, ?, ?)";
-    private final String DELETE = "delete from timesheet where id = ?";
-    private final String UPDATE = "update timesheet set periodId = ?, timesheetJson = ?, status = ? where id = ?";
-
     @Autowired
-    JDBCConnection jdbcConnection;
-
+    private SessionFactory sessionFactory;
 
     @Override
     public Timesheet findById(int id) {
-        try (Connection connection = jdbcConnection.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(FIND_BY_ID)
-        ) {
-            preparedStatement.setInt(1, id);
-            ResultSet resultSet = preparedStatement.executeQuery();
-            resultSet.next();
-            return new Timesheet(
-                    resultSet.getInt("id"),
-                    resultSet.getInt("periodId"),
-                    resultSet.getString("timesheetJson"),
-                    resultSet.getString("status")
-            );
-
-        } catch (SQLException sqlException) {
-            sqlException.printStackTrace();
+        Timesheet timesheet = sessionFactory.getCurrentSession().get(Timesheet.class, id);
+        if (timesheet == null) {
+            throw new EntityNotFoundException();
         }
-        throw new EntityNotFoundException();
+        return timesheet;
     }
 
     @Override
     public List<Timesheet> findAll() {
-        try (Connection connection = jdbcConnection.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(FIND_ALL)
-        ) {
-            ResultSet resultSet = preparedStatement.executeQuery();
-            List<Timesheet> timesheets = new LinkedList<>();
-            while (resultSet.next()) {
-                timesheets.add(new Timesheet(
-                        resultSet.getInt("id"),
-                        resultSet.getInt("periodId"),
-                        resultSet.getString("timesheetJson"),
-                        resultSet.getString("status")
-                ));
-            }
-            return timesheets;
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        throw new EntityNotFoundException();
+        Query query = sessionFactory.getCurrentSession().createQuery("from Timesheet");
+        return query.getResultList();
     }
 
     @Override
-    public void create(Timesheet timesheet) {
-        try (Connection connection = jdbcConnection.getConnection();
-             PreparedStatement preparedStatement = getValues(ADD, timesheet, connection)) {
-            preparedStatement.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+    public void create(Timesheet entity) {
+        sessionFactory.getCurrentSession().save(entity);
     }
 
     @Override
     public void delete(Timesheet entity) {
+        sessionFactory.getCurrentSession().delete(entity);
     }
 
     @Override
     public void deleteById(int id) {
-        try (Connection connection = jdbcConnection.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(DELETE)) {
-            preparedStatement.setInt(1, id);
-            preparedStatement.executeUpdate();
-        } catch (SQLException sqlException) {
-            sqlException.printStackTrace();
-        }
+        sessionFactory.getCurrentSession().delete(findById(id));
     }
 
     @Override
-    public void update(Timesheet timesheet) {
-        try (Connection connection = jdbcConnection.getConnection();
-             PreparedStatement preparedStatement = getValues(UPDATE, timesheet, connection)) {
-            preparedStatement.setInt(4, timesheet.getId());
-            preparedStatement.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public PreparedStatement getValues(String query, Timesheet timesheet, Connection connection) {
-        PreparedStatement preparedStatement;
-        try {
-            preparedStatement = connection.prepareStatement(query);
-            preparedStatement.setInt(1, timesheet.getPeriodId());
-            preparedStatement.setString(2, timesheet.getTimesheetJson());
-            preparedStatement.setString(3, timesheet.getStatus());
-            return preparedStatement;
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        throw new NullPointerException();
+    public void update(Timesheet entity) {
+        sessionFactory.getCurrentSession().update(entity);
     }
 }

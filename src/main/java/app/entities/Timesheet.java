@@ -1,6 +1,13 @@
 package app.entities;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "Timesheet")
 public class Timesheet {
+    @Id
     private int id;
     private int periodId;
     private String timesheetJson;

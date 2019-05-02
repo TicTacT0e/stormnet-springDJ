@@ -1,7 +1,6 @@
 package app.resources;
 
 import app.dao.BasicCrudDao;
-import app.dao.TimesheetDao;
 import app.entities.Timesheet;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -19,7 +18,6 @@ public class TimesheetResource {
     private BasicCrudDao<Timesheet> basicCrudDao;
 
     @POST
-    @Path("/add")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response add(Timesheet timesheet) {
         basicCrudDao.create(timesheet);
@@ -27,7 +25,6 @@ public class TimesheetResource {
     }
 
     @GET
-    @Path("/all")
     @Produces(MediaType.APPLICATION_JSON)
     public List<Timesheet> getAll() {
         return basicCrudDao.findAll();
@@ -41,7 +38,7 @@ public class TimesheetResource {
     }
 
     @DELETE
-    @Path("/delete/{id}")
+    @Path("{id}")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response delete(@PathParam("id") int id) {
         basicCrudDao.deleteById(id);
@@ -49,9 +46,12 @@ public class TimesheetResource {
     }
 
     @PUT
-    @Path("/edit")
+    @Path("/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response update(Timesheet timesheet) {
+    public Response update(@PathParam("id") int id, Timesheet timesheet) {
+        if (id != timesheet.getId()) {
+            return Response.status(Response.Status.CONFLICT.getStatusCode()).build();
+        }
         basicCrudDao.update(timesheet);
         return Response.status(Response.Status.CREATED.getStatusCode()).build();
     }
