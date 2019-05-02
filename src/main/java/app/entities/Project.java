@@ -22,7 +22,8 @@ public class Project {
     }
 
     public Project(int id, int companyId, String name, String logoUrl,
-                   Date startDate, Date endDate, long manHoursInMilliseconds, String code, String color, String description) {
+                   Date startDate, Date endDate, long manHoursInMilliseconds,
+                   String code, String color, String description) {
         this.id = id;
         this.companyId = companyId;
         this.name = name;
@@ -36,7 +37,8 @@ public class Project {
     }
 
     public Project(int id, int companyId, String name, String logoUrl,
-                   Date startDate, Date endDate, int manHoursInHours, String code, String color, String description) {
+                   Date startDate, Date endDate, int manHoursInHours,
+                   String code, String color, String description) {
         this(id, companyId, name, logoUrl, startDate, endDate,
                 TimeUtil.hoursToMillisecond(manHoursInHours), code, color, description);
     }
