@@ -8,7 +8,7 @@ import javax.persistence.Table;
 import java.sql.Date;
 
 @Entity
-@Table(name = "timesheet_dev.project")
+@Table(name = "project")
 public class Project {
     @Id
     private int id;
