@@ -33,6 +33,7 @@
         <hibernate.version>5.4.2.Final</hibernate.version>
 
         <jdbc.driver>com.mysql.cj.jdbc.Driver</jdbc.driver>
+        
         <db.url>jdbc:mysql://mifortdev.cmltklqkx5d1.eu-west-1.rds.amazonaws.com:3306/Timesheetmanager?useSSL=false</db.url>
         <db.username>javadev</db.username>
         <db.password>123qweasdzxc</db.password>

@@ -14,10 +14,10 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.List;
+import java.util.Map;
 
 @Component
 @Path("/company/{companyId}/settings")
@@ -46,51 +46,13 @@ public class SettingsResource {
         for (Project project : projects) {
             projectDao.save(project);
         }
-        settingsDao.create(new Settings(
-                companyId,
-                "workLoad",
-                String.valueOf(companySettingsDto.getWorkLoad())
-        ));
-        settingsDao.create(new Settings(
-                companyId,
-                "approvalPeriod",
-                String.valueOf(companySettingsDto.getApprovalPeriod())
-        ));
-        settingsDao.create(new Settings(
-                companyId,
-                "autoSubmitAtEndPeriod",
-                String.valueOf(companySettingsDto.isAutoSubmitAtEndPeriod())
-        ));
-        settingsDao.create(new Settings(
-                companyId,
-                "timeDifferenceNotification",
-                String.valueOf(companySettingsDto.isTimeDifferenceNotification())
-        ));
-        settingsDao.create(new Settings(
-                companyId,
-                "timeDifferenceParameter",
-                String.valueOf(companySettingsDto.getTimeDifferenceParameter())
-        ));
-        settingsDao.create(new Settings(
-                companyId,
-                "timeDifferenceType",
-                companySettingsDto.getTimeDifferenceType()
-        ));
-        settingsDao.create(new Settings(
-                companyId,
-                "forgetTimesheets",
-                String.valueOf(companySettingsDto.isForgetTimesheets())
-        ));
-        settingsDao.create(new Settings(
-                companyId,
-                "commentRequired",
-                String.valueOf(companySettingsDto.isCommentRequired())
-        ));
-        settingsDao.create(new Settings(
-                companyId,
-                "commentValidationRule",
-                companySettingsDto.getCommentValidationRule()
-        ));
+        Map<String, String> settings = companySettingsDto.getSettings();
+        settings.forEach((key, value) ->
+                settingsDao.create(new Settings(
+                        companyId,
+                        key,
+                        value
+                )));
         List<Integration> integrations = companySettingsDto.getIntegrations();
         for (Integration integration : integrations) {
             integrationDao.create(integration);
