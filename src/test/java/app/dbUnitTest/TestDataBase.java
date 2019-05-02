@@ -1,7 +1,7 @@
 package app.dbUnitTest;
 
 import app.dao.impl.LogsDaoImpl;
-import app.entities.Logs;
+import app.entities.Log;
 import org.dbunit.Assertion;
 import org.dbunit.database.IDatabaseConnection;
 import org.dbunit.dataset.IDataSet;
@@ -64,7 +64,7 @@ public class TestDataBase {
 
     @Test
     public void testGetAll() throws Exception {
-        List<Logs> list = logsDao.findAll();
+        List<Log> list = logsDao.findAll();
         IDataSet expectedDataSet = new FlatXmlDataSetBuilder().build(
                 new FileInputStream("D:\\DiskD\\JAVA\\Project_TimeSheetManagment\\TimesheetManagement\\src\\test\\resources\\input.xml"));
         ;

@@ -1,7 +1,7 @@
 package app.resources;
 
 import app.dao.BasicCrudDao;
-import app.entities.Logs;
+import app.entities.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -21,11 +21,11 @@ import java.util.List;
 public class LogsResource {
 
     @Autowired
-    private BasicCrudDao<Logs> basicCrudDao;
+    private BasicCrudDao<Log> basicCrudDao;
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public List<Logs> getAll() {
+    public List<Log> getAll() {
 
         return basicCrudDao.findAll();
     }
@@ -33,35 +33,35 @@ public class LogsResource {
     @GET
     @Path("/{logsId}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Logs get(@PathParam("logsId") int logsId) {
+    public Log get(@PathParam("logsId") int logsId) {
         return basicCrudDao.findById(logsId);
     }
 
 /*    @GET
     @Path("/get/today")
     @Produces(MediaType.APPLICATION_JSON)
-    public List<Logs> getForToday() {
+    public List<Log> getForToday() {
         return basicCrudDao.getLogFor(LogsNamespace.TODAY);
     }
 
     @GET
     @Path("/get/week")
     @Produces(MediaType.APPLICATION_JSON)
-    public List<Logs> getForThisWeek() {
+    public List<Log> getForThisWeek() {
         return basicCrudDao.getLogFor(LogsNamespace.THIS_WEEK);
     }
 
     @GET
     @Path("/get/month")
     @Produces(MediaType.APPLICATION_JSON)
-    public List<Logs> getForThisMonth() {
+    public List<Log> getForThisMonth() {
         return basicCrudDao.getLogFor(LogsNamespace.THIS_MONTH);
     }*/
 
     @POST
     @Path("/add")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response add(Logs logs) {
+    public Response add(Log logs) {
         basicCrudDao.create(logs);
         return Response.status(Response.Status.CREATED.getStatusCode()).build();
     }

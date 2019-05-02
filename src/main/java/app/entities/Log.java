@@ -8,7 +8,7 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "logs")
-public class Logs {
+public class Log {
 
     @Id
     private int id;
@@ -18,11 +18,11 @@ public class Logs {
     private String comment;
     private Date date;
 
-    public Logs() {
+    public Log() {
     }
 
-    public Logs(int id, int assignmentId, double time, int order,
-                String comment, Date date) {
+    public Log(int id, int assignmentId, double time, int order,
+               String comment, Date date) {
         this.id = id;
         this.assignmentId = assignmentId;
         this.time = time;
@@ -31,7 +31,7 @@ public class Logs {
         this.date = date;
     }
 
-    public Logs(int assignmentId, double time, int order, String comment, Date date) {
+    public Log(int assignmentId, double time, int order, String comment, Date date) {
         this.assignmentId = assignmentId;
         this.time = time;
         this.order = order;
@@ -95,7 +95,7 @@ public class Logs {
         if (object == null || getClass() != object.getClass()) {
             return false;
         }
-        Logs logs = (Logs) object;
+        Log logs = (Log) object;
         return id == logs.id &&
                 assignmentId == logs.assignmentId &&
                 Double.compare(logs.time, time) == 0 &&
