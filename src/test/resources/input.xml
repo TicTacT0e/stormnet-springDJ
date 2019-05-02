@@ -1,0 +1,10 @@
+<?xml version= '1.0' encoding= 'UTF-8'?>
+<dataset>
+    <logs assignmentId="1" time="1.0" order="1" comment="qwe" date="2019-12-03"/>
+   <!-- <assignment id="1" employeeId="1" projectId="1" activityId="1" workLoad="1"/>
+    <activity id="1" name="serg"/>
+    <company id="1" name="srg" logo="asrg" ownerId="1"/>
+    <employee id="1" name="sdth" phone="sdg" email="sdrhg" photoUrl="sdrgh"/>
+    <project id="1" companyId="1" name="dh" logoUrl="sdh" startDate="2017-01-01" endDate="2018-01-01" manHours="1" code="1" color="serg" description="aefg"/>
+-->
+</dataset>

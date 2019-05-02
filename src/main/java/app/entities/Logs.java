@@ -1,70 +1,86 @@
 package app.entities;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.util.Date;
 import java.util.Objects;
 
+@Entity
+@Table(name = "logs")
 public class Logs {
 
-    private Employee employee;
-    private Project project;
-    private long time;
+    @Id
+    private int id;
+    private int assignmentId;
+    private double time;
+    private int order;
     private String comment;
     private Date date;
 
     public Logs() {
     }
 
-    public Logs(Employee employee, Project project, long time,
+    public Logs(int id, int assignmentId, double time, int order,
                 String comment, Date date) {
-        this.employee = employee;
-        this.project = project;
+        this.id = id;
+        this.assignmentId = assignmentId;
         this.time = time;
+        this.order = order;
         this.comment = comment;
         this.date = date;
     }
 
-    public Logs(Logs logs) {
-        this(logs.getEmployee(),
-                logs.getProject(),
-                logs.getTime(),
-                logs.getComment(),
-                logs.getDate());
+    public Logs(int assignmentId, double time, int order, String comment, Date date) {
+        this.assignmentId = assignmentId;
+        this.time = time;
+        this.order = order;
+        this.comment = comment;
+        this.date = date;
     }
 
-    public Employee getEmployee() {
-        return employee;
+    public int getId() {
+        return id;
     }
 
-    public Project getProject() {
-        return project;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public long getTime() {
+    public int getAssignmentId() {
+        return assignmentId;
+    }
+
+    public void setAssignmentId(int assignmentId) {
+        this.assignmentId = assignmentId;
+    }
+
+    public double getTime() {
         return time;
+    }
+
+    public void setTime(double time) {
+        this.time = time;
+    }
+
+    public int getOrder() {
+        return order;
+    }
+
+    public void setOrder(int order) {
+        this.order = order;
     }
 
     public String getComment() {
         return comment;
     }
 
-    public Date getDate() {
-        return date;
-    }
-
-    public void setEmployee(Employee employee) {
-        this.employee = employee;
-    }
-
-    public void setProject(Project project) {
-        this.project = project;
-    }
-
-    public void setTime(long time) {
-        this.time = time;
-    }
-
     public void setComment(String comment) {
         this.comment = comment;
+    }
+
+    public Date getDate() {
+        return date;
     }
 
     public void setDate(Date date) {
@@ -76,31 +92,31 @@ public class Logs {
         if (this == object) {
             return true;
         }
-        if (!(object instanceof Logs)) {
+        if (object == null || getClass() != object.getClass()) {
             return false;
         }
         Logs logs = (Logs) object;
-        return Double.compare(logs.time, time) == 0
-                && Objects.equals(employee, logs.employee)
-                && Objects.equals(project, logs.project)
-                && Objects.equals(comment, logs.comment)
-                && Objects.equals(date, logs.date);
+        return id == logs.id &&
+                assignmentId == logs.assignmentId &&
+                Double.compare(logs.time, time) == 0 &&
+                order == logs.order &&
+                Objects.equals(comment, logs.comment) &&
+                Objects.equals(date, logs.date);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(employee, project, time, comment, date);
+        return Objects.hash(id, assignmentId, time, order, comment, date);
     }
 
     @Override
     public String toString() {
         return "Log{"
-                + " Employee: " + employee.getName() + ';'
-                + " Project: " + project.getName() + ';'
-                + " Time: " + time + ';'
-                + " Date: " + date + ';'
-                + '\n'
+                + "assignmentId: " + assignmentId + ';'
+                + "order: " + order + ';'
+                + " time: " + time + ';'
                 + "comment: '" + comment + '\''
+                + " Date: " + date + ';'
                 + '}';
     }
 }
