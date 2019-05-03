@@ -1,4 +1,4 @@
-package app.dao.impl;
+package app.dao.impl.Invitation;
 
 import app.entities.Invitation;
 import org.dbunit.Assertion;

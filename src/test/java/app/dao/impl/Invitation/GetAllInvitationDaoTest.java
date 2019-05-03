@@ -1,4 +1,4 @@
-package app.dao.impl;
+package app.dao.impl.Invitation;
 
 import app.entities.Invitation;
 import org.dbunit.dataset.DataSetException;
@@ -28,7 +28,7 @@ public class GetAllInvitationDaoTest extends InitilizationInvitationDaoTest {
                 Assert.assertEquals(iTable.getValue(index, "partnerId").toString(),
                         String.valueOf(invitation.getPartnerId()));
                 Assert.assertEquals(iTable.getValue(index, "invitationsCode").toString(),
-                        String.valueOf(invitation.getInvitationsCode()));
+                        String.valueOf(invitation.getCode()));
                 Assert.assertEquals(iTable.getValue(index, "dateEnd").toString(),
                         String.valueOf(invitation.getDateEnd()));
                 Assert.assertEquals(iTable.getValue(index, "status").toString(),

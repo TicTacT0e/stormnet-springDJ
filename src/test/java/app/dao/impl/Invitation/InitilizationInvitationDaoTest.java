@@ -1,4 +1,4 @@
-package app.dao.impl;
+package app.dao.impl.Invitation;
 
 import app.config.beans.DaoConfig;
 import app.config.beans.HibernateConfig;
@@ -56,7 +56,7 @@ public class InitilizationInvitationDaoTest extends DBTestCase {
         username = properties.getProperty("db.username");
         password = properties.getProperty("db.password");
         schema = properties.getProperty("db.invitation-schema");
-        table = properties.getProperty("db.invitation-table");
+        table = properties.getProperty("db.invitation-table-Invitations");
 
         System.setProperty(PropertiesBasedJdbcDatabaseTester.DBUNIT_DRIVER_CLASS, driver);
         System.setProperty(PropertiesBasedJdbcDatabaseTester.DBUNIT_CONNECTION_URL, url);

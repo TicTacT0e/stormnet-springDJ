@@ -1,4 +1,4 @@
-package app.dao.impl;
+package app.dao.impl.Invitation;
 
 import app.entities.Invitation;
 import org.dbunit.dataset.DataSetException;
@@ -26,7 +26,7 @@ public class GetFinfByIdInvitationDaoTest extends InitilizationInvitationDaoTest
             Assert.assertEquals(iTable.getValue(NUMBER_OF_FIRST_ROW, "partnerId").toString(),
                     String.valueOf(invitation.getPartnerId()));
             Assert.assertEquals(iTable.getValue(NUMBER_OF_FIRST_ROW, "invitationsCode").toString(),
-                    String.valueOf(invitation.getInvitationsCode()));
+                    String.valueOf(invitation.getCode()));
             Assert.assertEquals(iTable.getValue(NUMBER_OF_FIRST_ROW, "dateEnd").toString(),
                     String.valueOf(invitation.getDateEnd()));
             Assert.assertEquals(iTable.getValue(NUMBER_OF_FIRST_ROW, "status").toString(),
