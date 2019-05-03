@@ -28,7 +28,7 @@ public class SettingsResource {
     @Autowired
     BasicCrudDao<Activity> activityDao;
     @Autowired
-    ProjectDao projectDao;
+    BasicCrudDao<Project> projectDao;
     @Autowired
     BasicCrudDao<Integration> integrationDao;
 
@@ -44,7 +44,7 @@ public class SettingsResource {
         }
         List<Project> projects = companySettingsDto.getDefaultProject();
         for (Project project : projects) {
-            projectDao.save(project);
+            projectDao.create(project);
         }
         Map<String, String> settings = companySettingsDto.getSettings();
         settings.forEach((key, value) ->
