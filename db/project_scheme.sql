@@ -3,7 +3,7 @@ CREATE TABLE `Activity` (
   `name` varchar(45) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `name_UNIQUE` (`name`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8
+) ENGINE=InnoDB DEFAULT CHARSET=utf8
 
 CREATE TABLE `Assignment` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
@@ -16,10 +16,10 @@ CREATE TABLE `Assignment` (
   KEY `AssignmentProject_idx` (`projectId`),
   KEY `AssignmentEmployee_idx` (`employeeId`),
   KEY `AssignmentActivity_idx` (`activityId`),
-  CONSTRAINT `AssignmentActivity` FOREIGN KEY (`activityId`) REFERENCES `Activity` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `AssignmentEmployee` FOREIGN KEY (`employeeId`) REFERENCES `Employee` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `AssignmentProject` FOREIGN KEY (`projectId`) REFERENCES `Project` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8
+  CONSTRAINT `AssignmentActivity` FOREIGN KEY (`activityId`) REFERENCES `Activity` (`id`),
+  CONSTRAINT `AssignmentEmployee` FOREIGN KEY (`employeeId`) REFERENCES `Employee` (`id`),
+  CONSTRAINT `AssignmentProject` FOREIGN KEY (`projectId`) REFERENCES `Project` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8
 
 CREATE TABLE `Company` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
@@ -29,7 +29,7 @@ CREATE TABLE `Company` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `Name_UNIQUE` (`name`),
   UNIQUE KEY `Logo_UNIQUE` (`logo`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8
+) ENGINE=InnoDB DEFAULT CHARSET=utf8
 
 CREATE TABLE `Employee` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
@@ -40,7 +40,7 @@ CREATE TABLE `Employee` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `Email_UNIQUE` (`email`),
   UNIQUE KEY `PhotoUrlPhoneName_UNIQUE` (`photoUrl`,`phone`,`name`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8
+) ENGINE=InnoDB DEFAULT CHARSET=utf8
 
 CREATE TABLE `Integration` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
@@ -49,8 +49,10 @@ CREATE TABLE `Integration` (
   `login` varchar(45) DEFAULT NULL,
   `password` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `IntegrationCompany_idx` (`companyId`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8
+  UNIQUE KEY `TypeCompanyId_UNIQUE` (`companyId`,`type`),
+  KEY `IntegrationCompany_idx` (`companyId`),
+  CONSTRAINT `IntegrationCompany` FOREIGN KEY (`companyId`) REFERENCES `company` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8
 
 CREATE TABLE `Invitations` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
@@ -60,9 +62,9 @@ CREATE TABLE `Invitations` (
   `status` varchar(25) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `code_UNIQUE` (`code`),
-  UNIQUE KEY `partnerId_UNIQUE` (`partnerId`),
+  UNIQUE KEY `PartnerId_UNIQUE` (`partnerId`),
   KEY `InvationPartner_idx` (`partnerId`),
-  CONSTRAINT `InvationPartnerId` FOREIGN KEY (`partnerId`) REFERENCES `Partner` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  CONSTRAINT `InvationPartnerId` FOREIGN KEY (`partnerId`) REFERENCES `Partner` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8
 
 CREATE TABLE `Logs` (
@@ -73,8 +75,10 @@ CREATE TABLE `Logs` (
   `time` double NOT NULL,
   `comment` varchar(100) NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `LogsAssignment_idx` (`assignmentId`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8
+  UNIQUE KEY `OrderDataAssignmentId_UNIQUE` (`assignmentId`,`order`,`date`),
+  KEY `LogsAssignment_idx` (`assignmentId`),
+  CONSTRAINT `LogsAssignment` FOREIGN KEY (`assignmentId`) REFERENCES `assignment` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8
 
 CREATE TABLE `Notification` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
@@ -85,9 +89,9 @@ CREATE TABLE `Notification` (
   `description` text,
   `link` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `partnerId_UNIQUE` (`partnerId`),
   KEY `NotificationPartnerId_idx` (`partnerId`),
-  CONSTRAINT `NotificationPartnerId` FOREIGN KEY (`partnerId`) REFERENCES `Partner` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  UNIQUE KEY `partnerId_UNIQUE` (`partnerId`),
+  CONSTRAINT `NotificationPartnerId` FOREIGN KEY (`partnerId`) REFERENCES `Partner` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8
 
 CREATE TABLE `Partner` (
@@ -102,8 +106,8 @@ CREATE TABLE `Partner` (
   KEY `PartnerRoleId_idx` (`roleId`),
   KEY `PartnerEmployeeId_idx` (`employeeId`),
   KEY `PartnerCompanyId_idx` (`companyId`),
-  CONSTRAINT `PartnerCompanyId` FOREIGN KEY (`companyId`) REFERENCES `Company` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `PartnerEmployeeId` FOREIGN KEY (`employeeId`) REFERENCES `Employee` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `PartnerCompanyId` FOREIGN KEY (`companyId`) REFERENCES `Company` (`id`),
+  CONSTRAINT `PartnerEmployeeId` FOREIGN KEY (`employeeId`) REFERENCES `Employee` (`id`),
   CONSTRAINT `PartnerRoleId` FOREIGN KEY (`roleId`) REFERENCES `Role` (`code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8
 
@@ -129,8 +133,8 @@ CREATE TABLE `Project` (
   UNIQUE KEY `code_UNIQUE` (`code`,`logoUrl`),
   UNIQUE KEY `CompanyIdName_UNIQUE` (`companyId`,`name`),
   KEY `companyId_idx` (`companyId`),
-  CONSTRAINT `ProjectCompanyId` FOREIGN KEY (`companyId`) REFERENCES `Company` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8
+  CONSTRAINT `ProjectCompanyId` FOREIGN KEY (`companyId`) REFERENCES `Company` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8
 
 CREATE TABLE `Role` (
   `code` varchar(10) NOT NULL,
@@ -146,8 +150,8 @@ CREATE TABLE `Setting` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `CompanyIdType_UNIQUE` (`companyId`,`type`),
   KEY `SettingCompany_idx` (`companyId`),
-  CONSTRAINT `SettingCompanyId` FOREIGN KEY (`companyId`) REFERENCES `Company` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8
+  CONSTRAINT `SettingCompanyId` FOREIGN KEY (`companyId`) REFERENCES `Company` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8
 
 CREATE TABLE `Timesheet` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
@@ -159,6 +163,6 @@ CREATE TABLE `Timesheet` (
   UNIQUE KEY `AssignmentIdPeriodId_UNIQUE` (`assignmentId`,`periodId`),
   KEY `TimesheetAssignment_idx` (`assignmentId`),
   KEY `TimesheetPeriodId_idx` (`periodId`),
-  CONSTRAINT `TimesheetAssignment` FOREIGN KEY (`assignmentId`) REFERENCES `Assignment` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `TimesheetPeriodId` FOREIGN KEY (`periodId`) REFERENCES `Period` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 
+  CONSTRAINT `TimesheetAssignment` FOREIGN KEY (`assignmentId`) REFERENCES `Assignment` (`id`),
+  CONSTRAINT `TimesheetPeriodId` FOREIGN KEY (`periodId`) REFERENCES `Period` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8
