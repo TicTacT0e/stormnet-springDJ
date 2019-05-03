@@ -35,9 +35,4 @@ public class GetFinfByIdInvitationDaoTest extends InitilizationInvitationDaoTest
             e.printStackTrace();
         }
     }
-
-//    @Test(expected = EntityNotFoundException.class)
-//    public void getFindByIdException() {
-//        basicCrudDao.findById(6);
-//    }
 }
