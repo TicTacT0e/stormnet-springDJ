@@ -37,27 +37,6 @@ public class LogsResource {
         return basicCrudDao.findById(logsId);
     }
 
-/*    @GET
-    @Path("/get/today")
-    @Produces(MediaType.APPLICATION_JSON)
-    public List<Log> getForToday() {
-        return basicCrudDao.getLogFor(LogsNamespace.TODAY);
-    }
-
-    @GET
-    @Path("/get/week")
-    @Produces(MediaType.APPLICATION_JSON)
-    public List<Log> getForThisWeek() {
-        return basicCrudDao.getLogFor(LogsNamespace.THIS_WEEK);
-    }
-
-    @GET
-    @Path("/get/month")
-    @Produces(MediaType.APPLICATION_JSON)
-    public List<Log> getForThisMonth() {
-        return basicCrudDao.getLogFor(LogsNamespace.THIS_MONTH);
-    }*/
-
     @POST
     @Path("/add")
     @Consumes(MediaType.APPLICATION_JSON)
