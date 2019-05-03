@@ -6,6 +6,8 @@ import app.dao.impl.*;
 import app.entities.Assignment;
 import app.entities.Company;
 import app.entities.Invitation;
+import app.entities.Timesheet;
+import app.entities.Project;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -28,7 +30,7 @@ public class DaoConfig {
     }
 
     @Bean
-    public ProjectDao getProjectDao() {
+    public BasicCrudDao<Project> getProjectDao() {
         return new ProjectDaoImpl();
     }
 
@@ -36,7 +38,7 @@ public class DaoConfig {
     public BasicCrudDao<Invitation> getInvitationDao(){
         return new InvitationDaoImpl();
     }
-  
+
     @Bean
     public BasicCrudDao<Assignment> getAssignmentDao() {
         return new AssignmentDaoImpl();
@@ -45,6 +47,11 @@ public class DaoConfig {
     @Bean
     public NotificationDaoImpl getNotificationDao() {
         return new NotificationDaoImpl();
+    }
+
+    @Bean
+    public BasicCrudDao<Timesheet> getTimesheetDao() {
+        return new TimesheetDaoImpl();
     }
 
 }
