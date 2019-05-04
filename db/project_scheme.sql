@@ -51,7 +51,7 @@ CREATE TABLE `Integration` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `TypeCompanyId_UNIQUE` (`companyId`,`type`),
   KEY `IntegrationCompany_idx` (`companyId`),
-  CONSTRAINT `IntegrationCompany` FOREIGN KEY (`companyId`) REFERENCES `company` (`id`)
+  CONSTRAINT `IntegrationCompany` FOREIGN KEY (`companyId`) REFERENCES `Company` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8
 
 CREATE TABLE `Invitations` (
@@ -77,7 +77,7 @@ CREATE TABLE `Logs` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `OrderDataAssignmentId_UNIQUE` (`assignmentId`,`order`,`date`),
   KEY `LogsAssignment_idx` (`assignmentId`),
-  CONSTRAINT `LogsAssignment` FOREIGN KEY (`assignmentId`) REFERENCES `assignment` (`id`)
+  CONSTRAINT `LogsAssignment` FOREIGN KEY (`assignmentId`) REFERENCES `Assignment` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8
 
 CREATE TABLE `Notification` (
