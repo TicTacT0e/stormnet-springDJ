@@ -34,9 +34,6 @@
         <liquibase.version>3.6.2</liquibase.version>
 
         <jdbc.driver>com.mysql.cj.jdbc.Driver</jdbc.driver>
-        <db.url>jdbc:mysql://localhost:3306/timesheetmanager</db.url>
-        <db.username>username</db.username>
-        <db.password>qwerty123</db.password>
         <db.url>jdbc:mysql://localhost:3306/timesheet_dev?useUnicode=true&amp;useJDBCCompliantTimezoneShift=true&amp;useLegacyDatetimeCode=false&amp;serverTimezone=UTC</db.url>
         <db.username>root</db.username>
         <db.password>qwerty</db.password>
