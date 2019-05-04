@@ -291,7 +291,7 @@
                     <changeLogFile>liquibase/db-changelog-master.xml</changeLogFile>
                 </configuration>
             </plugin>
-
+      
         </plugins>
 
         <resources>
