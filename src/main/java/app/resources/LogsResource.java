@@ -2,6 +2,8 @@ package app.resources;
 
 import app.dao.BasicCrudDao;
 import app.entities.Log;
+
+import app.entities.namespace.LogsNamespace;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -26,8 +28,14 @@ public class LogsResource {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public List<Log> getAll() {
-
         return basicCrudDao.findAll();
+    }
+
+ /*   @GET
+    @Path("/get/today")
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<Logs> getForToday() {
+        return basicCrudDao.findById(LogsNamespace.TODAY);
     }
 
     @GET
@@ -35,20 +43,37 @@ public class LogsResource {
     @Produces(MediaType.APPLICATION_JSON)
     public Log get(@PathParam("logsId") int logsId) {
         return basicCrudDao.findById(logsId);
+    public List<Logs> getForThisWeek() {
+        return basicCrudDao.getLogFor(LogsNamespace.THIS_WEEK);
     }
 
-    @POST
-    @Path("/add")
-    @Consumes(MediaType.APPLICATION_JSON)
-    public Response add(Log logs) {
-        basicCrudDao.create(logs);
-        return Response.status(Response.Status.CREATED.getStatusCode()).build();
-    }
+    @GET
+    @Path("/get/month")
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<Logs> getForThisMonth() {
+        return basicCrudDao.getLogFor(LogsNamespace.THIS_MONTH);
 
-    @DELETE
-    @Path("/{logsId}")
-    public Response delete(@PathParam("logsId") int logsId) {
-        basicCrudDao.deleteById(logsId);
-        return Response.status(Response.Status.OK.getStatusCode()).build();
-    }
+    }*/
+
+        @GET
+        @Path("/{logsId}")
+        @Produces(MediaType.APPLICATION_JSON)
+        public Log get(@PathParam("logsId") int logsId) {
+            return basicCrudDao.findById(logsId);
+        }
+
+        @POST
+        @Path("/add")
+        @Consumes(MediaType.APPLICATION_JSON)
+        public Response add(Log logs) {
+            basicCrudDao.create(logs);
+            return Response.status(Response.Status.CREATED.getStatusCode()).build();
+        }
+
+        @DELETE
+        @Path("/{logsId}")
+        public Response delete(@PathParam("logsId") int logsId) {
+            basicCrudDao.deleteById(logsId);
+            return Response.status(Response.Status.OK.getStatusCode()).build();
+        }
 }
