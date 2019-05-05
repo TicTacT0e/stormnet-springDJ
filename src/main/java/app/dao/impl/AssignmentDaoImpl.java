@@ -3,7 +3,9 @@ package app.dao.impl;
 import app.dao.BasicCrudDao;
 import app.entities.Assignment;
 import app.exceptions.EntityNotFoundException;
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -20,19 +22,25 @@ public class AssignmentDaoImpl implements BasicCrudDao<Assignment> {
 
     @Override
     public Assignment findById(int id) {
-        Assignment assignment = sessionFactory.getCurrentSession()
-                .get(Assignment.class, id);
+        Session session = sessionFactory.openSession();
+        session.beginTransaction();
+        Assignment assignment = session.get(Assignment.class, id);
         if (assignment == null) {
             throw new EntityNotFoundException();
         }
+        session.getTransaction().commit();
+        session.close();
         return assignment;
     }
 
     @Override
     public List<Assignment> findAll() {
+        Session session = sessionFactory.openSession();
+        session.beginTransaction();
         Query query
-                = sessionFactory.getCurrentSession()
-                .createQuery("from Assignment");
+                = session.createQuery("from Assignment");
+        session.getTransaction().commit();
+        session.close();
         return query.getResultList();
     }
 
