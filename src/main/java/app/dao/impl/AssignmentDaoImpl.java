@@ -5,7 +5,6 @@ import app.entities.Assignment;
 import app.exceptions.EntityNotFoundException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -39,32 +38,46 @@ public class AssignmentDaoImpl implements BasicCrudDao<Assignment> {
         session.beginTransaction();
         Query query
                 = session.createQuery("from Assignment");
+        List<Assignment> assignments = query.list();
         session.getTransaction().commit();
         session.close();
-        return query.getResultList();
+        return assignments;
     }
 
     @Override
     public void deleteById(int id) {
-        sessionFactory.getCurrentSession()
-                .delete(findById(id));
+        Session session = sessionFactory.openSession();
+        session.beginTransaction();
+        Assignment assignment = session.load(Assignment.class, id);
+        session.delete(assignment);
+        session.getTransaction().commit();
+        session.close();
     }
 
     @Override
     public void create(Assignment entity) {
-        sessionFactory.getCurrentSession()
-                .save(entity);
+        Session session = sessionFactory.openSession();
+        session.beginTransaction();
+        session.save(entity);
+        session.getTransaction().commit();
+        session.close();
     }
 
     @Override
     public void delete(Assignment entity) {
-        sessionFactory.getCurrentSession()
-                .delete(entity);
+        Session session = sessionFactory.openSession();
+        session.beginTransaction();
+        session.delete(entity);
+        session.getTransaction().commit();
+        session.close();
     }
 
     @Override
     public void update(Assignment entity) {
-        sessionFactory.getCurrentSession()
-                .update(entity);
+        Session session = sessionFactory.openSession();
+        session.beginTransaction();
+        session.update(entity);
+        session.getTransaction().commit();
+        session.close();
     }
 }
