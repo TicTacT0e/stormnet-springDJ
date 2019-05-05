@@ -7,19 +7,12 @@ import app.config.beans.PropertyConfig;
 import app.dao.BasicCrudDao;
 import app.entities.Notification;
 import org.dbunit.Assertion;
-import org.dbunit.DBTestCase;
 import org.dbunit.DatabaseUnitException;
 import org.dbunit.database.IDatabaseConnection;
-import org.dbunit.dataset.DataSetException;
 import org.dbunit.dataset.IDataSet;
-import org.dbunit.dataset.ITable;
-import org.dbunit.dataset.ITableIterator;
-import org.dbunit.dataset.xml.FlatXmlDataSet;
 import org.dbunit.dataset.xml.FlatXmlDataSetBuilder;
 import org.dbunit.ext.mysql.MySqlConnection;
 import org.dbunit.operation.DatabaseOperation;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -29,15 +22,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import javax.sound.midi.Soundbank;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.math.BigInteger;
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.LinkedList;
 import java.util.List;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -103,9 +92,9 @@ public class NotificationDaoTest {
     @Test
     public void testCreate() throws SQLException, DatabaseUnitException, FileNotFoundException {
         notificationDao.create(new Notification(4, 3, "status4", "title4", "description4", "link4"));
-        IDataSet actualDataset = connection.createDataSet();
+        IDataSet actualDataSet = connection.createDataSet();
         IDataSet expectedDataSet = new FlatXmlDataSetBuilder().build(new FileInputStream("src\\test\\resources\\app\\dao\\impl\\notificationDataSet\\createExpected.xml"));
-        Assertion.assertEqualsIgnoreCols(expectedDataSet, actualDataset, table, columnsToIgnore);
+        Assertion.assertEqualsIgnoreCols(expectedDataSet, actualDataSet, table, columnsToIgnore);
     }
 
     @Test
