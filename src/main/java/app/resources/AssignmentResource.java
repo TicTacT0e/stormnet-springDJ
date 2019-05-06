@@ -2,6 +2,7 @@ package app.resources;
 
 import app.dao.BasicCrudDao;
 import app.entities.Assignment;
+import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -22,6 +23,9 @@ import java.util.List;
 public class AssignmentResource {
 
     @Autowired
+    private SessionFactory sessionFactory;
+
+    @Autowired
     private BasicCrudDao<Assignment> basicCrudDao;
 
     @GET
@@ -36,7 +40,12 @@ public class AssignmentResource {
     public Assignment get(
             @PathParam("assignmentId") int assignmentId
     ) {
-        return basicCrudDao.findById(assignmentId);
+        try {
+            sessionFactory.openSession();
+            return basicCrudDao.findById(assignmentId);
+        } finally {
+            sessionFactory.close();
+        }
     }
 
     @POST
