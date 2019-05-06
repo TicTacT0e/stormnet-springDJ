@@ -40,12 +40,15 @@ public class AssignmentResource {
     public Assignment get(
             @PathParam("assignmentId") int assignmentId
     ) {
+        /*
         try {
             sessionFactory.openSession();
             return basicCrudDao.findById(assignmentId);
         } finally {
             sessionFactory.close();
         }
+        */
+        return basicCrudDao.findById(assignmentId);
     }
 
     @POST

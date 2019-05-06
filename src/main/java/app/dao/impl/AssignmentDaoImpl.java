@@ -34,13 +34,18 @@ public class AssignmentDaoImpl implements BasicCrudDao<Assignment> {
 
     @Override
     public List<Assignment> findAll() {
+        /*
         Session session = sessionFactory.openSession();
         session.beginTransaction();
+        */
+        Session session = sessionFactory.getCurrentSession();
         Query query
                 = session.createQuery("from Assignment");
         List<Assignment> assignments = query.list();
+        /*
         session.getTransaction().commit();
         session.close();
+        */
         return assignments;
     }
 
