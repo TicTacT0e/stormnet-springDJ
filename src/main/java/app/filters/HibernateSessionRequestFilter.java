@@ -3,6 +3,7 @@ package app.filters;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -16,11 +17,16 @@ import java.io.IOException;
 @WebFilter(urlPatterns = {"/*"})
 public class HibernateSessionRequestFilter implements Filter {
 
+
     @Autowired
     private SessionFactory sessionFactory;
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
+        SpringBeanAutowiringSupport.processInjectionBasedOnServletContext(
+                this,
+                filterConfig.getServletContext()
+        );
     }
 
     @Override
