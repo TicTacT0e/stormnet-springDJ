@@ -21,8 +21,8 @@ public class AssignmentDaoImpl implements BasicCrudDao<Assignment> {
 
     @Override
     public Assignment findById(int id) {
-        Session session = sessionFactory.getCurrentSession();
-        Assignment assignment = session.get(Assignment.class, id);
+        Assignment assignment = sessionFactory.getCurrentSession()
+                .get(Assignment.class, id);
         if (assignment == null) {
             throw new EntityNotFoundException();
         }
@@ -31,11 +31,10 @@ public class AssignmentDaoImpl implements BasicCrudDao<Assignment> {
 
     @Override
     public List<Assignment> findAll() {
-        Session session = sessionFactory.getCurrentSession();
         Query query
-                = session.createQuery("from Assignment");
-        List<Assignment> assignments = query.list();
-        return assignments;
+                = sessionFactory.getCurrentSession()
+                .createQuery("from Assignment");
+        return query.getResultList();
     }
 
     @Override
@@ -47,16 +46,19 @@ public class AssignmentDaoImpl implements BasicCrudDao<Assignment> {
 
     @Override
     public void create(Assignment entity) {
-        sessionFactory.getCurrentSession().save(entity);
+        sessionFactory.getCurrentSession()
+                .save(entity);
     }
 
     @Override
     public void delete(Assignment entity) {
-        sessionFactory.getCurrentSession().delete(entity);
+        sessionFactory.getCurrentSession()
+                .delete(entity);
     }
 
     @Override
     public void update(Assignment entity) {
-        sessionFactory.getCurrentSession().update(entity);
+        sessionFactory.getCurrentSession()
+                .update(entity);
     }
 }

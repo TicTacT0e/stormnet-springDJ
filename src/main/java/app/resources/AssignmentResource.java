@@ -2,7 +2,6 @@ package app.resources;
 
 import app.dao.BasicCrudDao;
 import app.entities.Assignment;
-import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -21,9 +20,6 @@ import java.util.List;
 @Component
 @Path("/assignment")
 public class AssignmentResource {
-
-    @Autowired
-    private SessionFactory sessionFactory;
 
     @Autowired
     private BasicCrudDao<Assignment> basicCrudDao;
