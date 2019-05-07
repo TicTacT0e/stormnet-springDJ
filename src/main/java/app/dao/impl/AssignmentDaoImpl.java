@@ -40,38 +40,23 @@ public class AssignmentDaoImpl implements BasicCrudDao<Assignment> {
 
     @Override
     public void deleteById(int id) {
-        Session session = sessionFactory.openSession();
-        session.beginTransaction();
+        Session session = sessionFactory.getCurrentSession();
         Assignment assignment = session.load(Assignment.class, id);
         session.delete(assignment);
-        session.getTransaction().commit();
-        session.close();
     }
 
     @Override
     public void create(Assignment entity) {
-        Session session = sessionFactory.openSession();
-        session.beginTransaction();
-        session.save(entity);
-        session.getTransaction().commit();
-        session.close();
+        sessionFactory.getCurrentSession().save(entity);
     }
 
     @Override
     public void delete(Assignment entity) {
-        Session session = sessionFactory.openSession();
-        session.beginTransaction();
-        session.delete(entity);
-        session.getTransaction().commit();
-        session.close();
+        sessionFactory.getCurrentSession().delete(entity);
     }
 
     @Override
     public void update(Assignment entity) {
-        Session session = sessionFactory.openSession();
-        session.beginTransaction();
-        session.update(entity);
-        session.getTransaction().commit();
-        session.close();
+        sessionFactory.getCurrentSession().update(entity);
     }
 }
