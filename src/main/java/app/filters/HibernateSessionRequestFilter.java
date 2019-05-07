@@ -17,7 +17,6 @@ import java.io.IOException;
 @WebFilter(urlPatterns = {"/*"})
 public class HibernateSessionRequestFilter implements Filter {
 
-
     @Autowired
     private SessionFactory sessionFactory;
 
