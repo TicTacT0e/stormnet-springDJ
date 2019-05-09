@@ -24,7 +24,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.orm.hibernate5.HibernateOptimisticLockingFailureException;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -125,11 +124,11 @@ public class AssignmentDaoImplTests extends DBTestCase {
 
     @Test
     public void deleteById() throws Exception {
-        assignmentDao.deleteById(2);
+        assignmentDao.deleteById(5);
         IDataSet expectedDataSet = new FlatXmlDataSetBuilder()
                 .build(getClass()
                         .getClassLoader()
-                        .getResourceAsStream("assignment/deleteDataSets/delete-dataset.xml"));
+                        .getResourceAsStream("assignment/delete-dataset.xml"));
         ITable expectedTable = expectedDataSet.getTable(assignmentTable);
         IDataSet actualDataSet = getMySqlConnection().createDataSet();
         ITable actualTable = actualDataSet.getTable(assignmentTable);
@@ -138,27 +137,27 @@ public class AssignmentDaoImplTests extends DBTestCase {
 
     @Test(expected = EntityNotFoundException.class)
     public void deleteWithNonExistsPrimaryKey() {
-        assignmentDao.deleteById(4);
+        assignmentDao.deleteById(100);
     }
 
     @Test
     public void edit() throws Exception {
-        Assignment assignment = new Assignment(0, 1, 2, 6, 15000);
+        Assignment assignment = new Assignment(5, 5, 1, 1, 10000);
         assignmentDao.update(assignment);
         IDataSet expectedDataSet = new FlatXmlDataSetBuilder()
                 .build(getClass()
                         .getClassLoader()
-                        .getResourceAsStream("assignment/editDataSets/edit-dataset.xml"));
+                        .getResourceAsStream("assignment/edit-dataset.xml"));
         ITable expectedTable = expectedDataSet.getTable(assignmentTable);
         IDataSet actualDataSet = getMySqlConnection().createDataSet();
         ITable actualTable = actualDataSet.getTable(assignmentTable);
         Assertion.assertEquals(expectedTable, actualTable);
     }
 
-    @Test(expected = HibernateOptimisticLockingFailureException.class)
+    @Test(expected = DataIntegrityViolationException.class)
     public void editWithNonExistsPrimaryKey() {
         assignmentDao
-                .update(new Assignment(15, 4, 7, 1, 15000));
+                .update(new Assignment(5, 100, 100, 100, 15000));
     }
 
     @Test
@@ -166,10 +165,10 @@ public class AssignmentDaoImplTests extends DBTestCase {
         IDataSet expectedDataSet = new FlatXmlDataSetBuilder()
                 .build(getClass()
                         .getClassLoader()
-                        .getResourceAsStream("assignment/findByIdDataSets/find-by-id-dataset.xml"));
+                        .getResourceAsStream("assignment/find-by-id-dataset.xml"));
         ITable expectedTable = expectedDataSet.getTable(assignmentTable);
 
-        Assignment assignment = assignmentDao.findById(3);
+        Assignment assignment = assignmentDao.findById(4);
 
         Assert.assertEquals(expectedTable.getValue(NUMBER_OF_FIRST_ROW, "id")
                         .toString(),
@@ -190,7 +189,7 @@ public class AssignmentDaoImplTests extends DBTestCase {
 
     @Test(expected = EntityNotFoundException.class)
     public void findByIdWithNonExistsPrimaryKey() {
-        assignmentDao.findById(4);
+        assignmentDao.findById(100);
     }
 
     @Test
@@ -225,12 +224,12 @@ public class AssignmentDaoImplTests extends DBTestCase {
     @Test
     public void save() throws Exception {
         Assignment assignment =
-                new Assignment(4, 4, 7, 5, 12000);
+                new Assignment(6, 5, 1, 5, 10000);
         assignmentDao.create(assignment);
         IDataSet expectedDataSet = new FlatXmlDataSetBuilder()
                 .build(getClass()
                         .getClassLoader()
-                        .getResourceAsStream("assignment/saveDataSets/save-dataset.xml"));
+                        .getResourceAsStream("assignment/save-dataset.xml"));
         ITable expectedTable = expectedDataSet.getTable(assignmentTable);
         IDataSet actualDataSet = getMySqlConnection().createDataSet();
         ITable actualTable = actualDataSet.getTable(assignmentTable);
@@ -240,6 +239,6 @@ public class AssignmentDaoImplTests extends DBTestCase {
     @Test(expected = DataIntegrityViolationException.class)
     public void saveAlreadyExistsEntity() {
         assignmentDao
-                .create(new Assignment(0, 1, 2, 2, 4500));
+                .create(new Assignment(4, 2, 1, 1, 4500));
     }
 }
