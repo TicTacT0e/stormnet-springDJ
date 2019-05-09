@@ -3,6 +3,7 @@ package app.dao.impl;
 import app.dao.BasicCrudDao;
 import app.entities.Settings;
 import app.exceptions.EntityNotFoundException;
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,8 +38,9 @@ public class SettingsDaoImpl implements BasicCrudDao<Settings> {
 
     @Override
     public void deleteById(int id) {
-        sessionFactory.getCurrentSession()
-                .delete(findById(id));
+        Session session = sessionFactory.getCurrentSession();
+        Settings settings = session.load(Settings.class, id);
+        session.delete(settings);
     }
 
     @Override

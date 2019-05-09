@@ -47,7 +47,7 @@ public class DaoConfig {
     }
 
     @Bean
-    public BasicCrudDao<Invitation> getInvitationDao() {
+    public BasicCrudDao<Invitation> getInvitationDao(){
         return new InvitationDaoImpl();
     }
 
