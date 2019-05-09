@@ -5,9 +5,9 @@ import app.dao.CompanyDao;
 import app.dao.EmployeeDao;
 import app.dao.ProjectDao;
 import app.entities.Company;
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.apache.log4j.Logger;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;

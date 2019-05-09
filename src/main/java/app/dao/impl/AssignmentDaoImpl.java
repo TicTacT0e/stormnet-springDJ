@@ -28,6 +28,7 @@ public class AssignmentDaoImpl implements BasicCrudDao<Assignment> {
         return assignment;
     }
 
+    @Override
     public List<Assignment> findAll() {
         Query query
                 = sessionFactory.getCurrentSession()

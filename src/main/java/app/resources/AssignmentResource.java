@@ -1,12 +1,10 @@
 package app.resources;
 
-import app.dao.AssignmentDao;
 import app.dao.BasicCrudDao;
 import app.entities.Assignment;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import javax.ws.rs.*;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
