@@ -302,6 +302,16 @@
                 </executions>
             </plugin>
 
+            <plugin>
+                <groupId>org.liquibase</groupId>
+                <artifactId>liquibase-maven-plugin</artifactId>
+                <version>${liquibase.version}</version>
+                <configuration>
+                    <propertyFile>liquibase/liquibase.properties</propertyFile>
+                    <changeLogFile>liquibase/db-changelog-master.xml</changeLogFile>
+                </configuration>
+            </plugin>
+
         </plugins>
 
         <resources>
@@ -311,6 +321,7 @@
             </resource>
         </resources>
     </build>
+
     <reporting>
         <plugins>
             <plugin>
