@@ -55,6 +55,7 @@ public class SettingsResource {
                 )));
         List<Integration> integrations = companySettingsDto.getIntegrations();
         for (Integration integration : integrations) {
+            integration.setCompanyId(companyId);
             integrationDao.create(integration);
         }
         return Response.status(Response.Status.CREATED.getStatusCode()).build();
