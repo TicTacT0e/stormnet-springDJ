@@ -140,6 +140,14 @@ public class Project {
         this.manHours = TimeUtil.hoursToMillisecond(manHoursInHours);
     }
 
+    public int getCompanyId() {
+        return companyId;
+    }
+
+    public void setCompanyId(int companyId) {
+        this.companyId = companyId;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -195,13 +203,5 @@ public class Project {
                 + ", color" + color + '\''
                 + ", description=" + description
                 + '}';
-    }
-
-    public int getCompanyId() {
-        return companyId;
-    }
-
-    public void setCompanyId(int companyId) {
-        this.companyId = companyId;
     }
 }
