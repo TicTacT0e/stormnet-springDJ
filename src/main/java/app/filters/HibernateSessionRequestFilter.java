@@ -37,12 +37,13 @@ public class HibernateSessionRequestFilter extends OncePerRequestFilter {
             throws ServletException, IOException {
         Session session = sessionFactory.openSession();
         SessionHolder sessionHolder = new SessionHolder(session);
-        TransactionSynchronizationManager.bindResource(sessionFactory, sessionHolder);
+        TransactionSynchronizationManager
+                .bindResource(sessionFactory, sessionHolder);
         try {
             chain.doFilter(request, response);
         } finally {
-            sessionHolder =
-                    (SessionHolder) TransactionSynchronizationManager.unbindResource(sessionFactory);
+            sessionHolder = (SessionHolder) TransactionSynchronizationManager
+                            .unbindResource(sessionFactory);
             SessionFactoryUtils.closeSession(sessionHolder.getSession());
         }
     }
