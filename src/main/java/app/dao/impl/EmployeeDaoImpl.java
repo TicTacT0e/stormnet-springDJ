@@ -2,77 +2,58 @@ package app.dao.impl;
 
 import app.dao.EmployeeDao;
 import app.entities.Employee;
-import app.entities.Project;
-import app.exceptions.EntityAlreadyExistsException;
 import app.exceptions.EntityNotFoundException;
+import org.hibernate.SessionFactory;
+import org.hibernate.query.Query;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-
-import java.util.LinkedList;
 import java.util.List;
 
 @Repository
 public class EmployeeDaoImpl implements EmployeeDao {
 
-    private static List<Employee> employees = new LinkedList<>();
-
-    static {
-        employees.add(new Employee(0, "Marinka Mandarinka",
-                "someMarinkaPhotoUrl", "marinka.mandarinka@gmail.com"));
-        employees.add(new Employee(1, "Alynka Apelsynka",
-                "someAlynkaPhotoUrl", "alynka.apelsynka@gmail.com"));
-        employees.add(new Employee(2, "Agap Kryvolap",
-                "someAgapPhotoUrl", "agap.kryvolap@gmail.com"));
-    }
+    @Autowired
+    private SessionFactory sessionFactory;
 
     @Override
-    public synchronized List<Employee> getAll() {
-        return employees;
-    }
-
-    @Override
-    public synchronized Employee findById(int id) {
-        for (Employee employee : employees) {
-            if (employee.getId() == id) {
-                return employee;
-            }
-        }
-        throw new EntityNotFoundException();
-    }
-
-    @Override
-    public synchronized void save(Employee employee) {
-        for (Employee savedEmployee : employees) {
-            if (savedEmployee.getId() == employee.getId()) {
-                throw new EntityAlreadyExistsException();
-            }
-        }
-        employees.add(employee);
-    }
-
-    @Override
-    public synchronized void delete(Employee retiringEmployee) {
-        if (!employees.contains(retiringEmployee)) {
+    public Employee findById(int id) {
+        Employee employee = sessionFactory.getCurrentSession()
+                .get(Employee.class, id);
+        if (employee == null) {
             throw new EntityNotFoundException();
         }
-        employees.remove(retiringEmployee);
+        return employee;
     }
 
     @Override
-    public synchronized void delete(int id) {
-        delete(findById(id));
+    public List<Employee> findAll() {
+        Query query
+                = sessionFactory.getCurrentSession()
+                .createQuery("from Employee");
+        return query.getResultList();
     }
 
     @Override
-    public synchronized void edit(Employee employee) {
-        Employee oldEmployee = findById(employee.getId());
-        int index = employees.indexOf(oldEmployee);
-        employees.remove(oldEmployee);
-        employees.add(index, employee);
+    public void deleteById(int id) {
+        sessionFactory.getCurrentSession()
+                .delete(findById(id));
     }
 
     @Override
-    public synchronized void assignToProject(Employee employee,
-                                             Project project) {
-        employee.assignToProject(project);
+    public void create(Employee entity) {
+        sessionFactory.getCurrentSession()
+                .save(entity);
+    }
+
+    @Override
+    public void delete(Employee entity) {
+        sessionFactory.getCurrentSession()
+                .delete(entity);
+    }
+
+    @Override
+    public void update(Employee entity) {
+        sessionFactory.getCurrentSession()
+                .update(entity);
     }
 }

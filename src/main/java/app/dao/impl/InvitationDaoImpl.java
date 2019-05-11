@@ -7,7 +7,6 @@ import app.exceptions.EntityNotFoundException;
 import app.services.JDBCConnection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-
 import java.sql.*;
 import java.util.LinkedList;
 import java.util.List;
@@ -23,13 +22,13 @@ public class InvitationDaoImpl implements BasicCrudDao<Invitation> {
 
     private static final String SAVE =
             "INSERT INTO timesheet_dev.Invitations (partnerId, " +
-                    "invitationsCode, dateEnd, status, id) VALUE (?, ?, ?, ?, ?)";
+                    "code, dateEnd, status, id) VALUE (?, ?, ?, ?, ?)";
 
     private static final String DELETE =
             "DELETE FROM timesheet_dev.Invitations WHERE id=?";
 
     private static final String UPDATE =
-            "UPDATE timesheet_dev.Invitations SET partnerId=?, invitationsCode=?, dateEnd=?, status=?" +
+            "UPDATE timesheet_dev.Invitations SET partnerId=?, code=?, dateEnd=?, status=?" +
                     " WHERE id=?";
 
     private static final String IS_EXISTS =
@@ -167,7 +166,7 @@ public class InvitationDaoImpl implements BasicCrudDao<Invitation> {
 
         invitation.setId(resultSet.getInt("id"));
         invitation.setPartnerId(resultSet.getInt("partnerId"));
-        invitation.setInvitationsCode(resultSet.getString("invitationsCode"));
+        invitation.setCode(resultSet.getString("code"));
         invitation.setDateEnd(resultSet.getDate("dateEnd"));
         invitation.setStatus(resultSet.getString("status"));
 

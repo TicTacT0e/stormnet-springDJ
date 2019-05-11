@@ -1,20 +1,150 @@
 package app.dao.impl;
 
-import app.dao.ProjectDao;
+import app.dao.BasicCrudDao;
 import app.entities.Project;
-import app.exceptions.EntityAlreadyExistsException;
 import app.exceptions.EntityNotFoundException;
-import app.services.JDBCConnection;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
+import java.util.List;
 
-import java.sql.*;
-import java.util.LinkedList;
+@Repository
+@Transactional
+public class ProjectDaoImpl implements BasicCrudDao<Project> {
+
+    @Autowired
+    private SessionFactory sessionFactory;
+
+    @Override
+    public Project findById(int id) {
+        Project project = sessionFactory.openSession().get(Project.class, id);
+        if (project == null) {
+            throw new EntityNotFoundException();
+        }
+        return project;
+    }
+
+    @Override
+    public List<Project> findAll() {
+        List<Project> projects = (List<Project>) sessionFactory.openSession().createQuery("from Project");
+        return projects;
+    }
+
+    @Override
+    public void deleteById(int id) {
+        Session session = sessionFactory.openSession();
+        Transaction transaction = session.beginTransaction();
+        session.delete(findById(id));
+        transaction.commit();
+        session.close();
+    }
+
+    @Override
+    public void create(Project entity) {
+        Session session = sessionFactory.openSession();
+        Transaction transaction = session.beginTransaction();
+        session.save(entity);
+        transaction.commit();
+        session.close();
+    }
+
+    @Override
+    public void delete(Project entity) {
+        Session session = sessionFactory.openSession();
+        Transaction transaction = session.beginTransaction();
+        session.delete(entity);
+        transaction.commit();
+        session.close();
+    }
+
+    @Override
+    public void update(Project entity) {
+        Session session = sessionFactory.openSession();
+        Transaction transaction = session.beginTransaction();
+        session.update(entity);
+        transaction.commit();
+        session.close();
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*package app.dao.impl;
+
+import app.dao.ProjectDao;
+import app.entities.Project;
+import app.exceptions.EntityNotFoundException;
+import org.hibernate.SessionFactory;
+import org.hibernate.query.Query;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 import java.util.List;
 
 
 @Repository
 public class ProjectDaoImpl implements ProjectDao {
+
+    @Autowired
+    private SessionFactory sessionFactory;
+
+    @Override
+    public Project findById(int id) {
+        Project project = sessionFactory.getCurrentSession().get(Project.class, id);
+        if (project == null) {
+            throw new EntityNotFoundException();
+        }
+        return project;
+    }
+
+    @Override
+    public List<Project> getAll() {
+        Query query9
+                = sessionFactory.getCurrentSession()
+                .createQuery("from Project");
+        return query9.getResultList();
+    }
+
+    @Override
+    public void delete(int id) {
+        sessionFactory.getCurrentSession()
+                .delete(findById(id));
+    }
+
+    @Override
+    public void save(Project entity) {
+        sessionFactory.getCurrentSession()
+                .save(entity);
+    }
+
+    @Override
+    public void delete(Project entity) {
+        sessionFactory.getCurrentSession()
+                .delete(entity);
+    }
+
+    @Override
+    public void edit(Project entity) {
+        sessionFactory.getCurrentSession()
+                .update(entity);
+    }
 
     private static final String GET_ALL = "SELECT * FROM timesheet_dev.project";
     private static final String FIND_BY_ID = "SELECT * FROM timesheet_dev.project WHERE id=?";
@@ -30,85 +160,6 @@ public class ProjectDaoImpl implements ProjectDao {
 
     @Autowired
     JDBCConnection jdbcConnection;
-
-    @Override
-    public synchronized List<Project> getAll() {
-        List<Project> projectList = null;
-        try (Connection connection = jdbcConnection.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(GET_ALL)) {
-            ResultSet resultSet = preparedStatement.executeQuery();
-            projectList = projectListMapper(resultSet);
-            resultSet.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return projectList;
-    }
-
-    @Override
-    public synchronized Project findById(int id) {
-        Project project = null;
-        try (Connection connection = jdbcConnection.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(FIND_BY_ID)) {
-            preparedStatement.setInt(1, id);
-            ResultSet resultSet = preparedStatement.executeQuery();
-            resultSet.next();
-            project = projectMapper(resultSet);
-
-            if (project == null) {
-                throw new EntityNotFoundException();
-            }
-            resultSet.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return project;
-    }
-
-    @Override
-    public synchronized void save(Project project) {
-        try (Connection connection = jdbcConnection.getConnection()) {
-            createPreparedStatement(project, connection, SAVE).executeUpdate();
-        } catch (SQLIntegrityConstraintViolationException e) {
-            throw new EntityAlreadyExistsException();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    public synchronized void edit(Project project) {
-        if (isProjectExists(project.getId())) {
-            throw new EntityNotFoundException();
-        }
-        try (Connection connection = jdbcConnection.getConnection()) {
-            PreparedStatement preparedStatement = connection.prepareStatement(EDIT);
-            preparedStatement.setString(1, project.getCode());
-            preparedStatement.setInt(2, project.getId());
-            preparedStatement.executeUpdate();
-            preparedStatement.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    public synchronized void delete(Project project) {
-        delete(project.getId());
-    }
-
-    public void delete(int id) {
-        if (isProjectExists(id)) {
-            throw new EntityNotFoundException();
-        }
-        try (Connection connection = jdbcConnection.getConnection()) {
-            PreparedStatement preparedStatement = connection.prepareStatement(DELETE);
-            preparedStatement.setInt(1, id);
-            preparedStatement.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
 
     public PreparedStatement createPreparedStatement(Project project, Connection connection, String command) throws SQLException {
         PreparedStatement preparedStatement = connection.prepareStatement(command);
@@ -160,7 +211,9 @@ public class ProjectDaoImpl implements ProjectDao {
         }
         return true;
     }
-}
+}*/
+
+
 
 
 

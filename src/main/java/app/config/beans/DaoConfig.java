@@ -4,8 +4,8 @@ package app.config.beans;
 import app.dao.*;
 import app.dao.impl.*;
 import app.entities.Assignment;
-import app.entities.Company;
 import app.entities.Invitation;
+import app.entities.Project;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -13,7 +13,7 @@ import org.springframework.context.annotation.Configuration;
 public class DaoConfig {
 
     @Bean
-    public BasicCrudDao<Company> getCompanyDao() {
+    public CompanyDao getCompanyDao() {
         return new CompanyDaoImpl();
     }
 
@@ -28,7 +28,12 @@ public class DaoConfig {
     }
 
     @Bean
-    public ProjectDao getProjectDao() {
+    public RoleDao getRoleDao() {
+        return new RoleDaoImpl();
+    }
+
+    @Bean
+    public BasicCrudDao<Project> getProjectDao() {
         return new ProjectDaoImpl();
     }
 

@@ -5,7 +5,6 @@ import app.entities.Logs;
 import app.entities.namespace.LogsNamespace;
 import app.exceptions.EntityNotFoundException;
 import org.springframework.stereotype.Repository;
-
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;

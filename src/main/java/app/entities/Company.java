@@ -1,37 +1,40 @@
 package app.entities;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 
-
+@Entity
+@Table(name = "company")
 public class Company {
-
+    @Id
     private Integer id;
     private String name;
-    private String logoUrl;
+    private String logo;
     private Integer ownerId;
-
-    private List<Employee> employees = new LinkedList<>();
-    private List<Project> projects = new LinkedList<>();
+    //private List<Employee> employees = new LinkedList<>();
+    //private List<Project> projects = new LinkedList<>();
 
     public Company() {
     }
 
-    public Company(Integer id, String name, String logoUrl, Integer ownerId) {
+    public Company(Integer id, String name, String logo, Integer ownerId) {
         this.id = id;
         this.name = name;
-        this.logoUrl = logoUrl;
+        this.logo = logo;
         this.ownerId = ownerId;
     }
 
     public Company(Company company) {
         this(company.getId(),
                 company.getName(),
-                company.getLogoUrl(),
+                company.getLogo(),
                 company.getOwnerId());
-        this.employees = company.getEmployees();
-        this.projects = company.getProjects();
+        //this.employees = company.getEmployees();
+        //this.projects = company.getProjects();
     }
 
     public Integer getId() {
@@ -42,29 +45,29 @@ public class Company {
         return name;
     }
 
-    public String getLogoUrl() {
-        return logoUrl;
+    public String getLogo() {
+        return logo;
     }
 
     public Integer getOwnerId() {
         return ownerId;
     }
 
-    public void addEmployee(Employee employee) {
-        employees.add(employee);
-    }
+    //public void addEmployee(Employee employee) {
+        //employees.add(employee);
+    //}
 
-    public void addProject(Project project) {
-        projects.add(project);
-    }
+    //public void addProject(Project project) {
+        //projects.add(project);
+    //}
 
-    public List<Employee> getEmployees() {
-        return employees;
-    }
+    //public List<Employee> getEmployees() {
+        //return employees;
+    //}
 
-    public List<Project> getProjects() {
-        return projects;
-    }
+    //public List<Project> getProjects() {
+        //return projects;
+    //}
 
     public void setId(int id) {
         this.id = id;
@@ -74,8 +77,8 @@ public class Company {
         this.name = name;
     }
 
-    public void setLogoUrl(String logoUrl) {
-        this.logoUrl = logoUrl;
+    public void setLogo(String logo) {
+        this.logo = logo;
     }
 
     public void setOwnerId(int ownerId) {
@@ -93,26 +96,26 @@ public class Company {
         Company company = (Company) object;
         return id == company.id
                 && Objects.equals(name, company.name)
-                && Objects.equals(logoUrl, company.logoUrl)
-                && Objects.equals(employees, company.employees)
-                && Objects.equals(projects, company.projects);
+                && Objects.equals(logo, company.logo);
+                //&& Objects.equals(employees, company.employees)
+                //&& Objects.equals(projects, company.projects);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, logoUrl, employees, projects);
-    }
+        return Objects.hash(id, name, logo);
+    } //employees, projects
 
     @Override
     public String toString() {
         return "Company{"
                 + "id=" + id
                 + ", name='" + name + '\''
-                + ", logoUrl='" + logoUrl + '\''
+                + ", logo='" + logo + '\''
                 + '\n'
-                + ", employees=" + employees
+                //+ ", employees=" + employees
                 + '\n'
-                + ", projects=" + projects
+                //+ ", projects=" + projects
                 + '}';
     }
 }

@@ -1,82 +1,69 @@
 package app.dao.impl;
 
-import app.dao.BasicCrudDao;
+import app.dao.CompanyDao;
 import app.entities.Company;
-import app.services.JDBCConnection;
+import app.exceptions.EntityNotFoundException;
+import org.hibernate.SessionFactory;
+import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.sql.*;
-import java.util.LinkedList;
+
 import java.util.List;
 
 @Repository
-public class CompanyDaoImpl implements BasicCrudDao<Company> {
+@Transactional
+public class CompanyDaoImpl implements CompanyDao {
 
     @Autowired
-    JDBCConnection jdbcConnection;
+    private SessionFactory sessionFactory;
 
-    private Company getCompany(ResultSet resultSet) throws Exception {
-        Company company = null;
-        try{
-            company = new Company(resultSet.getInt("id"),
-                    resultSet.getString("name"),
-                    resultSet.getString("logo"),
-                    resultSet.getInt("ownerId"));
-        }
-        catch (SQLException e){
-            e.getMessage();
+    @Override
+    public Company findById(int id) {
+        Company company = sessionFactory.getCurrentSession().get(Company.class, id);
+        if (company == null) {
+            throw new EntityNotFoundException();
         }
         return company;
     }
 
     @Override
-    public synchronized List<Company> findAll(){
-
-        List<Company> allCompanys = new LinkedList<>();
-
-        try(Connection connection = jdbcConnection.getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement("select * from Company")) {
-            ResultSet resultSet = preparedStatement.executeQuery();
-            while(resultSet.next()){
-                allCompanys.add(getCompany(resultSet));
-            }
-
-        } catch (Exception e){
-            e.getMessage();
-        }
-        return allCompanys;
-    }
-
-
-
-    @Override
-    public synchronized Company findById(int id) {
-        Company company = null;
-        try(Connection connection = jdbcConnection.getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement("select * from company where id = ?")) {
-            preparedStatement.setInt(1, id);
-            ResultSet resultSet = preparedStatement.executeQuery();
-            company = getCompany(resultSet);
-        } catch (Exception e){
-            e.getMessage();
-        }
-        return company;
+    public List<Company> findAll() {
+        Query query8
+                = sessionFactory.getCurrentSession()
+                .createQuery("from Company");
+        return query8.getResultList();
     }
 
     @Override
-    public synchronized void deleteById(int id) {
-        try(Connection connection = jdbcConnection.getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement(
-                    "delete from company where id = ?")) {
-            preparedStatement.setInt(1, id);
-            preparedStatement.execute();
-        } catch (SQLException e){
-            e.getMessage();
-        }
+    public void delete(int id) {
+        sessionFactory.getCurrentSession()
+                .delete(findById(id));
     }
 
     @Override
+    public void save(Company entity) {
+        sessionFactory.getCurrentSession()
+                .save(entity);
+    }
+
+    @Override
+    public void delete(Company entity) {
+        sessionFactory.getCurrentSession()
+                .delete(entity);
+    }
+
+    @Override
+    public void edit(Company entity) {
+        sessionFactory.getCurrentSession()
+                .update(entity);
+    }
+
+    //@Autowired
+    //JDBCConnection jdbcConnection;
+
+    /*@Override
     public void create(Company company) {
         try(Connection connection = jdbcConnection.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(
@@ -111,6 +98,6 @@ public class CompanyDaoImpl implements BasicCrudDao<Company> {
         } catch (SQLException e){
             e.getMessage();
         }
-    }
+    }*/
 }
 

@@ -58,7 +58,7 @@ public class Invitation {
         this.partnerId = partnerId;
     }
 
-    public void setInvitationsCode(String invitationsCode) {
+    public void setCode(String invitationsCode) {
         this.invitationsCode = invitationsCode;
     }
 

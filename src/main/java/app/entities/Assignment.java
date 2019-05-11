@@ -6,23 +6,22 @@ import javax.persistence.Table;
 import java.util.Objects;
 
 @Entity
-@Table(name = "Assignment")
+@Table(name = "assignment_1")
 public class Assignment {
-
     @Id
     private int id;
-    private int projectId;
     private int employeeId;
+    private int projectId;
     private int activityId;
     private int workLoad;
 
     public Assignment() {
     }
 
-    public Assignment(int id, int projectId, int employeeId, int activityId, int workLoad) {
+    public Assignment(int id, int employeeId, int projectId, int activityId, int workLoad) {
         this.id = id;
-        this.projectId = projectId;
         this.employeeId = employeeId;
+        this.projectId = projectId;
         this.activityId = activityId;
         this.workLoad = workLoad;
     }
@@ -30,11 +29,10 @@ public class Assignment {
     public Assignment(Assignment assigment) {
         this(
                 assigment.getId(),
-                assigment.getProjectId(),
                 assigment.getEmployeeId(),
+                assigment.getProjectId(),
                 assigment.getActivityId(),
-                assigment.getWorkLoad()
-        );
+                assigment.getWorkLoad());
     }
 
     public int getProjectId() {
@@ -87,8 +85,8 @@ public class Assignment {
         }
         Assignment that = (Assignment) object;
         return getId() == that.getId()
-                && getProjectId() == that.getProjectId()
                 && getEmployeeId() == that.getEmployeeId()
+                && getProjectId() == that.getProjectId()
                 && getActivityId() == that.getActivityId()
                 && getWorkLoad() == that.getWorkLoad();
     }
@@ -96,7 +94,7 @@ public class Assignment {
     @Override
     public int hashCode() {
         return Objects
-                .hash(getId(), getProjectId(), getEmployeeId(),
+                .hash(getId(), getEmployeeId(), getProjectId(),
                         getActivityId(), getWorkLoad());
     }
 }

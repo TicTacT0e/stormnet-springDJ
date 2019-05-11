@@ -2,11 +2,17 @@ package app.entities;
 
 import app.utils.TimeUtil;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.sql.Date;
 
+@Entity
+@Table(name = "project")
 public class Project {
-
+    @Id
     private int id;
+    private int companyId;
     private String name;
     private String logoUrl;
     private Date startDate;
@@ -20,9 +26,10 @@ public class Project {
     public Project() {
     }
 
-    public Project(int id, String name, String logoUrl,
+    public Project(int id, int companyId, String name, String logoUrl,
                    Date startDate, Date endDate, long manHoursInMilliseconds, String code, String color, String description) {
         this.id = id;
+        this.companyId = companyId;
         this.name = name;
         this.logoUrl = logoUrl;
         this.startDate = startDate;
@@ -33,14 +40,15 @@ public class Project {
         this.description = description;
     }
 
-    public Project(int id, String name, String logoUrl,
+    public Project(int id, int companyId, String name, String logoUrl,
                    Date startDate, Date endDate, int manHoursInHours, String code, String color, String description) {
-        this(id, name, logoUrl, startDate, endDate,
+        this(id, companyId, name, logoUrl, startDate, endDate,
                 TimeUtil.hoursToMillisecond(manHoursInHours), code, color, description);
     }
 
     public Project(Project project) {
         this(project.getId(),
+                project.getCompanyId(),
                 project.getName(),
                 project.getLogoUrl(),
                 project.getStartDate(),
@@ -49,6 +57,14 @@ public class Project {
                 project.getCode(),
                 project.getColor(),
                 project.getDescription());
+    }
+
+    public int getCompanyId() {
+        return companyId;
+    }
+
+    public void setCompanyId(int companyId) {
+        this.companyId = companyId;
     }
 
     public int getId() {
@@ -138,6 +154,8 @@ public class Project {
         Project project = (Project) o;
         if (id != project.id)
             return false;
+        if (companyId != project.companyId)
+            return false;
         if (manHours != project.manHours)
             return false;
         if (name != null ? !name.equals(project.name) : project.name != null)
@@ -158,6 +176,7 @@ public class Project {
     @Override
     public int hashCode() {
         int result = id;
+        result = 31 * result + (int) companyId;
         result = 31 * result + (int) manHours;
         result = 31 * result + (name != null ? name.hashCode() : 0);
         result = 31 * result + (logoUrl != null ? logoUrl.hashCode() : 0);
@@ -173,6 +192,7 @@ public class Project {
     public String toString() {
         return "Project{"
                 + "id=" + id
+                + ", companyId='" + companyId + '\''
                 + ", name='" + name + '\''
                 + ", logoUrl='" + logoUrl + '\''
                 + ", startDate=" + startDate
@@ -184,3 +204,5 @@ public class Project {
                 + '}';
     }
 }
+
+

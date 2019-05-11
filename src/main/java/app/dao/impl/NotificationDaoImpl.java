@@ -4,7 +4,6 @@ import app.dao.BasicCrudDao;
 import app.entities.Notification;
 import app.services.JDBCConnection;
 import org.springframework.beans.factory.annotation.Autowired;
-
 import java.sql.*;
 import java.util.LinkedList;
 import java.util.List;

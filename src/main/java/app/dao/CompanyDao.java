@@ -1,17 +1,14 @@
 package app.dao;
 
 import app.entities.Company;
-import app.entities.Employee;
-import app.entities.Project;
 import org.springframework.stereotype.Repository;
-
 import java.util.List;
 
 
 @Repository
 public interface CompanyDao {
 
-    List<Company> getAll();
+    List<Company> findAll();
 
     Company findById(int id);
 
@@ -23,7 +20,7 @@ public interface CompanyDao {
 
     void edit(Company company);
 
-    void addEmployeeToCompany(Company company, Employee employee);
+    //void addEmployeeToCompany(Company company, Employee employee);
 
-    void addProjectToCompany(Company company, Project project);
+    //void addProjectToCompany(Company company, Project project);
 }

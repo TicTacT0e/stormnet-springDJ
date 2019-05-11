@@ -2,7 +2,6 @@ package app.entities.namespace;
 
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeConstants;
-
 import java.util.Date;
 
 public enum LogsNamespace {
