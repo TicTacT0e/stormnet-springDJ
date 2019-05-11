@@ -1,7 +1,5 @@
 package app.entities;
 
-import app.utils.TimeUtil;
-
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -36,12 +34,6 @@ public class Project {
         this.code = code;
         this.color = color;
         this.description = description;
-    }
-
-    public Project(int id, String name, String logoUrl,
-                   Date startDate, Date endDate, int manHoursInHours, String code, String color, String description) {
-        this(id, name, logoUrl, startDate, endDate,
-                TimeUtil.hoursToMillisecond(manHoursInHours), code, color, description);
     }
 
     public Project(Project project) {
@@ -126,10 +118,6 @@ public class Project {
 
     public void setManHours(long manHoursInMilliseconds) {
         this.manHours = manHoursInMilliseconds;
-    }
-
-    public void setManHours(int manHoursInHours) {
-        this.manHours = TimeUtil.hoursToMillisecond(manHoursInHours);
     }
 
     @Override
