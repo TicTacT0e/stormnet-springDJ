@@ -19,6 +19,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -33,24 +34,31 @@ import java.util.List;
 @ContextConfiguration(classes = {ApplicationInitializer.class, PropertyConfig.class, HibernateConfig.class, DaoConfig.class})
 public class NotificationDaoTest {
 
+    private static IDatabaseConnection connection;
+
+    @Value("${jdbc.driver}")
+    private String driver;
+    @Value("${db.url}")
+    private String url;
+    @Value("${db.username}")
+    private String username;
+    @Value("${db.password}")
+    private String password;
+
     @Autowired
     private BasicCrudDao<Notification> notificationDao;
 
-    private static IDatabaseConnection connection;
     private String table = "Notification";
     private String[] columnsToIgnore = {"createdAt"};
 
-    private static Connection getConnection() {
+    private Connection getConnection() {
         try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
+            Class.forName(driver);
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
         try {
-            return DriverManager.getConnection(
-                    "jdbc:mysql://localhost:3306/timesheet_dev?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC",
-                    "username",
-                    "qwerty123");
+            return DriverManager.getConnection(url, username, password);
         } catch (SQLException e) {
             e.printStackTrace();
             return null;
@@ -60,7 +68,7 @@ public class NotificationDaoTest {
     @Before
     public void setUp() throws Exception {
         connection = new MySqlConnection(getConnection(), "timesheet_dev");
-        IDataSet dataSet = new FlatXmlDataSetBuilder().build(new FileInputStream("src\\test\\resources\\app\\dao\\impl\\notificationDataSet\\input.xml"));
+        IDataSet dataSet = new FlatXmlDataSetBuilder().build(new FileInputStream("notificationDataSet\\input.xml"));
         DatabaseOperation.CLEAN_INSERT.execute(connection, dataSet);
     }
 
@@ -72,7 +80,7 @@ public class NotificationDaoTest {
     @Test
     public void testFindAll() throws SQLException, DatabaseUnitException, FileNotFoundException {
         List<Notification> notifications = notificationDao.findAll();
-        IDataSet expectedDataSet = new FlatXmlDataSetBuilder().build(new FileInputStream("src\\test\\resources\\app\\dao\\impl\\notificationDataSet\\input.xml"));
+        IDataSet expectedDataSet = new FlatXmlDataSetBuilder().build(new FileInputStream("notificationDataSet\\input.xml"));
         IDataSet actualDataSet = connection.createDataSet();
         Assertion.assertEquals(expectedDataSet, actualDataSet);
         Assert.assertEquals(expectedDataSet.getTable(table).getRowCount(), notifications.size());
@@ -82,7 +90,7 @@ public class NotificationDaoTest {
     @Test
     public void findById() throws SQLException, FileNotFoundException, DatabaseUnitException {
         Notification notification = notificationDao.findById(2);
-        IDataSet expectedDataSet = new FlatXmlDataSetBuilder().build(new FileInputStream("src\\test\\resources\\app\\dao\\impl\\notificationDataSet\\input.xml"));
+        IDataSet expectedDataSet = new FlatXmlDataSetBuilder().build(new FileInputStream("notificationDataSet\\input.xml"));
         IDataSet actualDataSet = connection.createDataSet();
         String expectedTitleOfNotification = (String) expectedDataSet.getTable(table).getValue(1, "title");
         Assertion.assertEquals(expectedDataSet, actualDataSet);
@@ -93,7 +101,7 @@ public class NotificationDaoTest {
     public void testCreate() throws SQLException, DatabaseUnitException, FileNotFoundException {
         notificationDao.create(new Notification(4, 3, "status4", "title4", "description4", "link4"));
         IDataSet actualDataSet = connection.createDataSet();
-        IDataSet expectedDataSet = new FlatXmlDataSetBuilder().build(new FileInputStream("src\\test\\resources\\app\\dao\\impl\\notificationDataSet\\createExpected.xml"));
+        IDataSet expectedDataSet = new FlatXmlDataSetBuilder().build(new FileInputStream("notificationDataSet\\createExpected.xml"));
         Assertion.assertEqualsIgnoreCols(expectedDataSet, actualDataSet, table, columnsToIgnore);
     }
 
@@ -101,7 +109,7 @@ public class NotificationDaoTest {
     public void testDeleteById() throws SQLException, FileNotFoundException, DatabaseUnitException {
         notificationDao.deleteById(2);
         IDataSet actualDataSet = connection.createDataSet();
-        IDataSet expectedDataSet = new FlatXmlDataSetBuilder().build(new FileInputStream("src\\test\\resources\\app\\dao\\impl\\notificationDataSet\\deleteExpected.xml"));
+        IDataSet expectedDataSet = new FlatXmlDataSetBuilder().build(new FileInputStream("notificationDataSet\\deleteExpected.xml"));
         Assertion.assertEquals(expectedDataSet, actualDataSet);
     }
 
@@ -109,7 +117,7 @@ public class NotificationDaoTest {
     public void testDeleteEntity() throws SQLException, FileNotFoundException, DatabaseUnitException {
         notificationDao.delete(new Notification(2, 2, "status2", "title2", "description2", "link2"));
         IDataSet actualDataSet = connection.createDataSet();
-        IDataSet expectedDataSet = new FlatXmlDataSetBuilder().build(new FileInputStream("src\\test\\resources\\app\\dao\\impl\\notificationDataSet\\deleteExpected.xml"));
+        IDataSet expectedDataSet = new FlatXmlDataSetBuilder().build(new FileInputStream("notificationDataSet\\deleteExpected.xml"));
         Assertion.assertEquals(expectedDataSet, actualDataSet);
     }
 
@@ -117,7 +125,7 @@ public class NotificationDaoTest {
     public void testUpdate() throws SQLException, FileNotFoundException, DatabaseUnitException {
         notificationDao.update(new Notification(1, 3, "updatedStatus", "updatedTitle", "updatedDescription", "updatedLink"));
         IDataSet actualDataSet = connection.createDataSet();
-        IDataSet expectedDataSet = new FlatXmlDataSetBuilder().build(new FileInputStream("src\\test\\resources\\app\\dao\\impl\\notificationDataSet\\updateExpected.xml"));
+        IDataSet expectedDataSet = new FlatXmlDataSetBuilder().build(new FileInputStream("notificationDataSet\\updateExpected.xml"));
         Assertion.assertEqualsIgnoreCols(expectedDataSet, actualDataSet, table, columnsToIgnore);
     }
 
