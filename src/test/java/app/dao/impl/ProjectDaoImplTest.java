@@ -1,94 +1,104 @@
 package app.dao.impl;
 
+import app.config.beans.DaoConfig;
+import app.config.beans.HibernateConfig;
+import app.config.beans.PropertyConfig;
+import app.dao.BasicCrudDao;
+import app.entities.Project;
 import org.dbunit.Assertion;
-import org.dbunit.DatabaseUnitException;
+import org.dbunit.DBTestCase;
+import org.dbunit.PropertiesBasedJdbcDatabaseTester;
+import org.dbunit.database.DatabaseConfig;
 import org.dbunit.database.IDatabaseConnection;
 import org.dbunit.dataset.IDataSet;
+import org.dbunit.dataset.ITable;
 import org.dbunit.dataset.xml.FlatXmlDataSetBuilder;
-import org.dbunit.ext.mysql.MySqlConnection;
+import org.dbunit.ext.mysql.MySqlDataTypeFactory;
+import org.dbunit.ext.mysql.MySqlMetadataHandler;
 import org.dbunit.operation.DatabaseOperation;
-import org.junit.AfterClass;
-import org.junit.Assert;
-import org.junit.BeforeClass;
+import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
+import java.io.IOException;
+import java.util.Objects;
+import java.util.Properties;
 
-public class ProjectDaoImplTest {
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(classes = {DaoConfig.class, PropertyConfig.class, HibernateConfig.class})
+public class ProjectDaoImplTest extends DBTestCase {
 
-    private static IDatabaseConnection connection = null;
+    @Autowired
+    protected BasicCrudDao<Project> basicCrudDao;
 
-    private static Connection getConnection() {
+    private String driver;
+    private String url;
+    private String username;
+    private String password;
+    private String schema;
+    protected String table;
+
+    public ProjectDaoImplTest() {
+        Properties properties = new Properties();
         try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-        } catch (ClassNotFoundException e) {
+            properties.load(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("project.properties")));
+        } catch (IOException e) {
             e.printStackTrace();
         }
 
-        try {
-            return DriverManager.getConnection(
-                    "jdbc:mysql://localhost:3306/timesheet_dev?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC",
-                    "root",
-                    "__chu2552");
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return null;
-        }
+        driver = properties.getProperty("jdbc.driver");
+        url = properties.getProperty("db.url");
+        username = properties.getProperty("db.username");
+        password = properties.getProperty("db.password");
+        schema = properties.getProperty("schema");
+        table = properties.getProperty("table");
+
+        System.setProperty(PropertiesBasedJdbcDatabaseTester.DBUNIT_DRIVER_CLASS, driver);
+        System.setProperty(PropertiesBasedJdbcDatabaseTester.DBUNIT_CONNECTION_URL, url);
+        System.setProperty(PropertiesBasedJdbcDatabaseTester.DBUNIT_USERNAME, username);
+        System.setProperty(PropertiesBasedJdbcDatabaseTester.DBUNIT_PASSWORD, password);
+        System.setProperty(PropertiesBasedJdbcDatabaseTester.DBUNIT_SCHEMA, schema);
     }
 
-    @BeforeClass
-    public static void setUp() throws Exception {
-        // initialize your database connection here
-        connection = new MySqlConnection(getConnection(), "timesheet_dev");
-        // ...
-
-        // initialize your dataset here
-        IDataSet dataSet = new FlatXmlDataSetBuilder().build(new FileInputStream("D:\\Alena\\J2EE_projects\\TimesheetManagement\\src\\test\\resources\\app\\dao\\impl\\inputDb.xml"));
-
-        DatabaseOperation.CLEAN_INSERT.execute(connection, dataSet);
+    @Before
+    public void setUp() throws Exception {
+        IDataSet data = getDataSet();
+        IDatabaseConnection connection = getMySqlConnection();
+        DatabaseOperation.CLEAN_INSERT.execute(connection, data);
     }
 
-    @AfterClass
-    public static void tearDown() throws SQLException {
-        connection.close();
+    protected IDatabaseConnection getMySqlConnection() throws Exception {
+        IDatabaseConnection connection = super.getConnection();
+        DatabaseConfig dbConfig = connection.getConfig();
+        dbConfig.setProperty(DatabaseConfig.PROPERTY_DATATYPE_FACTORY, new MySqlDataTypeFactory());
+        dbConfig.setProperty(DatabaseConfig.PROPERTY_METADATA_HANDLER, new MySqlMetadataHandler());
+        return connection;
     }
 
-    @Test
-    public void getAll() {
-        Assert.assertTrue(true);
+    @Override
+    protected IDataSet getDataSet() throws Exception {
+        return new FlatXmlDataSetBuilder().build(this.getClass().getClassLoader()
+                .getResourceAsStream("D:\\Alena\\J2EE_projects\\TimesheetManagement\\src\\test\\resources\\app\\dao\\impl\\inputDb.xml"));
     }
 
-    @Test
-    public void findById() {
-        Assert.assertTrue(true);
+    protected DatabaseOperation getSetUpOperation() throws Exception {
+        return DatabaseOperation.REFRESH;
     }
 
-    @Test
-    public void testSave() throws SQLException, DatabaseUnitException, FileNotFoundException {
-        IDataSet tmpDataset = connection.createDataSet();
-
-        IDataSet expectedDataSet = new FlatXmlDataSetBuilder().build(
-                new FileInputStream("D:\\Alena\\J2EE_projects\\TimesheetManagement\\src\\test\\resources\\app\\dao\\impl\\inputDbExpected.xml"));
-
-        Assertion.assertEquals(expectedDataSet, tmpDataset);
+    protected DatabaseOperation getTearDownOperation() throws Exception {
+        return DatabaseOperation.NONE;
     }
 
     @Test
-    public void delete() {
-        Assert.assertTrue(true);
-    }
-
-    @Test
-    public void delete1() {
-        Assert.assertTrue(true);
-    }
-
-    @Test
-    public void edit() {
-        Assert.assertTrue(true);
+    public void setUpDatabaseTest() throws Exception {
+        IDataSet expectedDataSet = new FlatXmlDataSetBuilder().build(this.getClass().getClassLoader()
+                .getResourceAsStream("D:\\Alena\\J2EE_projects\\TimesheetManagement\\src\\test\\resources\\app\\dao\\impl\\inputDb.xml"));
+        ITable expectedTable = expectedDataSet.getTable(table);
+        IDataSet actualDataSet = getMySqlConnection().createDataSet();
+        ITable actualTable = actualDataSet.getTable(table);
+        Assertion.assertEquals(expectedTable, actualTable);
     }
 }
