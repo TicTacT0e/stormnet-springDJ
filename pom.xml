@@ -33,9 +33,10 @@
         <dbunit.version>2.5.4</dbunit.version>
         <slf4j.version>1.7.26</slf4j.version>
         <hibernate.version>5.4.2.Final</hibernate.version>
+        <liquibase.version>3.6.2</liquibase.version>
 
         <jdbc.driver>com.mysql.cj.jdbc.Driver</jdbc.driver>
-        <db.url>jdbc:mysql://mifortdev.cmltklqkx5d1.eu-west-1.rds.amazonaws.com:3306/Timesheetmanager?useSSL=false</db.url>
+        <db.url>jdbc:mysql://mifortdev.cmltklqkx5d1.eu-west-1.rds.amazonaws.com:3306/Timesheetmanager?useUnicode=true&amp;useJDBCCompliantTimezoneShift=true&amp;useLegacyDatetimeCode=false&amp;serverTimezone=UTC</db.url>
         <db.username>javadev</db.username>
         <db.password>123qweasdzxc</db.password>
         <hibernate.dialect>org.hibernate.dialect.MySQLDialect</hibernate.dialect>
@@ -170,6 +171,7 @@
         </dependency>
 
         <dependency>
+
             <groupId>org.springframework</groupId>
             <artifactId>spring-test</artifactId>
             <version>${spring.version}</version>
