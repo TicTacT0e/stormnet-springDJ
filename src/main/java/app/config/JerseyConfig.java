@@ -18,6 +18,5 @@ public class JerseyConfig extends ResourceConfig {
         register(NotificationResource.class);
         register(InvitationResource.class);
         register(TimesheetResource.class);
-
     }
 }
