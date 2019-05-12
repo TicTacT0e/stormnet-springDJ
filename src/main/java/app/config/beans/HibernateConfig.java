@@ -27,9 +27,9 @@ public class HibernateConfig {
     private String password;
     @Value("${hibernate.dialect}")
     private String hibernateDialect;
-    @Value("#{new Boolean('${hibernate.show_sql}')}")
+    @Value("${hibernate.show_sql}")
     private boolean showSql;
-    @Value("#{new Boolean('${hibernate.format_sql}')}")
+    @Value("${hibernate.format_sql}")
     private boolean formatSql;
 
     @Bean
