@@ -1,8 +1,15 @@
 package app.entities;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.sql.Date;
 
+@Entity
+@Table(name = "Invitation")
 public class Invitation {
+
+    @Id
     private int id;
     private int partnerId;
     private String invitationsCode;

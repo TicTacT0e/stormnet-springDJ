@@ -29,7 +29,7 @@ public class BasicCrudDaoImpl<T> implements BasicCrudDao<T> {
 
     @Override
     public T findById(int id) {
-        T entity = (T) sessionFactory.getCurrentSession().get(daoType, id);
+        T entity = sessionFactory.getCurrentSession().get(daoType, id);
         if (entity == null) {
             throw new NoSuchElementException();
         }
