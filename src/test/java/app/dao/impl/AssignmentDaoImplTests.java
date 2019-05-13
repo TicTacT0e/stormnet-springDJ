@@ -26,6 +26,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.web.WebAppConfiguration;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
 import java.util.List;
@@ -33,6 +35,8 @@ import java.util.Objects;
 import java.util.Properties;
 
 @RunWith(SpringJUnit4ClassRunner.class)
+@WebAppConfiguration
+@Transactional
 @ContextConfiguration(classes = {DaoConfig.class, HibernateConfig.class, PropertyConfig.class})
 public class AssignmentDaoImplTests extends DBTestCase {
 
