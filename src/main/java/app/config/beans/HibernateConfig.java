@@ -3,6 +3,7 @@ package app.config.beans;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.hibernate5.HibernateTransactionManager;
@@ -27,10 +28,14 @@ public class HibernateConfig {
     private String password;
     @Value("${hibernate.dialect}")
     private String hibernateDialect;
+    //    @Value("#{new Boolean('${hibernate.show_sql}')}")
+//    private boolean showSql;
+//    @Value("#{new Boolean('${hibernate.format_sql}')}")
+//    private boolean formatSql;
     @Value("${hibernate.show_sql}")
-    private boolean showSql;
+    private String showSql;
     @Value("${hibernate.format_sql}")
-    private boolean formatSql;
+    private String formatSql;
 
     @Bean
     public LocalSessionFactoryBean getSessionFactory() {
