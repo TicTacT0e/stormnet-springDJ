@@ -53,7 +53,7 @@ public class AssignmentDaoImplTests extends DBTestCase {
         try {
             properties.load(Objects.requireNonNull(getClass()
                     .getClassLoader()
-                    .getResourceAsStream("assignment/assignmentTests.properties")));
+                    .getResourceAsStream("assignment/assignment.properties")));
         } catch (IOException e) {
             e.printStackTrace();
         }
