@@ -1,27 +1,31 @@
 package app.entities;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import java.util.Objects;
 
 @Entity
-@Table(name = "assignment_1")
+@Table(name = "Assignment")
 public class Assignment {
+
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    private int employeeId;
     private int projectId;
+    private int employeeId;
     private int activityId;
     private int workLoad;
 
     public Assignment() {
     }
 
-    public Assignment(int id, int employeeId, int projectId, int activityId, int workLoad) {
+    public Assignment(int id, int projectId, int employeeId, int activityId, int workLoad) {
         this.id = id;
-        this.employeeId = employeeId;
         this.projectId = projectId;
+        this.employeeId = employeeId;
         this.activityId = activityId;
         this.workLoad = workLoad;
     }
@@ -29,10 +33,11 @@ public class Assignment {
     public Assignment(Assignment assigment) {
         this(
                 assigment.getId(),
-                assigment.getEmployeeId(),
                 assigment.getProjectId(),
+                assigment.getEmployeeId(),
                 assigment.getActivityId(),
-                assigment.getWorkLoad());
+                assigment.getWorkLoad()
+        );
     }
 
     public int getProjectId() {
@@ -84,17 +89,11 @@ public class Assignment {
             return false;
         }
         Assignment that = (Assignment) object;
-        return getId() == that.getId()
-                && getEmployeeId() == that.getEmployeeId()
-                && getProjectId() == that.getProjectId()
-                && getActivityId() == that.getActivityId()
-                && getWorkLoad() == that.getWorkLoad();
+        return getId() == that.getId();
     }
 
     @Override
     public int hashCode() {
-        return Objects
-                .hash(getId(), getEmployeeId(), getProjectId(),
-                        getActivityId(), getWorkLoad());
+        return Objects.hash(getId());
     }
 }

@@ -1,30 +1,26 @@
 package app.entities;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import java.util.LinkedList;
-import java.util.List;
+import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
-@Table(name = "company")
+@Table(name = "Company")
 public class Company {
+
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String name;
     private String logo;
     private Integer ownerId;
-    //private List<Employee> employees = new LinkedList<>();
-    //private List<Project> projects = new LinkedList<>();
 
     public Company() {
     }
 
-    public Company(Integer id, String name, String logo, Integer ownerId) {
+    public Company(Integer id, String name, String logoUrl, Integer ownerId) {
         this.id = id;
         this.name = name;
-        this.logo = logo;
+        this.logo = logoUrl;
         this.ownerId = ownerId;
     }
 
@@ -33,8 +29,6 @@ public class Company {
                 company.getName(),
                 company.getLogo(),
                 company.getOwnerId());
-        //this.employees = company.getEmployees();
-        //this.projects = company.getProjects();
     }
 
     public Integer getId() {
@@ -53,22 +47,6 @@ public class Company {
         return ownerId;
     }
 
-    //public void addEmployee(Employee employee) {
-        //employees.add(employee);
-    //}
-
-    //public void addProject(Project project) {
-        //projects.add(project);
-    //}
-
-    //public List<Employee> getEmployees() {
-        //return employees;
-    //}
-
-    //public List<Project> getProjects() {
-        //return projects;
-    //}
-
     public void setId(int id) {
         this.id = id;
     }
@@ -86,36 +64,29 @@ public class Company {
     }
 
     @Override
-    public boolean equals(Object object) {
-        if (this == object) {
-            return true;
-        }
-        if (!(object instanceof Company)) {
-            return false;
-        }
-        Company company = (Company) object;
-        return id == company.id
-                && Objects.equals(name, company.name)
-                && Objects.equals(logo, company.logo);
-                //&& Objects.equals(employees, company.employees)
-                //&& Objects.equals(projects, company.projects);
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Company company = (Company) o;
+        return Objects.equals(getId(), company.getId()) &&
+                Objects.equals(getName(), company.getName()) &&
+                Objects.equals(getLogo(), company.getLogo()) &&
+                Objects.equals(getOwnerId(), company.getOwnerId());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, logo);
-    } //employees, projects
+        return Objects.hash(getId(), getName(), getLogo(), getOwnerId());
+    }
 
     @Override
     public String toString() {
-        return "Company{"
-                + "id=" + id
-                + ", name='" + name + '\''
-                + ", logo='" + logo + '\''
-                + '\n'
-                //+ ", employees=" + employees
-                + '\n'
-                //+ ", projects=" + projects
-                + '}';
+        return "Company{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", logo='" + logo + '\'' +
+                ", ownerId=" + ownerId +
+                '}';
     }
+
 }

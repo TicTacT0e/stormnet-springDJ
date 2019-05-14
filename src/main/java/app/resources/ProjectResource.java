@@ -81,46 +81,44 @@ import java.util.List;
 public class ProjectResource {
 
     @Autowired
-    private ProjectDao projectDao;
+    private BasicCrudDao<Project> basicCrudDao;
 
     @GET
-    @Path("/all")
     @Produces(MediaType.APPLICATION_JSON)
-    public List<Project> getAll() {
-        return projectDao.getAll();
+    public List<Project> findAll() {
+        return basicCrudDao.findAll();
     }
 
     @GET
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Project get(@PathParam("id") int id) {
-        return projectDao.findById(id);
-    }
-
-    @POST
-    @Path("/add")
-    @Consumes(MediaType.APPLICATION_JSON)
-    public Response add(Project project) {
-        projectDao.save(project);
-        return Response.status(Response.Status.CREATED.getStatusCode()).build();
+    public Project findById(@PathParam("id") int id) {
+        return basicCrudDao.findById(id);
     }
 
     @PUT
-    @Path("/edit/{id}")
+    @Path("/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response edit(@PathParam("id") int id, Project project) {
-        if (id != project.getId()){
+    public Response update(@PathParam("id") int id, Project project) {
+        if (id != project.getId()) {
             return Response.status(Response.Status.CONFLICT.getStatusCode()).build();
         }
-        projectDao.edit(project);
+        basicCrudDao.update(project);
+        return Response.status(Response.Status.CREATED.getStatusCode()).build();
+    }
+
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response create(Project project) {
+        basicCrudDao.create(project);
         return Response.status(Response.Status.CREATED.getStatusCode()).build();
     }
 
     @DELETE
-    @Path("/delete/{id}")
+    @Path("/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response delete(@PathParam("id") int id, Project project) {
-        projectDao.delete(project);
+    public Response deleteById(@PathParam("id") int id) {
+        basicCrudDao.deleteById(id);
         return Response.status(Response.Status.OK.getStatusCode()).build();
     }
 }*/

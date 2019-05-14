@@ -32,7 +32,9 @@ import java.util.List;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = {ApplicationInitializer.class, PropertyConfig.class, HibernateConfig.class, DaoConfig.class})
 public class NotificationDaoTest {
+
     private static IDatabaseConnection connection;
+
     @Value("${jdbc.driver}")
     private String driver;
     @Value("${db.url}")
@@ -44,6 +46,7 @@ public class NotificationDaoTest {
 
     @Autowired
     private BasicCrudDao<Notification> notificationDao;
+
     private String table = "Notification";
     private String[] columnsToIgnore = {"createdAt"};
 
@@ -81,6 +84,7 @@ public class NotificationDaoTest {
         Assertion.assertEquals(expectedDataSet, actualDataSet);
         Assert.assertEquals(expectedDataSet.getTable(table).getRowCount(), notifications.size());
     }
+
 
     @Test
     public void findById() throws SQLException, FileNotFoundException, DatabaseUnitException {
@@ -123,4 +127,5 @@ public class NotificationDaoTest {
         IDataSet expectedDataSet = new FlatXmlDataSetBuilder().build(new FileInputStream("notificationDataSet\\updateExpected.xml"));
         Assertion.assertEqualsIgnoreCols(expectedDataSet, actualDataSet, table, columnsToIgnore);
     }
+
 }

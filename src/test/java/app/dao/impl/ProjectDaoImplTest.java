@@ -28,7 +28,7 @@ import java.util.Properties;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = {DaoConfig.class, PropertyConfig.class, HibernateConfig.class})
-public class ProjectDaoImplTest extends DBTestCase{
+public class ProjectDaoImplTest extends DBTestCase {
 
     @Autowired
     protected BasicCrudDao<Project> basicCrudDao;

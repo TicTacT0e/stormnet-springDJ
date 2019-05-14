@@ -1,7 +1,8 @@
 package app.resources;
 
-import app.dao.CompanyDao;
+import app.dao.BasicCrudDao;
 import app.entities.Company;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import javax.ws.rs.*;
@@ -13,82 +14,55 @@ import java.util.List;
 @Path("/company")
 public class CompanyResource {
 
+    private static final Logger log = Logger.getLogger(CompanyResource.class);
+
     @Autowired
-    private CompanyDao companyDao;
+    private BasicCrudDao<Company> companyDao;
 
     @GET
+    @Path("/all")
     @Produces(MediaType.APPLICATION_JSON)
-    public List<Company> getAll() {
+    public List<Company> findAll() {
+        log.warn("getAll method called");
         return companyDao.findAll();
     }
 
     @GET
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Company get(
-            @PathParam("id") Integer id
-    ) {
+    public Company get(@PathParam("id") int id) {
         return companyDao.findById(id);
     }
 
     @POST
+    @Path("/")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response add(Company company) {
-        companyDao.save(company);
+    public Response create(Company company) {
+        companyDao.create(company);
         return Response.status(Response.Status.CREATED.getStatusCode()).build();
     }
 
     @PUT
-    @Path("/{id}")
+    @Path("/edit/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response edit(
-            @PathParam("id") Integer id,
-            Company company
-    ) {
-        if (id!= company.getId()) {
-            return Response.status(Response.Status.CONFLICT.getStatusCode()).build();
-        }
-        companyDao.edit(company);
+    public Response update(@PathParam("id") int id, Company company) {
+        companyDao.update(company);
         return Response.status(Response.Status.CREATED.getStatusCode()).build();
     }
 
     @DELETE
-    @Path("/{id}")
-    public Response delete(
-            @PathParam("id") Integer id
-    ) {
-        companyDao.delete(id);
+    @Path("/delete/{id}")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response deleteById(@PathParam("id") int id) {
+        companyDao.deleteById(id);
         return Response.status(Response.Status.OK.getStatusCode()).build();
     }
 
-    /*private static final Logger log = Logger.getLogger(CompanyResource.class);
-
-    @Autowired
-    private CompanyDao companyDao;
-    @Autowired
-    private EmployeeDao employeeDao;
-    @Autowired
-    private ProjectDao projectDao;
-
-    @POST
-    @Path("/add/employee/{companyId}/{employeeId}")
+    @DELETE
+    @Path("/delete")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response addEmployeeToCompany(
-            @PathParam("companyId") int companyId,
-            @PathParam("employeeId") int employeeId) {
-        companyDao.addEmployeeToCompany(companyDao.findById(companyId),
-                employeeDao.findById(employeeId));
+    public Response delete(Company company) {
+        companyDao.delete(company);
         return Response.status(Response.Status.OK.getStatusCode()).build();
     }
-
-    @POST
-    @Path("/add/project/{companyId}/{projectId}")
-    @Consumes(MediaType.APPLICATION_JSON)
-    public Response addProjectToCompany(
-            @PathParam("companyId") int companyId,
-            @PathParam("projectId") int projectId) {
-        companyDao.addProjectToCompany(companyDao.findById(companyId),
-                projectDao.findById(projectId));
-        return Response.status(Response.Status.OK.getStatusCode()).build();
-    }*/
 }
