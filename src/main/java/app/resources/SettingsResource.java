@@ -4,7 +4,6 @@ import app.dao.BasicCrudDao;
 import app.dto.CompanySettingsDto;
 import app.entities.Activity;
 import app.entities.Integration;
-import app.entities.Project;
 import app.entities.Settings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -23,13 +22,14 @@ import java.util.Map;
 public class SettingsResource {
 
     @Autowired
-    BasicCrudDao<Settings> settingsDao;
+    private BasicCrudDao<Settings> settingsDao;
     @Autowired
-    BasicCrudDao<Activity> activityDao;
+    private BasicCrudDao<Activity> activityDao;
     @Autowired
-    BasicCrudDao<Integration> integrationDao;
+    private BasicCrudDao<Integration> integrationDao;
 
-    private static final String DEFAULT_PROJECT_SETTINGS_KEY = "default project";
+    private static final String DEFAULT_PROJECT_SETTINGS_KEY
+            = "default project";
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
@@ -41,7 +41,8 @@ public class SettingsResource {
         for (Activity activity : activities) {
             activityDao.create(activity);
         }
-        List<Integer> defaultProjectIDs = companySettingsDto.getDefaultProjectIDs();
+        List<Integer> defaultProjectIDs
+                = companySettingsDto.getDefaultProjectIDs();
         for (Integer id : defaultProjectIDs) {
             settingsDao.create(new Settings(
                     companyId,

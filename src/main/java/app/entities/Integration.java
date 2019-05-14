@@ -24,7 +24,8 @@ public class Integration {
     public Integration() {
     }
 
-    public Integration(int id, int companyId, String type, String login, String password) {
+    public Integration(int id, int companyId, String type,
+                       String login, String password) {
         this.id = id;
         this.companyId = companyId;
         this.type = type;
@@ -32,7 +33,8 @@ public class Integration {
         this.password = password;
     }
 
-    public Integration(int companyId, String type, String login, String password) {
+    public Integration(int companyId, String type,
+                       String login, String password) {
         this.companyId = companyId;
         this.type = type;
         this.login = login;

@@ -1,21 +1,15 @@
 package app.entities;
 
-import app.utils.TimeUtil;
-
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import java.sql.Date;
 
 @Entity
-@Table(name = "Project")
+@Table(name = "project")
 public class Project {
     @Id
-    @GeneratedValue(strategy =  GenerationType.IDENTITY)
     private int id;
-    private int companyId;
     private String name;
     private String logoUrl;
     private Date startDate;
@@ -29,11 +23,9 @@ public class Project {
     public Project() {
     }
 
-    public Project(int id, int companyId, String name, String logoUrl,
-                   Date startDate, Date endDate, long manHoursInMilliseconds,
-                   String code, String color, String description) {
+    public Project(int id, String name, String logoUrl,
+                   Date startDate, Date endDate, long manHoursInMilliseconds, String code, String color, String description) {
         this.id = id;
-        this.companyId = companyId;
         this.name = name;
         this.logoUrl = logoUrl;
         this.startDate = startDate;
@@ -44,16 +36,8 @@ public class Project {
         this.description = description;
     }
 
-    public Project(int id, int companyId, String name, String logoUrl,
-                   Date startDate, Date endDate, int manHoursInHours,
-                   String code, String color, String description) {
-        this(id, companyId, name, logoUrl, startDate, endDate,
-                TimeUtil.hoursToMillisecond(manHoursInHours), code, color, description);
-    }
-
     public Project(Project project) {
         this(project.getId(),
-                project.getCompanyId(),
                 project.getName(),
                 project.getLogoUrl(),
                 project.getStartDate(),
@@ -134,18 +118,6 @@ public class Project {
 
     public void setManHours(long manHoursInMilliseconds) {
         this.manHours = manHoursInMilliseconds;
-    }
-
-    public void setManHours(int manHoursInHours) {
-        this.manHours = TimeUtil.hoursToMillisecond(manHoursInHours);
-    }
-
-    public int getCompanyId() {
-        return companyId;
-    }
-
-    public void setCompanyId(int companyId) {
-        this.companyId = companyId;
     }
 
     @Override
