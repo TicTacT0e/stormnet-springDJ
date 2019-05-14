@@ -1,7 +1,7 @@
 package app.dao.impl;
 
-import app.entities.Company;
 import app.dao.BasicCrudDao;
+import app.entities.Company;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -17,7 +17,7 @@ public class CompanyDaoImpl implements BasicCrudDao<Company> {
     SessionFactory sessionFactory;
 
     @Override
-    public synchronized List<Company> findAll(){
+    public synchronized List<Company> findAll() {
         List<Company> companies = (List<Company>)
                 sessionFactory.getCurrentSession().createQuery("From Company").list();
         return companies;

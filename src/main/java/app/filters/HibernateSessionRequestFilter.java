@@ -43,7 +43,7 @@ public class HibernateSessionRequestFilter extends OncePerRequestFilter {
             chain.doFilter(request, response);
         } finally {
             sessionHolder = (SessionHolder) TransactionSynchronizationManager
-                            .unbindResource(sessionFactory);
+                    .unbindResource(sessionFactory);
             SessionFactoryUtils.closeSession(sessionHolder.getSession());
         }
     }

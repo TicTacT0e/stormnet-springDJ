@@ -35,12 +35,12 @@ public class Notification {
 
     @PrePersist
     protected void onCreate() {
-    	createdAt = new Timestamp(new java.util.Date().getTime());
+        createdAt = new Timestamp(new java.util.Date().getTime());
     }
 
     @PreUpdate
     protected void onUpdate() {
-    	createdAt = new Timestamp(new java.util.Date().getTime());
+        createdAt = new Timestamp(new java.util.Date().getTime());
     }
 
     public int getId() {
