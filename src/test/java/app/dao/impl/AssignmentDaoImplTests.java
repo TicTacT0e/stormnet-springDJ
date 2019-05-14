@@ -38,7 +38,6 @@ import java.util.Properties;
 @ContextConfiguration(classes = {DaoConfig.class, HibernateConfig.class, PropertyConfig.class})
 public class AssignmentDaoImplTests extends DBTestCase {
 
-
     @Autowired
     private BasicCrudDao<Assignment> assignmentDao;
 
