@@ -1,7 +1,6 @@
 package app.resources;
 
 import app.dao.BasicCrudDao;
-import app.dao.ProjectDao;
 import app.dto.CompanySettingsDto;
 import app.entities.Activity;
 import app.entities.Integration;
@@ -28,9 +27,9 @@ public class SettingsResource {
     @Autowired
     BasicCrudDao<Activity> activityDao;
     @Autowired
-    BasicCrudDao<Project> projectDao;
-    @Autowired
     BasicCrudDao<Integration> integrationDao;
+
+    private static final String DEFAULT_PROJECT_SETTINGS_KEY = "default project";
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
@@ -42,9 +41,13 @@ public class SettingsResource {
         for (Activity activity : activities) {
             activityDao.create(activity);
         }
-        List<Project> projects = companySettingsDto.getDefaultProject();
-        for (Project project : projects) {
-            projectDao.create(project);
+        List<Integer> defaultProjectIDs = companySettingsDto.getDefaultProjectIDs();
+        for (Integer id : defaultProjectIDs) {
+            settingsDao.create(new Settings(
+                    companyId,
+                    DEFAULT_PROJECT_SETTINGS_KEY,
+                    String.valueOf(id)
+            ));
         }
         Map<String, String> settings = companySettingsDto.getSettings();
         settings.forEach((key, value) ->

@@ -2,7 +2,6 @@ package app.dto;
 
 import app.entities.Activity;
 import app.entities.Integration;
-import app.entities.Project;
 
 import java.util.List;
 import java.util.Map;
@@ -10,7 +9,7 @@ import java.util.Map;
 public class CompanySettingsDto {
 
     private List<Activity> companyActivities;
-    private List<Project> defaultProject;
+    private List<Integer> defaultProjectIDs;
     private Map<String, String> settings;
     private List<Integration> integrations;
 
@@ -25,12 +24,12 @@ public class CompanySettingsDto {
         this.companyActivities = companyActivities;
     }
 
-    public List<Project> getDefaultProject() {
-        return defaultProject;
+    public List<Integer> getDefaultProjectIDs() {
+        return defaultProjectIDs;
     }
 
-    public void setDefaultProject(List<Project> defaultProject) {
-        this.defaultProject = defaultProject;
+    public void setDefaultProjectIDs(List<Integer> defaultProjectIDs) {
+        this.defaultProjectIDs = defaultProjectIDs;
     }
 
     public Map<String, String> getSettings() {
