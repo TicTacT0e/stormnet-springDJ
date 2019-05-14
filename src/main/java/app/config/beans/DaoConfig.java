@@ -1,14 +1,21 @@
 package app.config.beans;
 
-
-import app.dao.*;
-import app.dao.impl.*;
+import app.dao.BasicCrudDao;
+import app.dao.EmployeeDao;
+import app.dao.impl.AssignmentDaoImpl;
+import app.dao.impl.CompanyDaoImpl;
+import app.dao.impl.EmployeeDaoImpl;
+import app.dao.impl.InvitationDaoImpl;
+import app.dao.impl.LogsDaoImpl;
+import app.dao.impl.NotificationDaoImpl;
+import app.dao.impl.ProjectDaoImpl;
+import app.dao.impl.TimesheetDaoImpl;
 import app.entities.Assignment;
 import app.entities.Company;
 import app.entities.Invitation;
 import app.entities.Log;
-import app.entities.Timesheet;
 import app.entities.Project;
+import app.entities.Timesheet;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -36,7 +43,7 @@ public class DaoConfig {
     }
 
     @Bean
-    public BasicCrudDao<Invitation> getInvitationDao(){
+    public BasicCrudDao<Invitation> getInvitationDao() {
         return new InvitationDaoImpl();
     }
 

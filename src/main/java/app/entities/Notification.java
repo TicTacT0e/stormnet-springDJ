@@ -1,11 +1,15 @@
 package app.entities;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
+import javax.persistence.Table;
 import java.sql.Timestamp;
 import java.util.Date;
 
 @Entity
-@Table (name = "Notification")
+@Table(name = "Notification")
 public class Notification {
 
     @Id
