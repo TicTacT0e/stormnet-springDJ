@@ -35,8 +35,6 @@ import java.util.Objects;
 import java.util.Properties;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@WebAppConfiguration
-@Transactional
 @ContextConfiguration(classes = {DaoConfig.class, HibernateConfig.class, PropertyConfig.class})
 public class AssignmentDaoImplTests extends DBTestCase {
 
@@ -49,7 +47,7 @@ public class AssignmentDaoImplTests extends DBTestCase {
     private String username;
     private String password;
     private String assignmentSchema;
-    private String assignmentTable;
+    private static final String ASSIGNMENT_TABLE = "Assignment";
 
     private static final int NUMBER_OF_FIRST_ROW = 0;
 
@@ -58,7 +56,7 @@ public class AssignmentDaoImplTests extends DBTestCase {
         try {
             properties.load(Objects.requireNonNull(getClass()
                     .getClassLoader()
-                    .getResourceAsStream("assignment/assignment.properties")));
+                    .getResourceAsStream("tests.properties")));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -67,7 +65,6 @@ public class AssignmentDaoImplTests extends DBTestCase {
         username = properties.getProperty("db-username");
         password = properties.getProperty("db-password");
         assignmentSchema = properties.getProperty("assignment-schema");
-        assignmentTable = properties.getProperty("assignment-table");
         System.setProperty(PropertiesBasedJdbcDatabaseTester.DBUNIT_DRIVER_CLASS,
                 driver);
         System.setProperty(PropertiesBasedJdbcDatabaseTester.DBUNIT_CONNECTION_URL,
@@ -119,10 +116,10 @@ public class AssignmentDaoImplTests extends DBTestCase {
                 .build(getClass()
                         .getClassLoader()
                         .getResourceAsStream("assignment/initial-dataset.xml"));
-        ITable expectedTable = expectedDataSet.getTable(assignmentTable);
+        ITable expectedTable = expectedDataSet.getTable(ASSIGNMENT_TABLE);
 
         IDataSet actualDataSet = getMySqlConnection().createDataSet();
-        ITable actualTable = actualDataSet.getTable(assignmentTable);
+        ITable actualTable = actualDataSet.getTable(ASSIGNMENT_TABLE);
 
         Assertion.assertEquals(expectedTable, actualTable);
     }
@@ -134,9 +131,9 @@ public class AssignmentDaoImplTests extends DBTestCase {
                 .build(getClass()
                         .getClassLoader()
                         .getResourceAsStream("assignment/delete-dataset.xml"));
-        ITable expectedTable = expectedDataSet.getTable(assignmentTable);
+        ITable expectedTable = expectedDataSet.getTable(ASSIGNMENT_TABLE);
         IDataSet actualDataSet = getMySqlConnection().createDataSet();
-        ITable actualTable = actualDataSet.getTable(assignmentTable);
+        ITable actualTable = actualDataSet.getTable(ASSIGNMENT_TABLE);
         Assertion.assertEquals(expectedTable, actualTable);
     }
 
@@ -153,9 +150,9 @@ public class AssignmentDaoImplTests extends DBTestCase {
                 .build(getClass()
                         .getClassLoader()
                         .getResourceAsStream("assignment/edit-dataset.xml"));
-        ITable expectedTable = expectedDataSet.getTable(assignmentTable);
+        ITable expectedTable = expectedDataSet.getTable(ASSIGNMENT_TABLE);
         IDataSet actualDataSet = getMySqlConnection().createDataSet();
-        ITable actualTable = actualDataSet.getTable(assignmentTable);
+        ITable actualTable = actualDataSet.getTable(ASSIGNMENT_TABLE);
         Assertion.assertEquals(expectedTable, actualTable);
     }
 
@@ -171,7 +168,7 @@ public class AssignmentDaoImplTests extends DBTestCase {
                 .build(getClass()
                         .getClassLoader()
                         .getResourceAsStream("assignment/find-by-id-dataset.xml"));
-        ITable expectedTable = expectedDataSet.getTable(assignmentTable);
+        ITable expectedTable = expectedDataSet.getTable(ASSIGNMENT_TABLE);
 
         Assignment assignment = assignmentDao.findById(4);
 
@@ -203,7 +200,7 @@ public class AssignmentDaoImplTests extends DBTestCase {
                 .build(getClass()
                         .getClassLoader()
                         .getResourceAsStream("assignment/initial-dataset.xml"));
-        ITable expectedTable = expectedDataSet.getTable(assignmentTable);
+        ITable expectedTable = expectedDataSet.getTable(ASSIGNMENT_TABLE);
         List<Assignment> assignments = assignmentDao.findAll();
         int index = NUMBER_OF_FIRST_ROW;
         for (Assignment assignment : assignments) {
@@ -235,9 +232,9 @@ public class AssignmentDaoImplTests extends DBTestCase {
                 .build(getClass()
                         .getClassLoader()
                         .getResourceAsStream("assignment/save-dataset.xml"));
-        ITable expectedTable = expectedDataSet.getTable(assignmentTable);
+        ITable expectedTable = expectedDataSet.getTable(ASSIGNMENT_TABLE);
         IDataSet actualDataSet = getMySqlConnection().createDataSet();
-        ITable actualTable = actualDataSet.getTable(assignmentTable);
+        ITable actualTable = actualDataSet.getTable(ASSIGNMENT_TABLE);
         Assertion.assertEquals(expectedTable, actualTable);
     }
 
