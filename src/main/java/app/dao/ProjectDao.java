@@ -1,22 +1,19 @@
 package app.dao;
 
+import app.entities.Employee;
 import app.entities.Project;
+import app.entities.ProjectPage;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 @Repository
-public interface ProjectDao {
+public interface ProjectDao extends BasicCrudDao<Project> {
+    Project findByAssignmentId(int id);
 
-    List<Project> getAll();
+    long countActualProjectTime();
 
-    Project findById(int id);
+    List<Employee> getProjectTeam();
 
-    void save(Project project);
-
-    void delete(Project project);
-
-    void delete(int id);
-
-    void edit(Project project);
+    List<ProjectPage> getProjectData();
 }

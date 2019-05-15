@@ -1,7 +1,9 @@
 package app.resources;
 
 import app.dao.BasicCrudDao;
+import app.dao.ProjectDao;
 import app.entities.Project;
+import app.entities.ProjectPage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -15,19 +17,28 @@ import java.util.List;
 public class ProjectResource {
 
     @Autowired
-    private BasicCrudDao<Project> basicCrudDao;
+    private BasicCrudDao<Project> projectBasicCrudDao;
+    @Autowired
+    private ProjectDao projectPageDao;
+
+    @GET
+    @Path("/info")
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<ProjectPage> getInfo() {
+        return projectPageDao.getProjectData();
+    }
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public List<Project> findAll() {
-        return basicCrudDao.findAll();
+        return projectBasicCrudDao.findAll();
     }
 
     @GET
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public Project findById(@PathParam("id") int id) {
-        return basicCrudDao.findById(id);
+        return projectBasicCrudDao.findById(id);
     }
 
     @PUT
@@ -37,14 +48,14 @@ public class ProjectResource {
         if (id != project.getId()) {
             return Response.status(Response.Status.CONFLICT.getStatusCode()).build();
         }
-        basicCrudDao.update(project);
+        projectBasicCrudDao.update(project);
         return Response.status(Response.Status.CREATED.getStatusCode()).build();
     }
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     public Response create(Project project) {
-        basicCrudDao.create(project);
+        projectBasicCrudDao.create(project);
         return Response.status(Response.Status.CREATED.getStatusCode()).build();
     }
 
@@ -52,7 +63,8 @@ public class ProjectResource {
     @Path("/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response deleteById(@PathParam("id") int id) {
-        basicCrudDao.deleteById(id);
+        projectBasicCrudDao.deleteById(id);
         return Response.status(Response.Status.OK.getStatusCode()).build();
     }
 }
+
