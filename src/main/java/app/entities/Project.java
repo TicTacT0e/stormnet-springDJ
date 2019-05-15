@@ -1,17 +1,16 @@
 package app.entities;
 
-import app.utils.TimeUtil;
-
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import java.sql.Date;
+import java.util.Date;
 
 @Entity
-@Table(name = "project")
+@Table(name = "Project")
 public class Project {
     @Id
     private int id;
+    private int companyId;
     private String name;
     private String logoUrl;
     private Date startDate;
@@ -21,31 +20,26 @@ public class Project {
     private String color;
     private String description;
 
-
     public Project() {
     }
 
-    public Project(int id, String name, String logoUrl,
-                   Date startDate, Date endDate, long manHoursInMilliseconds, String code, String color, String description) {
+    public Project(int id, int companyId, String name, String logoUrl,
+                   Date startDate, Date endDate, long manHours, String code, String color, String description) {
         this.id = id;
+        this.companyId = companyId;
         this.name = name;
         this.logoUrl = logoUrl;
         this.startDate = startDate;
         this.endDate = endDate;
-        this.manHours = manHoursInMilliseconds;
+        this.manHours = manHours;
         this.code = code;
         this.color = color;
         this.description = description;
     }
 
-    public Project(int id, String name, String logoUrl,
-                   Date startDate, Date endDate, int manHoursInHours, String code, String color, String description) {
-        this(id, name, logoUrl, startDate, endDate,
-                TimeUtil.hoursToMillisecond(manHoursInHours), code, color, description);
-    }
-
     public Project(Project project) {
         this(project.getId(),
+                project.getCompanyId(),
                 project.getName(),
                 project.getLogoUrl(),
                 project.getStartDate(),
@@ -62,6 +56,14 @@ public class Project {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public int getCompanyId() {
+        return companyId;
+    }
+
+    public void setCompanyId(int companyId) {
+        this.companyId = companyId;
     }
 
     public String getName() {
@@ -124,12 +126,8 @@ public class Project {
         return manHours;
     }
 
-    public void setManHours(long manHoursInMilliseconds) {
-        this.manHours = manHoursInMilliseconds;
-    }
-
-    public void setManHours(int manHoursInHours) {
-        this.manHours = TimeUtil.hoursToMillisecond(manHoursInHours);
+    public void setManHours(long manHours) {
+        this.manHours = manHours;
     }
 
     @Override
@@ -143,34 +141,23 @@ public class Project {
         Project project = (Project) o;
         if (id != project.id)
             return false;
-        if (manHours != project.manHours)
+        if (companyId != project.companyId)
             return false;
         if (name != null ? !name.equals(project.name) : project.name != null)
             return false;
         if (logoUrl != null ? !logoUrl.equals(project.logoUrl) : project.logoUrl != null)
             return false;
-        if (startDate != null ? !startDate.equals(project.startDate) : project.startDate != null)
+        if (code != null ? !code.equals(project.code) : project.code != null);
             return false;
-        if (endDate != null ? !endDate.equals(project.endDate) : project.endDate != null)
-            return false;
-        if (code != null ? !code.equals(project.code) : project.code != null)
-            return false;
-        if (color != null ? !color.equals(project.color) : project.color != null)
-            return false;
-        return description != null ? description.equals(project.description) : project.description == null;
     }
 
     @Override
     public int hashCode() {
         int result = id;
-        result = 31 * result + (int) manHours;
+        result = 31 * result + companyId;
         result = 31 * result + (name != null ? name.hashCode() : 0);
         result = 31 * result + (logoUrl != null ? logoUrl.hashCode() : 0);
-        result = 31 * result + (startDate != null ? startDate.hashCode() : 0);
-        result = 31 * result + (endDate != null ? endDate.hashCode() : 0);
         result = 31 * result + (code != null ? code.hashCode() : 0);
-        result = 31 * result + (color != null ? color.hashCode() : 0);
-        result = 31 * result + (description != null ? description.hashCode() : 0);
         return result;
     }
 
@@ -178,14 +165,10 @@ public class Project {
     public String toString() {
         return "Project{"
                 + "id=" + id
+                + ", companyId='" + companyId + '\''
                 + ", name='" + name + '\''
                 + ", logoUrl='" + logoUrl + '\''
-                + ", startDate=" + startDate
-                + ", endDate=" + endDate
-                + ", manHours=" + manHours + '\''
                 + ", code=" + code
-                + ", color" + color + '\''
-                + ", description=" + description
                 + '}';
     }
 }
