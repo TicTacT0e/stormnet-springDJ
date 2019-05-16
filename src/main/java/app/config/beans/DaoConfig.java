@@ -8,6 +8,11 @@ import app.dao.impl.AssignmentDaoImpl;
 import app.dao.impl.CompanyDaoImpl;
 import app.dao.impl.EmployeeDaoImpl;
 import app.dao.impl.IntegrationDaoImpl;
+import app.dao.BasicCrudDao;
+import app.dao.EmployeeDao;
+import app.dao.impl.AssignmentDaoImpl;
+import app.dao.impl.CompanyDaoImpl;
+import app.dao.impl.EmployeeDaoImpl;
 import app.dao.impl.InvitationDaoImpl;
 import app.dao.impl.LogsDaoImpl;
 import app.dao.impl.NotificationDaoImpl;
@@ -47,7 +52,7 @@ public class DaoConfig {
     }
 
     @Bean
-    public BasicCrudDao<Invitation> getInvitationDao(){
+    public BasicCrudDao<Invitation> getInvitationDao() {
         return new InvitationDaoImpl();
     }
 

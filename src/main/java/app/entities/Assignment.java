@@ -22,7 +22,8 @@ public class Assignment {
     public Assignment() {
     }
 
-    public Assignment(int id, int projectId, int employeeId, int activityId, int workLoad) {
+    public Assignment(int id, int projectId, int employeeId,
+                      int activityId, int workLoad) {
         this.id = id;
         this.projectId = projectId;
         this.employeeId = employeeId;
