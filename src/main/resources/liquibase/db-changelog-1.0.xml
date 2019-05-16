@@ -31,4 +31,17 @@
             </createTable>
         </rollback>
     </changeSet>
+
+    <changeSet id="3" author="Igor_Kraskovski">
+        <renameTable catalogName="Timesheetmanager"
+                newTableName="Users"
+                     oldTableName="Employee"/>
+    </changeSet>
+
+    <changeSet id="4" author="Igor_Kraskovski">
+        <renameTable catalogName="Timesheetmanager"
+                newTableName="Employees"
+                     oldTableName="Partner"/>
+    </changeSet>
+
 </databaseChangeLog>
