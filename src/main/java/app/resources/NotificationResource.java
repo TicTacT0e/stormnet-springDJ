@@ -1,11 +1,18 @@
 package app.resources;
 
-import app.dao.impl.NotificationDaoImpl;
+import app.dao.BasicCrudDao;
 import app.entities.Notification;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import javax.ws.rs.*;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.List;
@@ -15,10 +22,10 @@ import java.util.List;
 public class NotificationResource {
 
     @Autowired
-    private NotificationDaoImpl notificationDao;
+    private BasicCrudDao<Notification> notificationDao;
 
     @GET
-    @Path("/all")
+    @Path("/")
     @Produces(MediaType.APPLICATION_JSON)
     public List<Notification> getAll() {
         return notificationDao.findAll();
@@ -32,7 +39,7 @@ public class NotificationResource {
     }
 
     @POST
-    @Path("/add")
+    @Path("/")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response create(Notification notification) {
         notificationDao.create(notification);
@@ -40,7 +47,7 @@ public class NotificationResource {
     }
 
     @PUT
-    @Path("/update")
+    @Path("/")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response update(Notification notification) {
         notificationDao.update(notification);
@@ -48,10 +55,17 @@ public class NotificationResource {
     }
 
     @DELETE
-    @Path("/delete/{id}")
+    @Path("/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response deleteById(@PathParam("id") int id) {
         notificationDao.deleteById(id);
+        return Response.status(Response.Status.OK.getStatusCode()).build();
+    }
+
+    @DELETE
+    @Path("/")
+    public Response delete(Notification notification) {
+        notificationDao.delete(notification);
         return Response.status(Response.Status.OK.getStatusCode()).build();
     }
 }

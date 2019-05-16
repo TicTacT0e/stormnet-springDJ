@@ -147,9 +147,9 @@ public class Project {
             return false;
         if (logoUrl != null ? !logoUrl.equals(project.logoUrl) : project.logoUrl != null)
             return false;
-        if (code != null ? !code.equals(project.code) : project.code != null);
-            return false;
+        return code != null ? !code.equals(project.code) : project.code != null;
     }
+
 
     @Override
     public int hashCode() {

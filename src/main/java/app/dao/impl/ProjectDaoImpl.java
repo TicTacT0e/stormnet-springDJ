@@ -77,8 +77,8 @@ public class ProjectDaoImpl implements ProjectDao {
         List<Assignment> assignments = assignmentBasicCrudDao.findAll();
         long sumLogs = 0;
         for (Assignment assign : assignments) {
-            List<Logs> logs = (List<Logs>) logsProjectDao.findByAssignmentId(assign.getId());
-            for (Logs log : logs) {
+            List<Log> logs = (List<Log>) logsProjectDao.findByAssignmentId(assign.getId());
+            for (Log log : logs) {
                 sumLogs += log.getTime();
             }
         }
