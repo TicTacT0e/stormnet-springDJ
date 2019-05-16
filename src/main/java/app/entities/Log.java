@@ -10,33 +10,31 @@ import java.util.Objects;
 @Table(name = "logs")
 public class Log {
 
-    @Id
     private int id;
     private int assignmentId;
     private double time;
     private int order;
     private String comment;
-    private Date date;
 
     public Log() {
     }
 
     public Log(int id, int assignmentId, double time, int order,
-               String comment, Date date) {
+               String comment) {
         this.id = id;
         this.assignmentId = assignmentId;
         this.time = time;
         this.order = order;
         this.comment = comment;
-        this.date = date;
+
     }
 
-    public Log(int assignmentId, double time, int order, String comment, Date date) {
+    public Log(int assignmentId, double time, int order, String comment) {
         this.assignmentId = assignmentId;
         this.time = time;
         this.order = order;
         this.comment = comment;
-        this.date = date;
+
     }
 
     public int getId() {
@@ -79,13 +77,6 @@ public class Log {
         this.comment = comment;
     }
 
-    public Date getDate() {
-        return date;
-    }
-
-    public void setDate(Date date) {
-        this.date = date;
-    }
 
     @Override
     public boolean equals(Object object) {
@@ -100,13 +91,12 @@ public class Log {
                 assignmentId == logs.assignmentId &&
                 Double.compare(logs.time, time) == 0 &&
                 order == logs.order &&
-                Objects.equals(comment, logs.comment) &&
-                Objects.equals(date, logs.date);
+                Objects.equals(comment, logs.comment);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, assignmentId, time, order, comment, date);
+        return Objects.hash(id, assignmentId, time, order, comment);
     }
 
     @Override
@@ -115,8 +105,7 @@ public class Log {
                 + "assignmentId: " + assignmentId + ';'
                 + "order: " + order + ';'
                 + " time: " + time + ';'
-                + "comment: '" + comment + '\''
-                + " Date: " + date + ';'
+                + "comment: '" + comment + ';'
                 + '}';
     }
 }

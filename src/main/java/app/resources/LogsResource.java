@@ -44,6 +44,28 @@ public class LogsResource {
         return Response.status(Response.Status.CREATED.getStatusCode()).build();
     }
 
+
+    /*@POST
+    @Path( "/add" )
+    @Produces( "application/json" )
+    public Response postRequestWithCustomParamDataType(
+            @FormParam( "timestamp_field" ) RestTimestampParam timestampField
+    ) {
+        String jsonResult = Json.createObjectBuilder()
+                        .add( "timestamp_field", timestampField.toString()).build().toString();
+
+        return getNoCacheResponseBuilder( Response.Status.OK ).entity( jsonResult ).build();
+    }
+
+    protected ResponseBuilder getNoCacheResponseBuilder(Response.Status status ) {
+        CacheControl cc = new CacheControl();
+        cc.setNoCache( true );
+        cc.setMaxAge( -1 );
+        cc.setMustRevalidate( true );
+        return Response.status( status ).cacheControl( cc );
+    }*/
+
+
     @DELETE
     @Path("/{logsId}")
     public Response delete(@PathParam("logsId") int logsId) {

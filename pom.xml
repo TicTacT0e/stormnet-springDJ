@@ -224,7 +224,7 @@
                 </configuration>
             </plugin>
 
-            <plugin>
+           <!-- <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-checkstyle-plugin</artifactId>
                 <version>3.0.0</version>
@@ -255,7 +255,7 @@
                     <targetJdk>1.8</targetJdk>
                     <verbose>true</verbose>
                     <rulesets>
-                        <!-- A rule set, that comes bundled with PMD -->
+                        &lt;!&ndash; A rule set, that comes bundled with PMD &ndash;&gt;
                         <ruleset>/category/java/bestpractices.xml</ruleset>
                     </rulesets>
                 </configuration>
@@ -267,7 +267,7 @@
                         </goals>
                     </execution>
                 </executions>
-            </plugin>
+            </plugin>-->
 
             <plugin>
                 <groupId>org.liquibase</groupId>
