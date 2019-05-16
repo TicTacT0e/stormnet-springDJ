@@ -100,11 +100,18 @@ public class Invitation {
 
         Invitation that = (Invitation) o;
 
-        if (id != that.id) return false;
-        if (partnerId != that.partnerId) return false;
-        if (!Objects.equals(code, that.code))
+        if (id != that.id) {
             return false;
-        if (!Objects.equals(dateEnd, that.dateEnd)) return false;
+        }
+        if (partnerId != that.partnerId) {
+            return false;
+        }
+        if (!Objects.equals(code, that.code)) {
+            return false;
+        }
+        if (!Objects.equals(dateEnd, that.dateEnd)) {
+            return false;
+        }
         return Objects.equals(status, that.status);
     }
 
