@@ -13,13 +13,16 @@ import app.dao.impl.NotificationDaoImpl;
 import app.dao.impl.ProjectDaoImpl;
 import app.dao.impl.SettingsDaoImpl;
 import app.dao.impl.TimesheetDaoImpl;
+import app.entities.Activity;
 import app.entities.Assignment;
 import app.entities.Company;
 import app.entities.Employee;
+import app.entities.Integration;
 import app.entities.Invitation;
 import app.entities.Log;
 import app.entities.Notification;
 import app.entities.Project;
+import app.entities.Settings;
 import app.entities.Timesheet;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -63,17 +66,17 @@ public class DaoConfig {
     }
 
     @Bean
-    public SettingsDaoImpl getSettingsDao() {
+    public BasicCrudDao<Settings> getSettingsDao() {
         return new SettingsDaoImpl();
     }
 
     @Bean
-    public ActivityDaoImpl getActivityDao() {
+    public BasicCrudDao<Activity> getActivityDao() {
         return new ActivityDaoImpl();
     }
 
     @Bean
-    public IntegrationDaoImpl getIntegrationDao() {
+    public BasicCrudDao<Integration> getIntegrationDao() {
         return new IntegrationDaoImpl();
     }
 
