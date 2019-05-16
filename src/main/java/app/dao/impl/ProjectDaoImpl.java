@@ -27,6 +27,10 @@ public class ProjectDaoImpl implements ProjectDao {
     @Autowired
     private SessionFactory sessionFactory;
 
+    private static final String FIND_BY_ASSIGNMENT_ID_QUERY = "select id from Logs as logs join Assignment as assign on logs.assignmentId = assign.id";
+    private static final String GET_PROJECT_TEAM_QUERY = "select employeeId from Assignment as assign join Project as proj on assign.projectId = proj.id";
+
+
     @Override
     public Project findById(int id) {
         Project project = sessionFactory.getCurrentSession().get(Project.class, id);
@@ -45,8 +49,7 @@ public class ProjectDaoImpl implements ProjectDao {
     @Override
     public void deleteById(int id) {
         Session session = sessionFactory.getCurrentSession();
-        Project project = session.load(Project.class, id);
-        session.delete(project);
+        session.delete(session.load(Project.class, id));
     }
 
     @Override
@@ -66,7 +69,7 @@ public class ProjectDaoImpl implements ProjectDao {
 
     @Override
     public Project findByAssignmentId(int id) {
-        Project project = (Project) sessionFactory.getCurrentSession().createQuery("select id from Logs as logs join Assignment as assign on logs.assignmentId = assign.id");
+        Project project = (Project) sessionFactory.getCurrentSession().createQuery(FIND_BY_ASSIGNMENT_ID_QUERY);
         return project;
     }
 
@@ -86,7 +89,7 @@ public class ProjectDaoImpl implements ProjectDao {
     public List<Employee> getProjectTeam() {
         List<Project> projects = projectBasicCrudDao.findAll();
         List<Employee> projectTeamList = new LinkedList<>();
-        List<Employee> projectTeam = (List<Employee>) sessionFactory.getCurrentSession().createQuery("select employeeId from Assignment as assign join Project as proj on assign.projectId = proj.id");
+        List<Employee> projectTeam = (List<Employee>) sessionFactory.getCurrentSession().createQuery(GET_PROJECT_TEAM_QUERY);
         for (int i = 0; i < projects.size(); i++) {
             projectTeamList.addAll(projectTeam);
         }
