@@ -1,7 +1,6 @@
 package app.config.beans;
 
 
-
 import app.dao.BasicCrudDao;
 import app.dao.EmployeeDao;
 import app.dao.impl.ActivityDaoImpl;
