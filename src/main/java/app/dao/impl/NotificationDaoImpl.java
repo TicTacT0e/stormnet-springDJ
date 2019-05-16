@@ -29,13 +29,15 @@ public class NotificationDaoImpl implements BasicCrudDao<Notification> {
 
     @Override
     public Notification findById(int id) {
-        Notification notification = sessionFactory.getCurrentSession().get(Notification.class, id);
+        Notification notification = sessionFactory.getCurrentSession()
+                .get(Notification.class, id);
         return notification;
     }
 
     @Override
     public List<Notification> findAll() {
-        Query query = sessionFactory.getCurrentSession().createQuery("from Notification");
+        Query query = sessionFactory.getCurrentSession()
+                .createQuery("from Notification");
         return query.getResultList();
 
     }

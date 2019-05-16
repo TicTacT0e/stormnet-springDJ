@@ -19,7 +19,8 @@ public class CompanyDaoImpl implements BasicCrudDao<Company> {
     @Override
     public synchronized List<Company> findAll() {
         List<Company> companies = (List<Company>)
-                sessionFactory.getCurrentSession().createQuery("From Company").list();
+                sessionFactory.getCurrentSession()
+                        .createQuery("From Company").list();
         return companies;
     }
 

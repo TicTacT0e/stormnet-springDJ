@@ -52,7 +52,8 @@ public class InvitationResource {
     public Response edit(@PathParam("id") int id,
                          Invitation invitation) {
         if (id != invitation.getId()) {
-            return Response.status(Response.Status.CONFLICT.getStatusCode()).build();
+            return Response.status(Response.Status.CONFLICT.getStatusCode())
+                    .build();
         }
         basicCrudDao.update(invitation);
         return Response.status(Response.Status.CREATED.getStatusCode()).build();

@@ -57,7 +57,8 @@ public class TimesheetResource {
     @Consumes(MediaType.APPLICATION_JSON)
     public Response update(@PathParam("id") int id, Timesheet timesheet) {
         if (id != timesheet.getId()) {
-            return Response.status(Response.Status.CONFLICT.getStatusCode()).build();
+            return Response.status(Response.Status.CONFLICT.getStatusCode())
+                    .build();
         }
         basicCrudDao.update(timesheet);
         return Response.status(Response.Status.CREATED.getStatusCode()).build();

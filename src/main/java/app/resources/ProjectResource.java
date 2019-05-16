@@ -42,7 +42,8 @@ public class ProjectResource {
     @Consumes(MediaType.APPLICATION_JSON)
     public Response update(@PathParam("id") int id, Project project) {
         if (id != project.getId()) {
-            return Response.status(Response.Status.CONFLICT.getStatusCode()).build();
+            return Response.status(Response.Status.CONFLICT.getStatusCode())
+                    .build();
         }
         basicCrudDao.update(project);
         return Response.status(Response.Status.CREATED.getStatusCode()).build();

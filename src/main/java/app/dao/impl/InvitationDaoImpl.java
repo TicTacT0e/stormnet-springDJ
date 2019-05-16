@@ -27,14 +27,15 @@ public class InvitationDaoImpl implements BasicCrudDao<Invitation> {
 
     private static final String SAVE =
             "INSERT INTO timesheet_dev.Invitations (partnerId, " +
-                    "invitationsCode, dateEnd, status, id) VALUE (?, ?, ?, ?, ?)";
+                    "invitationsCode, dateEnd, status, id) " +
+                    "VALUE (?, ?, ?, ?, ?)";
 
     private static final String DELETE =
             "DELETE FROM timesheet_dev.Invitations WHERE id=?";
 
     private static final String UPDATE =
-            "UPDATE timesheet_dev.Invitations SET partnerId=?, invitationsCode=?, dateEnd=?, status=?" +
-                    " WHERE id=?";
+            "UPDATE timesheet_dev.Invitations SET partnerId=?," +
+                    " invitationsCode=?, dateEnd=?, status=? WHERE id=?";
 
     private static final String IS_EXISTS =
             "SELECT EXISTS (SELECT id FROM timesheet_dev.Invitations " +
@@ -49,7 +50,8 @@ public class InvitationDaoImpl implements BasicCrudDao<Invitation> {
     public Invitation findById(int id) {
         Invitation invitation = null;
         try (Connection connection = jdbcConnection.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(GET_FINDBYID)) {
+             PreparedStatement preparedStatement = connection
+                     .prepareStatement(GET_FINDBYID)) {
             preparedStatement.setInt(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
             resultSet.next();
@@ -71,7 +73,8 @@ public class InvitationDaoImpl implements BasicCrudDao<Invitation> {
     public List<Invitation> findAll() {
         List<Invitation> invitationList = null;
         try (Connection connection = jdbcConnection.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(GET_ALL)) {
+             PreparedStatement preparedStatement = connection
+                     .prepareStatement(GET_ALL)) {
             ResultSet resultSet = preparedStatement.executeQuery();
 
             invitationList = invitationListMapper(resultSet);
@@ -90,7 +93,8 @@ public class InvitationDaoImpl implements BasicCrudDao<Invitation> {
             throw new EntityNotFoundException();
         }
         try (Connection connection = jdbcConnection.getConnection()) {
-            PreparedStatement preparedStatement = connection.prepareStatement(DELETE);
+            PreparedStatement preparedStatement = connection
+                    .prepareStatement(DELETE);
             preparedStatement.setInt(1, id);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
@@ -110,8 +114,11 @@ public class InvitationDaoImpl implements BasicCrudDao<Invitation> {
         }
     }
 
-    private PreparedStatement createPreparedStatement(Invitation invitation, Connection connection, String string) throws SQLException {
-        PreparedStatement preparedStatement = connection.prepareStatement(string);
+    private PreparedStatement createPreparedStatement(
+            Invitation invitation, Connection connection, String string
+    ) throws SQLException {
+        PreparedStatement preparedStatement = connection
+                .prepareStatement(string);
         preparedStatement.setInt(1, invitation.getPartnerId());
         preparedStatement.setString(2, invitation.getInvitationsCode());
         preparedStatement.setDate(3, invitation.getDateEnd());

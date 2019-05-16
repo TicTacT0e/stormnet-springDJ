@@ -24,7 +24,8 @@ public class Notification {
     public Notification() {
     }
 
-    public Notification(int id, int employeeId, String status, String title, String description, String link) {
+    public Notification(int id, int employeeId, String status, String title,
+                        String description, String link) {
         this.id = id;
         this.employeeId = employeeId;
         this.status = status;
