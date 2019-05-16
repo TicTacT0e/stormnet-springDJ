@@ -19,7 +19,8 @@ public class Invitation {
     public Invitation() {
     }
 
-    public Invitation(int id, int partnerId, String code, Date dateEnd, String status) {
+    public Invitation(int id, int partnerId, String code,
+                      Date dateEnd, String status) {
         this.id = id;
         this.partnerId = partnerId;
         this.code = code;
@@ -90,8 +91,12 @@ public class Invitation {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
 
         Invitation that = (Invitation) o;
 

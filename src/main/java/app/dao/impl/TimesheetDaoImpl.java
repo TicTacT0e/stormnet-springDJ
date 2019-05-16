@@ -20,7 +20,9 @@ public class TimesheetDaoImpl implements BasicCrudDao<Timesheet> {
 
     @Override
     public Timesheet findById(int id) {
-        Timesheet timesheet = sessionFactory.getCurrentSession().get(Timesheet.class, id);
+        Timesheet timesheet = sessionFactory.getCurrentSession().get(
+                Timesheet.class, id
+        );
         if (timesheet == null) {
             throw new EntityNotFoundException();
         }
@@ -29,7 +31,8 @@ public class TimesheetDaoImpl implements BasicCrudDao<Timesheet> {
 
     @Override
     public List<Timesheet> findAll() {
-        Query query = sessionFactory.getCurrentSession().createQuery("from Timesheet");
+        Query query = sessionFactory.getCurrentSession()
+                .createQuery("from Timesheet");
         return query.getResultList();
     }
 
