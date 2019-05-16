@@ -8,6 +8,7 @@ import app.resources.LogsResource;
 import app.resources.NotificationResource;
 import app.resources.ProjectResource;
 import app.resources.ProjectVersionResource;
+import app.resources.SettingsResource;
 import app.resources.TimesheetResource;
 import org.glassfish.jersey.server.ResourceConfig;
 
@@ -25,6 +26,7 @@ public class JerseyConfig extends ResourceConfig {
         register(ProjectVersionResource.class);
         register(NotificationResource.class);
         register(InvitationResource.class);
+        register(SettingsResource.class);
         register(TimesheetResource.class);
     }
 }
