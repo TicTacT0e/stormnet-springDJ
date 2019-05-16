@@ -31,7 +31,8 @@ public class ProjectDaoImpl implements BasicCrudDao<Project> {
 
     @Override
     public List<Project> findAll() {
-        List<Project> projects = (List<Project>) sessionFactory.openSession().createQuery("from project");
+        List<Project> projects = (List<Project>) sessionFactory.openSession()
+                .createQuery("from project");
         return projects;
     }
 
