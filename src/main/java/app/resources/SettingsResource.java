@@ -43,13 +43,11 @@ public class SettingsResource {
         }
         List<Integer> defaultProjectIDs
                 = companySettingsDto.getDefaultProjectIDs();
-        for (Integer id : defaultProjectIDs) {
-            settingsDao.create(new Settings(
-                    companyId,
-                    DEFAULT_PROJECT_SETTINGS_KEY,
-                    String.valueOf(id)
-            ));
-        }
+        settingsDao.create(new Settings(
+                companyId,
+                DEFAULT_PROJECT_SETTINGS_KEY,
+                defaultProjectIDs.toString()
+        ));
         Map<String, String> settings = companySettingsDto.getSettings();
         settings.forEach((key, value) ->
                 settingsDao.create(new Settings(
