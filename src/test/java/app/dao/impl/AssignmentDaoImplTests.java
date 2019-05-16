@@ -1,5 +1,6 @@
 package app.dao.impl;
 
+import app.config.ApplicationInitializer;
 import app.config.beans.DaoConfig;
 import app.config.beans.HibernateConfig;
 import app.config.beans.PropertyConfig;
@@ -28,44 +29,31 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.web.WebAppConfiguration;
-import org.springframework.transaction.annotation.Transactional;
 
-import java.io.IOException;
 import java.util.List;
-import java.util.Objects;
-import java.util.Properties;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = {DaoConfig.class, HibernateConfig.class, PropertyConfig.class})
+@ContextConfiguration(classes = {ApplicationInitializer.class,
+        DaoConfig.class, HibernateConfig.class, PropertyConfig.class})
+@TestPropertySource(value = "classpath:project.properties")
 public class AssignmentDaoImplTests extends DBTestCase {
 
     @Autowired
     private BasicCrudDao<Assignment> assignmentDao;
 
+    @Value("${jdbc.driver}")
     private String driver;
+    @Value("${db.url}")
     private String url;
+    @Value("${db.username}")
     private String username;
+    @Value("${db.password}")
     private String password;
-    private String assignmentSchema;
     private static final String ASSIGNMENT_TABLE = "Assignment";
 
     private static final int NUMBER_OF_FIRST_ROW = 0;
 
     public AssignmentDaoImplTests() {
-        Properties properties = new Properties();
-        try {
-            properties.load(Objects.requireNonNull(getClass()
-                    .getClassLoader()
-                    .getResourceAsStream("tests.properties")));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        driver = properties.getProperty("db-driver");
-        url = properties.getProperty("db-url");
-        username = properties.getProperty("db-username");
-        password = properties.getProperty("db-password");
-        assignmentSchema = properties.getProperty("db-schema");
         System.setProperty(PropertiesBasedJdbcDatabaseTester.DBUNIT_DRIVER_CLASS,
                 driver);
         System.setProperty(PropertiesBasedJdbcDatabaseTester.DBUNIT_CONNECTION_URL,
@@ -74,8 +62,6 @@ public class AssignmentDaoImplTests extends DBTestCase {
                 username);
         System.setProperty(PropertiesBasedJdbcDatabaseTester.DBUNIT_PASSWORD,
                 password);
-        System.setProperty(PropertiesBasedJdbcDatabaseTester.DBUNIT_SCHEMA,
-                assignmentSchema);
     }
 
     @Before
