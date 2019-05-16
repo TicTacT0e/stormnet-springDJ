@@ -1,7 +1,7 @@
 package app.resources;
 
-import app.dao.EmployeeDao;
-import app.dao.ProjectDao;
+import app.dao.impl.EmployeeDaoImpl;
+import app.dao.impl.ProjectDaoImpl;
 import app.entities.Employee;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -23,15 +23,15 @@ import java.util.List;
 public class EmployeeResource {
 
     @Autowired
-    private EmployeeDao employeeDao;
+    private EmployeeDaoImpl employeeDao;
     @Autowired
-    private ProjectDao projectDao;
+    private ProjectDaoImpl projectDao;
 
     @GET
     @Path("/all")
     @Produces(MediaType.APPLICATION_JSON)
     public List<Employee> getAll() {
-        return employeeDao.getAll();
+        return employeeDao.findAll();
     }
 
     @GET
@@ -45,7 +45,7 @@ public class EmployeeResource {
     @Path("/add")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response add(Employee employee) {
-        employeeDao.save(employee);
+        employeeDao.create(employee);
         return Response.status(Response.Status.CREATED.getStatusCode()).build();
     }
 
@@ -53,15 +53,15 @@ public class EmployeeResource {
     @Path("/edit/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response edit(@PathParam("id") int id, Employee employee) {
-        employeeDao.edit(employee);
+        employeeDao.update(employee);
         return Response.status(Response.Status.CREATED.getStatusCode()).build();
     }
 
     @DELETE
     @Path("/delete/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response delete(@PathParam("id") int id) {
-        employeeDao.delete(id);
+    public Response delete(@PathParam("id") int id, Employee employee) {
+        employeeDao.delete(employee);
         return Response.status(Response.Status.OK.getStatusCode()).build();
     }
 
