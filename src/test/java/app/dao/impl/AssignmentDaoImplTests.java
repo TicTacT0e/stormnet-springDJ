@@ -35,7 +35,7 @@ import java.util.List;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = {ApplicationInitializer.class,
         DaoConfig.class, HibernateConfig.class, PropertyConfig.class})
-@TestPropertySource(value = "classpath:project.properties")
+@TestPropertySource("classpath:project.properties")
 public class AssignmentDaoImplTests extends DBTestCase {
 
     @Autowired
