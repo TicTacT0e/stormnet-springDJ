@@ -40,8 +40,7 @@ public class IntegrationDaoImpl implements BasicCrudDao<Integration> {
     @Override
     public void deleteById(int id) {
         Session session = sessionFactory.getCurrentSession();
-        Integration integration = session.load(Integration.class, id);
-        session.delete(integration);
+        session.delete(session.load(Integration.class, id));
     }
 
     @Override

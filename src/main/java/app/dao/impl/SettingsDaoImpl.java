@@ -39,8 +39,7 @@ public class SettingsDaoImpl implements BasicCrudDao<Settings> {
     @Override
     public void deleteById(int id) {
         Session session = sessionFactory.getCurrentSession();
-        Settings settings = session.load(Settings.class, id);
-        session.delete(settings);
+        session.delete(session.load(Settings.class, id));
     }
 
     @Override

@@ -39,8 +39,7 @@ public class ActivityDaoImpl implements BasicCrudDao<Activity> {
     @Override
     public void deleteById(int id) {
         Session session = sessionFactory.getCurrentSession();
-        Activity activity = session.load(Activity.class, id);
-        session.delete(activity);
+        session.delete(session.load(Activity.class, id));
     }
 
     @Override
