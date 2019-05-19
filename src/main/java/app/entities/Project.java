@@ -167,14 +167,14 @@ public class Project {
     @Override
     public int hashCode() {
         int result = id;
-        result = 31 * result + (int) manHours;
-        result = 31 * result + (name != null ? name.hashCode() : 0);
-        result = 31 * result + (logoUrl != null ? logoUrl.hashCode() : 0);
-        result = 31 * result + (startDate != null ? startDate.hashCode() : 0);
-        result = 31 * result + (endDate != null ? endDate.hashCode() : 0);
-        result = 31 * result + (code != null ? code.hashCode() : 0);
-        result = 31 * result + (color != null ? color.hashCode() : 0);
-        result = 31 * result + (description != null
+        result = result + (int) manHours;
+        result = result + (name != null ? name.hashCode() : 0);
+        result = result + (logoUrl != null ? logoUrl.hashCode() : 0);
+        result = result + (startDate != null ? startDate.hashCode() : 0);
+        result = result + (endDate != null ? endDate.hashCode() : 0);
+        result = result + (code != null ? code.hashCode() : 0);
+        result = result + (color != null ? color.hashCode() : 0);
+        result = result + (description != null
                 ? description.hashCode() : 0);
         return result;
     }
