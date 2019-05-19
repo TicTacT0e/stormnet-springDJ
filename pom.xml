@@ -274,7 +274,10 @@
                 <artifactId>liquibase-maven-plugin</artifactId>
                 <version>${liquibase.version}</version>
                 <configuration>
-                    <propertyFile>liquibase/liquibase.properties</propertyFile>
+                    <driver>${jdbc.driver}</driver>
+                    <url>${db.url}</url>
+                    <password>${db.password}</password>
+                    <username>${db.username}</username>
                     <changeLogFile>liquibase/db-changelog-master.xml</changeLogFile>
                 </configuration>
             </plugin>
