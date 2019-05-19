@@ -15,7 +15,7 @@ import javax.ws.rs.core.MediaType;
 public class ProjectVersionResource {
 
     @Autowired
-    ProjectVersionService projectVersionService;
+    private ProjectVersionService projectVersionService;
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)

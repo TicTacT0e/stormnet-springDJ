@@ -1,16 +1,10 @@
 package app.dao.impl;
 
-import app.dao.BasicCrudDao;
 import app.entities.Log;
-import app.exceptions.EntityNotFoundException;
-import org.hibernate.SessionFactory;
-import org.hibernate.query.Query;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
+public class LogsDaoImpl extends BasicCrudDaoImpl<Log> {
 
+<<<<<<< HEAD
 @Repository
 @Transactional
 public class  LogsDaoImpl implements BasicCrudDao<Log> {
@@ -54,4 +48,6 @@ public class  LogsDaoImpl implements BasicCrudDao<Log> {
     public void update(Log entity) {
         sessionFactory.getCurrentSession().update(entity);
     }
+=======
+>>>>>>> master
 }

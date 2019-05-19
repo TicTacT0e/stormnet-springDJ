@@ -29,7 +29,20 @@ public class Log {
         this.id = id;
         this.assignmentId = assignmentId;
         this.time = time;
+<<<<<<< HEAD
         this.rowCount = countLine;
+=======
+        this.order = order;
+        this.comment = comment;
+        this.date = date;
+    }
+
+    public Log(int assignmentId, double time, int order,
+               String comment, Date date) {
+        this.assignmentId = assignmentId;
+        this.time = time;
+        this.order = order;
+>>>>>>> master
         this.comment = comment;
         this.date = date;
     }
