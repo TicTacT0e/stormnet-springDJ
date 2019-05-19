@@ -31,7 +31,8 @@ public class Log {
         this.date = date;
     }
 
-    public Log(int assignmentId, double time, int order, String comment, Date date) {
+    public Log(int assignmentId, double time, int order,
+               String comment, Date date) {
         this.assignmentId = assignmentId;
         this.time = time;
         this.order = order;

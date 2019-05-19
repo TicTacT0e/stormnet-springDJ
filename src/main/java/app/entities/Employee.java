@@ -1,16 +1,22 @@
 package app.entities;
 
+import javax.persistence.*;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 
+@Entity
+@Table(name = "Employee")
 public class Employee {
 
+    @Id
     private int id;
     private String name;
     private String photo;
     private String email;
 
+    @ElementCollection
+    @CollectionTable(name = "Project")
     private List<Project> projects = new LinkedList<>();
 
     public Employee() {
@@ -104,3 +110,4 @@ public class Employee {
                 + '}';
     }
 }
+
