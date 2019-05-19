@@ -71,11 +71,11 @@ CREATE TABLE `Logs` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `assignmentId` bigint(20) NOT NULL,
   `date` date NOT NULL,
-  `order` int(11) NOT NULL,
+  `orderLogs` int(11) NOT NULL,
   `time` double NOT NULL,
   `comment` varchar(100) NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `OrderDataAssignmentId_UNIQUE` (`assignmentId`,`order`,`date`),
+  UNIQUE KEY `OrderDataAssignmentId_UNIQUE` (`assignmentId`,`orderLogs`,`date`),
   KEY `LogsAssignment_idx` (`assignmentId`),
   CONSTRAINT `LogsAssignment` FOREIGN KEY (`assignmentId`) REFERENCES `assignment` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8

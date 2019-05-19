@@ -13,7 +13,7 @@ import java.util.List;
 
 @Repository
 @Transactional
-public class LogsDaoImpl implements BasicCrudDao<Log> {
+public class  LogsDaoImpl implements BasicCrudDao<Log> {
 
     @Autowired
     private SessionFactory sessionFactory;
