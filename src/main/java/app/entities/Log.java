@@ -3,6 +3,8 @@ package app.entities;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 import java.sql.Timestamp;
 import java.util.StringJoiner;
@@ -25,26 +27,23 @@ public class Log {
     public Log() {
     }
 
-    public Log(long id, int assignmentId, double time, int countLine, String comment, Timestamp date) {
+    public Log(long id, int assignmentId, double time, int rowCount, String comment, Timestamp date) {
         this.id = id;
         this.assignmentId = assignmentId;
         this.time = time;
-<<<<<<< HEAD
-        this.rowCount = countLine;
-=======
-        this.order = order;
+        this.rowCount = rowCount;
         this.comment = comment;
         this.date = date;
     }
 
-    public Log(int assignmentId, double time, int order,
-               String comment, Date date) {
-        this.assignmentId = assignmentId;
-        this.time = time;
-        this.order = order;
->>>>>>> master
-        this.comment = comment;
-        this.date = date;
+    @PrePersist
+    protected void onCreate() {
+        date = new Timestamp(new java.util.Date().getTime());
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
+        date = new Timestamp(new java.util.Date().getTime());
     }
 
     public Long getId() {

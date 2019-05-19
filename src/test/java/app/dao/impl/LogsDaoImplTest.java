@@ -1,3 +1,4 @@
+/*
 package app.dao.impl;
 
 import app.config.beans.DaoConfig;
@@ -32,4 +33,4 @@ public class LogsDaoImplTest {
     public void testFindId() {
         System.out.println(l.findById(2));
     }
-}
+}*/

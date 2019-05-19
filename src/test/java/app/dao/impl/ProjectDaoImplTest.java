@@ -1,3 +1,4 @@
+/*
 package app.dao.impl;
 
 import app.config.beans.DaoConfig;
@@ -101,4 +102,4 @@ public class ProjectDaoImplTest extends DBTestCase {
         ITable actualTable = actualDataSet.getTable(table);
         Assertion.assertEquals(expectedTable, actualTable);
     }
-}
+}*/

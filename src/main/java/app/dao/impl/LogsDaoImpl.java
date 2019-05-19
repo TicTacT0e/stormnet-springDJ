@@ -1,24 +1,34 @@
 package app.dao.impl;
 
 import app.entities.Log;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.query.Query;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
-public class LogsDaoImpl extends BasicCrudDaoImpl<Log> {
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
+import java.util.List;
+import java.util.NoSuchElementException;
 
-<<<<<<< HEAD
 @Repository
 @Transactional
-public class  LogsDaoImpl implements BasicCrudDao<Log> {
+public class LogsDaoImpl extends BasicCrudDaoImpl<Log> {
 
     @Autowired
-    private SessionFactory sessionFactory;
+    SessionFactory sessionFactory;
+    private Class<? extends Log> daoType;
+
 
     @Override
     public Log findById(int id) {
-        Log logs = sessionFactory.getCurrentSession().get(Log.class, id);
-        if (logs == null) {
-            throw new EntityNotFoundException();
+        Log entity = sessionFactory.getCurrentSession().get(daoType, id);
+        if (entity == null) {
+            throw new NoSuchElementException();
         }
-        return logs;
+        return entity;
     }
 
     @Override
@@ -31,7 +41,9 @@ public class  LogsDaoImpl implements BasicCrudDao<Log> {
 
     @Override
     public void deleteById(int id) {
-        sessionFactory.getCurrentSession().delete(findById(id));
+        Session session = sessionFactory.getCurrentSession();
+        Log entity = session.load(daoType, id);
+        session.delete(entity);
     }
 
     @Override
@@ -48,6 +60,4 @@ public class  LogsDaoImpl implements BasicCrudDao<Log> {
     public void update(Log entity) {
         sessionFactory.getCurrentSession().update(entity);
     }
-=======
->>>>>>> master
 }
