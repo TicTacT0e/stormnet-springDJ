@@ -1,6 +1,5 @@
 package app.dao.impl;
 
-import app.config.ApplicationInitializer;
 import app.config.beans.DaoConfig;
 import app.config.beans.HibernateConfig;
 import app.config.beans.PropertyConfig;
@@ -33,9 +32,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import java.util.List;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = {ApplicationInitializer.class,
-        DaoConfig.class, HibernateConfig.class, PropertyConfig.class})
-@TestPropertySource("classpath:project.properties")
+@ContextConfiguration(classes = {HibernateConfig.class, DaoConfig.class, PropertyConfig.class})
+@TestPropertySource(locations = {"classpath:project.properties"})
 public class AssignmentDaoImplTests extends DBTestCase {
 
     @Autowired
@@ -49,11 +47,13 @@ public class AssignmentDaoImplTests extends DBTestCase {
     private String username;
     @Value("${db.password}")
     private String password;
-    private static final String ASSIGNMENT_TABLE = "Assignment";
+    private static final String SCHEMA = "Timesheetmanager";
+    private static final String ASSIGNMENT_TABLE = "Assignments";
 
     private static final int NUMBER_OF_FIRST_ROW = 0;
 
-    public AssignmentDaoImplTests() {
+    @Before
+    public void setUp() throws Exception {
         System.setProperty(PropertiesBasedJdbcDatabaseTester.DBUNIT_DRIVER_CLASS,
                 driver);
         System.setProperty(PropertiesBasedJdbcDatabaseTester.DBUNIT_CONNECTION_URL,
@@ -62,10 +62,8 @@ public class AssignmentDaoImplTests extends DBTestCase {
                 username);
         System.setProperty(PropertiesBasedJdbcDatabaseTester.DBUNIT_PASSWORD,
                 password);
-    }
-
-    @Before
-    public void setUp() throws Exception {
+        System.setProperty(PropertiesBasedJdbcDatabaseTester.DBUNIT_SCHEMA,
+                SCHEMA);
         IDataSet data = getDataSet();
         IDatabaseConnection connection = getMySqlConnection();
         DatabaseOperation.CLEAN_INSERT.execute(connection, data);
