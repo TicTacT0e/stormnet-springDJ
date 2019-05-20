@@ -1,23 +1,115 @@
-package app.dao.impl.Invitation;
+package app.dao.impl;
 
-import app.dao.impl.Invitation.InitilizationInvitationDaoTest;
+import app.config.beans.DaoConfig;
+import app.config.beans.HibernateConfig;
+import app.config.beans.PropertyConfig;
+import app.dao.BasicCrudDao;
 import app.entities.Invitation;
-import app.exceptions.EntityNotFoundException;
 import org.dbunit.Assertion;
+import org.dbunit.DBTestCase;
+import org.dbunit.PropertiesBasedJdbcDatabaseTester;
+import org.dbunit.database.DatabaseConfig;
+import org.dbunit.database.IDatabaseConnection;
 import org.dbunit.dataset.DataSetException;
 import org.dbunit.dataset.IDataSet;
 import org.dbunit.dataset.ITable;
 import org.dbunit.dataset.xml.FlatXmlDataSetBuilder;
+import org.dbunit.ext.mysql.MySqlDataTypeFactory;
+import org.dbunit.ext.mysql.MySqlMetadataHandler;
+import org.dbunit.operation.DatabaseOperation;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import java.io.IOException;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Objects;
+import java.util.Properties;
 
-public class InvitationsDaoImplTest extends InitilizationInvitationDaoTest {
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(classes = {DaoConfig.class, PropertyConfig.class, HibernateConfig.class})
+public class InvitationsDaoImplTest extends DBTestCase {
+
+    @Autowired
+    protected BasicCrudDao<Invitation> basicCrudDao;
 
     private static final int NUMBER_OF_FIRST_ROW = 0;
+
+    private String driver;
+    private String url;
+    private String username;
+    private String password;
+    private String schema;
+    protected String table;
+
+    public InvitationsDaoImplTest() {
+        Properties properties = new Properties();
+        try {
+            properties.load(Objects.requireNonNull(getClass()
+                    .getClassLoader()
+                    .getResourceAsStream("project.properties")));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        driver = properties.getProperty("jdbc.driver");
+        url = properties.getProperty("db.url");
+        username = properties.getProperty("db.username");
+        password = properties.getProperty("db.password");
+        schema = properties.getProperty("db.invitation-schema");
+        table = properties.getProperty("db.invitation-table-Invitations");
+
+        System.setProperty(PropertiesBasedJdbcDatabaseTester.DBUNIT_DRIVER_CLASS, driver);
+        System.setProperty(PropertiesBasedJdbcDatabaseTester.DBUNIT_CONNECTION_URL, url);
+        System.setProperty(PropertiesBasedJdbcDatabaseTester.DBUNIT_USERNAME, username);
+        System.setProperty(PropertiesBasedJdbcDatabaseTester.DBUNIT_PASSWORD, password);
+        System.setProperty(PropertiesBasedJdbcDatabaseTester.DBUNIT_SCHEMA, schema);
+    }
+
+    @Before
+    public void setUp() throws Exception {
+        IDataSet data = getDataSet();
+        IDatabaseConnection connection = getMySqlConnection();
+        DatabaseOperation.CLEAN_INSERT.execute(connection, data);
+    }
+
+    protected IDatabaseConnection getMySqlConnection() throws Exception {
+        IDatabaseConnection connection = super.getConnection();
+        DatabaseConfig dbConfig = connection.getConfig();
+        dbConfig.setProperty(DatabaseConfig.PROPERTY_DATATYPE_FACTORY, new MySqlDataTypeFactory());
+        dbConfig.setProperty(DatabaseConfig.PROPERTY_METADATA_HANDLER, new MySqlMetadataHandler());
+        return connection;
+    }
+
+    @Override
+    protected IDataSet getDataSet() throws Exception {
+        return new FlatXmlDataSetBuilder().build(this.getClass().getClassLoader()
+                .getResourceAsStream("datasets/Invitation/initilization-dataset.xml"));
+    }
+
+    protected DatabaseOperation getSetUpOperation() throws Exception {
+        return DatabaseOperation.REFRESH;
+    }
+
+    protected DatabaseOperation getTearDownOperation() throws Exception {
+        return DatabaseOperation.NONE;
+    }
+
+    @Test
+    public void setUpDatabaseTest() throws Exception {
+        IDataSet expectedDataSet = new FlatXmlDataSetBuilder().build(this.getClass().getClassLoader()
+                .getResourceAsStream("datasets/Invitation/initilization-dataset.xml"));
+        ITable expectedTable = expectedDataSet.getTable(table);
+        IDataSet actualDataSet = getMySqlConnection().createDataSet();
+        ITable actualTable = actualDataSet.getTable(table);
+        Assertion.assertEquals(expectedTable, actualTable);
+    }
 
     @Test
     public void deleteById() {
@@ -43,7 +135,7 @@ public class InvitationsDaoImplTest extends InitilizationInvitationDaoTest {
     public void deleteByObject() {
         basicCrudDao.delete(new Invitation(
                 1, 1,
-                "invatationCode", new Date(2019 ,03,03), "status"
+                "invatationCode", new Date(2019, 03, 03), "status"
         ));
 
         try {
@@ -63,9 +155,9 @@ public class InvitationsDaoImplTest extends InitilizationInvitationDaoTest {
         }
     }
 
-    @Test(expected = EntityNotFoundException.class)
+    @Test(expected = Exception.class)
     public void deleteInvitationException() {
-        basicCrudDao.deleteById(34);
+        basicCrudDao.deleteById(8);
     }
 
     @Test
@@ -121,7 +213,7 @@ public class InvitationsDaoImplTest extends InitilizationInvitationDaoTest {
     @Test
     public void saveInvitation() {
         basicCrudDao.create(new Invitation(
-                5, 1,"invatationCode", new Date(2019,3,3), "status"
+                5, 1, "invatationCode", new Date(2019, 3, 3), "status"
         ));
         try {
             IDataSet iDataSet = new FlatXmlDataSetBuilder().build(getClass().getClassLoader()
