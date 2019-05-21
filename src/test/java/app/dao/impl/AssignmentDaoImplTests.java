@@ -84,7 +84,7 @@ public class AssignmentDaoImplTests extends DBTestCase {
         return new FlatXmlDataSetBuilder()
                 .build(getClass()
                         .getClassLoader()
-                        .getResourceAsStream("assignment/initial-dataset.xml"));
+                        .getResourceAsStream("assignmentDatasets/initial-dataset.xml"));
     }
 
     protected DatabaseOperation getSetUpOperation() throws Exception {
@@ -100,7 +100,7 @@ public class AssignmentDaoImplTests extends DBTestCase {
         IDataSet expectedDataSet = new FlatXmlDataSetBuilder()
                 .build(getClass()
                         .getClassLoader()
-                        .getResourceAsStream("assignment/initial-dataset.xml"));
+                        .getResourceAsStream("assignmentDatasets/initial-dataset.xml"));
         ITable expectedTable = expectedDataSet.getTable(ASSIGNMENT_TABLE);
 
         IDataSet actualDataSet = getMySqlConnection().createDataSet();
@@ -115,7 +115,7 @@ public class AssignmentDaoImplTests extends DBTestCase {
         IDataSet expectedDataSet = new FlatXmlDataSetBuilder()
                 .build(getClass()
                         .getClassLoader()
-                        .getResourceAsStream("assignment/delete-dataset.xml"));
+                        .getResourceAsStream("assignmentDatasets/delete-dataset.xml"));
         ITable expectedTable = expectedDataSet.getTable(ASSIGNMENT_TABLE);
         IDataSet actualDataSet = getMySqlConnection().createDataSet();
         ITable actualTable = actualDataSet.getTable(ASSIGNMENT_TABLE);
@@ -134,7 +134,7 @@ public class AssignmentDaoImplTests extends DBTestCase {
         IDataSet expectedDataSet = new FlatXmlDataSetBuilder()
                 .build(getClass()
                         .getClassLoader()
-                        .getResourceAsStream("assignment/edit-dataset.xml"));
+                        .getResourceAsStream("assignmentDatasets/edit-dataset.xml"));
         ITable expectedTable = expectedDataSet.getTable(ASSIGNMENT_TABLE);
         IDataSet actualDataSet = getMySqlConnection().createDataSet();
         ITable actualTable = actualDataSet.getTable(ASSIGNMENT_TABLE);
@@ -152,7 +152,7 @@ public class AssignmentDaoImplTests extends DBTestCase {
         IDataSet expectedDataSet = new FlatXmlDataSetBuilder()
                 .build(getClass()
                         .getClassLoader()
-                        .getResourceAsStream("assignment/find-by-id-dataset.xml"));
+                        .getResourceAsStream("assignmentDatasets/find-by-id-dataset.xml"));
         ITable expectedTable = expectedDataSet.getTable(ASSIGNMENT_TABLE);
 
         Assignment assignment = assignmentDao.findById(4);
@@ -184,7 +184,7 @@ public class AssignmentDaoImplTests extends DBTestCase {
         IDataSet expectedDataSet = new FlatXmlDataSetBuilder()
                 .build(getClass()
                         .getClassLoader()
-                        .getResourceAsStream("assignment/initial-dataset.xml"));
+                        .getResourceAsStream("assignmentDatasets/initial-dataset.xml"));
         ITable expectedTable = expectedDataSet.getTable(ASSIGNMENT_TABLE);
         List<Assignment> assignments = assignmentDao.findAll();
         int index = NUMBER_OF_FIRST_ROW;
@@ -216,7 +216,7 @@ public class AssignmentDaoImplTests extends DBTestCase {
         IDataSet expectedDataSet = new FlatXmlDataSetBuilder()
                 .build(getClass()
                         .getClassLoader()
-                        .getResourceAsStream("assignment/save-dataset.xml"));
+                        .getResourceAsStream("assignmentDatasets/save-dataset.xml"));
         ITable expectedTable = expectedDataSet.getTable(ASSIGNMENT_TABLE);
         IDataSet actualDataSet = getMySqlConnection().createDataSet();
         ITable actualTable = actualDataSet.getTable(ASSIGNMENT_TABLE);
