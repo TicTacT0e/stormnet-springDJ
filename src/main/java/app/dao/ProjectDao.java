@@ -9,11 +9,13 @@ import java.util.List;
 
 @Repository
 public interface ProjectDao extends BasicCrudDao<Project> {
+    Project findByCompanyId(int companyId);
+
     Project findByAssignmentId(int id);
 
-    long countActualProjectTime();
+    long countActualProjectTime(int id);
 
-    List<Employee> getProjectTeam();
+    List<Employee> getProjectTeam(int id);
 
-    List<ProjectPage> getProjectData();
+    List<ProjectPage> getProjectData(int companyId);
 }

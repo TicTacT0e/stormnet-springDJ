@@ -1,9 +1,8 @@
 package app.entities;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.Date;
+import java.util.Objects;
 
 @Entity
 @Table(name = "Project")
@@ -13,8 +12,13 @@ public class Project {
     private int companyId;
     private String name;
     private String logoUrl;
+
+    @Temporal(TemporalType.DATE)
     private Date startDate;
+
+    @Temporal(TemporalType.DATE)
     private Date endDate;
+
     private long manHours;
     private String code;
     private String color;
@@ -150,15 +154,9 @@ public class Project {
         return code != null ? !code.equals(project.code) : project.code != null;
     }
 
-
     @Override
     public int hashCode() {
-        int result = id;
-        result = 31 * result + companyId;
-        result = 31 * result + (name != null ? name.hashCode() : 0);
-        result = 31 * result + (logoUrl != null ? logoUrl.hashCode() : 0);
-        result = 31 * result + (code != null ? code.hashCode() : 0);
-        return result;
+        return Objects.hash(id, companyId, name, logoUrl, code);
     }
 
     @Override

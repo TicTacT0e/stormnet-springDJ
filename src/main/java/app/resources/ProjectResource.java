@@ -29,10 +29,10 @@ public class ProjectResource {
     private ProjectDao projectPageDao;
 
     @GET
-    @Path("/info")
+    @Path("/info/{companyId}")
     @Produces(MediaType.APPLICATION_JSON)
-    public List<ProjectPage> getInfo() {
-        return projectPageDao.getProjectData();
+    public List<ProjectPage> getInfo(@PathParam("companyId") int companyId) {
+        return projectPageDao.getProjectData(companyId);
     }
 
     @GET

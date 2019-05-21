@@ -25,11 +25,12 @@ public class ProjectDaoImpl implements ProjectDao {
     @Autowired
     private ProjectDao logsProjectDao;
     @Autowired
+    private ProjectDao projectDao;
+    @Autowired
     private SessionFactory sessionFactory;
 
-    private static final String FIND_BY_ASSIGNMENT_ID_QUERY = "select id from Logs as logs join Assignment as assign on logs.assignmentId = assign.id";
-    private static final String GET_PROJECT_TEAM_QUERY = "select employeeId from Assignment as assign join Project as proj on assign.projectId = proj.id";
-
+    private static final String FIND_BY_ASSIGNMENT_ID_QUERY = "select id from Logs logs join Assignment assign on logs.assignmentId = assign.id";
+    private static final String GET_PROJECT_TEAM_QUERY = "select employeeId from Assignment assign join Project proj on assign.projectId = proj.id where proj.id =:id";
 
     @Override
     public Project findById(int id) {
@@ -68,12 +69,21 @@ public class ProjectDaoImpl implements ProjectDao {
     }
 
     @Override
+    public Project findByCompanyId(int companyId) {
+        Project project = sessionFactory.getCurrentSession().get(Project.class, companyId);
+        if (project == null) {
+            throw new EntityNotFoundException();
+        }
+        return project;
+    }
+
+    @Override
     public Project findByAssignmentId(int id) {
         Project project = (Project) sessionFactory.getCurrentSession().createQuery(FIND_BY_ASSIGNMENT_ID_QUERY);
         return project;
     }
 
-    public long countActualProjectTime() {
+    public long countActualProjectTime(int id) {
         List<Assignment> assignments = assignmentBasicCrudDao.findAll();
         long sumLogs = 0;
         for (Assignment assign : assignments) {
@@ -86,31 +96,29 @@ public class ProjectDaoImpl implements ProjectDao {
     }
 
     @Override
-    public List<Employee> getProjectTeam() {
-        List<Project> projects = projectBasicCrudDao.findAll();
-        List<Employee> projectTeamList = new LinkedList<>();
-        List<Employee> projectTeam = (List<Employee>) sessionFactory.getCurrentSession().createQuery(GET_PROJECT_TEAM_QUERY);
-        for (int i = 0; i < projects.size(); i++) {
-            projectTeamList.addAll(projectTeam);
-        }
-        return projectTeamList;
+    public List<Employee> getProjectTeam(int id) {
+        Query query = sessionFactory.getCurrentSession().createQuery(GET_PROJECT_TEAM_QUERY);
+        query.setParameter("id", id);
+        return query.getResultList();
     }
 
     @Override
-    public List<ProjectPage> getProjectData() {
-        List<ProjectPage> projectPageList = new LinkedList<>();
-        List<Project> projects = projectBasicCrudDao.findAll();
-        ProjectPage projectPage = null;
-        for (int i = 0; i < projects.size(); i++) {
-            projectPage.setProjectColor(projects.get(i).getColor());
-            projectPage.setProjectName(projects.get(i).getName());
-            projectPage.setProjectCode(projects.get(i).getCode());
-            projectPage.setProjectStartDate(projects.get(i).getStartDate());
-            projectPage.setTeam(getProjectTeam());
-            projectPage.setProjectLoading(countActualProjectTime());
-            projectPageList.add(projectPage);
-        }
-        return projectPageList;
+    public List<ProjectPage> getProjectData(int companyId) {
+//        List<ProjectPage> projectPageList = new LinkedList<>();
+        Query query = sessionFactory.getCurrentSession().createQuery("from Project where companyId = " + companyId);
+        return query.getResultList();
+//        List<Project> projects = (List<Project>) projectDao.findByCompanyId(companyId);
+//        ProjectPage projectPage = null;
+//        for (int i = 0; i < projects.size(); i++) {
+//            projectPage.setProjectColor(projects.get(i).getColor());
+//            projectPage.setProjectName(projects.get(i).getName());
+//            projectPage.setProjectCode(projects.get(i).getCode());
+//            projectPage.setProjectStartDate(projects.get(i).getStartDate());
+//            projectPage.setTeam(getProjectTeam(i));
+//            projectPage.setProjectLoading(countActualProjectTime(i));
+//            projectPageList.add(projectPage);
+//        }
+//        return projectPageList;
     }
 }
 

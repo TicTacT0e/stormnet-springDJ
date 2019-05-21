@@ -1,5 +1,6 @@
 package app.entities;
 
+import javax.persistence.CollectionTable;
 import java.util.Date;
 import java.util.List;
 
@@ -7,6 +8,7 @@ public class ProjectPage {
     private String projectColor;
     private String projectName;
     private String projectCode;
+    @CollectionTable()
     private List<Employee> team;
     private Date projectStartDate;
     private long projectLoading;
