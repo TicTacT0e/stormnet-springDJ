@@ -1,10 +1,19 @@
 package app.resources;
 
-import app.dao.EmployeeDao;
+import app.dao.impl.EmployeeDaoImpl;
+import app.dao.impl.ProjectDaoImpl;
 import app.entities.Employee;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import javax.ws.rs.*;
+
+import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.List;
@@ -14,9 +23,9 @@ import java.util.List;
 public class EmployeeResource {
 
     @Autowired
-    private EmployeeDao employeeDao;
-    //@Autowired
-    //private ProjectDao projectDao;
+    private EmployeeDaoImpl employeeDao;
+    @Autowired
+    private ProjectDaoImpl projectDao;
 
     @GET
     @Path("/all")
@@ -43,23 +52,27 @@ public class EmployeeResource {
     @PUT
     @Path("/edit/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response edit(
-            @PathParam("id") int id,
-            Employee employee
-    ) {
-        if (id!= employee.getId()) {
-            return Response.status(Response.Status.CONFLICT.getStatusCode()).build();
-        }
+    public Response edit(@PathParam("id") int id, Employee employee) {
         employeeDao.update(employee);
         return Response.status(Response.Status.CREATED.getStatusCode()).build();
     }
 
     @DELETE
     @Path("/delete/{id}")
-    public Response delete(
-            @PathParam("id") int id
-    ) {
-        employeeDao.deleteById(id);
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response delete(@PathParam("id") int id, Employee employee) {
+        employeeDao.delete(employee);
+        return Response.status(Response.Status.OK.getStatusCode()).build();
+    }
+
+    @POST
+    @Path("/assign/{employeeId}/{projectId}")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response assignToProject(
+            @PathParam("employeeId") int employeeId,
+            @PathParam("projectId") int projectId) {
+        employeeDao.assignToProject(employeeDao.findById(employeeId),
+                projectDao.findById(projectId));
         return Response.status(Response.Status.OK.getStatusCode()).build();
     }
 }

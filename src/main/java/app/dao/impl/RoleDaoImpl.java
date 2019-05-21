@@ -1,8 +1,5 @@
 package app.dao.impl;
 
-import app.dao.RoleDao;
-import app.entities.Role;
-import app.exceptions.EntityNotFoundException;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,22 +21,6 @@ public class RoleDaoImpl implements RoleDao {
                 .createQuery("from app.entities.Role");
         return query3.getResultList();
     }
-
-    /*@Override
-    public Role findByCode(String code) {
-        Role role = sessionFactory.getCurrentSession()
-                .get(Role.class, code);
-        if (role == null) {
-            throw new EntityNotFoundException();
-        }
-        return role;
-    }
-
-    @Override
-    public void deleteByCode(String code) {
-        sessionFactory.getCurrentSession()
-                .delete(findByCode(code));
-    }*/
 
     @Override
     public List<Role> findByCode(String code) {

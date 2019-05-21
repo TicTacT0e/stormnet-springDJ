@@ -1,21 +1,29 @@
 package app.entities;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.sql.Date;
+import java.util.Objects;
 
+@Entity
+@Table(name = "Invitations")
 public class Invitation {
+    @Id
     private int id;
     private int partnerId;
-    private String invitationsCode;
+    private String code;
     private Date dateEnd;
     private String status;
 
     public Invitation() {
     }
 
-    public Invitation(int id, int partnerId, String invitationsCode, Date dateEnd, String status) {
+    public Invitation(int id, int partnerId, String code,
+                      Date dateEnd, String status) {
         this.id = id;
         this.partnerId = partnerId;
-        this.invitationsCode = invitationsCode;
+        this.code = code;
         this.dateEnd = dateEnd;
         this.status = status;
     }
@@ -24,7 +32,7 @@ public class Invitation {
         this(
                 invitation.getId(),
                 invitation.getPartnerId(),
-                invitation.getInvitationsCode(),
+                invitation.getCode(),
                 invitation.getDateEnd(),
                 invitation.getStatus()
         );
@@ -38,8 +46,8 @@ public class Invitation {
         return partnerId;
     }
 
-    public String getInvitationsCode() {
-        return invitationsCode;
+    public String getCode() {
+        return code;
     }
 
     public Date getDateEnd() {
@@ -58,8 +66,8 @@ public class Invitation {
         this.partnerId = partnerId;
     }
 
-    public void setCode(String invitationsCode) {
-        this.invitationsCode = invitationsCode;
+    public void setCode(String code) {
+        this.code = code;
     }
 
     public void setDateEnd(Date dateEnd) {
@@ -75,7 +83,7 @@ public class Invitation {
         return "Invitation{" +
                 "id=" + id +
                 ", partnerId=" + partnerId +
-                ", invitationsCode='" + invitationsCode + '\'' +
+                ", code='" + code + '\'' +
                 ", dateEnd=" + dateEnd +
                 ", status='" + status + '\'' +
                 '}';
@@ -83,24 +91,35 @@ public class Invitation {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
 
         Invitation that = (Invitation) o;
 
-        if (id != that.id) return false;
-        if (partnerId != that.partnerId) return false;
-        if (invitationsCode != null ? !invitationsCode.equals(that.invitationsCode) : that.invitationsCode != null)
+        if (id != that.id) {
             return false;
-        if (dateEnd != null ? !dateEnd.equals(that.dateEnd) : that.dateEnd != null) return false;
-        return status != null ? status.equals(that.status) : that.status == null;
+        }
+        if (partnerId != that.partnerId) {
+            return false;
+        }
+        if (!Objects.equals(code, that.code)) {
+            return false;
+        }
+        if (!Objects.equals(dateEnd, that.dateEnd)) {
+            return false;
+        }
+        return Objects.equals(status, that.status);
     }
 
     @Override
     public int hashCode() {
         int result = id;
         result = 31 * result + partnerId;
-        result = 31 * result + (invitationsCode != null ? invitationsCode.hashCode() : 0);
+        result = 31 * result + (code != null ? code.hashCode() : 0);
         result = 31 * result + (dateEnd != null ? dateEnd.hashCode() : 0);
         result = 31 * result + (status != null ? status.hashCode() : 0);
         return result;

@@ -1,37 +1,40 @@
 package app.entities;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
 @Table(name = "employee")
 public class Employee {
+
     @Id
     private int id;
     private String name;
-    private String phone;
+    private String photo;
     private String email;
-    private String photoUrl;
+
+    @ElementCollection
+    @CollectionTable(name = "Project")
+    private List<Project> projects = new LinkedList<>();
 
     public Employee() {
     }
 
-    public Employee(int id, String name, String phone, String email, String photoUrl) {
+    public Employee(int id, String name, String photo, String email) {
         this.id = id;
         this.name = name;
-        this.phone = phone;
+        this.photo = photo;
         this.email = email;
-        this.photoUrl = photoUrl;
     }
 
     public Employee(Employee employee) {
         this(employee.getId(),
                 employee.getName(),
-                employee.getPhone(),
-                employee.getEmail(),
-                employee.getPhotoUrl());
+                employee.getPhoto(),
+                employee.getEmail());
+        this.projects = employee.getProjects();
     }
 
     public int getId() {
@@ -42,12 +45,16 @@ public class Employee {
         return name;
     }
 
-    public String getPhotoUrl() {
-        return photoUrl;
+    public String getPhoto() {
+        return photo;
     }
 
     public String getEmail() {
         return email;
+    }
+
+    public List<Project> getProjects() {
+        return projects;
     }
 
     public void setId(int id) {
@@ -58,20 +65,16 @@ public class Employee {
         this.name = name;
     }
 
-    public void setPhotoUrl(String photoUrl) {
-        this.photoUrl = photoUrl;
+    public void setPhoto(String photo) {
+        this.photo = photo;
     }
 
     public void setEmail(String email) {
         this.email = email;
     }
 
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
+    public void assignToProject(Project project) {
+        projects.add(project);
     }
 
     @Override
@@ -85,15 +88,14 @@ public class Employee {
         Employee employee = (Employee) object;
         return id == employee.id
                 && Objects.equals(name, employee.name)
-                && Objects.equals(phone, employee.phone)
+                && Objects.equals(photo, employee.photo)
                 && Objects.equals(email, employee.email)
-                && Objects.equals(photoUrl, employee.photoUrl);
-                //&& Objects.equals(projects, employee.projects);
+                && Objects.equals(projects, employee.projects);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, email, photoUrl);
+        return Objects.hash(id, name, photo, email, projects);
     }
 
     @Override
@@ -101,9 +103,10 @@ public class Employee {
         return "Employee{"
                 + "id=" + id
                 + ", name='" + name + '\''
-                + ", phone='" + phone + '\''
+                + ", photo='" + photo + '\''
                 + ", email='" + email + '\''
-                + ", photoUrl='" + photoUrl + '\''
+                + '\n'
+                + ", projects=" + projects
                 + '}';
     }
 }
