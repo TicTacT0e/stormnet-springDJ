@@ -90,7 +90,7 @@ public class InvitationsDaoImplTest extends DBTestCase {
     @Override
     protected IDataSet getDataSet() throws Exception {
         return new FlatXmlDataSetBuilder().build(this.getClass().getClassLoader()
-                .getResourceAsStream("datasets/Invitation/initilization-dataset.xml"));
+                .getResourceAsStream("app/dao/impl/invitationDataSet/initilization-dataset.xml"));
     }
 
     protected DatabaseOperation getSetUpOperation() throws Exception {
@@ -104,7 +104,7 @@ public class InvitationsDaoImplTest extends DBTestCase {
     @Test
     public void setUpDatabaseTest() throws Exception {
         IDataSet expectedDataSet = new FlatXmlDataSetBuilder().build(this.getClass().getClassLoader()
-                .getResourceAsStream("datasets/Invitation/initilization-dataset.xml"));
+                .getResourceAsStream("app/dao/impl/invitationDataSet/initilization-dataset.xml"));
         ITable expectedTable = expectedDataSet.getTable(table);
         IDataSet actualDataSet = getMySqlConnection().createDataSet();
         ITable actualTable = actualDataSet.getTable(table);
@@ -116,7 +116,7 @@ public class InvitationsDaoImplTest extends DBTestCase {
         basicCrudDao.deleteById(4);
         try {
             IDataSet iDataSet = new FlatXmlDataSetBuilder().build(getClass().getClassLoader()
-                    .getResourceAsStream("datasets/Invitation/delete-dataset.xml"));
+                    .getResourceAsStream("app/dao/impl/invitationDataSet/delete-dataset.xml"));
             ITable iTable = iDataSet.getTable(table);
 
             IDataSet actualDataSet = getMySqlConnection().createDataSet();
@@ -164,7 +164,7 @@ public class InvitationsDaoImplTest extends DBTestCase {
     public void getAllInvitation() {
         try {
             IDataSet iDataSet = new FlatXmlDataSetBuilder().build(getClass().getClassLoader().
-                    getResourceAsStream("datasets/Invitation/getAll-dataset.xml"));
+                    getResourceAsStream("app/dao/impl/invitationDataSet/getAll-dataset.xml"));
             ITable iTable = iDataSet.getTable(table);
             List<Invitation> invitationList = basicCrudDao.findAll();
             int index = NUMBER_OF_FIRST_ROW;
@@ -190,7 +190,7 @@ public class InvitationsDaoImplTest extends DBTestCase {
     public void getFindById() {
         try {
             IDataSet iDataSet = new FlatXmlDataSetBuilder().build(getClass().getClassLoader()
-                    .getResourceAsStream("datasets/Invitation/getFindById-dataset.xml"));
+                    .getResourceAsStream("app/dao/impl/invitationDataSet/getFindById-dataset.xml"));
             ITable iTable = iDataSet.getTable(table);
 
             Invitation invitation = basicCrudDao.findById(1);
@@ -217,7 +217,7 @@ public class InvitationsDaoImplTest extends DBTestCase {
         ));
         try {
             IDataSet iDataSet = new FlatXmlDataSetBuilder().build(getClass().getClassLoader()
-                    .getResourceAsStream("datasets/Invitation/save-dataset.xml"));
+                    .getResourceAsStream("app/dao/impl/invitationDataSet/save-dataset.xml"));
             ITable iTable = iDataSet.getTable(table);
 
             IDataSet actualDataSet = getMySqlConnection().createDataSet();
