@@ -1,11 +1,15 @@
 package app.entities;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
+import javax.persistence.Table;
 import java.sql.Timestamp;
 import java.util.Date;
 
 @Entity
-@Table (name = "Notification")
+@Table(name = "Notification")
 public class Notification {
 
     @Id
@@ -20,7 +24,8 @@ public class Notification {
     public Notification() {
     }
 
-    public Notification(int id, int employeeId, String status, String title, String description, String link) {
+    public Notification(int id, int employeeId, String status, String title,
+                        String description, String link) {
         this.id = id;
         this.employeeId = employeeId;
         this.status = status;
@@ -31,12 +36,12 @@ public class Notification {
 
     @PrePersist
     protected void onCreate() {
-    	createdAt = new Timestamp(new java.util.Date().getTime());
+        createdAt = new Timestamp(new java.util.Date().getTime());
     }
 
     @PreUpdate
     protected void onUpdate() {
-    	createdAt = new Timestamp(new java.util.Date().getTime());
+        createdAt = new Timestamp(new java.util.Date().getTime());
     }
 
     public int getId() {

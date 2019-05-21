@@ -1,5 +1,15 @@
 package app.config;
 
+import app.resources.AssignmentResource;
+import app.resources.CompanyResource;
+import app.resources.EmployeeResource;
+import app.resources.InvitationResource;
+import app.resources.LogsResource;
+import app.resources.NotificationResource;
+import app.resources.ProjectResource;
+import app.resources.ProjectVersionResource;
+import app.resources.SettingsResource;
+import app.resources.TimesheetResource;
 import app.entities.ProjectEditPage;
 import app.resources.*;
 import org.glassfish.jersey.server.ResourceConfig;
@@ -18,6 +28,7 @@ public class JerseyConfig extends ResourceConfig {
         register(ProjectVersionResource.class);
         register(NotificationResource.class);
         register(InvitationResource.class);
+        register(SettingsResource.class);
         register(TimesheetResource.class);
         register(ProjectEditPageResources.class);
     }

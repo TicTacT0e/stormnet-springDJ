@@ -1,7 +1,5 @@
 package app.entities;
 
-import app.utils.TimeUtil;
-
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -26,7 +24,8 @@ public class Project {
     }
 
     public Project(int id, String name, String logoUrl,
-                   Date startDate, Date endDate, long manHoursInMilliseconds, String code, String color, String description) {
+                   Date startDate, Date endDate, long manHoursInMilliseconds,
+                   String code, String color, String description) {
         this.id = id;
         this.name = name;
         this.logoUrl = logoUrl;
@@ -36,12 +35,6 @@ public class Project {
         this.code = code;
         this.color = color;
         this.description = description;
-    }
-
-    public Project(int id, String name, String logoUrl,
-                   Date startDate, Date endDate, int manHoursInHours, String code, String color, String description) {
-        this(id, name, logoUrl, startDate, endDate,
-                TimeUtil.hoursToMillisecond(manHoursInHours), code, color, description);
     }
 
     public Project(Project project) {
@@ -128,10 +121,6 @@ public class Project {
         this.manHours = manHoursInMilliseconds;
     }
 
-    public void setManHours(int manHoursInHours) {
-        this.manHours = TimeUtil.hoursToMillisecond(manHoursInHours);
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -141,23 +130,38 @@ public class Project {
             return false;
         }
         Project project = (Project) o;
-        if (id != project.id)
+        if (id != project.id) {
             return false;
-        if (manHours != project.manHours)
+        }
+        if (manHours != project.manHours) {
             return false;
-        if (name != null ? !name.equals(project.name) : project.name != null)
+        }
+        if (name != null ? !name
+                .equals(project.name) : project.name != null) {
             return false;
-        if (logoUrl != null ? !logoUrl.equals(project.logoUrl) : project.logoUrl != null)
+        }
+        if (logoUrl != null ? !logoUrl
+                .equals(project.logoUrl) : project.logoUrl != null) {
             return false;
-        if (startDate != null ? !startDate.equals(project.startDate) : project.startDate != null)
+        }
+        if (startDate != null ? !startDate
+                .equals(project.startDate) : project.startDate != null) {
             return false;
-        if (endDate != null ? !endDate.equals(project.endDate) : project.endDate != null)
+        }
+        if (endDate != null ? !endDate
+                .equals(project.endDate) : project.endDate != null) {
             return false;
-        if (code != null ? !code.equals(project.code) : project.code != null)
+        }
+        if (code != null ? !code
+                .equals(project.code) : project.code != null) {
             return false;
-        if (color != null ? !color.equals(project.color) : project.color != null)
+        }
+        if (color != null ? !color
+                .equals(project.color) : project.color != null) {
             return false;
-        return description != null ? description.equals(project.description) : project.description == null;
+        }
+        return description != null ? description
+                .equals(project.description) : project.description == null;
     }
 
     @Override
@@ -170,7 +174,8 @@ public class Project {
         result = 31 * result + (endDate != null ? endDate.hashCode() : 0);
         result = 31 * result + (code != null ? code.hashCode() : 0);
         result = 31 * result + (color != null ? color.hashCode() : 0);
-        result = 31 * result + (description != null ? description.hashCode() : 0);
+        result = 31 * result + (description != null
+                ? description.hashCode() : 0);
         return result;
     }
 
