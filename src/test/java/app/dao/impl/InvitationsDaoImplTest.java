@@ -45,8 +45,8 @@ public class InvitationsDaoImplTest extends DBTestCase {
     private String url;
     private String username;
     private String password;
-    private String schema;
-    protected String table;
+    private final String schema = "timesheet_dev";
+    protected final String table = "Invitations";
 
     public InvitationsDaoImplTest() {
         Properties properties = new Properties();
@@ -62,8 +62,6 @@ public class InvitationsDaoImplTest extends DBTestCase {
         url = properties.getProperty("db.url");
         username = properties.getProperty("db.username");
         password = properties.getProperty("db.password");
-        schema = properties.getProperty("db.invitation-schema");
-        table = properties.getProperty("db.invitation-table-Invitations");
 
         System.setProperty(PropertiesBasedJdbcDatabaseTester.DBUNIT_DRIVER_CLASS, driver);
         System.setProperty(PropertiesBasedJdbcDatabaseTester.DBUNIT_CONNECTION_URL, url);
