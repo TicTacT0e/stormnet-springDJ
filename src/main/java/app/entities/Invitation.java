@@ -117,11 +117,7 @@ public class Invitation {
 
     @Override
     public int hashCode() {
-        int result = id;
-        result = result + partnerId;
-        result = result + (code != null ? code.hashCode() : 0);
-        result = result + (dateEnd != null ? dateEnd.hashCode() : 0);
-        result = result + (status != null ? status.hashCode() : 0);
-        return result;
+        return Objects.hash(getId(), getPartnerId(), getCode(),
+                getDateEnd(), getStatus());
     }
 }
