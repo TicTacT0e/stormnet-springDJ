@@ -27,6 +27,7 @@ import java.sql.SQLException;
 @TestPropertySource(locations = {"classpath:project.properties"})
 public class ConnectionForTests {
 
+    public static final String schema = "timesheet_dev";
     protected static IDatabaseConnection connection;
 
     @Value("${jdbc.driver}")
@@ -37,6 +38,15 @@ public class ConnectionForTests {
     private String username;
     @Value("${db.password}")
     private String password;
+
+    public String pathToInitialFile;
+
+    public ConnectionForTests(String pathToInitialFile) {
+        this.pathToInitialFile = pathToInitialFile;
+    }
+
+    public ConnectionForTests() {
+    }
 
     private Connection getConnection() {
         try {
@@ -54,8 +64,8 @@ public class ConnectionForTests {
 
     @Before
     public void setUp() throws Exception {
-        connection = new MySqlConnection(getConnection(), "timesheet_dev");
-        IDataSet dataSet = new FlatXmlDataSetBuilder().build(new FileInputStream("notificationDataSet\\input.xml"));
+        connection = new MySqlConnection(getConnection(), schema);
+        IDataSet dataSet = new FlatXmlDataSetBuilder().build(new FileInputStream(pathToInitialFile));
         DatabaseOperation.CLEAN_INSERT.execute(connection, dataSet);
     }
 
