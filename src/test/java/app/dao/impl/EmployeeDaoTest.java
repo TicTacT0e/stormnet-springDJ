@@ -66,7 +66,7 @@ public class EmployeeDaoTest {
     @Before
     public void setUp() throws Exception {
         connection = new MySqlConnection(getConnection(), "timesheet_dev");
-        IDataSet dataSet = new FlatXmlDataSetBuilder().build(new FileInputStream("C:\\Users\\HOME-PC\\Desktop\\timesheet\\TimesheetManagement\\src\\test\\resources\\app\\dao\\impl\\employeeDataSet\\input.xml"));
+        IDataSet dataSet = new FlatXmlDataSetBuilder().build(new FileInputStream("employeeDataSet\\input.xml"));
         DatabaseOperation.CLEAN_INSERT.execute(connection, dataSet);
     }
 
@@ -78,7 +78,7 @@ public class EmployeeDaoTest {
     @Test
     public void testFindAll() throws SQLException, DatabaseUnitException, FileNotFoundException {
         List<Employee> employees = employeeBasicCrudDao.findAll();
-        IDataSet expectedDataSet = new FlatXmlDataSetBuilder().build(new FileInputStream("C:\\Users\\HOME-PC\\Desktop\\timesheet\\TimesheetManagement\\src\\test\\resources\\app\\dao\\impl\\employeeDataSet\\input.xml"));
+        IDataSet expectedDataSet = new FlatXmlDataSetBuilder().build(new FileInputStream("employeeDataSet\\input.xml"));
         IDataSet actualDataSet = connection.createDataSet();
         Assertion.assertEquals(expectedDataSet, actualDataSet);
         Assert.assertEquals(expectedDataSet.getTable(table).getRowCount(), employees.size());
@@ -88,7 +88,7 @@ public class EmployeeDaoTest {
     @Test
     public void findById() throws SQLException, FileNotFoundException, DatabaseUnitException {
         Employee employee = employeeBasicCrudDao.findById(2);
-        IDataSet expectedDataSet = new FlatXmlDataSetBuilder().build(new FileInputStream("C:\\Users\\HOME-PC\\Desktop\\timesheet\\TimesheetManagement\\src\\test\\resources\\app\\dao\\impl\\employeeDataSet\\input.xml"));
+        IDataSet expectedDataSet = new FlatXmlDataSetBuilder().build(new FileInputStream("employeeDataSet\\input.xml"));
         IDataSet actualDataSet = connection.createDataSet();
         String expectedEmailOfEmployee = (String) expectedDataSet.getTable(table).getValue(1, "max@mail.ru");
         Assertion.assertEquals(expectedDataSet, actualDataSet);
@@ -97,9 +97,9 @@ public class EmployeeDaoTest {
 
     @Test
     public void testCreate() throws SQLException, DatabaseUnitException, FileNotFoundException {
-        employeeBasicCrudDao.create(new Employee(4, "Alex", "5678", "alex@gmail.by", "AlexPhotoUrl"));
+        employeeBasicCrudDao.create(new Employee(4, "Alex", "AlexPhotoUrl", "alex@gmail.by"));
         IDataSet actualDataSet = connection.createDataSet();
-        IDataSet expectedDataSet = new FlatXmlDataSetBuilder().build(new FileInputStream("C:\\Users\\HOME-PC\\Desktop\\timesheet\\TimesheetManagement\\src\\test\\resources\\app\\dao\\impl\\employeeDataSet\\createExpected.xml"));
+        IDataSet expectedDataSet = new FlatXmlDataSetBuilder().build(new FileInputStream("employeeDataSet\\createExpected.xml"));
         Assertion.assertEqualsIgnoreCols(expectedDataSet, actualDataSet, table, columnsToIgnore);
     }
 
@@ -107,23 +107,23 @@ public class EmployeeDaoTest {
     public void testDeleteById() throws SQLException, FileNotFoundException, DatabaseUnitException {
         employeeBasicCrudDao.deleteById(2);
         IDataSet actualDataSet = connection.createDataSet();
-        IDataSet expectedDataSet = new FlatXmlDataSetBuilder().build(new FileInputStream("C:\\Users\\HOME-PC\\Desktop\\timesheet\\TimesheetManagement\\src\\test\\resources\\app\\dao\\impl\\employeeDataSet\\deleteExpected.xml"));
+        IDataSet expectedDataSet = new FlatXmlDataSetBuilder().build(new FileInputStream("employeeDataSet\\deleteExpected.xml"));
         Assertion.assertEquals(expectedDataSet, actualDataSet);
     }
 
     @Test
     public void testDeleteEntity() throws SQLException, FileNotFoundException, DatabaseUnitException {
-        employeeBasicCrudDao.delete(new Employee(2, "Sergey", "123456", "sergey@mail.ru", "SergeyPhotoUrl"));
+        employeeBasicCrudDao.delete(new Employee(2, "Sergey", "SergeyPhotoUrl", "sergey@mail.ru"));
         IDataSet actualDataSet = connection.createDataSet();
-        IDataSet expectedDataSet = new FlatXmlDataSetBuilder().build(new FileInputStream("C:\\Users\\HOME-PC\\Desktop\\timesheet\\TimesheetManagement\\src\\test\\resources\\app\\dao\\impl\\employeeDataSet\\deleteExpected.xml"));
+        IDataSet expectedDataSet = new FlatXmlDataSetBuilder().build(new FileInputStream("employeeDataSet\\deleteExpected.xml"));
         Assertion.assertEquals(expectedDataSet, actualDataSet);
     }
 
     @Test
     public void testUpdate() throws SQLException, FileNotFoundException, DatabaseUnitException {
-        employeeBasicCrudDao.update(new Employee(1,"Max", "6754367", "max@mail.ru", "MaxPhotoUrl"));
+        employeeBasicCrudDao.update(new Employee(1,"Max", "MaxPhotoUrl", "max@mail.ru"));
         IDataSet actualDataSet = connection.createDataSet();
-        IDataSet expectedDataSet = new FlatXmlDataSetBuilder().build(new FileInputStream("C:\\Users\\HOME-PC\\Desktop\\timesheet\\TimesheetManagement\\src\\test\\resources\\app\\dao\\impl\\employeeDataSet\\updateExpected.xml"));
+        IDataSet expectedDataSet = new FlatXmlDataSetBuilder().build(new FileInputStream("employeeDataSet\\updateExpected.xml"));
         Assertion.assertEqualsIgnoreCols(expectedDataSet, actualDataSet, table, columnsToIgnore);
     }
 }

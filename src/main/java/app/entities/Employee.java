@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Objects;
 
 @Entity
-@Table(name = "employee")
+@Table(name = "Employee")
 public class Employee {
 
     @Id
@@ -110,3 +110,4 @@ public class Employee {
                 + '}';
     }
 }
+

@@ -48,7 +48,7 @@ public class InvitationResource {
     @Path("/{invitationId}")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response update(@PathParam("invitationId") int invitationId,
-                           Invitation invitation) {
+                         Invitation invitation) {
         if (invitationId != invitation.getId()) {
             return Response.status(Response.Status.CONFLICT.getStatusCode())
                     .build();

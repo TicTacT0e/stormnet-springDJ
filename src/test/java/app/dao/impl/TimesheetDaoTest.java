@@ -68,7 +68,7 @@ public class TimesheetDaoTest {
     @Before
     public void setUp() throws Exception {
         connection = new MySqlConnection(getConnection(), "timesheet_dev");
-        IDataSet dataSet = new FlatXmlDataSetBuilder().build(new FileInputStream("C:\\Users\\HOME-PC\\Desktop\\timesheet\\TimesheetManagement\\src\\test\\resources\\app\\dao\\impl\\timesheetDataSet\\initialDataset.xml"));
+        IDataSet dataSet = new FlatXmlDataSetBuilder().build(new FileInputStream("timesheetDataSet\\initialDataset.xml"));
         DatabaseOperation.CLEAN_INSERT.execute(connection, dataSet);
     }
 
@@ -85,6 +85,7 @@ public class TimesheetDaoTest {
         Assertion.assertEquals(expectedDataSet, actualDataSet);
         Assert.assertEquals(expectedDataSet.getTable(table).getRowCount(), timesheets.size());
     }
+
 
     @Test
     public void findById() throws SQLException, FileNotFoundException, DatabaseUnitException {
