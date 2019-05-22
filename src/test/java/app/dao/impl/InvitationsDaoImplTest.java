@@ -77,7 +77,6 @@ public class InvitationsDaoImplTest extends DBTestCase {
         DatabaseOperation.CLEAN_INSERT.execute(connection, data);
     }
 
-
     protected IDatabaseConnection getMySqlConnection() throws Exception {
         IDatabaseConnection connection = super.getConnection();
         DatabaseConfig dbConfig = connection.getConfig();
@@ -117,6 +116,7 @@ public class InvitationsDaoImplTest extends DBTestCase {
             IDataSet iDataSet = new FlatXmlDataSetBuilder().build(getClass().getClassLoader()
                     .getResourceAsStream("app/dao/impl/invitationDataSet/delete-dataset.xml"));
             ITable iTable = iDataSet.getTable(table);
+
             IDataSet actualDataSet = getMySqlConnection().createDataSet();
             ITable actualITable = actualDataSet.getTable(table);
             Assertion.assertEquals(iTable, actualITable);
@@ -241,8 +241,10 @@ public class InvitationsDaoImplTest extends DBTestCase {
             IDataSet iDataSet = new FlatXmlDataSetBuilder().build(getClass().getClassLoader()
                     .getResourceAsStream(""));
             ITable iTable = iDataSet.getTable(table);
+
             IDataSet actualIDataSet = getMySqlConnection().createDataSet();
             ITable actualITable = actualIDataSet.getTable(table);
+
             Assertion.assertEquals(iTable, actualITable);
         } catch (DataSetException e) {
             e.printStackTrace();
