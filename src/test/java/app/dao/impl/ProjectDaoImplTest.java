@@ -88,8 +88,6 @@ public class ProjectDaoImplTest {
     @Test
     public void findAllTest() throws SQLException, DatabaseUnitException, FileNotFoundException {
         List<Project> projects = projectBasicCrudDao.findAll();
-
-
         IDataSet expectedData = new FlatXmlDataSetBuilder().build(new FileInputStream("D:\\Alena\\J2EE_projects\\TimesheetManagement\\src\\test\\resources\\app\\dao\\impl\\projectDataSet\\inputDb.xml"));
         IDataSet actualData = connection.createDataSet();
         Assertion.assertEquals(expectedData, actualData);

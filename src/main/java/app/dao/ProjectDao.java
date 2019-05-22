@@ -9,7 +9,7 @@ import java.util.List;
 
 @Repository
 public interface ProjectDao extends BasicCrudDao<Project> {
-    Project findByCompanyId(int companyId);
+    //Project findByCompanyId(int companyId);
 
     Project findByAssignmentId(int id);
 
@@ -17,5 +17,5 @@ public interface ProjectDao extends BasicCrudDao<Project> {
 
     List<Employee> getProjectTeam(int id);
 
-    List<ProjectPage> getProjectData(int companyId);
+    List<Project> getProjectData(int companyId);
 }

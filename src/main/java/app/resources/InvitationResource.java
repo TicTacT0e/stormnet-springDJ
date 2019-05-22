@@ -25,33 +25,31 @@ public class InvitationResource {
     private BasicCrudDao<Invitation> basicCrudDao;
 
     @GET
-    @Path("/all")
     @Produces(MediaType.APPLICATION_JSON)
-    public List<Invitation> getAll() {
+    public List<Invitation> findAll() {
         return basicCrudDao.findAll();
     }
 
     @GET
-    @Path("/{id}")
+    @Path("/{invitationId}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Invitation get(@PathParam("id") int id) {
-        return (Invitation) basicCrudDao.findById(id);
+    public Invitation findById(@PathParam("invitationId") int invitationId) {
+        return basicCrudDao.findById(invitationId);
     }
 
     @POST
-    @Path("/add")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response add(Invitation invitation) {
+    public Response create(Invitation invitation) {
         basicCrudDao.create(invitation);
         return Response.status(Response.Status.CREATED.getStatusCode()).build();
     }
 
     @PUT
-    @Path("/edit/{id}")
+    @Path("/{invitationId}")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response edit(@PathParam("id") int id,
+    public Response update(@PathParam("invitationId") int invitationId,
                          Invitation invitation) {
-        if (id != invitation.getId()) {
+        if (invitationId != invitation.getId()) {
             return Response.status(Response.Status.CONFLICT.getStatusCode())
                     .build();
         }
@@ -60,10 +58,17 @@ public class InvitationResource {
     }
 
     @DELETE
-    @Path("/delete/{id}")
+    @Path("/{invitationId}")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response delete(@PathParam("id") int id) {
-        basicCrudDao.deleteById(id);
+    public Response deleteById(@PathParam("invitationId") int invitationId) {
+        basicCrudDao.deleteById(invitationId);
+        return Response.status(Response.Status.OK.getStatusCode()).build();
+    }
+
+    @DELETE
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response deleteById(Invitation invitation) {
+        basicCrudDao.delete(invitation);
         return Response.status(Response.Status.OK.getStatusCode()).build();
     }
 }
