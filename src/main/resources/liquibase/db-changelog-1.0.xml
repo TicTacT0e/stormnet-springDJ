@@ -46,8 +46,8 @@
 
     <changeSet id="5" author="Igor_Kraskovski">
         <renameTable catalogName="Timesheetmanager"
-                     newTableName="Activities"
-                     oldTableName="Activity"/>
+                     newTableName= "Activities"
+                     oldTableName= "Activity"/>
     </changeSet>
 
     <changeSet id="6" author="Igor_Kraskovski">
