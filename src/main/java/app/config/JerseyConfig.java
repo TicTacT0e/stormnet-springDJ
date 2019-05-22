@@ -10,6 +10,7 @@ import app.resources.ProjectResource;
 import app.resources.ProjectVersionResource;
 import app.resources.SettingsResource;
 import app.resources.TimesheetResource;
+import io.swagger.v3.jaxrs2.integration.resources.OpenApiResource;
 import org.glassfish.jersey.server.ResourceConfig;
 
 import javax.ws.rs.ApplicationPath;
@@ -28,5 +29,7 @@ public class JerseyConfig extends ResourceConfig {
         register(InvitationResource.class);
         register(SettingsResource.class);
         register(TimesheetResource.class);
+        OpenApiResource openApiResource = new OpenApiResource();
+        register(openApiResource);
     }
 }

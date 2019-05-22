@@ -2,6 +2,11 @@ package app.resources;
 
 import app.dao.BasicCrudDao;
 import app.entities.Assignment;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -33,7 +38,32 @@ public class AssignmentResource {
     @GET
     @Path("/{assignmentId}")
     @Produces(MediaType.APPLICATION_JSON)
+    @Operation(summary = "Find pet by ID",
+            tags =
+                    {
+                            "Assignment"
+                    },
+            description = "Some description",
+            responses =
+                    {
+                            @ApiResponse(description = "The pet", content = @Content(
+                                    schema = @Schema(implementation = Assignment.class)
+                            )),
+                            @ApiResponse(responseCode = "400", description = "Invalid ID supplied"),
+                            @ApiResponse(responseCode = "404", description = "Pet not found")
+                    }
+    )
+
     public Assignment get(
+            @Parameter(
+                    description = "ID",
+                    schema = @Schema(
+                            type = "integer",
+                            format = "int64",
+                            description = "param ID",
+                            allowableValues = {"1", "2", "3"}
+                    ),
+                    required = true)
             @PathParam("assignmentId") int assignmentId
     ) {
         return basicCrudDao.findById(assignmentId);
