@@ -10,6 +10,3 @@ public class ProjectDaoImpl extends BasicCrudDaoImpl<Project> {
 
 
 
-
-
-
