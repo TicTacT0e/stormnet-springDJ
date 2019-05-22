@@ -112,6 +112,4 @@
                         tableName="Timesheets"/>
     </changeSet>
 
-
-
 </databaseChangeLog>
