@@ -17,7 +17,6 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import java.io.FileInputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -27,48 +26,50 @@ import java.sql.SQLException;
 @TestPropertySource(locations = {"classpath:project.properties"})
 public class ConnectionForTests {
 
-    public static final String schema = "timesheet_dev";
-    protected static IDatabaseConnection connection;
+	public static final String schema = "Timesheetmanager";
+	protected static IDatabaseConnection connection;
 
-    @Value("${jdbc.driver}")
-    private String driver;
-    @Value("${db.url}")
-    private String url;
-    @Value("${db.username}")
-    private String username;
-    @Value("${db.password}")
-    private String password;
+	@Value("${jdbc.driver}")
+	private String driver;
+	@Value("${db.url}")
+	private String url;
+	@Value("${db.username}")
+	private String username;
+	@Value("${db.password}")
+	private String password;
 
-    public String pathToInitialFile;
+	public String pathToInitialFile;
 
-    public ConnectionForTests(String pathToInitialFile) {
-        this.pathToInitialFile = pathToInitialFile;
-    }
+	public ConnectionForTests(String pathToInitialFile) {
+		this.pathToInitialFile = pathToInitialFile;
+	}
 
 
-    private Connection getConnection() {
-        try {
-            Class.forName(driver);
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-        try {
-            return DriverManager.getConnection(url, username, password);
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
+	private Connection getConnection() {
+		try {
+			Class.forName(driver);
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		try {
+			return DriverManager.getConnection(url, username, password);
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
 
-    @Before
-    public void setUp() throws Exception {
-        connection = new MySqlConnection(getConnection(), schema);
-        IDataSet dataSet = new FlatXmlDataSetBuilder().build(new FileInputStream(pathToInitialFile));
-        DatabaseOperation.CLEAN_INSERT.execute(connection, dataSet);
-    }
+	@Before
+	public void setUp() throws Exception {
+		connection = new MySqlConnection(getConnection(), schema);
+		IDataSet dataSet = new FlatXmlDataSetBuilder().build(getClass()
+				.getClassLoader()
+				.getResourceAsStream(pathToInitialFile));
+		DatabaseOperation.CLEAN_INSERT.execute(connection, dataSet);
+	}
 
-    @After
-    public void tearDown() throws SQLException {
-        connection.close();
-    }
+	@After
+	public void tearDown() throws SQLException {
+		connection.close();
+	}
 }

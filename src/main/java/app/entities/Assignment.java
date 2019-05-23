@@ -8,25 +8,25 @@ import javax.persistence.Table;
 import java.util.Objects;
 
 @Entity
-@Table(name = "Assignment")
+@Table(name = "Assignments")
 public class Assignment {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private int projectId;
-    private int employeeId;
+    private int partnerId;
     private int activityId;
     private int workLoad;
 
     public Assignment() {
     }
 
-    public Assignment(int id, int projectId, int employeeId,
+    public Assignment(int id, int projectId, int partnerId,
                       int activityId, int workLoad) {
         this.id = id;
         this.projectId = projectId;
-        this.employeeId = employeeId;
+        this.partnerId = partnerId;
         this.activityId = activityId;
         this.workLoad = workLoad;
     }
@@ -35,7 +35,7 @@ public class Assignment {
         this(
                 assigment.getId(),
                 assigment.getProjectId(),
-                assigment.getEmployeeId(),
+                assigment.getPartnerId(),
                 assigment.getActivityId(),
                 assigment.getWorkLoad()
         );
@@ -49,12 +49,12 @@ public class Assignment {
         this.projectId = projectId;
     }
 
-    public int getEmployeeId() {
-        return employeeId;
+    public int getPartnerId() {
+        return partnerId;
     }
 
-    public void setEmployeeId(int employeeId) {
-        this.employeeId = employeeId;
+    public void setPartnerId(int partnerId) {
+        this.partnerId = partnerId;
     }
 
     public int getWorkLoad() {
