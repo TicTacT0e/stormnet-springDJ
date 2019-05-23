@@ -92,7 +92,11 @@ public class Employee {
         this.projects = projects;
     }
 
-    @Override
+    public void assignToProject(Project project) {
+            projects.add(project);
+    }
+
+        @Override
     public boolean equals(Object object) {
         if (this == object) {
             return true;
