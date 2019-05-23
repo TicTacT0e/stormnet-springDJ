@@ -33,11 +33,16 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = {DaoConfig.class, PropertyConfig.class, HibernateConfig.class, ApplicationInitializer.class})
 public class ProjectDaoImplTest {
+
+    static {
+        TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
+    }
 
     @Autowired
     protected BasicCrudDao<Project> projectBasicCrudDao;
@@ -75,7 +80,6 @@ public class ProjectDaoImplTest {
     @Before
     public void setUp() throws Exception {
         connection = new MySqlConnection(getConnection(), schema);
-
         IDataSet data = new FlatXmlDataSetBuilder().build(new FileInputStream("D:\\Alena\\J2EE_projects\\TimesheetManagement\\src\\test\\resources\\app\\dao\\impl\\projectDataSet\\inputDb.xml"));
         DatabaseOperation.CLEAN_INSERT.execute(connection, data);
     }
@@ -99,16 +103,16 @@ public class ProjectDaoImplTest {
         Project project = projectBasicCrudDao.findById(1);
         IDataSet expectedData = new FlatXmlDataSetBuilder().build(new FileInputStream("D:\\Alena\\J2EE_projects\\TimesheetManagement\\src\\test\\resources\\app\\dao\\impl\\projectDataSet\\inputDb.xml"));
         IDataSet actualData = connection.createDataSet();
-        String expectedTitleOfProject = (String) expectedData.getTable(table).getValue(1, "id");
+        String expectedTitleOfProject = (String) expectedData.getTable(table).getValue(0, "name");
         Assertion.assertEquals(expectedData, actualData);
         Assert.assertEquals(expectedTitleOfProject, project.getName());
     }
 
     @Test
     public void updateTest() throws SQLException, FileNotFoundException, DatabaseUnitException {
-        Date startDate = parseDate("2019-07-01");
-        Date endDate = parseDate("2020-07-01");
-        projectBasicCrudDao.update(new Project(7, 77, "project_7", "logo7", startDate, endDate, 70, "007", "orange", "description7"));
+        Date startDate = parseDate("2019-01-19");
+        Date endDate = parseDate("2020-01-19");
+        projectBasicCrudDao.update(new Project(2, 22, "project_2", "logo2", startDate, endDate, 20, "002", "grey", "description2"));
         IDataSet actualData = connection.createDataSet();
         IDataSet expectedData = new FlatXmlDataSetBuilder().build(new FileInputStream("D:\\Alena\\J2EE_projects\\TimesheetManagement\\src\\test\\resources\\app\\dao\\impl\\projectDataSet\\updateDb.xml"));
         Assertion.assertEquals(expectedData, actualData);

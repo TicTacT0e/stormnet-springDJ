@@ -31,7 +31,7 @@ public class ProjectResource {
     @GET
     @Path("/info/{companyId}")
     @Produces(MediaType.APPLICATION_JSON)
-    public List<Project> getInfo(@PathParam("companyId") int companyId) {
+    public ProjectPage getInfo(@PathParam("companyId") int companyId) {
         return projectPageDao.getProjectData(companyId);
     }
 

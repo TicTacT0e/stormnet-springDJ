@@ -19,25 +19,10 @@ import java.util.List;
 public class ProjectDaoImpl extends BasicCrudDaoImpl<Project> implements ProjectDao {
 
     @Autowired
-    private BasicCrudDao<Assignment> assignmentBasicCrudDao;
-    @Autowired
-    private ProjectDao logsProjectDao;
-    @Autowired
-    private ProjectDao projectDao;
-    @Autowired
     private SessionFactory sessionFactory;
 
     private static final String FIND_BY_ASSIGNMENT_ID_QUERY = "select id from Logs logs join Assignment assign on logs.assignmentId = assign.id";
     private static final String GET_PROJECT_TEAM_QUERY = "select employeeId from Assignment assign join Project proj on assign.projectId = proj.id where proj.id =:id";
-
-//    @Override
-//    public Project findByCompanyId(int companyId) {
-//        Project project = sessionFactory.getCurrentSession().get(Project.class, companyId);
-//        if (project == null) {
-//            throw new EntityNotFoundException();
-//        }
-//        return project;
-//    }
 
     @Override
     public Project findByAssignmentId(int id) {
@@ -45,17 +30,22 @@ public class ProjectDaoImpl extends BasicCrudDaoImpl<Project> implements Project
         return project;
     }
 
-    public long countActualProjectTime(int id) {
-        List<Assignment> assignments = assignmentBasicCrudDao.findAll();
-        long sumLogs = 0;
-        for (Assignment assign : assignments) {
-            List<Log> logs = (List<Log>) logsProjectDao.findByAssignmentId(assign.getId());
-            for (Log log : logs) {
-                sumLogs += log.getTime();
-            }
-        }
-        return sumLogs;
+    @Override
+    public Long countActualProjectTime(int id) {
+        Query query = sessionFactory.getCurrentSession().createQuery("SELECT projectId, SUM(time) from Logs log join Assignment assign on log.assignmentId = assign.id where assign.projectId = " + id + "group by projectId");
+        query.setParameter("id", id);
+        return convertListToLong(query.getResultList());
     }
+
+//        List<Assignment> assignments = assignmentBasicCrudDao.findAll();
+//        long sumLogs = 0;
+//        for (Assignment assign : assignments) {
+//            List<Log> logs = (List<Log>) projectDao.findByAssignmentId(assign.getId());
+//            for (Log log : logs) {
+//                sumLogs += log.getTime();
+//            }
+//        }
+//        return sumLogs;}
 
     @Override
     public List<Employee> getProjectTeam(int id) {
@@ -64,22 +54,37 @@ public class ProjectDaoImpl extends BasicCrudDaoImpl<Project> implements Project
         return query.getResultList();
     }
 
+//    @Override
+//    public Integer findByCompanyId(int companyId) {
+//        Project project = sessionFactory.getCurrentSession().get(Project.class, companyId);
+//        if (project == null) {
+//            throw new EntityNotFoundException();
+//        }
+//        return project.getCompanyId();
+//    }
+
     @Override
-    public List<Project> getProjectData(int companyId) {
-        List<ProjectPage> projectPageList = new LinkedList<>();
+    public ProjectPage getProjectData(int companyId) {
         Query query = sessionFactory.getCurrentSession().createQuery("from Project where companyId = " + companyId);
         List<Project> projects = query.getResultList();
         ProjectPage projectPage = null;
-        for (int i = 0; i < projects.size(); i++) {
+        for (int i = 1; i < projects.size(); i++) {
             projectPage.setProjectColor(projects.get(i).getColor());
             projectPage.setProjectName(projects.get(i).getName());
             projectPage.setProjectCode(projects.get(i).getCode());
             projectPage.setProjectStartDate(projects.get(i).getStartDate());
             projectPage.setTeam(getProjectTeam(i));
             projectPage.setProjectLoading(countActualProjectTime(i));
-            projectPageList.add(projectPage);
         }
-        return projects;
+        return projectPage;
+    }
+
+    public long convertListToLong(List<Long> list) {
+        long sumLogs = 0;
+        for (Long l : list) {
+            sumLogs += l;
+        }
+        return sumLogs;
     }
 }
 

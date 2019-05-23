@@ -12,13 +12,8 @@ public class Project {
     private int companyId;
     private String name;
     private String logoUrl;
-
-    @Temporal(TemporalType.DATE)
     private Date startDate;
-
-    @Temporal(TemporalType.DATE)
     private Date endDate;
-
     private long manHours;
     private String code;
     private String color;

@@ -1,6 +1,8 @@
 package app.entities;
 
 import javax.persistence.CollectionTable;
+import javax.persistence.ElementCollection;
+import javax.persistence.JoinColumn;
 import java.util.Date;
 import java.util.List;
 
@@ -8,7 +10,8 @@ public class ProjectPage {
     private String projectColor;
     private String projectName;
     private String projectCode;
-    @CollectionTable()
+    @ElementCollection
+    @CollectionTable(name = "Employee", joinColumns = @JoinColumn(name = "Project"))
     private List<Employee> team;
     private Date projectStartDate;
     private long projectLoading;
