@@ -4,7 +4,6 @@ import app.dao.BasicCrudDao;
 import app.entities.Timesheet;
 import org.dbunit.Assertion;
 import org.dbunit.DatabaseUnitException;
-import org.dbunit.dataset.IDataSet;
 import org.dbunit.dataset.ITable;
 import org.dbunit.dataset.xml.FlatXmlDataSetBuilder;
 import org.junit.Assert;
@@ -30,23 +29,23 @@ public class TimesheetDaoTest extends ConnectionForTests {
 	@Test
 	public void testFindAll() throws SQLException, DatabaseUnitException {
 		List<Timesheet> timesheets = basicCrudDao.findAll();
-		IDataSet expectedDataSet = new FlatXmlDataSetBuilder().build(getClass()
+		ITable expectedDataSet = new FlatXmlDataSetBuilder().build(getClass()
 				.getClassLoader()
-				.getResourceAsStream("app/dao/impl/timesheetDataSet/initialDataset.xml"));
-		IDataSet actualDataSet = connection.createDataSet();
+				.getResourceAsStream("app/dao/impl/timesheetDataSet/initialDataset.xml")).getTable(table);
+		ITable actualDataSet = connection.createDataSet().getTable(table);
 		Assertion.assertEquals(expectedDataSet, actualDataSet);
-		Assert.assertEquals(expectedDataSet.getTable(table).getRowCount(), timesheets.size());
+		Assert.assertEquals(expectedDataSet.getRowCount(), timesheets.size());
 	}
 
 
 	@Test
 	public void findById() throws SQLException, DatabaseUnitException {
 		Timesheet timesheet = basicCrudDao.findById(2);
-		IDataSet expectedDataSet = new FlatXmlDataSetBuilder().build(getClass()
+		ITable expectedDataSet = new FlatXmlDataSetBuilder().build(getClass()
 				.getClassLoader()
-				.getResourceAsStream("app/dao/impl/timesheetDataSet/initialDataset.xml"));
-		IDataSet actualDataSet = connection.createDataSet();
-		String expectedperiodId = (String) expectedDataSet.getTable(table).getValue(1, "periodId");
+				.getResourceAsStream("app/dao/impl/timesheetDataSet/initialDataset.xml")).getTable(table);
+		ITable actualDataSet = connection.createDataSet().getTable(table);
+		String expectedperiodId = (String) expectedDataSet.getValue(1, "periodId");
 		String actualPeriodId = String.valueOf(timesheet.getPeriodId());
 		Assertion.assertEquals(expectedDataSet, actualDataSet);
 		Assert.assertEquals(expectedperiodId, actualPeriodId);

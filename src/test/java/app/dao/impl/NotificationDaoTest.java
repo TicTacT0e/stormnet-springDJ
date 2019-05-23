@@ -4,7 +4,6 @@ import app.dao.BasicCrudDao;
 import app.entities.Notification;
 import org.dbunit.Assertion;
 import org.dbunit.DatabaseUnitException;
-import org.dbunit.dataset.IDataSet;
 import org.dbunit.dataset.ITable;
 import org.dbunit.dataset.xml.FlatXmlDataSetBuilder;
 import org.junit.Assert;
@@ -32,23 +31,23 @@ public class NotificationDaoTest extends ConnectionForTests {
 	@Test
 	public void testFindAll() throws SQLException, DatabaseUnitException {
 		List<Notification> notifications = notificationDao.findAll();
-		IDataSet expectedDataSet = new FlatXmlDataSetBuilder().build(getClass()
+		ITable expectedDataSet = new FlatXmlDataSetBuilder().build(getClass()
 				.getClassLoader()
-				.getResourceAsStream("app/dao/impl/notificationDataSet/input.xml"));
-		IDataSet actualDataSet = connection.createDataSet();
+				.getResourceAsStream("app/dao/impl/notificationDataSet/input.xml")).getTable(table);
+		ITable actualDataSet = connection.createDataSet().getTable(table);
 		Assertion.assertEquals(expectedDataSet, actualDataSet);
-		Assert.assertEquals(expectedDataSet.getTable(table).getRowCount(), notifications.size());
+		Assert.assertEquals(expectedDataSet.getRowCount(), notifications.size());
 	}
 
 
 	@Test
 	public void findById() throws SQLException, DatabaseUnitException {
 		Notification notification = notificationDao.findById(2);
-		IDataSet expectedDataSet = new FlatXmlDataSetBuilder().build(getClass()
+		ITable expectedDataSet = new FlatXmlDataSetBuilder().build(getClass()
 				.getClassLoader()
-				.getResourceAsStream("app/dao/impl/notificationDataSet/input.xml"));
-		IDataSet actualDataSet = connection.createDataSet();
-		String expectedTitleOfNotification = (String) expectedDataSet.getTable(table).getValue(1, "title");
+				.getResourceAsStream("app/dao/impl/notificationDataSet/input.xml")).getTable(table);
+		ITable actualDataSet = connection.createDataSet().getTable(table);
+		String expectedTitleOfNotification = (String) expectedDataSet.getValue(1, "title");
 		Assertion.assertEquals(expectedDataSet, actualDataSet);
 		Assert.assertEquals(expectedTitleOfNotification, notification.getTitle());
 	}
