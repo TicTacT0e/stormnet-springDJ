@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-
-<dataset>
-    <employee id="1" name="Max" photo="MaxPhotoUrl" email="max@mail.ru" />
-    <employee id="2" name="Sergey" photo="SergeyPhotoUrl" email="sergey@mail.ru" />
-    <employee id="3" name="Valia" photo="ValiaPhotoUrl" email="valia@gmail.by"/>
-</dataset>
