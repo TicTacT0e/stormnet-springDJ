@@ -15,18 +15,18 @@ public class Assignment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private int projectId;
-    private int partnerId;
+    private int employeeId;
     private int activityId;
     private int workLoad;
 
     public Assignment() {
     }
 
-    public Assignment(int id, int projectId, int partnerId,
+    public Assignment(int id, int projectId, int employeeId,
                       int activityId, int workLoad) {
         this.id = id;
         this.projectId = projectId;
-        this.partnerId = partnerId;
+        this.employeeId = employeeId;
         this.activityId = activityId;
         this.workLoad = workLoad;
     }
@@ -35,7 +35,7 @@ public class Assignment {
         this(
                 assigment.getId(),
                 assigment.getProjectId(),
-                assigment.getPartnerId(),
+                assigment.getEmployeeId(),
                 assigment.getActivityId(),
                 assigment.getWorkLoad()
         );
@@ -49,12 +49,12 @@ public class Assignment {
         this.projectId = projectId;
     }
 
-    public int getPartnerId() {
-        return partnerId;
+    public int getEmployeeId() {
+        return employeeId;
     }
 
-    public void setPartnerId(int partnerId) {
-        this.partnerId = partnerId;
+    public void setEmployeeId(int employeeId) {
+        this.employeeId = employeeId;
     }
 
     public int getWorkLoad() {
