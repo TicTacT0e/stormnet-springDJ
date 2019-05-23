@@ -47,7 +47,7 @@ public class AssignmentDaoImplTests extends DBTestCase {
     private String username;
     @Value("${db.password}")
     private String password;
-    private static final String SCHEMA = "Timesheetmanager";
+    private static final String SCHEMA = "timesheet_dev";
     private static final String ASSIGNMENT_TABLE = "Assignments";
 
     private static final int NUMBER_OF_FIRST_ROW = 0;

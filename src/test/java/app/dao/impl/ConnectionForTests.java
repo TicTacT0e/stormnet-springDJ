@@ -45,8 +45,6 @@ public class ConnectionForTests {
         this.pathToInitialFile = pathToInitialFile;
     }
 
-    public ConnectionForTests() {
-    }
 
     private Connection getConnection() {
         try {

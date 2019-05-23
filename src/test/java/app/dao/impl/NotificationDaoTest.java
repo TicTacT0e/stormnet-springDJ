@@ -25,9 +25,6 @@ public class NotificationDaoTest extends ConnectionForTests {
     private String table = "Notification";
     private String[] columnsToIgnore = {"createdAt"};
 
-//    public NotificationDaoTest(String pathToInitialFile) {
-//        super("src\\test\\resources\\app\\dao\\impl\\notificationDataSet\\input.xml");
-//    }
 
     public NotificationDaoTest() {
         super("src\\test\\resources\\app\\dao\\impl\\notificationDataSet\\input.xml");
