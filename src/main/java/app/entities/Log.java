@@ -3,6 +3,7 @@ package app.entities;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.OrderColumn;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
@@ -18,9 +19,14 @@ public class Log {
     private Long id;
 
     private Integer assignmentId;
+
     private Double time;
+
+    @OrderColumn(name = "rowCount")
     private Integer rowCount;
+
     private String comment;
+
     private Timestamp date;
 
 

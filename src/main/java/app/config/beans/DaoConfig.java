@@ -2,8 +2,10 @@ package app.config.beans;
 
 
 import app.dao.BasicCrudDao;
+import app.dao.LogDao;
 import app.dao.impl.ActivityDaoImpl;
 import app.dao.impl.AssignmentDaoImpl;
+import app.dao.impl.BasicCrudDaoImpl;
 import app.dao.impl.CompanyDaoImpl;
 import app.dao.impl.EmployeeDaoImpl;
 import app.dao.impl.IntegrationDaoImpl;
@@ -41,8 +43,9 @@ public class DaoConfig {
         return new EmployeeDaoImpl();
     }
 
+
     @Bean
-    public BasicCrudDao<Log> getLogsDao() {
+    public LogDao getLogsDao() {
         return new LogsDaoImpl();
     }
 

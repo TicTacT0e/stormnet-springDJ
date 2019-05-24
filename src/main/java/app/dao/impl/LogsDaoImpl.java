@@ -1,5 +1,6 @@
 package app.dao.impl;
 
+import app.dao.LogDao;
 import app.entities.Log;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -8,56 +9,62 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
+import java.util.Date;
 import java.util.List;
-import java.util.NoSuchElementException;
 
 @Repository
 @Transactional
-public class LogsDaoImpl extends BasicCrudDaoImpl<Log> {
+public class LogsDaoImpl extends BasicCrudDaoImpl<Log> implements LogDao {
 
     @Autowired
-    SessionFactory sessionFactory;
-    private Class<? extends Log> daoType;
+    private SessionFactory sessionFactory;
 
+
+    private static final String FIND_BY_DAY = " FROM Log WHERE date = CURRENT_DATE()";
+    private static final String FIND_BY_WEEK = "FROM Log WHERE date BETWEEN (CURDATE() - INTERVAL 1 WEEK - INTERVAL WEEKDAY(CURDATE()) DAY)  AND(CURDATE() - INTERVAL WEEKDAY(CURDATE())\n" +
+            " DAY -INTERVAL 1 SECOND)GROUP BY date";
+    private static final String FIND_BY_PERIOD = "FROM Log WHERE date BETWEEN :startDate AND :EndDate";
 
     @Override
-    public Log findById(int id) {
-        Log entity = sessionFactory.getCurrentSession().get(daoType, id);
-        if (entity == null) {
-            throw new NoSuchElementException();
+    public void createLog(List<Log> logs) {
+        Session session = sessionFactory.getCurrentSession();
+        for (Log entity : logs) {
+            session.save(entity);
         }
-        return entity;
     }
 
+    //SELECT * FROM orders WHERE MONTHNAME(order_delivery) = 'April'
+    //mysql> SELECT * FROM orders WHERE order_delivery BETWEEN '2018-05-01' AND '2018-06-01';
+
     @Override
-    public List<Log> findAll() {
-        Query query
-                = sessionFactory.getCurrentSession()
-                .createQuery("from app.entities.Log");
+    public List<Log> findByDay() {
+        Query query = sessionFactory.getCurrentSession()
+                .createQuery(FIND_BY_DAY);
         return query.getResultList();
     }
 
     @Override
-    public void deleteById(int id) {
-        Session session = sessionFactory.getCurrentSession();
-        Log entity = session.load(daoType, id);
-        session.delete(entity);
+    public List<Log> findByWeek() {
+        Query query = sessionFactory.getCurrentSession()
+                .createQuery(FIND_BY_WEEK);
+        return query.getResultList();
+
     }
 
     @Override
-    public void create(Log entity) {
-        sessionFactory.getCurrentSession().save(entity);
+    public List<Log> findByPeriod(Date periodFrom, Date periodTo) {
+        Query query = sessionFactory.getCurrentSession()
+                .createQuery(FIND_BY_PERIOD);
+        query.setParameter("startDate", periodFrom);
+        query.setParameter("EndDate", periodTo);
+        return query.getResultList();
     }
 
-    @Override
-    public void delete(Log entity) {
-        sessionFactory.getCurrentSession().delete(entity);
-    }
-
-    @Override
-    public void update(Log entity) {
-        sessionFactory.getCurrentSession().update(entity);
-    }
+        /*String test = String.valueOf(timestamp);
+        test = test.substring(0,7);
+        test = test + "-%";
+        Query query = session.createQuery("from ProductEntity where date like :datq");
+        query.setString("datq",test);
+        resultList = query.list();
+        return logs;    }*/
 }
