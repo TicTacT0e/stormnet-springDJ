@@ -282,9 +282,12 @@
                 <version>${liquibase.version}</version>
                 <configuration>
                     <driver>${jdbc.driver}</driver>
-                    <url>${db.url}</url>
-                    <password>${db.password}</password>
-                    <username>${db.username}</username>
+<!--                    <url>${db.url}</url>-->
+<!--                    <password>${db.password}</password>-->
+<!--                    <username>${db.username}</username>-->
+                    <url>jdbc:mysql://localhost:3306/timesheet_dev?useUnicode=true&amp;useJDBCCompliantTimezoneShift=true&amp;useLegacyDatetimeCode=false&amp;serverTimezone=UTC&amp;useSSL=false</url>
+                    <password>admin</password>
+                    <username>root</username>
                     <changeLogFile>liquibase/db-changelog-master.xml</changeLogFile>
                 </configuration>
             </plugin>
