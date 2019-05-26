@@ -44,15 +44,13 @@ public class LogsResource {
     }
 
     @GET
-    @Path("/period")
+    @Path("/{periodFrom}/{periodTo}")
     @Produces(MediaType.APPLICATION_JSON)
-    public List<Log> getPeriod(@RequestParam Date periodFrom,
-                               @RequestParam Date periodTo) {
+    public List<Log> getPeriod(@PathParam("periodFrom") Timestamp periodFrom,
+                               @PathParam ("periodTo") Timestamp periodTo) {
 
         return logsDao.findByPeriod(periodFrom, periodTo);
     }
-
-
 
     /*@GET
     @Path("/day")
@@ -81,7 +79,7 @@ public class LogsResource {
     @Consumes(MediaType.APPLICATION_JSON)
     public  List<Log> add(List<Log> logs) {
         logsDao.createLog(logs);
-        return logsDao.findByDay();
+        return logsDao.findAll();
     }
 
     @DELETE

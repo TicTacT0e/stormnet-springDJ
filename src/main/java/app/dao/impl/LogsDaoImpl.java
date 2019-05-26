@@ -8,6 +8,9 @@ import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.sql.Timestamp;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -52,11 +55,13 @@ public class LogsDaoImpl extends BasicCrudDaoImpl<Log> implements LogDao {
     }
 
     @Override
-    public List<Log> findByPeriod(Date periodFrom, Date periodTo) {
+    public List<Log> findByPeriod(Timestamp periodFrom, Timestamp periodTo) {
+
         Query query = sessionFactory.getCurrentSession()
                 .createQuery(FIND_BY_PERIOD);
         query.setParameter("startDate", periodFrom);
         query.setParameter("EndDate", periodTo);
+
         return query.getResultList();
     }
 

@@ -3,6 +3,7 @@ package app.dao;
 import app.entities.Log;
 import org.springframework.stereotype.Repository;
 
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 
@@ -15,5 +16,5 @@ public interface LogDao extends BasicCrudDao<Log>{
 
     List<Log> findByWeek();
 
-    List<Log> findByPeriod(Date periodFrom, Date periodTo);
+    List<Log> findByPeriod(Timestamp periodFrom, Timestamp periodTo);
 }
