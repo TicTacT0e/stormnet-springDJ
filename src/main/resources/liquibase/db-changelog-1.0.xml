@@ -31,13 +31,4 @@
             </createTable>
         </rollback>
     </changeSet>
-    
-    <changeSet id="3" author="TictacToe">
-        <insert tableName="Activity"
-                >
-            <column name="id" value="8"> </column>
-            <column name="name" value="some">
-            </column>
-        </insert>
-    </changeSet>
 </databaseChangeLog>
