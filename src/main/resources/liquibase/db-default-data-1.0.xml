@@ -4,7 +4,7 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
 
-    <changeSet id="3" author="Yuri Dolgushev" runAlways="true">
+    <changeSet id="default_db_data" author="Yuri Dolgushev" runAlways="true">
         <sql>
             insert into Timesheetmanager.Users
             (id, name, phone, email, photoUrl)
@@ -127,6 +127,50 @@
             code = 112,
             color = 'red',
             description = 'awesome project';
+        </sql>
+        <sql>
+            insert into Timesheetmanager.Activity
+            (id, name)
+            values (1, 'Senior JSON developer')
+            on duplicate key update
+            name = 'Senior JSON developer';
+        </sql>
+        <sql>
+            insert into Timesheetmanager.Activity
+            (id, name)
+            values (2, 'Senior Bugs developer')
+            on duplicate key update
+            name = 'Senior Bugs developer';
+        </sql>
+        <sql>
+            insert into Timesheetmanager.Assignments
+            (id, employeeId, projectId, activityId, workLoad)
+            values (1, 3, 2, 2, 200)
+            on duplicate key update
+            employeeId = 3,
+            projectId = 2,
+            activityId = 2,
+            workLoad = 200;
+        </sql>
+        <sql>
+            insert into Timesheetmanager.Assignments
+            (id, employeeId, projectId, activityId, workLoad)
+            values (2, 1, 2, 1, 300)
+            on duplicate key update
+            employeeId = 1,
+            projectId = 2,
+            activityId = 1,
+            workLoad = 300;
+        </sql>
+        <sql>
+            insert into Timesheetmanager.Assignments
+            (id, employeeId, projectId, activityId, workLoad)
+            values (3, 2, 1, 1, 400)
+            on duplicate key update
+            employeeId = 2,
+            projectId = 1,
+            activityId = 1,
+            workLoad = 400;
         </sql>
     </changeSet>
 
