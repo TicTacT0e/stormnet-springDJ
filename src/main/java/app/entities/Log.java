@@ -1,75 +1,80 @@
 package app.entities;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
 import javax.persistence.Table;
-import java.util.Date;
-import java.util.Objects;
+import java.sql.Timestamp;
+import java.util.StringJoiner;
 
 @Entity
-@Table(name = "logs")
+@Table(name = "Logs")
 public class Log {
 
     @Id
-    private int id;
-    private int assignmentId;
-    private double time;
-    private int order;
+    @Column(name = "id")
+    private Integer id;
+
+    private Integer assignmentId;
+    private Double time;
+    private Integer rowCount;
     private String comment;
-    private Date date;
+    private Timestamp date;
 
     public Log() {
     }
 
-    public Log(int id, int assignmentId, double time, int order,
-               String comment, Date date) {
+    public Log(int id, int assignmentId, double time, int rowCount, String comment) {
         this.id = id;
         this.assignmentId = assignmentId;
         this.time = time;
-        this.order = order;
+        this.rowCount = rowCount;
         this.comment = comment;
         this.date = date;
     }
 
-    public Log(int assignmentId, double time, int order,
-               String comment, Date date) {
-        this.assignmentId = assignmentId;
-        this.time = time;
-        this.order = order;
-        this.comment = comment;
-        this.date = date;
+    @PrePersist
+    protected void onCreate() {
+        date = new Timestamp(new java.util.Date().getTime());
     }
 
-    public int getId() {
+    @PreUpdate
+    protected void onUpdate() {
+        date = new Timestamp(new java.util.Date().getTime());
+    }
+
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
-    public int getAssignmentId() {
+    public Integer getAssignmentId() {
         return assignmentId;
     }
 
-    public void setAssignmentId(int assignmentId) {
+    public void setAssignmentId(Integer assignmentId) {
         this.assignmentId = assignmentId;
     }
 
-    public double getTime() {
+    public Double getTime() {
         return time;
     }
 
-    public void setTime(double time) {
+    public void setTime(Double time) {
         this.time = time;
     }
 
-    public int getOrder() {
-        return order;
+    public Integer getRowCount() {
+        return rowCount;
     }
 
-    public void setOrder(int order) {
-        this.order = order;
+    public void setRowCount(Integer rowCount) {
+        this.rowCount = rowCount;
     }
 
     public String getComment() {
@@ -80,44 +85,23 @@ public class Log {
         this.comment = comment;
     }
 
-    public Date getDate() {
+    public Timestamp getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(Timestamp date) {
         this.date = date;
     }
 
     @Override
-    public boolean equals(Object object) {
-        if (this == object) {
-            return true;
-        }
-        if (object == null || getClass() != object.getClass()) {
-            return false;
-        }
-        Log logs = (Log) object;
-        return id == logs.id
-                && assignmentId == logs.assignmentId
-                && Double.compare(logs.time, time) == 0
-                && order == logs.order
-                && Objects.equals(comment, logs.comment)
-                && Objects.equals(date, logs.date);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, assignmentId, time, order, comment, date);
-    }
-
-    @Override
     public String toString() {
-        return "Log{"
-                + "assignmentId: " + assignmentId + ';'
-                + "order: " + order + ';'
-                + " time: " + time + ';'
-                + "comment: '" + comment + '\''
-                + " Date: " + date + ';'
-                + '}';
+        return new StringJoiner(", ", Log.class.getSimpleName() + "[", "]")
+                .add("id=" + id)
+                .add("assignmentId=" + assignmentId)
+                .add("time=" + time)
+                .add("rowCount=" + rowCount)
+                .add("comment='" + comment + "'")
+                .add("date=" + date)
+                .toString();
     }
 }
