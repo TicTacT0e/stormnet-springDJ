@@ -101,6 +101,31 @@ public class Log {
     }
 
     @Override
+<<<<<<< HEAD
+=======
+    public boolean equals(Object object) {
+        if (this == object) {
+            return true;
+        }
+        if (object == null || getClass() != object.getClass()) {
+            return false;
+        }
+        Log logs = (Log) object;
+        return id == logs.id
+                && assignmentId == logs.assignmentId
+                && Double.compare(logs.time, time) == 0
+                && order == logs.order
+                && Objects.equals(comment, logs.comment)
+                && Objects.equals(date, logs.date);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, assignmentId, time, order, comment, date);
+    }
+
+    @Override
+>>>>>>> master
     public String toString() {
         return new StringJoiner(", ", Log.class.getSimpleName() + "[", "]")
                 .add("id=" + id)

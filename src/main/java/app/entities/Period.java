@@ -52,10 +52,10 @@ public class Period {
 
     @Override
     public String toString() {
-        return "Period{" +
-                "id=" + id +
-                ", from=" + from +
-                ", to=" + to +
-                '}';
+        return "Period{"
+                + "id=" + id
+                + ", from=" + from
+                + ", to=" + to
+                + '}';
     }
 }

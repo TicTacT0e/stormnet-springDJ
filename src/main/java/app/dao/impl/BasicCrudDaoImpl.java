@@ -38,7 +38,8 @@ public class BasicCrudDaoImpl<T> implements BasicCrudDao<T> {
 
     @Override
     public List<T> findAll() {
-        return sessionFactory.getCurrentSession().createQuery("from " + daoType.getName()).getResultList();
+        return sessionFactory.getCurrentSession()
+                .createQuery("from " + daoType.getName()).getResultList();
     }
 
     @Override

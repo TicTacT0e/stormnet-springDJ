@@ -8,7 +8,6 @@ import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.util.Date;
 import java.util.List;
 
@@ -20,9 +19,10 @@ public class LogsDaoImpl extends BasicCrudDaoImpl<Log> implements LogDao {
     private SessionFactory sessionFactory;
 
 
-    private static final String FIND_BY_DAY = " FROM Log WHERE date = CURRENT_DATE()";
-    private static final String FIND_BY_WEEK = "FROM Log WHERE date BETWEEN (CURDATE() - INTERVAL 1 WEEK - INTERVAL WEEKDAY(CURDATE()) DAY)  AND(CURDATE() - INTERVAL WEEKDAY(CURDATE())\n" +
-            " DAY -INTERVAL 1 SECOND)GROUP BY date";
+    //private static final String FIND_BY_DAY = " FROM Log WHERE date = CURRENT_DATE()";
+   // private static final String FIND_BY_WEEK = "select * FROM Logs WHERE date BETWEEN (CURDATE() - INTERVAL 1 WEEK - INTERVAL WEEKDAY(CURDATE()) DAY)  AND(CURDATE() - INTERVAL WEEKDAY(CURDATE())\n" +
+   //         " DAY -INTERVAL 1 SECOND)GROUP BY date";
+
     private static final String FIND_BY_PERIOD = "FROM Log WHERE date BETWEEN :startDate AND :EndDate";
 
     @Override
@@ -39,14 +39,14 @@ public class LogsDaoImpl extends BasicCrudDaoImpl<Log> implements LogDao {
     @Override
     public List<Log> findByDay() {
         Query query = sessionFactory.getCurrentSession()
-                .createQuery(FIND_BY_DAY);
+                .createQuery(FIND_BY_PERIOD);
         return query.getResultList();
     }
 
     @Override
     public List<Log> findByWeek() {
         Query query = sessionFactory.getCurrentSession()
-                .createQuery(FIND_BY_WEEK);
+                .createSQLQuery(FIND_BY_PERIOD);
         return query.getResultList();
 
     }

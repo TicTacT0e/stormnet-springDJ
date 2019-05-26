@@ -19,6 +19,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 
@@ -42,18 +43,18 @@ public class LogsResource {
         return logsDao.findById(logsId);
     }
 
-  /*  @GET
+    @GET
     @Path("/period")
     @Produces(MediaType.APPLICATION_JSON)
-    public List<Log> getPeriod(@RequestParam int periodFrom,
-                               @RequestParam int periodTo) {
+    public List<Log> getPeriod(@RequestParam Date periodFrom,
+                               @RequestParam Date periodTo) {
 
         return logsDao.findByPeriod(periodFrom, periodTo);
-    }*/
+    }
 
 
 
-    @GET
+    /*@GET
     @Path("/day")
     @Produces(MediaType.APPLICATION_JSON)
     public List<Log> getDay() {
@@ -74,7 +75,7 @@ public class LogsResource {
                                      @QueryParam("periodTo") Date periodTo) {
 
         return logsDao.findByPeriod(periodFrom, periodTo);
-    }
+    }*/
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
