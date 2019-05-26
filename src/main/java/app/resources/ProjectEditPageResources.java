@@ -1,7 +1,7 @@
 package app.resources;
 
 import app.dao.ProjectPageEditDao;
-import app.entities.ProjectEditPage;
+import app.dto.ProjectEditPage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -19,11 +19,9 @@ public class ProjectEditPageResources {
     private ProjectPageEditDao<ProjectEditPage> projectPageEditDao;
 
     @GET
-    @Path("/{projectName}")
+    @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public ProjectEditPage get(
-            @PathParam("projectName") String projectName
-    ) {
-        return projectPageEditDao.getPageData(projectName);
+    public ProjectEditPage get(@PathParam("id") int id) {
+        return projectPageEditDao.getPageData(id);
     }
 }

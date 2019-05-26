@@ -10,7 +10,6 @@ import app.resources.ProjectResource;
 import app.resources.ProjectVersionResource;
 import app.resources.SettingsResource;
 import app.resources.TimesheetResource;
-import app.entities.ProjectEditPage;
 import app.resources.*;
 import org.glassfish.jersey.server.ResourceConfig;
 

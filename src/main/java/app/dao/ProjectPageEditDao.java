@@ -3,9 +3,7 @@ package app.dao;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface ProjectPageEditDao<T> extends BasicCrudDao {
+public interface ProjectPageEditDao<T> {
 
-    T getPageData(String pageName);
-
-    T findByName(String name);
+    T getPageData(int id);
 }
