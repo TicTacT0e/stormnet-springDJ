@@ -22,7 +22,7 @@ public class LogsDaoImplTest extends ConnectionForTests {
     private String[] columnsToIgnore = {"date"};
 
     public LogsDaoImplTest() {
-        super("app/dao/impl/logDataSet/input.xml"); //create input.xml.xml
+        super("app/dao/impl/logDataSet/input.xml");
     }
 
     @Test
@@ -48,12 +48,11 @@ public class LogsDaoImplTest extends ConnectionForTests {
 
     @Test
     public void testCreate() throws SQLException, DatabaseUnitException {
-        //Timestamp date = new Timestamp(2019-05-04);
         logDao.create(new Log(4, 4, 4, 4, "comment4"));
         ITable actualDataSet = connection.createDataSet().getTable(table);
         ITable expectedDataSet = new FlatXmlDataSetBuilder().build(getClass().getClassLoader()
                 .getResourceAsStream("app/dao/impl/logDataSet/createExpected.xml")).getTable(table);
-        Assertion.assertEqualsIgnoreCols(expectedDataSet, actualDataSet, columnsToIgnore); //, columnsToIgnore
+        Assertion.assertEqualsIgnoreCols(expectedDataSet, actualDataSet, columnsToIgnore);
     }
 
     @Test
@@ -67,7 +66,6 @@ public class LogsDaoImplTest extends ConnectionForTests {
 
     @Test
     public void testDeleteEntity() throws SQLException, DatabaseUnitException {
-       // Timestamp date = new Timestamp(2019 - 05 - 12);
         logDao.delete(new Log(2, 2, 2, 2, "comment2"));
         ITable actualDataSet = connection.createDataSet().getTable(table);
         ITable expectedDataSet = new FlatXmlDataSetBuilder().build(getClass()
@@ -77,11 +75,10 @@ public class LogsDaoImplTest extends ConnectionForTests {
 
     @Test
     public void testUpdate() throws SQLException, DatabaseUnitException {
-        // Timestamp date = new Timestamp(2019-05-10);
         logDao.update(new Log(3, 10, 10, 10, "comment10"));
         ITable actualDataSet = connection.createDataSet().getTable(table);
         ITable expectedDataSet = new FlatXmlDataSetBuilder().build(getClass().getClassLoader()
                 .getResourceAsStream("app/dao/impl/logDataSet/updateExpected.xml")).getTable(table);
-        Assertion.assertEqualsIgnoreCols(expectedDataSet, actualDataSet, columnsToIgnore);//, columnsToIgnore
+        Assertion.assertEqualsIgnoreCols(expectedDataSet, actualDataSet, columnsToIgnore);
     }
 }
