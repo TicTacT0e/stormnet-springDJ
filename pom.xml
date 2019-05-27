@@ -305,7 +305,7 @@
                 <version>3.0.0</version>
                 <executions>
                     <execution>
-                        <phase>compile</phase>
+                        <phase>test</phase>
                         <goals>
                             <goal>check</goal>
                         </goals>
