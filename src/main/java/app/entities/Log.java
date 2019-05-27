@@ -7,6 +7,7 @@ import javax.persistence.OrderColumn;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
+import javax.persistence.Version;
 import java.sql.Timestamp;
 import java.util.StringJoiner;
 
@@ -16,7 +17,7 @@ public class Log {
 
     @Id
     @Column(name = "id")
-    private Long id;
+    private Integer id;
 
     private Integer assignmentId;
 
@@ -27,12 +28,13 @@ public class Log {
 
     private String comment;
 
+    @Version
     private Timestamp date;
 
     public Log() {
     }
 
-    public Log(long id, int assignmentId, double time, int rowCount, String comment, Timestamp date) {
+    public Log(int id, int assignmentId, double time, int rowCount, String comment) {
         this.id = id;
         this.assignmentId = assignmentId;
         this.time = time;
@@ -41,21 +43,11 @@ public class Log {
         this.date = date;
     }
 
-    @PrePersist
-    protected void onCreate() {
-        date = new Timestamp(new java.util.Date().getTime());
-    }
-
-    @PreUpdate
-    protected void onUpdate() {
-        date = new Timestamp(new java.util.Date().getTime());
-    }
-
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
