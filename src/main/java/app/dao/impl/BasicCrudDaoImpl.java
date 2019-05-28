@@ -68,7 +68,7 @@ public class BasicCrudDaoImpl<T> implements BasicCrudDao<T> {
     public T findByCode(String code) {
         T entity = sessionFactory.getCurrentSession().get(daoType, code);
         if (entity == null) {
-            throw new NoSuchElementException();
+            throw new EntityNotFoundException();
         }
         return entity;
     }
