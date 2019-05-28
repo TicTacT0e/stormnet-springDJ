@@ -8,15 +8,11 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface ProjectDao extends BasicCrudDao<Project> {
+public interface ProjectDao extends BasicCrudDao<Project>{
 
-    //Integer findByCompanyId(int companyId);
+    List<Double> getProjectLoading(int id);
 
-    Project findByAssignmentId(int id);
+    List<Employee> getTeam(int id);
 
-    Long countActualProjectTime(int id);
-
-    List<Employee> getProjectTeam(int id);
-
-    ProjectPage getProjectData(int id);
+    List<ProjectPage> getProjectData(int companyId);
 }
