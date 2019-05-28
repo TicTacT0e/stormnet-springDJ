@@ -12,6 +12,7 @@ import static io.restassured.RestAssured.given;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
 public class SomeTests {
@@ -32,9 +33,10 @@ public class SomeTests {
         final AssignmentResource assignmentResource = new AssignmentResource();
         final MockMvc mockMvc = MockMvcBuilders.standaloneSetup(assignmentResource).build();
 
-        mockMvc.perform(get("company/1/assignment/das")
+        mockMvc.perform(get("company/1/assignment/dsa")
                 .header("api_key", "API_KEY"))
-                .andExpect(openApi().isValid(SWAGGER_JSON_SPEC_PATH));
+                .andExpect(openApi().isValid(SWAGGER_JSON_SPEC_PATH))
+                .andExpect(status().is4xxClientError());
 //                .andExpect(jsonPath("$.id", 1)
 //                        .value(equalTo(1)));
 
