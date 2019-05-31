@@ -1,97 +1,32 @@
 package app.dao.impl;
 
-import app.config.beans.DaoConfig;
-import app.config.beans.HibernateTestConfig;
-import app.config.beans.PropertyConfig;
 import app.dao.BasicCrudDao;
 import app.entities.Invitation;
 import org.dbunit.Assertion;
-import org.dbunit.DBTestCase;
-import org.dbunit.PropertiesBasedJdbcDatabaseTester;
-import org.dbunit.database.DatabaseConfig;
-import org.dbunit.database.DatabaseConnection;
-import org.dbunit.database.IDatabaseConnection;
 import org.dbunit.dataset.DataSetException;
 import org.dbunit.dataset.IDataSet;
 import org.dbunit.dataset.ITable;
 import org.dbunit.dataset.xml.FlatXmlDataSetBuilder;
-import org.dbunit.ext.hsqldb.HsqldbDataTypeFactory;
-import org.dbunit.operation.DatabaseOperation;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import java.io.IOException;
-import java.sql.Connection;
 import java.sql.Date;
-import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.List;
-import java.util.Objects;
-import java.util.Properties;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = {DaoConfig.class, PropertyConfig.class, HibernateTestConfig.class})
-public class InvitationsDaoImplTest extends DBTestCase {
+
+public class InvitationsDaoImplTest extends ConnectionForTests {
 
     @Autowired
     protected BasicCrudDao<Invitation> basicCrudDao;
 
     private static final int NUMBER_OF_FIRST_ROW = 0;
 
-    private String driver;
-    private String url;
     protected final String table = "Invitations";
 
     public InvitationsDaoImplTest() {
-        Properties properties = new Properties();
-        try {
-            properties.load(Objects.requireNonNull(getClass()
-                    .getClassLoader()
-                    .getResourceAsStream("project.tests.properties")));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        driver = properties.getProperty("jdbc.driver");
-        url = properties.getProperty("db.url");
-
-        System.setProperty(PropertiesBasedJdbcDatabaseTester.DBUNIT_DRIVER_CLASS, driver);
-        System.setProperty(PropertiesBasedJdbcDatabaseTester.DBUNIT_CONNECTION_URL, url);
-    }
-
-    @Before
-    public void setUp() throws Exception {
-        IDataSet data = getDataSet();
-        IDatabaseConnection connection = getSqlConnection();
-        DatabaseOperation.CLEAN_INSERT.execute(connection, data);
-    }
-
-    protected IDatabaseConnection getSqlConnection() throws Exception {
-        Class.forName(driver);
-        Connection jdbcConnection = DriverManager.getConnection(url);
-        IDatabaseConnection connection = new DatabaseConnection(jdbcConnection);
-        DatabaseConfig dbConfig = connection.getConfig();
-        dbConfig.setProperty(DatabaseConfig.PROPERTY_DATATYPE_FACTORY, new HsqldbDataTypeFactory());
-        return connection;
-    }
-
-    @Override
-    protected IDataSet getDataSet() throws Exception {
-        return new FlatXmlDataSetBuilder().build(this.getClass().getClassLoader()
-                .getResourceAsStream("app/dao/impl/invitationDataSet/initilization-dataset.xml"));
-    }
-
-    protected DatabaseOperation getSetUpOperation() throws Exception {
-        return DatabaseOperation.REFRESH;
-    }
-
-    protected DatabaseOperation getTearDownOperation() throws Exception {
-        return DatabaseOperation.NONE;
+        super("app/dao/impl/invitationDataSet/initilization-dataset.xml");
     }
 
     @Test
@@ -99,7 +34,7 @@ public class InvitationsDaoImplTest extends DBTestCase {
         IDataSet expectedDataSet = new FlatXmlDataSetBuilder().build(this.getClass().getClassLoader()
                 .getResourceAsStream("app/dao/impl/invitationDataSet/initilization-dataset.xml"));
         ITable expectedTable = expectedDataSet.getTable(table);
-        IDataSet actualDataSet = getSqlConnection().createDataSet();
+        IDataSet actualDataSet = connection.createDataSet();
         ITable actualTable = actualDataSet.getTable(table);
         Assertion.assertEquals(expectedTable, actualTable);
     }
@@ -112,7 +47,7 @@ public class InvitationsDaoImplTest extends DBTestCase {
                     .getResourceAsStream("app/dao/impl/invitationDataSet/delete-dataset.xml"));
             ITable iTable = iDataSet.getTable(table);
 
-            IDataSet actualDataSet = getSqlConnection().createDataSet();
+            IDataSet actualDataSet = connection.createDataSet();
             ITable actualITable = actualDataSet.getTable(table);
             Assertion.assertEquals(iTable, actualITable);
         } catch (DataSetException e) {
@@ -136,7 +71,7 @@ public class InvitationsDaoImplTest extends DBTestCase {
                     .getResourceAsStream(""));
             ITable iTable = iDataSet.getTable(table);
 
-            IDataSet actualDataSet = getSqlConnection().createDataSet();
+            IDataSet actualDataSet = connection.createDataSet();
             ITable actualITable = actualDataSet.getTable(table);
             Assertion.assertEquals(iTable, actualITable);
         } catch (DataSetException e) {
@@ -213,7 +148,7 @@ public class InvitationsDaoImplTest extends DBTestCase {
                     .getResourceAsStream("app/dao/impl/invitationDataSet/save-dataset.xml"));
             ITable iTable = iDataSet.getTable(table);
 
-            IDataSet actualDataSet = getSqlConnection().createDataSet();
+            IDataSet actualDataSet = connection.createDataSet();
             ITable actualITAble = actualDataSet.getTable(table);
 
             Assertion.assertEquals(iTable, actualITAble);
@@ -237,7 +172,7 @@ public class InvitationsDaoImplTest extends DBTestCase {
                     .getResourceAsStream(""));
             ITable iTable = iDataSet.getTable(table);
 
-            IDataSet actualIDataSet = getSqlConnection().createDataSet();
+            IDataSet actualIDataSet = connection.createDataSet();
             ITable actualITable = actualIDataSet.getTable(table);
 
             Assertion.assertEquals(iTable, actualITable);
