@@ -1,7 +1,11 @@
 package app.entities;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OrderColumn;
 import javax.persistence.PrePersist;
@@ -11,16 +15,17 @@ import javax.persistence.Version;
 import java.sql.Timestamp;
 import java.util.StringJoiner;
 
+import static javax.json.bind.JsonbConfig.DATE_FORMAT;
+
 @Entity
 @Table(name = "Logs")
 public class Log {
 
     @Id
-    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     private Integer assignmentId;
-
     private Double time;
 
     @OrderColumn(name = "rowCount")
@@ -29,12 +34,12 @@ public class Log {
     private String comment;
 
     @Version
-    private Timestamp date;
+    private Long date;
 
     public Log() {
     }
 
-    public Log(int id, int assignmentId, double time, int rowCount, String comment) {
+    public Log( int id,int assignmentId, double time, int rowCount, String comment,long date) {
         this.id = id;
         this.assignmentId = assignmentId;
         this.time = time;
@@ -83,11 +88,11 @@ public class Log {
         this.comment = comment;
     }
 
-    public Timestamp getDate() {
+    public Long getDate() {
         return date;
     }
 
-    public void setDate(Timestamp date) {
+    public void setDate(Long date) {
         this.date = date;
     }
 

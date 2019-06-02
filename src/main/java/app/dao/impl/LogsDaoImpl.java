@@ -9,24 +9,23 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 
-@Repository
-@Transactional
 public class LogsDaoImpl extends BasicCrudDaoImpl<Log> implements LogDao {
 
     @Autowired
     private SessionFactory sessionFactory;
 
-
-    //private static final String FIND_BY_DAY = " FROM Log WHERE date = CURRENT_DATE()";
+    private static final String FIND_BY_DAY = " FROM Log WHERE date = CURRENT_TIMESTAMP ()";
    // private static final String FIND_BY_WEEK = "select * FROM Logs WHERE date BETWEEN (CURDATE() - INTERVAL 1 WEEK - INTERVAL WEEKDAY(CURDATE()) DAY)  AND(CURDATE() - INTERVAL WEEKDAY(CURDATE())\n" +
    //         " DAY -INTERVAL 1 SECOND)GROUP BY date";
+    //SELECT * FROM orders WHERE MONTHNAME(order_delivery) = 'April'
+    //mysql> SELECT * FROM orders WHERE order_delivery BETWEEN '2018-05-01' AND '2018-06-01';
 
-    private static final String FIND_BY_PERIOD = "FROM Log WHERE date BETWEEN :startDate AND :EndDate";
+    private static final String FIND_BY_PERIOD = "FROM Log WHERE date BETWEEN :startDate AND :endDate";
 
     @Override
     public void createLog(List<Log> logs) {
@@ -36,34 +35,40 @@ public class LogsDaoImpl extends BasicCrudDaoImpl<Log> implements LogDao {
         }
     }
 
-    //SELECT * FROM orders WHERE MONTHNAME(order_delivery) = 'April'
-    //mysql> SELECT * FROM orders WHERE order_delivery BETWEEN '2018-05-01' AND '2018-06-01';
+    @Override
+    public void updateLog(List<Log> logs) {
+        Session session = sessionFactory.getCurrentSession();
+        for (Log entity : logs) {
+            session.update(entity);
+        }
+    }
 
     @Override
     public List<Log> findByDay() {
         Query query = sessionFactory.getCurrentSession()
-                .createQuery(FIND_BY_PERIOD);
+                .createQuery(FIND_BY_DAY);
         return query.getResultList();
     }
 
-    @Override
+  /*  @Override
     public List<Log> findByWeek() {
         Query query = sessionFactory.getCurrentSession()
                 .createSQLQuery(FIND_BY_PERIOD);
         return query.getResultList();
 
-    }
+    }*/
 
     @Override
-    public List<Log> findByPeriod(Timestamp periodFrom, Timestamp periodTo) {
+    public List<Log> findByPeriod(Long periodFrom, Long periodTo) {
 
         Query query = sessionFactory.getCurrentSession()
                 .createQuery(FIND_BY_PERIOD);
         query.setParameter("startDate", periodFrom);
-        query.setParameter("EndDate", periodTo);
+        query.setParameter("endDate", periodTo);
 
         return query.getResultList();
     }
+
 
         /*String test = String.valueOf(timestamp);
         test = test.substring(0,7);
