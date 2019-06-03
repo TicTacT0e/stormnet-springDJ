@@ -1,8 +1,5 @@
 package app.entities;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -14,8 +11,6 @@ import javax.persistence.Table;
 import javax.persistence.Version;
 import java.sql.Timestamp;
 import java.util.StringJoiner;
-
-import static javax.json.bind.JsonbConfig.DATE_FORMAT;
 
 @Entity
 @Table(name = "Logs")
@@ -30,22 +25,33 @@ public class Log {
 
     @OrderColumn(name = "rowCount")
     private Integer rowCount;
-
     private String comment;
+    private Timestamp date;
 
     @Version
-    private Long date;
+    private Long version;
 
     public Log() {
     }
 
-    public Log( int id,int assignmentId, double time, int rowCount, String comment,long date) {
+    public Log(int id, int assignmentId, double time, int rowCount, String comment, Timestamp date, long version) {
         this.id = id;
         this.assignmentId = assignmentId;
         this.time = time;
         this.rowCount = rowCount;
         this.comment = comment;
         this.date = date;
+        this.version = version;
+    }
+
+    @PrePersist
+    protected void onCreate() {
+        date = new Timestamp(new java.util.Date().getTime());
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
+        date = new Timestamp(new java.util.Date().getTime());
     }
 
     public Integer getId() {
@@ -88,12 +94,20 @@ public class Log {
         this.comment = comment;
     }
 
-    public Long getDate() {
+    public Timestamp getDate() {
         return date;
     }
 
-    public void setDate(Long date) {
+    public void setDate(Timestamp date) {
         this.date = date;
+    }
+
+    public Long getVersion() {
+        return version;
+    }
+
+    public void setVersion(Long version) {
+        this.version = version;
     }
 
     @Override
@@ -105,6 +119,7 @@ public class Log {
                 .add("rowCount=" + rowCount)
                 .add("comment='" + comment + "'")
                 .add("date=" + date)
+                .add("version=" + version)
                 .toString();
     }
 }
