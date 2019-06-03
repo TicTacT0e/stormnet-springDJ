@@ -1,7 +1,7 @@
 package app;
 
+import app.resources.ActivityResource;
 import app.resources.AssignmentResource;
-import app.resources.CompanyResource;
 import app.resources.SettingsResource;
 import org.apache.commons.io.IOUtils;
 import org.junit.Test;
@@ -82,16 +82,49 @@ public class ValidateApiBySpecification {
     }
 
     @Test
-    public void companyGetAll() throws Exception {
-        MockMvc mockMvc = getMockMvc(new CompanyResource());
-        mockMvc.perform(get("company"))
+    public void activityGetAll() throws Exception {
+        MockMvc mockMvc = getMockMvc(new ActivityResource());
+        mockMvc.perform(get("company/1/activity"))
                 .andExpect(openApi().isValid(SWAGGER_JSON_SPEC_PATH));
     }
 
     @Test
-    public void companyGet() throws Exception {
-        MockMvc mockMvc = getMockMvc(new CompanyResource());
-        mockMvc.perform(get("company/1"))
+    public void activityGet() throws Exception {
+        MockMvc mockMvc = getMockMvc(new ActivityResource());
+        mockMvc.perform(get("company/1/activity/1"))
                 .andExpect(openApi().isValid(SWAGGER_JSON_SPEC_PATH));
+    }
+
+    @Test
+    public void activityPost() throws Exception {
+        InputStream inputStream = ValidateApiBySpecification.class
+                .getResourceAsStream("/validate-swagger-spec/activity-json-body-test.json");
+        String activityJsonBody = IOUtils.toString(inputStream);
+        MockMvc mockMvc = getMockMvc(new ActivityResource());
+        mockMvc.perform(post("company/1/activity")
+                .characterEncoding(DEFAULT_CHARACTERS_ENCODING)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(activityJsonBody))
+                .andExpect(openApi().isValid(SWAGGER_JSON_SPEC_PATH));
+    }
+
+    @Test
+    public void activityPut() throws Exception {
+        InputStream inputStream = ValidateApiBySpecification.class
+                .getResourceAsStream("/validate-swagger-spec/activity-json-body-test.json");
+        String activityJsonBody = IOUtils.toString(inputStream);
+        MockMvc mockMvc = getMockMvc(new ActivityResource());
+        mockMvc.perform(put("company/1/activity/1")
+                .characterEncoding(DEFAULT_CHARACTERS_ENCODING)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(activityJsonBody))
+                .andExpect(openApi().isValid(SWAGGER_JSON_SPEC_PATH));
+    }
+
+    @Test
+    public void activityDelete() throws Exception {
+        MockMvc mockMvc = getMockMvc(new ActivityResource());
+        mockMvc.perform(delete("company/1/delete/1"))
+                .andExpect(openApi().isValid(SWAGGER_JSON_SPEC_PATH)); 
     }
 }
