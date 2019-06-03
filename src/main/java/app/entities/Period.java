@@ -8,7 +8,7 @@ import javax.persistence.Table;
 import java.util.Date;
 
 @Entity
-@Table(name = "period")
+@Table(name = "Periods")
 public class Period {
 
     @Id
