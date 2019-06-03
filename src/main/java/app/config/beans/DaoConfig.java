@@ -15,6 +15,7 @@ import app.dao.impl.NotificationDaoImpl;
 import app.dao.impl.ProjectDaoImpl;
 import app.dao.impl.SettingsDaoImpl;
 import app.dao.impl.TimesheetDaoImpl;
+import app.dao.impl.ProjectEditPageDaoImpl;
 import app.entities.Activity;
 import app.entities.Assignment;
 import app.entities.Company;
@@ -87,6 +88,11 @@ public class DaoConfig {
     @Bean
     public BasicCrudDao<Timesheet> getTimesheetDao() {
         return new TimesheetDaoImpl();
+    }
+
+    @Bean
+    public ProjectEditPageDaoImpl getPageEditDao() {
+        return new ProjectEditPageDaoImpl();
     }
 
 }

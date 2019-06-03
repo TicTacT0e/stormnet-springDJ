@@ -7,7 +7,7 @@ import java.sql.Date;
 import java.util.Objects;
 
 @Entity
-@Table(name = "project")
+@Table(name = "Projects")
 public class Project {
     @Id
     private int id;
