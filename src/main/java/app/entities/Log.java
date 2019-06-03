@@ -2,10 +2,14 @@ package app.entities;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OrderColumn;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
+import javax.persistence.Version;
 import java.sql.Timestamp;
 import java.util.StringJoiner;
 
@@ -14,25 +18,29 @@ import java.util.StringJoiner;
 public class Log {
 
     @Id
-    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     private Integer assignmentId;
     private Double time;
+
+    @OrderColumn(name = "rowCount")
     private Integer rowCount;
     private String comment;
     private Timestamp date;
 
+    @Version
+    private Long version;
+
     public Log() {
     }
-
-    public Log(int id, int assignmentId, double time, int rowCount, String comment) {
+    public Log( int id, int assignmentId, double time, int rowCount, String comment, long version) {
         this.id = id;
         this.assignmentId = assignmentId;
         this.time = time;
         this.rowCount = rowCount;
         this.comment = comment;
-        this.date = date;
+        this.version = version;
     }
 
     @PrePersist
@@ -93,6 +101,14 @@ public class Log {
         this.date = date;
     }
 
+    public Long getVersion() {
+        return version;
+    }
+
+    public void setVersion(Long version) {
+        this.version = version;
+    }
+
     @Override
     public String toString() {
         return new StringJoiner(", ", Log.class.getSimpleName() + "[", "]")
@@ -102,6 +118,7 @@ public class Log {
                 .add("rowCount=" + rowCount)
                 .add("comment='" + comment + "'")
                 .add("date=" + date)
+                .add("version=" + version)
                 .toString();
     }
 }

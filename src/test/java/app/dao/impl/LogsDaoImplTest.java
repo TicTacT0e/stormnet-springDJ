@@ -19,7 +19,7 @@ public class LogsDaoImplTest extends ConnectionForTests {
     private BasicCrudDao<Log> logDao;
 
     private String table = "Logs";
-    private String[] columnsToIgnore = {"date"};
+    private String[] columnsToIgnore = {"date", "id"};
 
     public LogsDaoImplTest() {
         super("app/dao/impl/logDataSet/input.xml");
@@ -48,7 +48,7 @@ public class LogsDaoImplTest extends ConnectionForTests {
 
     @Test
     public void testCreate() throws SQLException, DatabaseUnitException {
-        logDao.create(new Log(4, 4, 4, 4, "comment4"));
+        logDao.create(new Log(4, 4, 4, 4, "comment4", 0));
         ITable actualDataSet = connection.createDataSet().getTable(table);
         ITable expectedDataSet = new FlatXmlDataSetBuilder().build(getClass().getClassLoader()
                 .getResourceAsStream("app/dao/impl/logDataSet/createExpected.xml")).getTable(table);
@@ -66,7 +66,7 @@ public class LogsDaoImplTest extends ConnectionForTests {
 
     @Test
     public void testDeleteEntity() throws SQLException, DatabaseUnitException {
-        logDao.delete(new Log(2, 2, 2, 2, "comment2"));
+        logDao.delete(new Log(2, 2, 2, 2, "comment2", 0));
         ITable actualDataSet = connection.createDataSet().getTable(table);
         ITable expectedDataSet = new FlatXmlDataSetBuilder().build(getClass()
                 .getClassLoader().getResourceAsStream("app/dao/impl/logDataSet/deleteExpected.xml")).getTable(table);
@@ -75,7 +75,7 @@ public class LogsDaoImplTest extends ConnectionForTests {
 
     @Test
     public void testUpdate() throws SQLException, DatabaseUnitException {
-        logDao.update(new Log(3, 10, 10, 10, "comment10"));
+        logDao.update(new Log(3, 10, 10, 10, "comment10", 0));
         ITable actualDataSet = connection.createDataSet().getTable(table);
         ITable expectedDataSet = new FlatXmlDataSetBuilder().build(getClass().getClassLoader()
                 .getResourceAsStream("app/dao/impl/logDataSet/updateExpected.xml")).getTable(table);
