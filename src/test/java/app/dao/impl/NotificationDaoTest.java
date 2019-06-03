@@ -1,4 +1,4 @@
-/*package app.dao.impl;
+package app.dao.impl;
 
 import app.config.ApplicationInitializer;
 import app.config.beans.DaoConfig;
@@ -129,4 +129,4 @@ public class NotificationDaoTest {
         Assertion.assertEqualsIgnoreCols(expectedDataSet, actualDataSet, table, columnsToIgnore);
     }
 
-}*/
+}

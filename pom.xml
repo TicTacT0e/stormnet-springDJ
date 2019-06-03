@@ -35,7 +35,7 @@
         <jacoco.version>0.8.2</jacoco.version>
 
         <jdbc.driver>com.mysql.cj.jdbc.Driver</jdbc.driver>
-        <db.url>jdbc:mysql://mifortdev.cmltklqkx5d1.eu-west-1.rds.amazonaws.com:3306/TableLogs?useUnicode=true&amp;useJDBCCompliantTimezoneShift=true&amp;useLegacyDatetimeCode=false&amp;serverTimezone=UTC</db.url>
+        <db.url>jdbc:mysql://mifortdev.cmltklqkx5d1.eu-west-1.rds.amazonaws.com:3306/Timesheetmanager?useUnicode=true&amp;useJDBCCompliantTimezoneShift=true&amp;useLegacyDatetimeCode=false&amp;serverTimezone=UTC&amp;useSSL=false</db.url>
         <db.username>javadev</db.username>
         <db.password>123qweasdzxc</db.password>
         <hibernate.dialect>org.hibernate.dialect.MySQLDialect</hibernate.dialect>
@@ -231,7 +231,7 @@
                 </configuration>
             </plugin>
 
-            <!--<plugin>
+            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-checkstyle-plugin</artifactId>
                 <version>3.0.0</version>
@@ -262,7 +262,7 @@
                     <targetJdk>1.8</targetJdk>
                     <verbose>true</verbose>
                     <rulesets>
-                        &lt;!&ndash; A rule set, that comes bundled with PMD &ndash;&gt;
+                        <!-- A rule set, that comes bundled with PMD -->
                         <ruleset>/category/java/bestpractices.xml</ruleset>
                     </rulesets>
                 </configuration>
@@ -274,7 +274,7 @@
                         </goals>
                     </execution>
                 </executions>
-            </plugin>-->
+            </plugin>
 
             <plugin>
                 <groupId>org.liquibase</groupId>

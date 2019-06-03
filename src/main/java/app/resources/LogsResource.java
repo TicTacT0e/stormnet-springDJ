@@ -42,7 +42,7 @@ public class LogsResource {
                 logsDao.updateLog(logList);
             }
         }
-        return logsDao.findAll();
+        return logsDao.findByDay();
     }
 
     @DELETE

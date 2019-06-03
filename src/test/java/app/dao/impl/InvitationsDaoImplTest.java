@@ -1,4 +1,4 @@
-/*package app.dao.impl;
+package app.dao.impl;
 
 import app.config.beans.DaoConfig;
 import app.config.beans.HibernateConfig;
@@ -262,4 +262,4 @@ public class InvitationsDaoImplTest extends DBTestCase {
                 new Date(2019, 3, 3), "status"
         ));
     }
-}*/
+}
