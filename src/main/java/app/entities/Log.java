@@ -34,13 +34,12 @@ public class Log {
     public Log() {
     }
 
-    public Log(int id, int assignmentId, double time, int rowCount, String comment, Timestamp date, long version) {
+    public Log(int id, int assignmentId, double time, int rowCount, String comment, long version) {
         this.id = id;
         this.assignmentId = assignmentId;
         this.time = time;
         this.rowCount = rowCount;
         this.comment = comment;
-        this.date = date;
         this.version = version;
     }
 
