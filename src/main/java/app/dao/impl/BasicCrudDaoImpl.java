@@ -63,4 +63,13 @@ public class BasicCrudDaoImpl<T> implements BasicCrudDao<T> {
     public void update(T entity) {
         sessionFactory.getCurrentSession().update(entity);
     }
+
+    @Override
+    public T findByCode(String code) {
+        T entity = sessionFactory.getCurrentSession().get(daoType, code);
+        if (entity == null) {
+            throw new NoSuchElementException();
+        }
+        return entity;
+    }
 }
