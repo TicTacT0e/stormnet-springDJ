@@ -1,0 +1,7 @@
+{
+  "employeeName" : "someName",
+  "activities" : [{
+    "name" : "someActivityName"
+  }],
+  "workLoad" : 1000
+}
