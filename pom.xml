@@ -33,6 +33,7 @@
         <hibernate.version>5.4.2.Final</hibernate.version>
         <liquibase.version>3.6.2</liquibase.version>
         <jacoco.version>0.8.2</jacoco.version>
+        <swagger-request-validator.version>2.3.0</swagger-request-validator.version>
         <hsqldb.version>2.4.0</hsqldb.version>
 
         <jdbc.driver>com.mysql.cj.jdbc.Driver</jdbc.driver>
@@ -174,6 +175,18 @@
             <groupId>org.liquibase</groupId>
             <artifactId>liquibase-core</artifactId>
             <version>${liquibase.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.atlassian.oai</groupId>
+            <artifactId>swagger-request-validator-core</artifactId>
+            <version>${swagger-request-validator.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.atlassian.oai</groupId>
+            <artifactId>swagger-request-validator-mockmvc</artifactId>
+            <version>${swagger-request-validator.version}</version>
         </dependency>
 
         <dependency>

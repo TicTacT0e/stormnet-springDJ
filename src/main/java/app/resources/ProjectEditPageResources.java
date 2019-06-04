@@ -12,7 +12,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 @Component
-@Path("/projects")
+@Path("/company/{companyId}/project")
 public class ProjectEditPageResources {
 
     @Autowired
