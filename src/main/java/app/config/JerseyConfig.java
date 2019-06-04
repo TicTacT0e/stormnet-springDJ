@@ -31,5 +31,4 @@ public class JerseyConfig extends ResourceConfig {
         register(TimesheetResource.class);
         register(ProjectEditPageResources.class);
     }
-
 }

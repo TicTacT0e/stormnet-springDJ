@@ -1,9 +1,5 @@
-package app;
+package app.resources;
 
-import app.resources.ActivityResource;
-import app.resources.AssignmentResource;
-import app.resources.ProjectEditPageResources;
-import app.resources.SettingsResource;
 import org.apache.commons.io.IOUtils;
 import org.junit.Test;
 import org.springframework.http.MediaType;
