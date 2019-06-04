@@ -1,6 +1,7 @@
 package app.dao.impl;
 
 import app.dao.BasicCrudDao;
+import app.exceptions.EntityNotFoundException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +11,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.List;
-import java.util.NoSuchElementException;
 
 @Repository
 @Transactional
@@ -31,7 +31,7 @@ public class BasicCrudDaoImpl<T> implements BasicCrudDao<T> {
     public T findById(int id) {
         T entity = sessionFactory.getCurrentSession().get(daoType, id);
         if (entity == null) {
-            throw new NoSuchElementException();
+            throw new EntityNotFoundException();
         }
         return entity;
     }
@@ -68,7 +68,7 @@ public class BasicCrudDaoImpl<T> implements BasicCrudDao<T> {
     public T findByCode(String code) {
         T entity = sessionFactory.getCurrentSession().get(daoType, code);
         if (entity == null) {
-            throw new NoSuchElementException();
+            throw new EntityNotFoundException();
         }
         return entity;
     }
