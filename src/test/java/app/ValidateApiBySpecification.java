@@ -2,6 +2,7 @@ package app;
 
 import app.resources.ActivityResource;
 import app.resources.AssignmentResource;
+import app.resources.ProjectEditPageResources;
 import app.resources.SettingsResource;
 import org.apache.commons.io.IOUtils;
 import org.junit.Test;
@@ -44,7 +45,8 @@ public class ValidateApiBySpecification {
     @Test
     public void assignmentPost() throws Exception {
         InputStream inputStream = ValidateApiBySpecification.class
-                .getResourceAsStream("/validate-swagger-spec/assignment-json-body-test.json");
+                .getResourceAsStream("/validate-swagger-spec"
+                        + "/assignment-json-body-test.json");
         String assignmentJsonBody = IOUtils.toString(inputStream);
         MockMvc mockMvc = getMockMvc(new AssignmentResource());
         mockMvc.perform(post("company/1/assignment")
@@ -57,7 +59,8 @@ public class ValidateApiBySpecification {
     @Test
     public void assignmentPut() throws Exception {
         InputStream inputStream = ValidateApiBySpecification.class
-                .getResourceAsStream("/validate-swagger-spec/assignment-json-body-test.json");
+                .getResourceAsStream("/validate-swagger-spec"
+                        + "/assignment-json-body-test.json");
         String assignmentJsonBody = IOUtils.toString(inputStream);
         MockMvc mockMvc = getMockMvc(new AssignmentResource());
         mockMvc.perform(put("company/1/assignment/1")
@@ -98,7 +101,8 @@ public class ValidateApiBySpecification {
     @Test
     public void activityPost() throws Exception {
         InputStream inputStream = ValidateApiBySpecification.class
-                .getResourceAsStream("/validate-swagger-spec/activity-json-body-test.json");
+                .getResourceAsStream("/validate-swagger-spec"
+                        + "/activity-json-body-test.json");
         String activityJsonBody = IOUtils.toString(inputStream);
         MockMvc mockMvc = getMockMvc(new ActivityResource());
         mockMvc.perform(post("company/1/activity")
@@ -111,7 +115,8 @@ public class ValidateApiBySpecification {
     @Test
     public void activityPut() throws Exception {
         InputStream inputStream = ValidateApiBySpecification.class
-                .getResourceAsStream("/validate-swagger-spec/activity-json-body-test.json");
+                .getResourceAsStream("/validate-swagger-spec"
+                        + "/activity-json-body-test.json");
         String activityJsonBody = IOUtils.toString(inputStream);
         MockMvc mockMvc = getMockMvc(new ActivityResource());
         mockMvc.perform(put("company/1/activity/1")
@@ -124,7 +129,14 @@ public class ValidateApiBySpecification {
     @Test
     public void activityDelete() throws Exception {
         MockMvc mockMvc = getMockMvc(new ActivityResource());
-        mockMvc.perform(delete("company/1/delete/1"))
+        mockMvc.perform(delete("company/1/activity/1"))
                 .andExpect(openApi().isValid(SWAGGER_JSON_SPEC_PATH)); 
+    }
+
+    @Test
+    public void projectGetProfile() throws Exception {
+        MockMvc mockMvc = getMockMvc(new ProjectEditPageResources());
+        mockMvc.perform(get("company/1/project/1"))
+                .andExpect(openApi().isValid(SWAGGER_JSON_SPEC_PATH));
     }
 }

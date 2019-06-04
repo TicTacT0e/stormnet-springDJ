@@ -122,7 +122,7 @@
         }
       }
     },
-    "/company{companyId}/activity/{id}" : {
+    "/company/{companyId}/activity/{id}" : {
       "get" : {
         "tags" : [ "Activity" ],
         "summary" : "Find activity by id",

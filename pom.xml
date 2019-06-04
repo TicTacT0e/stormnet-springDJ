@@ -33,6 +33,7 @@
         <hibernate.version>5.4.2.Final</hibernate.version>
         <liquibase.version>3.6.2</liquibase.version>
         <jacoco.version>0.8.2</jacoco.version>
+        <swagger-request-validator.version>2.3.0</swagger-request-validator.version>
 
         <jdbc.driver>com.mysql.cj.jdbc.Driver</jdbc.driver>
         <db.url>jdbc:mysql://mifortdev.cmltklqkx5d1.eu-west-1.rds.amazonaws.com:3306/Timesheetmanager?useUnicode=true&amp;useJDBCCompliantTimezoneShift=true&amp;useLegacyDatetimeCode=false&amp;serverTimezone=UTC&amp;useSSL=false</db.url>
@@ -175,75 +176,17 @@
             <version>${liquibase.version}</version>
         </dependency>
 
-        <!---dss-->
         <dependency>
             <groupId>com.atlassian.oai</groupId>
             <artifactId>swagger-request-validator-core</artifactId>
-            <version>2.3.0</version>
+            <version>${swagger-request-validator.version}</version>
         </dependency>
 
-        <!-- https://mvnrepository.com/artifact/com.atlassian.oai/swagger-request-validator-mockmvc -->
         <dependency>
             <groupId>com.atlassian.oai</groupId>
             <artifactId>swagger-request-validator-mockmvc</artifactId>
-            <version>2.3.0</version>
+            <version>${swagger-request-validator.version}</version>
         </dependency>
-
-        <!-- https://mvnrepository.com/artifact/com.atlassian.oai/swagger-request-validator-springmvc -->
-        <dependency>
-            <groupId>com.atlassian.oai</groupId>
-            <artifactId>swagger-request-validator-springmvc</artifactId>
-            <version>2.3.0</version>
-        </dependency>
-
-        <!-- https://mvnrepository.com/artifact/com.atlassian.oai/swagger-request-validator-restassured -->
-        <dependency>
-            <groupId>com.atlassian.oai</groupId>
-            <artifactId>swagger-request-validator-restassured</artifactId>
-            <version>2.2.3</version>
-        </dependency>
-
-        <!-- https://mvnrepository.com/artifact/io.rest-assured/json-path -->
-        <dependency>
-            <groupId>io.rest-assured</groupId>
-            <artifactId>json-path</artifactId>
-            <version>4.0.0</version>
-        </dependency>
-
-        <!-- https://mvnrepository.com/artifact/com.atlassian.oai/swagger-request-validator-wiremock -->
-        <dependency>
-            <groupId>com.atlassian.oai</groupId>
-            <artifactId>swagger-request-validator-wiremock</artifactId>
-            <version>2.3.0</version>
-        </dependency>
-
-        <!-- https://mvnrepository.com/artifact/com.google.code.gson/gson -->
-        <dependency>
-            <groupId>com.google.code.gson</groupId>
-            <artifactId>gson</artifactId>
-            <version>2.8.5</version>
-        </dependency>
-
-        <dependency>
-            <groupId>io.rest-assured</groupId>
-            <artifactId>rest-assured</artifactId>
-            <version>3.0.1</version>
-        </dependency>
-
-
-        <dependency>
-            <groupId>io.rest-assured</groupId>
-            <artifactId>json-schema-validator</artifactId>
-            <version>3.0.1</version>
-        </dependency>
-
-        <dependency>
-            <groupId>io.rest-assured</groupId>
-            <artifactId>spring-mock-mvc</artifactId>
-            <version>3.2.0</version>
-            <scope>test</scope>
-        </dependency>
-
 
     </dependencies>
 
