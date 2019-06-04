@@ -68,7 +68,7 @@ public class TimesheetDaoTest {
     @Before
     public void setUp() throws Exception {
         connection = new MySqlConnection(getConnection(), "timesheet_dev");
-        IDataSet dataSet = new FlatXmlDataSetBuilder().build(new FileInputStream("timesheetDataSet\\initialDataset.xml"));
+        IDataSet dataSet = new FlatXmlDataSetBuilder().build(new FileInputStream("timesheetDataSet\\inputDb.xml"));
         DatabaseOperation.CLEAN_INSERT.execute(connection, dataSet);
     }
 
@@ -80,7 +80,7 @@ public class TimesheetDaoTest {
     @Test
     public void testFindAll() throws SQLException, DatabaseUnitException, FileNotFoundException {
         List<Timesheet> timesheets = basicCrudDao.findAll();
-        IDataSet expectedDataSet = new FlatXmlDataSetBuilder().build(new FileInputStream("timesheetDataSet\\initialDataset.xml"));
+        IDataSet expectedDataSet = new FlatXmlDataSetBuilder().build(new FileInputStream("timesheetDataSet\\inputDb.xml"));
         IDataSet actualDataSet = connection.createDataSet();
         Assertion.assertEquals(expectedDataSet, actualDataSet);
         Assert.assertEquals(expectedDataSet.getTable(table).getRowCount(), timesheets.size());
@@ -90,7 +90,7 @@ public class TimesheetDaoTest {
     @Test
     public void findById() throws SQLException, FileNotFoundException, DatabaseUnitException {
         Timesheet timesheet = basicCrudDao.findById(2);
-        IDataSet expectedDataSet = new FlatXmlDataSetBuilder().build(new FileInputStream("timesheetDataSet\\initialDataset.xml"));
+        IDataSet expectedDataSet = new FlatXmlDataSetBuilder().build(new FileInputStream("timesheetDataSet\\inputDb.xml"));
         IDataSet actualDataSet = connection.createDataSet();
         String expectedperiodId = (String) expectedDataSet.getTable(table).getValue(1, "periodId");
         String actualPeriodId = String.valueOf(timesheet.getPeriodId());
@@ -102,7 +102,7 @@ public class TimesheetDaoTest {
     public void testCreate() throws SQLException, DatabaseUnitException, FileNotFoundException {
         basicCrudDao.create(new Timesheet(5, 5, null, "ok"));
         IDataSet actualDataSet = connection.createDataSet();
-        IDataSet expectedDataSet = new FlatXmlDataSetBuilder().build(new FileInputStream("timesheetDataSet\\saveDataset.xml"));
+        IDataSet expectedDataSet = new FlatXmlDataSetBuilder().build(new FileInputStream("timesheetDataSet\\createDb.xml"));
         Assertion.assertEqualsIgnoreCols(expectedDataSet, actualDataSet, table, columnsToIgnore);
     }
 
@@ -110,7 +110,7 @@ public class TimesheetDaoTest {
     public void testDeleteById() throws SQLException, FileNotFoundException, DatabaseUnitException {
         basicCrudDao.deleteById(3);
         IDataSet actualDataSet = connection.createDataSet();
-        IDataSet expectedDataSet = new FlatXmlDataSetBuilder().build(new FileInputStream("timesheetDataSet\\deleteDataset.xml"));
+        IDataSet expectedDataSet = new FlatXmlDataSetBuilder().build(new FileInputStream("timesheetDataSet\\deleteDb.xml"));
         Assertion.assertEquals(expectedDataSet, actualDataSet);
     }
 
@@ -118,7 +118,7 @@ public class TimesheetDaoTest {
     public void testUpdate() throws SQLException, FileNotFoundException, DatabaseUnitException {
         basicCrudDao.update(new Timesheet(3, 8, null, "notOk"));
         IDataSet actualDataSet = connection.createDataSet();
-        IDataSet expectedDataSet = new FlatXmlDataSetBuilder().build(new FileInputStream("timesheetDataSet\\updateDataset.xml"));
+        IDataSet expectedDataSet = new FlatXmlDataSetBuilder().build(new FileInputStream("timesheetDataSet\\updateDb.xml"));
         Assertion.assertEqualsIgnoreCols(expectedDataSet, actualDataSet, table, columnsToIgnore);
     }
 

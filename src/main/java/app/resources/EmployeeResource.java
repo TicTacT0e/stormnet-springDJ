@@ -24,8 +24,6 @@ public class EmployeeResource {
 
     @Autowired
     private EmployeeDaoImpl employeeDao;
-    @Autowired
-    private ProjectDaoImpl projectDao;
 
     @GET
     @Path("/all")
@@ -62,17 +60,6 @@ public class EmployeeResource {
     @Consumes(MediaType.APPLICATION_JSON)
     public Response delete(@PathParam("id") int id, Employee employee) {
         employeeDao.delete(employee);
-        return Response.status(Response.Status.OK.getStatusCode()).build();
-    }
-
-    @POST
-    @Path("/assign/{employeeId}/{projectId}")
-    @Consumes(MediaType.APPLICATION_JSON)
-    public Response assignToProject(
-            @PathParam("employeeId") int employeeId,
-            @PathParam("projectId") int projectId) {
-        employeeDao.assignToProject(employeeDao.findById(employeeId),
-                projectDao.findById(projectId));
         return Response.status(Response.Status.OK.getStatusCode()).build();
     }
 }

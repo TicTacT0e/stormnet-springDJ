@@ -5,7 +5,7 @@ import app.config.beans.HibernateConfig;
 import app.config.beans.PropertyConfig;
 import app.dao.BasicCrudDao;
 import app.entities.Employee;
-import app.exceptions.EntityNotFoundException;
+import javax.persistence.EntityNotFoundException;
 import org.dbunit.Assertion;
 import org.dbunit.DBTestCase;
 import org.dbunit.PropertiesBasedJdbcDatabaseTester;
@@ -25,11 +25,15 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.orm.hibernate5.HibernateOptimisticLockingFailureException;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import java.io.File;
+import java.net.MalformedURLException;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = {HibernateConfig.class, DaoConfig.class, PropertyConfig.class})
@@ -48,7 +52,7 @@ public class EmployeeDaoImplTest extends DBTestCase {
     @Value("${db.password}")
     private String password;
     private static final String SCHEMA = "Timesheetmanager";
-    private static final String EMPLOYEE_TABLE = "Employee";
+    private static final String EMPLOYEE_TABLE = "Employees";
 
     private static final int NUMBER_OF_FIRST_ROW = 0;
 
@@ -82,9 +86,7 @@ public class EmployeeDaoImplTest extends DBTestCase {
     @Override
     protected IDataSet getDataSet() throws Exception {
         return new FlatXmlDataSetBuilder()
-                .build(getClass()
-                        .getClassLoader()
-                        .getResourceAsStream("app/dao/impl/employeeDatasets/initial-dataset.xml"));
+                .build(new File("app\\dao\\impl\\employeeDataset\\initial-dataset.xml"));
     }
 
     protected DatabaseOperation getSetUpOperation() throws Exception {
@@ -98,9 +100,7 @@ public class EmployeeDaoImplTest extends DBTestCase {
     @Test
     public void setUpDatabaseTest() throws Exception {
         IDataSet expectedDataSet = new FlatXmlDataSetBuilder()
-                .build(getClass()
-                        .getClassLoader()
-                        .getResourceAsStream("app/dao/impl/employeeDatasets/initial-dataset.xml"));
+                .build(new File("app\\dao\\impl\\employeeDataset\\initial-dataset.xml"));
         ITable expectedTable = expectedDataSet.getTable(EMPLOYEE_TABLE);
 
         IDataSet actualDataSet = getMySqlConnection().createDataSet();
@@ -113,9 +113,7 @@ public class EmployeeDaoImplTest extends DBTestCase {
     public void deleteById() throws Exception {
         employeeDao.deleteById(2);
         IDataSet expectedDataSet = new FlatXmlDataSetBuilder()
-                .build(getClass()
-                        .getClassLoader()
-                        .getResourceAsStream("app/dao/impl/employeeDatasets/delete-dataset.xml"));
+                .build(new File("app\\dao\\impl\\employeeDataset\\delete-dataset.xml"));
         ITable expectedTable = expectedDataSet.getTable(EMPLOYEE_TABLE);
         IDataSet actualDataSet = getMySqlConnection().createDataSet();
         ITable actualTable = actualDataSet.getTable(EMPLOYEE_TABLE);
@@ -127,35 +125,19 @@ public class EmployeeDaoImplTest extends DBTestCase {
         employeeDao.deleteById(100);
     }
 
-    @Test
-    public void edit() throws Exception {
-        Employee employee = new Employee();
-        employeeDao.update(employee);
-        IDataSet expectedDataSet = new FlatXmlDataSetBuilder()
-                .build(getClass()
-                        .getClassLoader()
-                        .getResourceAsStream("app/dao/impl/assignmentDatasets/edit-dataset.xml"));
-        ITable expectedTable = expectedDataSet.getTable(EMPLOYEE_TABLE);
-        IDataSet actualDataSet = getMySqlConnection().createDataSet();
-        ITable actualTable = actualDataSet.getTable(EMPLOYEE_TABLE);
-        Assertion.assertEquals(expectedTable, actualTable);
-    }
-
-    @Test(expected = DataIntegrityViolationException.class)
+    @Test(expected = HibernateOptimisticLockingFailureException.class)
     public void editWithNonExistsPrimaryKey() {
         employeeDao
-                .update(new Employee(5, "Valia", "6754324567","valia@gmail.by", "ValiaPhotoUrl"));
+                .update(new Employee(100,"Valia", "6754324567","valia@gmail.by", "ValiaPhotoUrl"));
     }
 
     @Test
-    public void findById() throws DataSetException {
+    public void findById() throws DataSetException, MalformedURLException {
         IDataSet expectedDataSet = new FlatXmlDataSetBuilder()
-                .build(getClass()
-                        .getClassLoader()
-                        .getResourceAsStream("app/dao/impl/assignmentDatasets/find-by-id-dataset.xml"));
+                .build(new File("app\\dao\\impl\\employeeDataset\\find-by-id-dataset.xml"));
         ITable expectedTable = expectedDataSet.getTable(EMPLOYEE_TABLE);
 
-        Employee employee = employeeDao.findById(4);
+        Employee employee = employeeDao.findById(1);
 
         Assert.assertEquals(expectedTable.getValue(NUMBER_OF_FIRST_ROW, "id")
                         .toString(),
@@ -174,17 +156,15 @@ public class EmployeeDaoImplTest extends DBTestCase {
                 String.valueOf(employee.getPhotoUrl()));
     }
 
-    @Test(expected = EntityNotFoundException.class)
+    @Test(expected = NoSuchElementException.class)
     public void findByIdWithNonExistsPrimaryKey() {
         employeeDao.findById(100);
     }
 
     @Test
-    public void getAll() throws DataSetException {
+    public void getAll() throws DataSetException, MalformedURLException {
         IDataSet expectedDataSet = new FlatXmlDataSetBuilder()
-                .build(getClass()
-                        .getClassLoader()
-                        .getResourceAsStream("app/dao/impl/assignmentDatasets/initial-dataset.xml"));
+                .build(new File("app\\dao\\impl\\employeeDataset\\initial-dataset.xml"));
         ITable expectedTable = expectedDataSet.getTable(EMPLOYEE_TABLE);
         List<Employee> employees = employeeDao.findAll();
         int index = NUMBER_OF_FIRST_ROW;
@@ -192,13 +172,16 @@ public class EmployeeDaoImplTest extends DBTestCase {
             Assert.assertEquals(expectedTable.getValue(index, "id")
                             .toString(),
                     String.valueOf(employee.getId()));
-            Assert.assertEquals(expectedTable.getValue(NUMBER_OF_FIRST_ROW, "phone")
+            Assert.assertEquals(expectedTable.getValue(index, "name")
+                            .toString(),
+                    String.valueOf(employee.getName()));
+            Assert.assertEquals(expectedTable.getValue(index, "phone")
                             .toString(),
                     String.valueOf(employee.getPhone()));
-            Assert.assertEquals(expectedTable.getValue(NUMBER_OF_FIRST_ROW, "email")
+            Assert.assertEquals(expectedTable.getValue(index, "email")
                             .toString(),
                     String.valueOf(employee.getEmail()));
-            Assert.assertEquals(expectedTable.getValue(NUMBER_OF_FIRST_ROW, "photoUrl")
+            Assert.assertEquals(expectedTable.getValue(index, "photoUrl")
                             .toString(),
                     String.valueOf(employee.getPhotoUrl()));
             index++;
@@ -207,14 +190,22 @@ public class EmployeeDaoImplTest extends DBTestCase {
 
     @Test
     public void save() throws Exception {
-        Employee employee =
-                new Employee(3, "Valia", "876543567", "valia@gmail.by","valiaPhotoUrl");
-
+        Employee employee = new Employee(3,"Valia", "8765435678", "valia@gmail.by","ValiaPhotoUrl");
         employeeDao.create(employee);
         IDataSet expectedDataSet = new FlatXmlDataSetBuilder()
-                .build(getClass()
-                        .getClassLoader()
-                        .getResourceAsStream("app/dao/impl/assignmentDatasets/save-dataset.xml"));
+                .build(new File("app\\dao\\impl\\employeeDataset\\save-dataset.xml"));
+        ITable expectedTable = expectedDataSet.getTable(EMPLOYEE_TABLE);
+        IDataSet actualDataSet = getMySqlConnection().createDataSet();
+        ITable actualTable = actualDataSet.getTable(EMPLOYEE_TABLE);
+        Assertion.assertEquals(expectedTable, actualTable);
+    }
+
+    @Test
+    public void update() throws Exception {
+        Employee employee = new Employee(2,"Sergey", "2222", "sergey@mail.ru","SergeyPhotoUrl");
+        employeeDao.update(new Employee(employee));
+        IDataSet expectedDataSet = new FlatXmlDataSetBuilder()
+                .build(new File("app\\dao\\impl\\employeeDataset\\edit-dataset.xml"));
         ITable expectedTable = expectedDataSet.getTable(EMPLOYEE_TABLE);
         IDataSet actualDataSet = getMySqlConnection().createDataSet();
         ITable actualTable = actualDataSet.getTable(EMPLOYEE_TABLE);
@@ -224,6 +215,6 @@ public class EmployeeDaoImplTest extends DBTestCase {
     @Test(expected = DataIntegrityViolationException.class)
     public void saveAlreadyExistsEntity() {
         employeeDao
-                .create(new Employee(2, "Sergey", "09876123","sergey@mail.ru","SergeyPhotoUrl"));
+                .create(new Employee(2,"Sergey", "09876123","sergey@mail.ru","SergeyPhotoUrl"));
     }
 }

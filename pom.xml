@@ -262,7 +262,7 @@
                     <targetJdk>1.8</targetJdk>
                     <verbose>true</verbose>
                     <rulesets>
-                        <!-- A rule set, that comes bundled with PMD -->
+                        <!--A rule set, that comes bundled with PMD-->
                         <ruleset>/category/java/bestpractices.xml</ruleset>
                     </rulesets>
                 </configuration>

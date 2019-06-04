@@ -3,11 +3,11 @@ package app.entities;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import java.sql.Date;
+import java.util.Date;
 import java.util.Objects;
 
 @Entity
-@Table(name = "project")
+@Table(name = "Projects")
 public class Project {
     @Id
     private int id;
