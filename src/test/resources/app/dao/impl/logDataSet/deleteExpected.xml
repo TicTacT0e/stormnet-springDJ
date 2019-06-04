@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<dataset>
+    <Logs id="1" assignmentId="1" time="1" rowCount="1" comment="comment1" date="2019-05-01" version="0"/>
+    <Logs id="3" assignmentId="3" time="3" rowCount="3" comment="comment3" date="2019-05-03" version="0"/>
+</dataset>
