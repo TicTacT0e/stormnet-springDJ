@@ -15,7 +15,7 @@ public class Notification {
     @Id
     private int id;
     private Date createdAt;
-    private int partnerId;
+    private int employeeId;
     private String status;
     private String title;
     private String description;
@@ -24,10 +24,10 @@ public class Notification {
     public Notification() {
     }
 
-    public Notification(int id, int partnerId, String status, String title,
+    public Notification(int id, int employeeId, String status, String title,
                         String description, String link) {
         this.id = id;
-        this.partnerId = partnerId;
+        this.employeeId = employeeId;
         this.status = status;
         this.title = title;
         this.description = description;
@@ -44,12 +44,12 @@ public class Notification {
         createdAt = new Timestamp(new java.util.Date().getTime());
     }
 
-    public int getId() {
+    public int getEmployeeId() {
         return id;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setEmployeeId(int employeeId) {
+        this.id = employeeId;
     }
 
     public Date getCreatedAt() {
@@ -61,11 +61,11 @@ public class Notification {
     }
 
     public int getPartnerId() {
-        return partnerId;
+        return employeeId;
     }
 
     public void setPartnerId(int partnerId) {
-        this.partnerId = partnerId;
+        this.employeeId = partnerId;
     }
 
     public String getStatus() {
