@@ -44,12 +44,12 @@ public class Notification {
         createdAt = new Timestamp(new java.util.Date().getTime());
     }
 
-    public int getEmployeeId() {
+    public int getId() {
         return id;
     }
 
-    public void setEmployeeId(int employeeId) {
-        this.id = employeeId;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public Date getCreatedAt() {
@@ -60,12 +60,12 @@ public class Notification {
         this.createdAt = createdAt;
     }
 
-    public int getPartnerId() {
+    public int getEmployeeId() {
         return employeeId;
     }
 
-    public void setPartnerId(int partnerId) {
-        this.employeeId = partnerId;
+    public void setEmployeeId(int employeeId) {
+        this.employeeId = employeeId;
     }
 
     public String getStatus() {
