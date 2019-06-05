@@ -1,7 +1,7 @@
 package app.resources;
 
 import app.dao.BasicCrudDao;
-import app.entities.Assignment;
+import app.entities.Activity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -18,52 +18,52 @@ import javax.ws.rs.core.Response;
 import java.util.List;
 
 @Component
-@Path("/company/{companyId}/assignment")
-public class AssignmentResource {
+@Path("/company/{companyId}/activity")
+public class ActivityResource {
 
     @Autowired
-    private BasicCrudDao<Assignment> basicCrudDao;
+    private BasicCrudDao<Activity> basicCrudDao;
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public List<Assignment> getAll() {
+    public List<Activity> getAll() {
         return basicCrudDao.findAll();
     }
 
     @GET
-    @Path("/{assignmentId}")
+    @Path("/{activityId}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Assignment get(
+    public Activity get(
             @PathParam("companyId") int companyId,
-            @PathParam("assignmentId") int assignmentId
+            @PathParam("activityId") int activityId
     ) {
-        return basicCrudDao.findById(assignmentId);
+        return basicCrudDao.findById(activityId);
     }
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response add(Assignment assignment) {
-        basicCrudDao.create(assignment);
+    public Response add(Activity activity) {
+        basicCrudDao.create(activity);
         return Response.status(Response.Status.CREATED.getStatusCode()).build();
     }
 
     @PUT
-    @Path("/{assignmentId}")
+    @Path("/{activityId}")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response edit(
-            @PathParam("assignmentId") int assignmentId,
-            Assignment assignment
+            @PathParam("activityId") int activityId,
+            Activity activity
     ) {
-        basicCrudDao.update(assignment);
+        basicCrudDao.update(activity);
         return Response.status(Response.Status.CREATED.getStatusCode()).build();
     }
 
     @DELETE
-    @Path("/{assignmentId}")
+    @Path("/{activityId}")
     public Response delete(
-            @PathParam("assignmentId") int assignmentId
+            @PathParam("activityId") int activityId
     ) {
-        basicCrudDao.deleteById(assignmentId);
+        basicCrudDao.deleteById(activityId);
         return Response.status(Response.Status.OK.getStatusCode()).build();
     }
 }

@@ -56,15 +56,15 @@ CREATE TABLE `Integration` (
 
 CREATE TABLE `Invitations` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `partnerId` bigint(20) NOT NULL,
+  `employeeId` bigint(20) NOT NULL,
   `code` varchar(40) NOT NULL,
   `dateEnd` datetime NOT NULL,
   `status` varchar(25) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `code_UNIQUE` (`code`),
-  UNIQUE KEY `PartnerId_UNIQUE` (`partnerId`),
-  KEY `InvationPartner_idx` (`partnerId`),
-  CONSTRAINT `InvationPartnerId` FOREIGN KEY (`partnerId`) REFERENCES `Partner` (`id`)
+  UNIQUE KEY `PartnerId_UNIQUE` (`employeeId`),
+  KEY `InvationPartner_idx` (`employeeId`),
+  CONSTRAINT `InvationPartnerId` FOREIGN KEY (`employeeId`) REFERENCES `Partner` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8
 
 CREATE TABLE `Logs` (
@@ -82,16 +82,16 @@ CREATE TABLE `Logs` (
 
 CREATE TABLE `Notification` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `partnerId` bigint(20) NOT NULL,
+  `employeeId` bigint(20) NOT NULL,
   `createdAt` datetime NOT NULL,
   `status` varchar(100) NOT NULL,
   `title` varchar(100) NOT NULL,
   `description` text,
   `link` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `NotificationPartnerId_idx` (`partnerId`),
-  UNIQUE KEY `partnerId_UNIQUE` (`partnerId`),
-  CONSTRAINT `NotificationPartnerId` FOREIGN KEY (`partnerId`) REFERENCES `Partner` (`id`)
+  KEY `NotificationPartnerId_idx` (`employeeId`),
+  UNIQUE KEY `partnerId_UNIQUE` (`employeeId`),
+  CONSTRAINT `NotificationPartnerId` FOREIGN KEY (`employeeId`) REFERENCES `Partner` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8
 
 CREATE TABLE `Partner` (
