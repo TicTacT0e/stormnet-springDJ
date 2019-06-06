@@ -1,6 +1,5 @@
 package app.entities;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -34,7 +33,9 @@ public class Log {
 
     public Log() {
     }
-    public Log( int id, int assignmentId, double time, int rowCount, String comment, long version) {
+
+    public Log(int id, int assignmentId, double time,
+               int rowCount, String comment, long version) {
         this.id = id;
         this.assignmentId = assignmentId;
         this.time = time;

@@ -2,7 +2,7 @@ package app.config;
 
 import app.resources.AssignmentResource;
 import app.resources.CompanyResource;
-import app.resources.EmployeeResource;
+import app.resources.UserResource;
 import app.resources.InvitationResource;
 import app.resources.LogsResource;
 import app.resources.NotificationResource;
@@ -20,7 +20,7 @@ public class JerseyConfig extends ResourceConfig {
 
     public JerseyConfig() {
         register(CompanyResource.class);
-        register(EmployeeResource.class);
+        register(UserResource.class);
         register(LogsResource.class);
         register(ProjectResource.class);
         register(AssignmentResource.class);

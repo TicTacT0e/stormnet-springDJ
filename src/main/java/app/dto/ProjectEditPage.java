@@ -1,6 +1,6 @@
 package app.dto;
 
-import app.entities.Employee;
+import app.entities.User;
 import app.entities.Integration;
 import app.entities.Project;
 import app.entities.Timesheet;
@@ -11,7 +11,7 @@ import java.util.Objects;
 public class ProjectEditPage {
 
     private Project project;
-    private List<Employee> team;
+    private List<User> team;
     private List<Timesheet> timesheets;
     private double manHoursExpected;
     private List<Integration> integrations;
@@ -19,7 +19,7 @@ public class ProjectEditPage {
     public ProjectEditPage() {
     }
 
-    public void setTeam(List<Employee> team) {
+    public void setTeam(List<User> team) {
         this.team = team;
     }
 
@@ -47,7 +47,7 @@ public class ProjectEditPage {
         return project;
     }
 
-    public List<Employee> getTeam() {
+    public List<User> getTeam() {
         return team;
     }
 

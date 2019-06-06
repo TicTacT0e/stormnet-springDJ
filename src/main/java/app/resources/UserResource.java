@@ -1,8 +1,8 @@
 package app.resources;
 
-import app.dao.impl.EmployeeDaoImpl;
+import app.dao.impl.UserDaoImpl;
 import app.dao.impl.ProjectDaoImpl;
-import app.entities.Employee;
+import app.entities.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -19,59 +19,59 @@ import javax.ws.rs.core.Response;
 import java.util.List;
 
 @Component
-@Path("/employee")
-public class EmployeeResource {
+@Path("/user")
+public class UserResource {
 
     @Autowired
-    private EmployeeDaoImpl employeeDao;
+    private UserDaoImpl userDao;
     @Autowired
     private ProjectDaoImpl projectDao;
 
     @GET
     @Path("/all")
     @Produces(MediaType.APPLICATION_JSON)
-    public List<Employee> getAll() {
-        return employeeDao.findAll();
+    public List<User> getAll() {
+        return userDao.findAll();
     }
 
     @GET
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Employee get(@PathParam("id") int id) {
-        return employeeDao.findById(id);
+    public User get(@PathParam("id") int id) {
+        return userDao.findById(id);
     }
 
     @POST
     @Path("/add")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response add(Employee employee) {
-        employeeDao.create(employee);
+    public Response add(User user) {
+        userDao.create(user);
         return Response.status(Response.Status.CREATED.getStatusCode()).build();
     }
 
     @PUT
     @Path("/edit/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response edit(@PathParam("id") int id, Employee employee) {
-        employeeDao.update(employee);
+    public Response edit(@PathParam("id") int id, User user) {
+        userDao.update(user);
         return Response.status(Response.Status.CREATED.getStatusCode()).build();
     }
 
     @DELETE
     @Path("/delete/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response delete(@PathParam("id") int id, Employee employee) {
-        employeeDao.delete(employee);
+    public Response delete(@PathParam("id") int id, User user) {
+        userDao.delete(user);
         return Response.status(Response.Status.OK.getStatusCode()).build();
     }
 
     @POST
-    @Path("/assign/{employeeId}/{projectId}")
+    @Path("/assign/{userId}/{projectId}")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response assignToProject(
-            @PathParam("employeeId") int employeeId,
+            @PathParam("userId") int userId,
             @PathParam("projectId") int projectId) {
-        employeeDao.assignToProject(employeeDao.findById(employeeId),
+        userDao.assignToProject(userDao.findById(userId),
                 projectDao.findById(projectId));
         return Response.status(Response.Status.OK.getStatusCode()).build();
     }

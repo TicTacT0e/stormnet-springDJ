@@ -68,7 +68,7 @@
      }
 
 	class Invitation {
-	    # (PK) employeeId: int
+	    # (PK) partnerId: int
 	    --
 	    + (AK) code: String
 	    --
@@ -78,12 +78,12 @@
 	}
 
 	class Notification {
-	    # (PK) employeeId: int
+	    # (PK) partnerId: int
 	    --
 	}
 
 	class Assignment {
-	    # (PK) employeeId: int
+	    # (PK) partnerId: int
 	    --
 	    # (PK) projectId: int
 	    --

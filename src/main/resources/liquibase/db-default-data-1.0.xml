@@ -63,33 +63,33 @@
         </sql>
         <sql>
             insert into Timesheetmanager.Employees
-            (id, companyId, employeeId, roleId, workload, status)
+            (id, companyId, partnerId, roleId, workload, status)
             values (1, 1, 3, 1, 1000, 'active')
             on duplicate key update
             companyId = 1,
-            employeeId = 3,
+            partnerId = 3,
             roleId = 1,
             workload = 1000,
             status = 'active';
         </sql>
         <sql>
             insert into Timesheetmanager.Employees
-            (id, companyId, employeeId, roleId, workload, status)
+            (id, companyId, partnerId, roleId, workload, status)
             values (2, 1, 1, 2, 1500, 'active')
             on duplicate key update
             companyId = 1,
-            employeeId = 1,
+            partnerId = 1,
             roleId = 2,
             workload = 1500,
             status = 'active';
         </sql>
         <sql>
             insert into Timesheetmanager.Employees
-            (id, companyId, employeeId, roleId, workload, status)
+            (id, companyId, partnerId, roleId, workload, status)
             values (3, 1, 2, 2, 1800, 'active')
             on duplicate key update
             companyId = 1,
-            employeeId = 2,
+            partnerId = 2,
             roleId = 2,
             workload = 1800,
             status = 'active';
@@ -144,30 +144,30 @@
         </sql>
         <sql>
             insert into Timesheetmanager.Assignments
-            (id, employeeId, projectId, activityId, workLoad)
+            (id, partnerId, projectId, activityId, workLoad)
             values (1, 3, 2, 2, 200)
             on duplicate key update
-            employeeId = 3,
+            partnerId = 3,
             projectId = 2,
             activityId = 2,
             workLoad = 200;
         </sql>
         <sql>
             insert into Timesheetmanager.Assignments
-            (id, employeeId, projectId, activityId, workLoad)
+            (id, partnerId, projectId, activityId, workLoad)
             values (2, 1, 2, 1, 300)
             on duplicate key update
-            employeeId = 1,
+            partnerId = 1,
             projectId = 2,
             activityId = 1,
             workLoad = 300;
         </sql>
         <sql>
             insert into Timesheetmanager.Assignments
-            (id, employeeId, projectId, activityId, workLoad)
+            (id, partnerId, projectId, activityId, workLoad)
             values (3, 2, 1, 1, 400)
             on duplicate key update
-            employeeId = 2,
+            partnerId = 2,
             projectId = 1,
             activityId = 1,
             workLoad = 400;

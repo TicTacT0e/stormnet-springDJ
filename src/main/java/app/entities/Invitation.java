@@ -11,7 +11,7 @@ import java.util.Objects;
 public class Invitation {
     @Id
     private int id;
-    private int employeeId;
+    private int partnerId;
     private String code;
     private Date dateEnd;
     private String status;
@@ -22,7 +22,7 @@ public class Invitation {
     public Invitation(int id, int employeeId, String code,
                       Date dateEnd, String status) {
         this.id = id;
-        this.employeeId = employeeId;
+        this.partnerId = employeeId;
         this.code = code;
         this.dateEnd = dateEnd;
         this.status = status;
@@ -31,7 +31,7 @@ public class Invitation {
     public Invitation(Invitation invitation) {
         this(
                 invitation.getId(),
-                invitation.getEmployeeId(),
+                invitation.getPartnerId(),
                 invitation.getCode(),
                 invitation.getDateEnd(),
                 invitation.getStatus()
@@ -42,8 +42,8 @@ public class Invitation {
         return id;
     }
 
-    public int getEmployeeId() {
-        return employeeId;
+    public int getPartnerId() {
+        return partnerId;
     }
 
     public String getCode() {
@@ -62,8 +62,8 @@ public class Invitation {
         this.id = id;
     }
 
-    public void setEmployeeId(int employeeId) {
-        this.employeeId = employeeId;
+    public void setPartnerId(int partnerId) {
+        this.partnerId = partnerId;
     }
 
     public void setCode(String code) {
@@ -82,7 +82,7 @@ public class Invitation {
     public String toString() {
         return "Invitation{"
                 + "id=" + id
-                + ", employeeId=" + employeeId
+                + ", partnerId=" + partnerId
                 + ", code='" + code + '\''
                 + ", dateEnd=" + dateEnd
                 + ", status='" + status + '\''
@@ -103,7 +103,7 @@ public class Invitation {
         if (id != that.id) {
             return false;
         }
-        if (employeeId != that.employeeId) {
+        if (partnerId != that.partnerId) {
             return false;
         }
         if (!Objects.equals(code, that.code)) {
@@ -117,7 +117,7 @@ public class Invitation {
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getEmployeeId(), getCode(),
+        return Objects.hash(getId(), getPartnerId(), getCode(),
                 getDateEnd(), getStatus());
     }
 }

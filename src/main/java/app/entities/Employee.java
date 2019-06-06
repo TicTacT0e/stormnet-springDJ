@@ -1,135 +1,95 @@
 package app.entities;
 
-import javax.persistence.CollectionTable;
-import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Objects;
+import java.util.StringJoiner;
 
 @Entity
 @Table(name = "Employees")
 public class Employee {
 
     @Id
-    private int id;
-    private String name;
-    private String phone;
-    private String email;
-    private String photoUrl;
-
-    @ElementCollection
-    @CollectionTable(name = "Project")
-    private List<Project> projects = new LinkedList<>();
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
+    private Integer companyId;
+    private Integer employeeId;
+    private String roleId;
+    private Integer workLoad;
+    private String status;
 
     public Employee() {
     }
 
-    public Employee(int id, String name, String phone,
-                    String email, String photoUrl) {
+    public Employee(int id, int companyId, int employeeId, String roleId,
+                    int workLoad, String status) {
         this.id = id;
-        this.name = name;
-        this.phone = phone;
-        this.email = email;
-        this.photoUrl = photoUrl;
+        this.companyId = companyId;
+        this.employeeId = employeeId;
+        this.roleId = roleId;
+        this.workLoad = workLoad;
+        this.status = status;
     }
 
-    public Employee(Employee employee) {
-        this(employee.getId(),
-                employee.getName(),
-                employee.getPhone(),
-                employee.getEmail(),
-                employee.getPhotoUrl());
-        this.projects = employee.getProjects();
-    }
-
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public Integer getCompanyId() {
+        return companyId;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setCompanyId(Integer companyId) {
+        this.companyId = companyId;
     }
 
-    public String getPhone() {
-        return phone;
+    public Integer getEmployeeId() {
+        return employeeId;
     }
 
-    public void setPhone(String phone) {
-        this.phone = phone;
+    public void setEmployeeId(Integer employeeId) {
+        this.employeeId = employeeId;
     }
 
-    public String getEmail() {
-        return email;
+    public String getRoleId() {
+        return roleId;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setRoleId(String roleId) {
+        this.roleId = roleId;
     }
 
-    public String getPhotoUrl() {
-        return photoUrl;
+    public Integer getWorkLoad() {
+        return workLoad;
     }
 
-    public void setPhotoUrl(String photoUrl) {
-        this.photoUrl = photoUrl;
+    public void setWorkLoad(Integer workLoad) {
+        this.workLoad = workLoad;
     }
 
-    public List<Project> getProjects() {
-        return projects;
+    public String getStatus() {
+        return status;
     }
 
-    public void setProjects(List<Project> projects) {
-        this.projects = projects;
-    }
-
-    public void assignToProject(Project project) {
-            projects.add(project);
-    }
-
-        @Override
-    public boolean equals(Object object) {
-        if (this == object) {
-            return true;
-        }
-        if (!(object instanceof Employee)) {
-            return false;
-        }
-        Employee employee = (Employee) object;
-        return id == employee.id
-                && Objects.equals(name, employee.name)
-                && Objects.equals(phone, employee.phone)
-                && Objects.equals(email, employee.email)
-                && Objects.equals(photoUrl, employee.photoUrl)
-                && Objects.equals(projects, employee.projects);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, name, phone, email, photoUrl, projects);
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     @Override
     public String toString() {
-        return "Employee{"
-                + "id=" + id
-                + ", name='" + name + '\''
-                + ", photo='" + phone + '\''
-                + ", email='" + email + '\''
-                + ", email='" + photoUrl + '\''
-                + '\n'
-                + ", projects=" + projects
-                + '}';
+        return new StringJoiner(", ", Employee.class.getSimpleName() + "[", "]")
+                .add("id=" + id)
+                .add("companyId=" + companyId)
+                .add("employeeId=" + employeeId)
+                .add("roleId='" + roleId + "'")
+                .add("workLoad=" + workLoad)
+                .add("status='" + status + "'")
+                .toString();
     }
 }
-

@@ -11,6 +11,7 @@ import java.util.Objects;
 public class Project {
     @Id
     private int id;
+    private  int companyId;
     private String name;
     private String logoUrl;
     private Date startDate;
