@@ -20,7 +20,7 @@ public class UserDaoImplTest extends ConnectionForTests {
     @Autowired
     private BasicCrudDao<User> userDao;
 
-    private static final String EMPLOYEE_TABLE = "Employee";
+    private static final String EMPLOYEE_TABLE = "Users";
 
     private static final int NUMBER_OF_FIRST_ROW = 0;
 

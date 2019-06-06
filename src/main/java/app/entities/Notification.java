@@ -15,7 +15,7 @@ public class Notification {
     @Id
     private int id;
     private Date createdAt;
-    private int partnerId;
+    private int employeeId;
     private String status;
     private String title;
     private String description;
@@ -27,7 +27,7 @@ public class Notification {
     public Notification(int id, int employeeId, String status, String title,
                         String description, String link) {
         this.id = id;
-        this.partnerId = employeeId;
+        this.employeeId = employeeId;
         this.status = status;
         this.title = title;
         this.description = description;
@@ -60,12 +60,12 @@ public class Notification {
         this.createdAt = createdAt;
     }
 
-    public int getPartnerId() {
-        return partnerId;
+    public int getEmployeeId() {
+        return employeeId;
     }
 
-    public void setPartnerId(int partnerId) {
-        this.partnerId = partnerId;
+    public void setEmployeeId(int employeeId) {
+        this.employeeId = employeeId;
     }
 
     public String getStatus() {

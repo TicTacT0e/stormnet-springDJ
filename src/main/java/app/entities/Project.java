@@ -11,7 +11,7 @@ import java.util.Objects;
 public class Project {
     @Id
     private int id;
-    private  int companyId;
+    private int companyId;
     private String name;
     private String logoUrl;
     private Date startDate;
@@ -25,10 +25,11 @@ public class Project {
     public Project() {
     }
 
-    public Project(int id, String name, String logoUrl,
+    public Project(int id, int companyId, String name, String logoUrl,
                    Date startDate, Date endDate, long manHoursInMilliseconds,
                    String code, String color, String description) {
         this.id = id;
+        this.companyId = companyId;
         this.name = name;
         this.logoUrl = logoUrl;
         this.startDate = startDate;
@@ -41,6 +42,7 @@ public class Project {
 
     public Project(Project project) {
         this(project.getId(),
+                project.getCompanyId(),
                 project.getName(),
                 project.getLogoUrl(),
                 project.getStartDate(),
@@ -57,6 +59,14 @@ public class Project {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public int getCompanyId() {
+        return companyId;
+    }
+
+    public void setCompanyId(int companyId) {
+        this.companyId = companyId;
     }
 
     public String getName() {
