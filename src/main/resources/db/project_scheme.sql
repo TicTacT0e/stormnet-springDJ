@@ -7,17 +7,17 @@ CREATE TABLE `Activities` (
 
 CREATE TABLE `Assignments` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `employeeId` bigint(20) NOT NULL,
+  `userId` bigint(20) NOT NULL,
   `projectId` bigint(20) NOT NULL,
   `activityId` bigint(20) NOT NULL,
   `workLoad` int(11) NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `EmployeeIdProjectIdActivityId_UNIQUE` (`employeeId`,`projectId`,`activityId`),
+  UNIQUE KEY `EmployeeIdProjectIdActivityId_UNIQUE` (`userId`,`projectId`,`activityId`),
   KEY `AssignmentProject_idx` (`projectId`),
-  KEY `AssignmentEmployee_idx` (`employeeId`),
+  KEY `AssignmentUser_idx` (`userId`),
   KEY `AssignmentActivity_idx` (`activityId`),
   CONSTRAINT `AssignmentActivity` FOREIGN KEY (`activityId`) REFERENCES `Activities` (`id`),
-  CONSTRAINT `AssignmentEmployee` FOREIGN KEY (`employeeId`) REFERENCES `Users` (`id`),
+  CONSTRAINT `AssignmentUser` FOREIGN KEY (`userId`) REFERENCES `Users` (`id`),
   CONSTRAINT `AssignmentProject` FOREIGN KEY (`projectId`) REFERENCES `Projects` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8
 
