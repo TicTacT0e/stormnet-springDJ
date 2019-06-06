@@ -100,7 +100,7 @@ public class InvitationsDaoImplTest extends ConnectionForTests {
                 Assert.assertEquals(iTable.getValue(index, "id").toString(),
                         String.valueOf(invitation.getId()));
                 Assert.assertEquals(iTable.getValue(index, "partnerId").toString(),
-                        String.valueOf(invitation.getPartnerId()));
+                        String.valueOf(invitation.getEmployeeId()));
                 Assert.assertEquals(iTable.getValue(index, "code").toString(),
                         String.valueOf(invitation.getCode()));
                 Assert.assertEquals(iTable.getValue(index, "dateEnd").toString(),
@@ -126,7 +126,7 @@ public class InvitationsDaoImplTest extends ConnectionForTests {
             Assert.assertEquals(iTable.getValue(NUMBER_OF_FIRST_ROW, "id").toString(),
                     String.valueOf(invitation.getId()));
             Assert.assertEquals(iTable.getValue(NUMBER_OF_FIRST_ROW, "partnerId").toString(),
-                    String.valueOf(invitation.getPartnerId()));
+                    String.valueOf(invitation.getEmployeeId()));
             Assert.assertEquals(iTable.getValue(NUMBER_OF_FIRST_ROW, "code").toString(),
                     String.valueOf(invitation.getCode()));
             Assert.assertEquals(iTable.getValue(NUMBER_OF_FIRST_ROW, "dateEnd").toString(),
