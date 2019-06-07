@@ -34,18 +34,18 @@ CREATE TABLE `Companies` (
 CREATE TABLE `Employees` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `companyId` bigint(20) NOT NULL,
-  `employeeId` bigint(20) NOT NULL,
+  `userId` bigint(20) NOT NULL,
   `roleId` varchar(10) NOT NULL,
   `workLoad` int(11) DEFAULT NULL,
   `status` varchar(20) NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `EmployeeIdCompanyId_UNIQUE` (`employeeId`,`companyId`),
-  KEY `PartnerRoleId_idx` (`roleId`),
-  KEY `PartnerEmployeeId_idx` (`employeeId`),
-  KEY `PartnerCompanyId_idx` (`companyId`),
-  CONSTRAINT `PartnerCompanyId` FOREIGN KEY (`companyId`) REFERENCES `Companies` (`id`),
-  CONSTRAINT `PartnerEmployeeId` FOREIGN KEY (`employeeId`) REFERENCES `Users` (`id`),
-  CONSTRAINT `PartnerRoleId` FOREIGN KEY (`roleId`) REFERENCES `Roles` (`code`)
+  UNIQUE KEY `EmployeeIdCompanyId_UNIQUE` (`userId`,`companyId`),
+  KEY `EmployeeRoleId_idx` (`roleId`),
+  KEY `EmployeeCompanyId_idx` (`companyId`),
+  KEY `EmployeeUserId_idx` (`userId`),
+  CONSTRAINT `EmployeeCompanyId` FOREIGN KEY (`companyId`) REFERENCES `Companies` (`id`),
+  CONSTRAINT `EmployeeRoleId` FOREIGN KEY (`roleId`) REFERENCES `Roles` (`code`),
+  CONSTRAINT `EmployeeUserId` FOREIGN KEY (`userId`) REFERENCES `Users` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8
 
 CREATE TABLE `Integrations` (

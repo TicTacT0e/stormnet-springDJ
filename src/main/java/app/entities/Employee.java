@@ -15,7 +15,7 @@ public class Employee {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private Integer companyId;
-    private Integer employeeId;
+    private Integer userId;
     private String roleId;
     private Integer workLoad;
     private String status;
@@ -23,11 +23,11 @@ public class Employee {
     public Employee() {
     }
 
-    public Employee(int id, int companyId, int employeeId, String roleId,
+    public Employee(int id, int companyId, int userId, String roleId,
                     int workLoad, String status) {
         this.id = id;
         this.companyId = companyId;
-        this.employeeId = employeeId;
+        this.userId = userId;
         this.roleId = roleId;
         this.workLoad = workLoad;
         this.status = status;
@@ -49,12 +49,12 @@ public class Employee {
         this.companyId = companyId;
     }
 
-    public Integer getEmployeeId() {
-        return employeeId;
+    public Integer getUserId() {
+        return userId;
     }
 
-    public void setEmployeeId(Integer employeeId) {
-        this.employeeId = employeeId;
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 
     public String getRoleId() {
@@ -86,7 +86,7 @@ public class Employee {
         return new StringJoiner(", ", Employee.class.getSimpleName() + "[", "]")
                 .add("id=" + id)
                 .add("companyId=" + companyId)
-                .add("employeeId=" + employeeId)
+                .add("userId=" + userId)
                 .add("roleId='" + roleId + "'")
                 .add("workLoad=" + workLoad)
                 .add("status='" + status + "'")
