@@ -12,7 +12,7 @@ public interface ProjectDao extends BasicCrudDao<Project>{
 
     List<Double> getProjectLoading(int id);
 
-    List<Employee> getTeam(int id);
+    List<Employee> getProjectTeam(int id);
 
-    List<ProjectPage> getProjectData(int companyId);
+    List<ProjectPage> getProjectData(int id);
 }

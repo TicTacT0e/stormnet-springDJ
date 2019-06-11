@@ -19,22 +19,22 @@ public class ProjectDaoImpl extends BasicCrudDaoImpl<Project> implements Project
     @Autowired
     private SessionFactory sessionFactory;
 
-    private static final String GET_PROJECT_TEAM_QUERY = "select empl.name, empl.photoUrl from Employee empl join Assignment assign on empl.id = assign.employeeId join Project proj on proj.id = assign.projectId where proj.id =:id";
+    private static final String GET_PROJECT_TEAM_QUERY = "select empl.name, empl.photoUrl from Employee empl join Assignment assign on empl.id = assign.employeeId join Project proj on proj.id = assign.projectId where proj.id = ?";
     private static final String GET_PROJECTS_BY_COMPANYID = "from Project where companyId =:companyId";
-    private static final String GET_PROJECTLOADING_BY_ID = "SELECT projectId, SUM(time) from Logs log join Assignment assign on log.assignmentId = assign.id where assign.projectId =:id group by projectId";
+    private static final String GET_PROJECTLOADING_QUERY = "SELECT projectId, SUM(time) from Logs log join Assignment assign on log.assignmentId = assign.id where assign.projectId = ? group by projectId";
 
 
     @Override
-    public List<Double> getProjectLoading(int id) {
-        Query query = sessionFactory.getCurrentSession().createSQLQuery(GET_PROJECTLOADING_BY_ID);
-        query.setParameter("id", id);
+    public List<Double> getProjectLoading(int projectId) {
+        Query query = sessionFactory.getCurrentSession().createSQLQuery(GET_PROJECTLOADING_QUERY);
+        query.setParameter(1, projectId);
         return query.getResultList();
     }
 
     @Override
-    public List<Employee> getTeam(int id) {
+    public List<Employee> getProjectTeam(int projectId) {
         Query query = sessionFactory.getCurrentSession().createSQLQuery(GET_PROJECT_TEAM_QUERY);
-        query.setParameter("id", id);
+        query.setParameter(1, projectId);
         return query.getResultList();
     }
 
@@ -46,15 +46,13 @@ public class ProjectDaoImpl extends BasicCrudDaoImpl<Project> implements Project
         List<ProjectPage> projectPage = new LinkedList<>();
         for (int i = 0; i < projects.size(); i++) {
             ProjectDto projectDto = new ProjectDto();
-            int c = 0;
-            int d = i + 1;
             projectDto.setProjectColor(projects.get(i).getColor());
             projectDto.setProjectName(projects.get(i).getName());
             projectDto.setProjectCode(projects.get(i).getCode());
-            projectDto.setTeam(getTeam(d));
+            projectDto.setTeam(getProjectTeam(projects.get(i).getId()));
             projectDto.setProjectStartDate(projects.get(i).getStartDate());
-            projectDto.setProjectLoading(getProjectLoading(d));
-            projectPage.add(c, projectDto);
+            projectDto.setProjectLoading(getProjectLoading(projects.get(i).getId()));
+            projectPage.add(i, projectDto);
         }
         return projectPage;
     }
