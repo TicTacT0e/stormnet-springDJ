@@ -1,8 +1,10 @@
 package app.resources;
 
+import app.services.OAuth2Service;
 import org.apache.oltu.oauth2.client.request.OAuthClientRequest;
 import org.apache.oltu.oauth2.common.OAuthProviderType;
 import org.apache.oltu.oauth2.common.exception.OAuthSystemException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.ws.rs.GET;
@@ -20,21 +22,16 @@ import java.net.URISyntaxException;
 @Path("/login")
 public class LoginController {
 
-    //id
-    //741125894809-j3tls88pr4u1lmadblb85rv086ecnsvp.apps.googleusercontent.com
-
-    //secret
-    //8UL-DCcDlQD1jLjh2tehN-42
-
-
-    //facebook
-    //382308039060983
-
-    //secret
-    //9142e1cc1afe5a21c4c9c2c497fac3dc
-
     @Context
-    UriInfo uriInfo;
+    private UriInfo uriInfo;
+
+    @Autowired
+    private OAuth2Service oAuth2Service;
+
+    private static final String RESPONSE_TYPE = "code";
+    private static final String GOOGLE_SCOPE
+            = "https://www.googleapis.com/auth/plus.login";
+    private static final String CALLBACK = "oauth2callback";
 
     @GET
     @Path("/google")
@@ -43,12 +40,12 @@ public class LoginController {
         try {
             OAuthClientRequest request = OAuthClientRequest
                     .authorizationProvider(OAuthProviderType.GOOGLE)
-                    .setClientId("741125894809-j3tls88pr4u1lmadblb85rv086ecnsvp.apps.googleusercontent.com")
-                    .setResponseType("code")
-                    .setScope("https://www.googleapis.com/auth/plus.login")
+                    .setClientId(oAuth2Service.getClientIdGoogle())
+                    .setResponseType(RESPONSE_TYPE)
+                    .setScope(GOOGLE_SCOPE)
                     .setRedirectURI(
                             UriBuilder.fromUri(uriInfo.getBaseUri())
-                                    .path("oauth2callback").build().toString())
+                                    .path(CALLBACK).build().toString())
                     .buildQueryMessage();
             URI redirect = new URI(request.getLocationUri());
             return Response.seeOther(redirect).build();
@@ -64,10 +61,10 @@ public class LoginController {
         try {
             OAuthClientRequest request = OAuthClientRequest
                     .authorizationProvider(OAuthProviderType.FACEBOOK)
-                    .setClientId("151640435578187")
+                    .setClientId(oAuth2Service.getClientIdFacebook())
                     .setRedirectURI(
                             UriBuilder.fromUri(uriInfo.getBaseUri())
-                                    .path("oauth2callback").build().toString())
+                                    .path(CALLBACK).build().toString())
                     .buildQueryMessage();
             URI redirect = new URI(request.getLocationUri());
             return Response.seeOther(redirect).build();
