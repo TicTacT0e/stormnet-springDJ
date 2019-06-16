@@ -15,8 +15,10 @@ public class LogsDaoImpl extends BasicCrudDaoImpl<Log> implements LogDao {
     @Autowired
     private SessionFactory sessionFactory;
 
-    private static final String FIND_BY_DAY = "FROM Log WHERE date > current_date()";
-    private static final String FIND_BY_PERIOD = "FROM Log WHERE date BETWEEN :startDate AND :endDate";
+    private static final String FIND_BY_DAY = "FROM Log WHERE "
+            + "date > current_date()";
+    private static final String FIND_BY_PERIOD = "FROM Log WHERE date"
+            + " BETWEEN :startDate AND :endDate";
 
     @Override
     public void createLog(List<Log> logs) {
