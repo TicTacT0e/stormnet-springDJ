@@ -34,7 +34,8 @@ public class Log {
     public Log() {
     }
 
-    public Log(int id, int assignmentId, double time, int rowCount, String comment, long version) {
+    public Log(int id, int assignmentId, double time,
+               int rowCount, String comment, long version) {
         this.id = id;
         this.assignmentId = assignmentId;
         this.time = time;
