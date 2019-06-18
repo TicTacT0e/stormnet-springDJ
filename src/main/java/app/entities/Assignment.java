@@ -1,8 +1,17 @@
 package app.entities;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -10,11 +19,26 @@ import java.util.Objects;
 public class Assignment {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", updatable = false, nullable = false)
     private int id;
     private int projectId;
     private int employeeId;
     private int activityId;
     private int workLoad;
+
+    @ManyToOne
+    @JoinColumn(name = "id")
+    private Project project;
+    @ManyToOne
+    @JoinColumn(name = "id")
+    private Employee employee;
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "Activity",
+    joinColumns = {@JoinColumn(name = "id")})
+    private List<Activity> activities;
+
+
 
     public Assignment() {
     }
