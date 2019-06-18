@@ -15,6 +15,8 @@ import app.dao.impl.ProjectDaoImpl;
 import app.dao.impl.ProjectEditPageDaoImpl;
 import app.dao.impl.SettingsDaoImpl;
 import app.dao.impl.TimesheetDaoImpl;
+import app.dao.impl.ProjectEditPageDaoImpl;
+import app.dao.impl.UserDaoImpl;
 import app.entities.Activity;
 import app.entities.Assignment;
 import app.entities.Company;
@@ -25,6 +27,7 @@ import app.entities.Notification;
 import app.entities.Project;
 import app.entities.Settings;
 import app.entities.Timesheet;
+import app.entities.User;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -42,6 +45,11 @@ public class DaoConfig {
         return new EmployeeDaoImpl();
     }
 
+
+    @Bean
+    public BasicCrudDao<User> getUserDao() {
+        return new UserDaoImpl();
+    }
 
     @Bean
     public LogDao getLogsDao() {
