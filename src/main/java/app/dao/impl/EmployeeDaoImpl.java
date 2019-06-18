@@ -5,4 +5,3 @@ import app.entities.Employee;
 public class EmployeeDaoImpl extends BasicCrudDaoImpl<Employee> {
 
 }
-l
