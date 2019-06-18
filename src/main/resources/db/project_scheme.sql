@@ -14,10 +14,10 @@ CREATE TABLE `Assignments` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `EmployeeIdProjectIdActivityId_UNIQUE` (`employeeId`,`projectId`,`activityId`),
   KEY `AssignmentProject_idx` (`projectId`),
-  KEY `AssignmentUser_idx` (`employeeId`),
+  KEY `AssignmentEmployee_idx` (`employeeId`),
   KEY `AssignmentActivity_idx` (`activityId`),
   CONSTRAINT `AssignmentActivity` FOREIGN KEY (`activityId`) REFERENCES `Activities` (`id`),
-  CONSTRAINT `AssignmentUser` FOREIGN KEY (`employeeId`) REFERENCES `Employees` (`id`),
+  CONSTRAINT `AssignmentEmployee` FOREIGN KEY (`employeeId`) REFERENCES `Employees` (`id`),
   CONSTRAINT `AssignmentProject` FOREIGN KEY (`projectId`) REFERENCES `Projects` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8
 

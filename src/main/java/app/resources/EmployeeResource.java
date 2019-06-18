@@ -1,10 +1,8 @@
 package app.resources;
 
 import app.dao.impl.EmployeeDaoImpl;
-import app.dao.impl.UserDaoImpl;
 import app.dao.impl.ProjectDaoImpl;
 import app.entities.Employee;
-import app.entities.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
