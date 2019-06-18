@@ -2,6 +2,7 @@ package app.config.beans;
 
 
 import app.dao.BasicCrudDao;
+import app.dao.LogDao;
 import app.dao.impl.ActivityDaoImpl;
 import app.dao.impl.AssignmentDaoImpl;
 import app.dao.impl.CompanyDaoImpl;
@@ -11,6 +12,7 @@ import app.dao.impl.InvitationDaoImpl;
 import app.dao.impl.LogsDaoImpl;
 import app.dao.impl.NotificationDaoImpl;
 import app.dao.impl.ProjectDaoImpl;
+import app.dao.impl.ProjectEditPageDaoImpl;
 import app.dao.impl.SettingsDaoImpl;
 import app.dao.impl.TimesheetDaoImpl;
 import app.dao.impl.ProjectEditPageDaoImpl;
@@ -21,7 +23,6 @@ import app.entities.Company;
 import app.entities.Employee;
 import app.entities.Integration;
 import app.entities.Invitation;
-import app.entities.Log;
 import app.entities.Notification;
 import app.entities.Project;
 import app.entities.Settings;
@@ -44,13 +45,14 @@ public class DaoConfig {
         return new EmployeeDaoImpl();
     }
 
+
     @Bean
     public BasicCrudDao<User> getUserDao() {
         return new UserDaoImpl();
     }
 
     @Bean
-    public BasicCrudDao<Log> getLogsDao() {
+    public LogDao getLogsDao() {
         return new LogsDaoImpl();
     }
 
