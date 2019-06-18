@@ -6,11 +6,11 @@ import app.resources.EmployeeResource;
 import app.resources.InvitationResource;
 import app.resources.LogsResource;
 import app.resources.NotificationResource;
-import app.resources.ProjectEditPageResources;
 import app.resources.ProjectResource;
 import app.resources.ProjectVersionResource;
 import app.resources.SettingsResource;
 import app.resources.TimesheetResource;
+import app.resources.ProjectEditPageResources;
 import app.resources.UserResource;
 import org.glassfish.jersey.server.ResourceConfig;
 
