@@ -12,7 +12,7 @@ public class Assignment {
     @Id
     private int id;
     private int projectId;
-    private int userId;
+    private int employeeId;
     private int activityId;
     private int workLoad;
 
@@ -23,7 +23,7 @@ public class Assignment {
                       int activityId, int workLoad) {
         this.id = id;
         this.projectId = projectId;
-        this.userId = employeeId;
+        this.employeeId = employeeId;
         this.activityId = activityId;
         this.workLoad = workLoad;
     }
@@ -32,7 +32,7 @@ public class Assignment {
         this(
                 assigment.getId(),
                 assigment.getProjectId(),
-                assigment.getUserId(),
+                assigment.getEmployeeId(),
                 assigment.getActivityId(),
                 assigment.getWorkLoad()
         );
@@ -46,12 +46,12 @@ public class Assignment {
         this.projectId = projectId;
     }
 
-    public int getUserId() {
-        return userId;
+    public int getEmployeeId() {
+        return employeeId;
     }
 
-    public void setUserId(int userId) {
-        this.userId = userId;
+    public void setEmployeeId(int employeeId) {
+        this.employeeId = employeeId;
     }
 
     public int getWorkLoad() {

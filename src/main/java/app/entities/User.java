@@ -93,10 +93,6 @@ public class User {
         this.projects = projects;
     }
 
-    public void assignToProject(Project project) {
-            projects.add(project);
-    }
-
         @Override
     public boolean equals(Object object) {
         if (this == object) {

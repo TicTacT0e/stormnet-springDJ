@@ -21,20 +21,18 @@ public class Project {
     private String color;
     private String description;
 
-
     public Project() {
     }
 
     public Project(int id, int companyId, String name, String logoUrl,
-                   Date startDate, Date endDate, long manHoursInMilliseconds,
-                   String code, String color, String description) {
+                   Date startDate, Date endDate, long manHours, String code, String color, String description) {
         this.id = id;
         this.companyId = companyId;
         this.name = name;
         this.logoUrl = logoUrl;
         this.startDate = startDate;
         this.endDate = endDate;
-        this.manHours = manHoursInMilliseconds;
+        this.manHours = manHours;
         this.code = code;
         this.color = color;
         this.description = description;
@@ -129,8 +127,8 @@ public class Project {
         return manHours;
     }
 
-    public void setManHours(long manHoursInMilliseconds) {
-        this.manHours = manHoursInMilliseconds;
+    public void setManHours(long manHours) {
+        this.manHours = manHours;
     }
 
     @Override
@@ -142,59 +140,30 @@ public class Project {
             return false;
         }
         Project project = (Project) o;
-        if (id != project.id) {
+        if (id != project.id)
             return false;
-        }
-        if (manHours != project.manHours) {
+        if (companyId != project.companyId)
             return false;
-        }
-        if (name != null ? !name
-                .equals(project.name) : project.name != null) {
+        if (name != null ? !name.equals(project.name) : project.name != null)
             return false;
-        }
-        if (logoUrl != null ? !logoUrl
-                .equals(project.logoUrl) : project.logoUrl != null) {
+        if (logoUrl != null ? !logoUrl.equals(project.logoUrl) : project.logoUrl != null)
             return false;
-        }
-        if (startDate != null ? !startDate
-                .equals(project.startDate) : project.startDate != null) {
-            return false;
-        }
-        if (endDate != null ? !endDate
-                .equals(project.endDate) : project.endDate != null) {
-            return false;
-        }
-        if (code != null ? !code
-                .equals(project.code) : project.code != null) {
-            return false;
-        }
-        if (color != null ? !color
-                .equals(project.color) : project.color != null) {
-            return false;
-        }
-        return description != null ? description
-                .equals(project.description) : project.description == null;
+        return code != null ? !code.equals(project.code) : project.code != null;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getManHours(), getName(), getLogoUrl(),
-                getStartDate(), getEndDate(), getCode(), getColor(),
-                getDescription());
+        return Objects.hash(id, companyId, name, logoUrl, code);
     }
 
     @Override
     public String toString() {
         return "Project{"
                 + "id=" + id
+                + ", companyId='" + companyId + '\''
                 + ", name='" + name + '\''
                 + ", logoUrl='" + logoUrl + '\''
-                + ", startDate=" + startDate
-                + ", endDate=" + endDate
-                + ", manHours=" + manHours + '\''
                 + ", code=" + code
-                + ", color" + color + '\''
-                + ", description=" + description
                 + '}';
     }
 }

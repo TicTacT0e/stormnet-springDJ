@@ -85,7 +85,7 @@ public class AssignmentDaoImplTests extends ConnectionForTests {
 				String.valueOf(assignment.getProjectId()));
 		Assert.assertEquals(expectedTable.getValue(NUMBER_OF_FIRST_ROW, "employeeId")
 						.toString(),
-				String.valueOf(assignment.getUserId()));
+				String.valueOf(assignment.getEmployeeId()));
 		Assert.assertEquals(expectedTable.getValue(NUMBER_OF_FIRST_ROW, "activityId")
 						.toString(),
 				String.valueOf(assignment.getActivityId()));
@@ -117,7 +117,7 @@ public class AssignmentDaoImplTests extends ConnectionForTests {
 					String.valueOf(assignment.getProjectId()));
 			Assert.assertEquals(expectedTable.getValue(index, "employeeId")
 							.toString(),
-					String.valueOf(assignment.getUserId()));
+					String.valueOf(assignment.getEmployeeId()));
 			Assert.assertEquals(expectedTable.getValue(index, "activityId")
 							.toString(),
 					String.valueOf(assignment.getActivityId()));

@@ -7,17 +7,17 @@ CREATE TABLE `Activities` (
 
 CREATE TABLE `Assignments` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `userId` bigint(20) NOT NULL,
+  `employeeId` bigint(20) NOT NULL,
   `projectId` bigint(20) NOT NULL,
   `activityId` bigint(20) NOT NULL,
   `workLoad` int(11) NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `EmployeeIdProjectIdActivityId_UNIQUE` (`userId`,`projectId`,`activityId`),
+  UNIQUE KEY `EmployeeIdProjectIdActivityId_UNIQUE` (`employeeId`,`projectId`,`activityId`),
   KEY `AssignmentProject_idx` (`projectId`),
-  KEY `AssignmentUser_idx` (`userId`),
+  KEY `AssignmentUser_idx` (`employeeId`),
   KEY `AssignmentActivity_idx` (`activityId`),
   CONSTRAINT `AssignmentActivity` FOREIGN KEY (`activityId`) REFERENCES `Activities` (`id`),
-  CONSTRAINT `AssignmentUser` FOREIGN KEY (`userId`) REFERENCES `Users` (`id`),
+  CONSTRAINT `AssignmentUser` FOREIGN KEY (`employeeId`) REFERENCES `Employees` (`id`),
   CONSTRAINT `AssignmentProject` FOREIGN KEY (`projectId`) REFERENCES `Projects` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8
 
@@ -34,18 +34,18 @@ CREATE TABLE `Companies` (
 CREATE TABLE `Employees` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `companyId` bigint(20) NOT NULL,
-  `userId` bigint(20) NOT NULL,
+  `employeeId` bigint(20) NOT NULL,
   `roleId` varchar(10) NOT NULL,
   `workLoad` int(11) DEFAULT NULL,
   `status` varchar(20) NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `EmployeeIdCompanyId_UNIQUE` (`userId`,`companyId`),
+  UNIQUE KEY `EmployeeIdCompanyId_UNIQUE` (`employeeId`,`companyId`),
   KEY `EmployeeRoleId_idx` (`roleId`),
   KEY `EmployeeCompanyId_idx` (`companyId`),
-  KEY `EmployeeUserId_idx` (`userId`),
+  KEY `EmployeeUserId_idx` (`employeeId`),
   CONSTRAINT `EmployeeCompanyId` FOREIGN KEY (`companyId`) REFERENCES `Companies` (`id`),
   CONSTRAINT `EmployeeRoleId` FOREIGN KEY (`roleId`) REFERENCES `Roles` (`code`),
-  CONSTRAINT `EmployeeUserId` FOREIGN KEY (`userId`) REFERENCES `Users` (`id`)
+  CONSTRAINT `EmployeeUserId` FOREIGN KEY (`employeeId`) REFERENCES `Users` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8
 
 CREATE TABLE `Integrations` (

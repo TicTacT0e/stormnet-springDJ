@@ -83,7 +83,7 @@
 	}
 
 	class Assignment {
-	    # (PK) userId: int
+	    # (PK) employeeId: int
 	    --
 	    # (PK) projectId: int
 	    --

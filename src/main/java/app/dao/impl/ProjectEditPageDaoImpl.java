@@ -2,7 +2,7 @@ package app.dao.impl;
 
 import app.dao.ProjectPageEditDao;
 import app.dto.ProjectEditPage;
-import app.entities.User;
+import app.entities.Employee;
 import app.entities.Integration;
 import app.entities.Project;
 import app.entities.Timesheet;
@@ -49,7 +49,7 @@ public class ProjectEditPageDaoImpl implements ProjectPageEditDao {
         return project;
     }
 
-    public List<User> getTeamFromProject(int id) {
+    public List<Employee> getTeamFromProject(int id) {
         Query query = sessionFactory.getCurrentSession()
                 .createSQLQuery(getTeam);
         query.setParameter("id", id);
