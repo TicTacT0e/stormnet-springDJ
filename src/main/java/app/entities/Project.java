@@ -1,15 +1,24 @@
 package app.entities;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import java.sql.Date;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
 @Table(name = "Projects")
 public class Project {
+
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", updatable = false, nullable = false)
     private int id;
     private int companyId;
     private String name;
@@ -20,6 +29,9 @@ public class Project {
     private String code;
     private String color;
     private String description;
+
+//    @OneToMany(fetch = FetchType.LAZY)
+//    private List<Assignment> assignments;
 
     public Project() {
     }
@@ -131,6 +143,14 @@ public class Project {
     public void setManHours(long manHours) {
         this.manHours = manHours;
     }
+
+//    public List<Assignment> getAssignments() {
+//        return assignments;
+//    }
+//
+//    public void setAssignments(List<Assignment> assignments) {
+//        this.assignments = assignments;
+//    }
 
     @Override
     public boolean equals(Object object) {

@@ -1,5 +1,7 @@
 package app.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -10,6 +12,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.MapsId;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import java.util.List;
 import java.util.Objects;
@@ -23,43 +27,41 @@ public class Assignment {
     @Column(name = "id", updatable = false, nullable = false)
     private int id;
     private int projectId;
-    private int employeeId;
+//    private int employeeId;
     private int activityId;
-    private int workLoad;
 
+//    @OneToOne
+//    @JoinColumn(name = "projectId")
+//    private Project project;
+//    @MapsId("id")
     @ManyToOne
-    @JoinColumn(name = "id")
-    private Project project;
-    @ManyToOne
-    @JoinColumn(name = "id")
+    @JoinColumn(name = "employeeId", referencedColumnName = "employeeId",
+            updatable = false, insertable = false)
     private Employee employee;
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "Activity",
-    joinColumns = {@JoinColumn(name = "id")})
-    private List<Activity> activities;
-
+//    @OneToOne
+//    @JoinColumn(name = "activityId")
+//    private Activity activity;
+    private int workLoad;
 
 
     public Assignment() {
     }
 
-    public Assignment(int id, int projectId, int employeeId,
-                      int activityId, int workLoad) {
-        this.id = id;
-        this.projectId = projectId;
-        this.employeeId = employeeId;
-        this.activityId = activityId;
-        this.workLoad = workLoad;
+
+    public Employee getEmployee() {
+        return employee;
     }
 
-    public Assignment(Assignment assigment) {
-        this(
-                assigment.getId(),
-                assigment.getProjectId(),
-                assigment.getEmployeeId(),
-                assigment.getActivityId(),
-                assigment.getWorkLoad()
-        );
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
+    }
+
+    public int getWorkLoad() {
+        return workLoad;
+    }
+
+    public void setWorkLoad(int workLoad) {
+        this.workLoad = workLoad;
     }
 
     public int getProjectId() {
@@ -70,22 +72,6 @@ public class Assignment {
         this.projectId = projectId;
     }
 
-    public int getEmployeeId() {
-        return employeeId;
-    }
-
-    public void setEmployeeId(int employeeId) {
-        this.employeeId = employeeId;
-    }
-
-    public int getWorkLoad() {
-        return workLoad;
-    }
-
-    public void setWorkLoad(int workLoadInMinutes) {
-        this.workLoad = workLoadInMinutes;
-    }
-
     public int getActivityId() {
         return activityId;
     }
@@ -93,6 +79,57 @@ public class Assignment {
     public void setActivityId(int activityId) {
         this.activityId = activityId;
     }
+
+    //    public Assignment(int id, int projectId, int employeeId,
+//                      int activityId, int workLoad) {
+//        this.id = id;
+//        this.projectId = projectId;
+//        this.employeeId = employeeId;
+//        this.activityId = activityId;
+//        this.workLoad = workLoad;
+//    }
+//
+//    public Assignment(Assignment assigment) {
+//        this(
+//                assigment.getId(),
+//                assigment.getProjectId(),
+//                assigment.getEmployeeId(),
+//                assigment.getActivityId(),
+//                assigment.getWorkLoad()
+//        );
+//    }
+//
+//    public int getProjectId() {
+//        return projectId;
+//    }
+//
+//    public void setProjectId(int projectId) {
+//        this.projectId = projectId;
+//    }
+//
+//    public int getEmployeeId() {
+//        return employeeId;
+//    }
+//
+//    public void setEmployeeId(int employeeId) {
+//        this.employeeId = employeeId;
+//    }
+//
+//    public int getWorkLoad() {
+//        return workLoad;
+//    }
+//
+//    public void setWorkLoad(int workLoadInMinutes) {
+//        this.workLoad = workLoadInMinutes;
+//    }
+//
+//    public int getActivityId() {
+//        return activityId;
+//    }
+//
+//    public void setActivityId(int activityId) {
+//        this.activityId = activityId;
+//    }
 
     public int getId() {
         return id;

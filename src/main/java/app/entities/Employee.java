@@ -1,10 +1,17 @@
 package app.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import java.util.List;
 import java.util.StringJoiner;
 
 @Entity
@@ -19,6 +26,10 @@ public class Employee {
     private String roleId;
     private Integer workLoad;
     private String status;
+
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL,
+            mappedBy = "employee")
+    private List<Assignment> assignments;
 
     public Employee() {
     }
@@ -81,15 +92,23 @@ public class Employee {
         this.status = status;
     }
 
-    @Override
-    public String toString() {
-        return new StringJoiner(", ", Employee.class.getSimpleName() + "[", "]")
-                .add("id=" + id)
-                .add("companyId=" + companyId)
-                .add("userId=" + userId)
-                .add("roleId='" + roleId + "'")
-                .add("workLoad=" + workLoad)
-                .add("status='" + status + "'")
-                .toString();
+    public List<Assignment> getAssignments() {
+        return assignments;
     }
+
+    public void setAssignments(List<Assignment> assignments) {
+        this.assignments = assignments;
+    }
+
+//    @Override
+//    public String toString() {
+//        return new StringJoiner(", ", Employee.class.getSimpleName() + "[", "]")
+//                .add("id=" + id)
+//                .add("companyId=" + companyId)
+//                .add("userId=" + userId)
+//                .add("roleId='" + roleId + "'")
+//                .add("workLoad=" + workLoad)
+//                .add("status='" + status + "'")
+//                .toString();
+//    }
 }
