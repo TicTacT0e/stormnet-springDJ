@@ -1,12 +1,14 @@
 package app.entities;
 
 import javax.json.bind.annotation.JsonbTransient;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -33,9 +35,14 @@ public class Employee {
     private User user;
 
     @OneToMany(fetch = FetchType.LAZY, targetEntity = Assignment.class,
-            mappedBy = "employee")
+            mappedBy = "employee", cascade = CascadeType.ALL)
     @JsonbTransient
     private List<Assignment> assignments;
+
+//    @ManyToOne(targetEntity = Company.class)
+//    @JoinColumn(name = "companyId",
+//    updatable = false, insertable = false)
+//    private Company company;
 
     public Employee() {
     }

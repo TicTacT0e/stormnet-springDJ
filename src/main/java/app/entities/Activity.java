@@ -1,6 +1,7 @@
 package app.entities;
 
 import javax.json.bind.annotation.JsonbTransient;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -23,7 +24,7 @@ public class Activity {
     private String name;
 
     @OneToMany(fetch = FetchType.LAZY, targetEntity = Assignment.class,
-            mappedBy = "activity")
+            mappedBy = "activity", cascade = CascadeType.ALL)
     @JsonbTransient
     private List<Assignment> assignments;
 
