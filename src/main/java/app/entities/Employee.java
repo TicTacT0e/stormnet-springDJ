@@ -1,8 +1,13 @@
 package app.entities;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import org.codehaus.jackson.annotate.JsonBackReference;
+import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+import org.codehaus.jackson.annotate.JsonManagedReference;
 
+import javax.json.bind.annotation.JsonbTransient;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -11,25 +16,30 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
+import java.util.LinkedList;
 import java.util.List;
-import java.util.StringJoiner;
 
 @Entity
 @Table(name = "Employees")
+//@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class,
+//        property = "id")
 public class Employee {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
-    private Integer companyId;
-    private Integer userId;
+    private int id;
+    private int companyId;
+    private int userId;
     private String roleId;
-    private Integer workLoad;
+    private int workLoad;
     private String status;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL,
-            mappedBy = "employee")
-    private List<Assignment> assignments;
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = Assignment.class,
+    mappedBy = "employee")
+//    @JsonIgnoreProperties("employee")
+    @JsonbTransient
+    private List<Assignment> assignments = new LinkedList<>();
 
     public Employee() {
     }
@@ -44,27 +54,27 @@ public class Employee {
         this.status = status;
     }
 
-    public Integer getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(int id) {
         this.id = id;
     }
 
-    public Integer getCompanyId() {
+    public int getCompanyId() {
         return companyId;
     }
 
-    public void setCompanyId(Integer companyId) {
+    public void setCompanyId(int companyId) {
         this.companyId = companyId;
     }
 
-    public Integer getUserId() {
+    public int getUserId() {
         return userId;
     }
 
-    public void setUserId(Integer userId) {
+    public void setUserId(int userId) {
         this.userId = userId;
     }
 
@@ -76,11 +86,11 @@ public class Employee {
         this.roleId = roleId;
     }
 
-    public Integer getWorkLoad() {
+    public int getWorkLoad() {
         return workLoad;
     }
 
-    public void setWorkLoad(Integer workLoad) {
+    public void setWorkLoad(int workLoad) {
         this.workLoad = workLoad;
     }
 
@@ -92,9 +102,11 @@ public class Employee {
         this.status = status;
     }
 
+
     public List<Assignment> getAssignments() {
         return assignments;
     }
+
 
     public void setAssignments(List<Assignment> assignments) {
         this.assignments = assignments;

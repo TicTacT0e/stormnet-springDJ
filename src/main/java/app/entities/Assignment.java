@@ -1,25 +1,22 @@
 package app.entities;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.MapsId;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import java.util.List;
 import java.util.Objects;
 
 @Entity
 @Table(name = "Assignments")
+//@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class,
+//        property = "id")
+//@JsonIgnoreProperties("assignments")
 public class Assignment {
 
     @Id
@@ -27,18 +24,20 @@ public class Assignment {
     @Column(name = "id", updatable = false, nullable = false)
     private int id;
     private int projectId;
-//    private int employeeId;
+    //    private int employeeId;
     private int activityId;
 
 //    @OneToOne
 //    @JoinColumn(name = "projectId")
 //    private Project project;
 //    @MapsId("id")
-    @ManyToOne
-    @JoinColumn(name = "employeeId", referencedColumnName = "employeeId",
+
+    @ManyToOne(targetEntity = Employee.class)
+    @JoinColumn(name = "employeeId",
             updatable = false, insertable = false)
+//    @JsonIgnoreProperties("assignments")
     private Employee employee;
-//    @OneToOne
+    //    @OneToOne
 //    @JoinColumn(name = "activityId")
 //    private Activity activity;
     private int workLoad;
@@ -51,6 +50,7 @@ public class Assignment {
     public Employee getEmployee() {
         return employee;
     }
+
 
     public void setEmployee(Employee employee) {
         this.employee = employee;
