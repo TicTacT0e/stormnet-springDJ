@@ -1,7 +1,6 @@
 package app.entities;
 
 import javax.json.bind.annotation.JsonbTransient;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -33,7 +32,7 @@ public class Project {
     private String description;
 
     @OneToMany(fetch = FetchType.LAZY, targetEntity = Assignment.class,
-    mappedBy = "project")
+            mappedBy = "project")
     @JsonbTransient
     private List<Assignment> assignments;
 

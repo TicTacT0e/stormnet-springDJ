@@ -1,8 +1,6 @@
 package app.resources;
 
 import app.dao.BasicCrudDao;
-import app.dao.impl.EmployeeDaoImpl;
-import app.dao.impl.ProjectDaoImpl;
 import app.entities.Assignment;
 import app.entities.Employee;
 import org.springframework.beans.factory.annotation.Autowired;
