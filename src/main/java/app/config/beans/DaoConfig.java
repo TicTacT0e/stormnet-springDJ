@@ -15,7 +15,6 @@ import app.dao.impl.ProjectDaoImpl;
 import app.dao.impl.ProjectEditPageDaoImpl;
 import app.dao.impl.SettingsDaoImpl;
 import app.dao.impl.TimesheetDaoImpl;
-import app.dao.impl.ProjectEditPageDaoImpl;
 import app.dao.impl.UserDaoImpl;
 import app.entities.Activity;
 import app.entities.Assignment;

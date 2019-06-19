@@ -4,7 +4,7 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
 
-    <changeSet id="default_db_data" author="Yuri Dolgushev" runAlways="true">
+    <changeSet id="default_db_data_1.0" author="Yuri Dolgushev" runAlways="true">
         <sql>
             insert into Timesheetmanager.Users
             (id, name, phone, email, photoUrl)
@@ -63,33 +63,33 @@
         </sql>
         <sql>
             insert into Timesheetmanager.Employees
-            (id, companyId, employeeId, roleId, workload, status)
+            (id, companyId, userId, roleId, workload, status)
             values (1, 1, 3, 1, 1000, 'active')
             on duplicate key update
             companyId = 1,
-            employeeId = 3,
+            userId = 3,
             roleId = 1,
             workload = 1000,
             status = 'active';
         </sql>
         <sql>
             insert into Timesheetmanager.Employees
-            (id, companyId, employeeId, roleId, workload, status)
+            (id, companyId, userId, roleId, workload, status)
             values (2, 1, 1, 2, 1500, 'active')
             on duplicate key update
             companyId = 1,
-            employeeId = 1,
+            userId = 1,
             roleId = 2,
             workload = 1500,
             status = 'active';
         </sql>
         <sql>
             insert into Timesheetmanager.Employees
-            (id, companyId, employeeId, roleId, workload, status)
+            (id, companyId, userId, roleId, workload, status)
             values (3, 1, 2, 2, 1800, 'active')
             on duplicate key update
             companyId = 1,
-            employeeId = 2,
+            userId = 2,
             roleId = 2,
             workload = 1800,
             status = 'active';
