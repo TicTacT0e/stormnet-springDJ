@@ -1,7 +1,6 @@
 package app.resources;
 
 import app.dao.BasicCrudDao;
-import app.entities.Assignment;
 import app.entities.Employee;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -36,13 +35,7 @@ public class EmployeeResource {
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public Employee get(@PathParam("id") int id) {
-        Employee employee = employeeDao.findById(id);
-        List<Assignment> assignments = employee.getAssignments();
-        for (Assignment ass : assignments) {
-            System.out.println(ass.getWorkLoad());
-        }
-        return employee;
-//        return employeeDao.findById(id);
+        return employeeDao.findById(id);
     }
 
     @POST
