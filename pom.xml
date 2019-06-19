@@ -35,6 +35,8 @@
         <jacoco.version>0.8.2</jacoco.version>
         <swagger-request-validator.version>2.3.0</swagger-request-validator.version>
         <hsqldb.version>2.4.0</hsqldb.version>
+        <spring.secuity.oauth2>2.3.6.RELEASE</spring.secuity.oauth2>
+        <oltu.oauth2.client>1.0.2</oltu.oauth2.client>
 
         <jdbc.driver>com.mysql.cj.jdbc.Driver</jdbc.driver>
         <db.url>jdbc:mysql://mifortdev.cmltklqkx5d1.eu-west-1.rds.amazonaws.com:3306/Timesheetmanager?useUnicode=true&amp;useJDBCCompliantTimezoneShift=true&amp;useLegacyDatetimeCode=false&amp;serverTimezone=UTC&amp;useSSL=false</db.url>
@@ -194,6 +196,24 @@
             <artifactId>hsqldb</artifactId>
             <version>${hsqldb.version}</version>
             <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.security.oauth</groupId>
+            <artifactId>spring-security-oauth2</artifactId>
+            <version>${spring.secuity.oauth2}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-oauth2-client</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.oltu.oauth2</groupId>
+            <artifactId>org.apache.oltu.oauth2.client</artifactId>
+            <version>${oltu.oauth2.client}</version>
         </dependency>
 
     </dependencies>
