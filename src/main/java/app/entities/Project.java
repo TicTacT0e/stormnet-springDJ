@@ -31,6 +31,7 @@ public class Project {
     private String code;
     private String color;
     private String description;
+
     @OneToMany(fetch = FetchType.LAZY, targetEntity = Assignment.class,
     mappedBy = "project")
     @JsonbTransient

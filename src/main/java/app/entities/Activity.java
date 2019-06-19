@@ -21,6 +21,7 @@ public class Activity {
     @Column(name = "id", updatable = false, nullable = false)
     private int id;
     private String name;
+
     @OneToMany(fetch = FetchType.LAZY, targetEntity = Assignment.class,
             mappedBy = "activity")
     @JsonbTransient

@@ -25,6 +25,7 @@ public class Employee {
     private String roleId;
     private int workLoad;
     private String status;
+
     @OneToMany(fetch = FetchType.LAZY, targetEntity = Assignment.class,
             mappedBy = "employee")
     @JsonbTransient
