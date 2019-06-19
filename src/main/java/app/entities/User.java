@@ -1,8 +1,10 @@
 package app.entities;
 
+import javax.json.bind.annotation.JsonbTransient;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import java.util.Objects;
@@ -18,8 +20,10 @@ public class User {
     private String email;
     private String photoUrl;
 
-    @OneToOne(fetch = FetchType.LAZY, targetEntity = Employee.class,
-            mappedBy = "user")
+    @OneToOne(fetch = FetchType.EAGER, targetEntity = Employee.class)
+    @JoinColumn(name = "id",
+            updatable = false, insertable = false)
+    @JsonbTransient
     private Employee employee;
 
     public User() {

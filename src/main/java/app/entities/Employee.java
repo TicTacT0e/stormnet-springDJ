@@ -6,6 +6,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -25,9 +26,11 @@ public class Employee {
     private int workLoad;
     private String status;
 
-    @OneToOne(fetch = FetchType.LAZY, targetEntity = User.class,
-            mappedBy = "employee")
+    @OneToOne(fetch = FetchType.EAGER, targetEntity = User.class)
+    @JoinColumn(name = "userId",
+            updatable = false, insertable = false)
     private User user;
+
     @OneToMany(fetch = FetchType.LAZY, targetEntity = Assignment.class,
             mappedBy = "employee")
     @JsonbTransient
