@@ -11,6 +11,7 @@ import app.resources.ProjectVersionResource;
 import app.resources.SettingsResource;
 import app.resources.TimesheetResource;
 import app.resources.ProjectEditPageResources;
+import app.resources.LoginController;
 import app.resources.UserResource;
 import org.glassfish.jersey.server.ResourceConfig;
 
@@ -32,5 +33,6 @@ public class JerseyConfig extends ResourceConfig {
         register(SettingsResource.class);
         register(TimesheetResource.class);
         register(ProjectEditPageResources.class);
+        register(LoginController.class);
     }
 }
