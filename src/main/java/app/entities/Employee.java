@@ -7,6 +7,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import java.util.List;
 import java.util.StringJoiner;
@@ -24,6 +25,9 @@ public class Employee {
     private int workLoad;
     private String status;
 
+    @OneToOne(fetch = FetchType.LAZY, targetEntity = User.class,
+            mappedBy = "employee")
+    private User user;
     @OneToMany(fetch = FetchType.LAZY, targetEntity = Assignment.class,
             mappedBy = "employee")
     @JsonbTransient
@@ -98,6 +102,14 @@ public class Employee {
 
     public void setAssignments(List<Assignment> assignments) {
         this.assignments = assignments;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     @Override
