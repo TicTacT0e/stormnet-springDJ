@@ -1,20 +1,30 @@
 package app.entities;
 
+import javax.json.bind.annotation.JsonbTransient;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
-@Table(name = "Role")
+@Table(name = "Roles")
 public class Role {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String code;
     private String name;
+
+    @OneToMany(fetch = FetchType.LAZY, targetEntity = Employee.class,
+            mappedBy = "role", cascade = CascadeType.ALL)
+    @JsonbTransient
+    private List<Employee> employees;
 
     public Role() {
     }
@@ -45,22 +55,29 @@ public class Role {
         this.name = name;
     }
 
+    public List<Employee> getEmployees() {
+        return employees;
+    }
+
+    public void setEmployees(List<Employee> employees) {
+        this.employees = employees;
+    }
+
     @Override
-    public boolean equals(Object o) {
-        if (this == o) {
+    public boolean equals(Object object) {
+        if (this == object) {
             return true;
         }
-        if (o == null || getClass() != o.getClass()) {
+        if (!(object instanceof Role)) {
             return false;
         }
-        Role role = (Role) o;
-        return Objects.equals(code, role.code)
-                && Objects.equals(name, role.name);
+        Role role = (Role) object;
+        return Objects.equals(getCode(), role.getCode());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(code, name);
+        return Objects.hash(getCode());
     }
 
     @Override

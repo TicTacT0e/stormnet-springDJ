@@ -46,6 +46,11 @@ public class Employee {
     updatable = false, insertable = false)
     private Company company;
 
+    @ManyToOne(targetEntity = Role.class)
+    @JoinColumn(name = "roleId",
+    updatable = false, insertable = false)
+    private Role role;
+
     public Employee() {
     }
 
@@ -107,11 +112,9 @@ public class Employee {
         this.status = status;
     }
 
-
     public List<Assignment> getAssignments() {
         return assignments;
     }
-
 
     public void setAssignments(List<Assignment> assignments) {
         this.assignments = assignments;
@@ -131,6 +134,14 @@ public class Employee {
 
     public void setCompany(Company company) {
         this.company = company;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
     }
 
     @Override
