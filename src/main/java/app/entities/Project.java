@@ -1,5 +1,7 @@
 package app.entities;
 
+import javax.json.bind.annotation.JsonbTransient;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -29,9 +31,10 @@ public class Project {
     private String code;
     private String color;
     private String description;
-
-//    @OneToMany(fetch = FetchType.LAZY)
-//    private List<Assignment> assignments;
+    @OneToMany(fetch = FetchType.LAZY, targetEntity = Assignment.class,
+    mappedBy = "project")
+    @JsonbTransient
+    private List<Assignment> assignments;
 
     public Project() {
     }
@@ -144,13 +147,13 @@ public class Project {
         this.manHours = manHours;
     }
 
-//    public List<Assignment> getAssignments() {
-//        return assignments;
-//    }
-//
-//    public void setAssignments(List<Assignment> assignments) {
-//        this.assignments = assignments;
-//    }
+    public List<Assignment> getAssignments() {
+        return assignments;
+    }
+
+    public void setAssignments(List<Assignment> assignments) {
+        this.assignments = assignments;
+    }
 
     @Override
     public boolean equals(Object object) {

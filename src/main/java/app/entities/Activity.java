@@ -1,13 +1,12 @@
 package app.entities;
 
+import javax.json.bind.annotation.JsonbTransient;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import java.util.List;
@@ -22,11 +21,10 @@ public class Activity {
     @Column(name = "id", updatable = false, nullable = false)
     private int id;
     private String name;
-
-//    @OneToMany(fetch = FetchType.LAZY)
-//    @JoinTable(name = "Assignments",
-//            joinColumns = {@JoinColumn(name = "id")})
-//    private List<Assignment> assignments;
+    @OneToMany(fetch = FetchType.LAZY, targetEntity = Assignment.class,
+            mappedBy = "activity")
+    @JsonbTransient
+    private List<Assignment> assignments;
 
     public Activity() {
     }
@@ -63,13 +61,13 @@ public class Activity {
         this.name = name;
     }
 
-//    public List<Assignment> getAssignments() {
-//        return assignments;
-//    }
-//
-//    public void setAssignments(List<Assignment> assignments) {
-//        this.assignments = assignments;
-//    }
+    public List<Assignment> getAssignments() {
+        return assignments;
+    }
+
+    public void setAssignments(List<Assignment> assignments) {
+        this.assignments = assignments;
+    }
 
     @Override
     public boolean equals(Object object) {

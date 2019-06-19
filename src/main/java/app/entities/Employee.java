@@ -25,8 +25,7 @@ public class Employee {
     private String roleId;
     private int workLoad;
     private String status;
-
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = Assignment.class,
+    @OneToMany(fetch = FetchType.LAZY, targetEntity = Assignment.class,
             mappedBy = "employee")
     @JsonbTransient
     private List<Assignment> assignments = new LinkedList<>();

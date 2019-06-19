@@ -18,27 +18,53 @@ public class Assignment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", updatable = false, nullable = false)
     private int id;
-    private int projectId;
-    private int activityId;
-
     @ManyToOne(targetEntity = Employee.class)
     @JoinColumn(name = "employeeId",
             updatable = false, insertable = false)
     private Employee employee;
+    @ManyToOne(targetEntity = Project.class)
+    @JoinColumn(name = "projectId",
+            updatable = false, insertable = false)
+    private Project project;
+    @ManyToOne(targetEntity = Activity.class)
+    @JoinColumn(name = "activityId",
+            updatable = false, insertable = false)
+    private Activity activity;
     private int workLoad;
-
 
     public Assignment() {
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public Employee getEmployee() {
         return employee;
     }
 
-
     public void setEmployee(Employee employee) {
         this.employee = employee;
+    }
+
+    public Project getProject() {
+        return project;
+    }
+
+    public void setProject(Project project) {
+        this.project = project;
+    }
+
+    public Activity getActivity() {
+        return activity;
+    }
+
+    public void setActivity(Activity activity) {
+        this.activity = activity;
     }
 
     public int getWorkLoad() {
@@ -47,81 +73,6 @@ public class Assignment {
 
     public void setWorkLoad(int workLoad) {
         this.workLoad = workLoad;
-    }
-
-    public int getProjectId() {
-        return projectId;
-    }
-
-    public void setProjectId(int projectId) {
-        this.projectId = projectId;
-    }
-
-    public int getActivityId() {
-        return activityId;
-    }
-
-    public void setActivityId(int activityId) {
-        this.activityId = activityId;
-    }
-
-    //    public Assignment(int id, int projectId, int employeeId,
-//                      int activityId, int workLoad) {
-//        this.id = id;
-//        this.projectId = projectId;
-//        this.employeeId = employeeId;
-//        this.activityId = activityId;
-//        this.workLoad = workLoad;
-//    }
-//
-//    public Assignment(Assignment assigment) {
-//        this(
-//                assigment.getId(),
-//                assigment.getProjectId(),
-//                assigment.getEmployeeId(),
-//                assigment.getActivityId(),
-//                assigment.getWorkLoad()
-//        );
-//    }
-//
-//    public int getProjectId() {
-//        return projectId;
-//    }
-//
-//    public void setProjectId(int projectId) {
-//        this.projectId = projectId;
-//    }
-//
-//    public int getEmployeeId() {
-//        return employeeId;
-//    }
-//
-//    public void setEmployeeId(int employeeId) {
-//        this.employeeId = employeeId;
-//    }
-//
-//    public int getWorkLoad() {
-//        return workLoad;
-//    }
-//
-//    public void setWorkLoad(int workLoadInMinutes) {
-//        this.workLoad = workLoadInMinutes;
-//    }
-//
-//    public int getActivityId() {
-//        return activityId;
-//    }
-//
-//    public void setActivityId(int activityId) {
-//        this.activityId = activityId;
-//    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     @Override
