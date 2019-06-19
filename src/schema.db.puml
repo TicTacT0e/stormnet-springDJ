@@ -15,13 +15,13 @@
 	    *id: int
 	}
 
-	class Partner {
+	class Employee {
 	    # (PK) companyId: int \n\temployeeId: int
 	    --
 	    *id: int
 	}
 
-	class Employee <<Necessarily>> {
+	class User <<Necessarily>> {
 	    # (PK) email: String
 	    --
 	    + (AK) name: String
@@ -68,7 +68,7 @@
      }
 
 	class Invitation {
-	    # (PK) partnerId: int
+	    # (PK) employeeId: int
 	    --
 	    + (AK) code: String
 	    --
@@ -78,7 +78,7 @@
 	}
 
 	class Notification {
-	    # (PK) partnerId: int
+	    # (PK) employeeId: int
 	    --
 	}
 

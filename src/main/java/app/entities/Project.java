@@ -7,7 +7,8 @@ import java.util.Date;
 import java.util.Objects;
 
 @Entity
-@Table(name = "Project")
+@Table(name = "Projects")
+
 public class Project {
     @Id
     private int id;
@@ -24,8 +25,7 @@ public class Project {
     public Project() {
     }
 
-    public Project(int id, int companyId, String name, String logoUrl,
-                   Date startDate, Date endDate, long manHours, String code, String color, String description) {
+    public Project(int id, int companyId, String name, String logoUrl, Date startDate, Date endDate, long manHours, String code, String color, String description) {
         this.id = id;
         this.companyId = companyId;
         this.name = name;
@@ -132,23 +132,27 @@ public class Project {
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) {
+    public boolean equals(Object object) {
+        if (this == object) {
             return true;
         }
-        if (o == null || getClass() != o.getClass()) {
+        if (object == null || getClass() != object.getClass()) {
             return false;
         }
-        Project project = (Project) o;
-        if (id != project.id)
+        Project project = (Project) object;
+        if (id != project.id) {
             return false;
-        if (companyId != project.companyId)
+        }
+        if (companyId != project.companyId) {
             return false;
-        if (name != null ? !name.equals(project.name) : project.name != null)
+        }
+        if (!Objects.equals(name, project.name)) {
             return false;
-        if (logoUrl != null ? !logoUrl.equals(project.logoUrl) : project.logoUrl != null)
+        }
+        if (!Objects.equals(logoUrl, project.logoUrl)) {
             return false;
-        return code != null ? !code.equals(project.code) : project.code != null;
+        }
+        return !Objects.equals(code, project.code);
     }
 
     @Override

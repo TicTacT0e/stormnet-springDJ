@@ -5,10 +5,11 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "Timesheet")
+@Table(name = "Timesheets")
 public class Timesheet {
     @Id
     private int id;
+    private int assignmentId;
     private int periodId;
     private String timesheetJson;
     private String status;
@@ -16,9 +17,10 @@ public class Timesheet {
     public Timesheet() {
     }
 
-    public Timesheet(int id, int periodId,
+    public Timesheet(int id, int periodId, int assignmentId,
                      String timesheetJson, String status) {
         this.id = id;
+        this.assignmentId = assignmentId;
         this.periodId = periodId;
         this.timesheetJson = timesheetJson;
         this.status = status;
@@ -30,6 +32,14 @@ public class Timesheet {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public int getAssignmentId() {
+        return assignmentId;
+    }
+
+    public void setAssignmentId(int assignmentId) {
+        this.assignmentId = assignmentId;
     }
 
     public int getPeriodId() {

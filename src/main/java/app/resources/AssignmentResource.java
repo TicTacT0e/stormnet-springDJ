@@ -18,7 +18,7 @@ import javax.ws.rs.core.Response;
 import java.util.List;
 
 @Component
-@Path("/assignment")
+@Path("/company/{companyId}/assignment")
 public class AssignmentResource {
 
     @Autowired
@@ -34,6 +34,7 @@ public class AssignmentResource {
     @Path("/{assignmentId}")
     @Produces(MediaType.APPLICATION_JSON)
     public Assignment get(
+            @PathParam("companyId") int companyId,
             @PathParam("assignmentId") int assignmentId
     ) {
         return basicCrudDao.findById(assignmentId);
