@@ -28,7 +28,7 @@ public class Employee {
     @OneToMany(fetch = FetchType.LAZY, targetEntity = Assignment.class,
             mappedBy = "employee")
     @JsonbTransient
-    private List<Assignment> assignments = new LinkedList<>();
+    private List<Assignment> assignments;
 
     public Employee() {
     }
