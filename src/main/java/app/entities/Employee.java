@@ -1,12 +1,5 @@
 package app.entities;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-import org.codehaus.jackson.annotate.JsonBackReference;
-import org.codehaus.jackson.annotate.JsonIgnore;
-import org.codehaus.jackson.annotate.JsonIgnoreProperties;
-import org.codehaus.jackson.annotate.JsonManagedReference;
-
 import javax.json.bind.annotation.JsonbTransient;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -16,14 +9,12 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.StringJoiner;
 
 @Entity
 @Table(name = "Employees")
-//@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class,
-//        property = "id")
 public class Employee {
 
     @Id
@@ -36,8 +27,7 @@ public class Employee {
     private String status;
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = Assignment.class,
-    mappedBy = "employee")
-//    @JsonIgnoreProperties("employee")
+            mappedBy = "employee")
     @JsonbTransient
     private List<Assignment> assignments = new LinkedList<>();
 
@@ -112,15 +102,15 @@ public class Employee {
         this.assignments = assignments;
     }
 
-//    @Override
-//    public String toString() {
-//        return new StringJoiner(", ", Employee.class.getSimpleName() + "[", "]")
-//                .add("id=" + id)
-//                .add("companyId=" + companyId)
-//                .add("userId=" + userId)
-//                .add("roleId='" + roleId + "'")
-//                .add("workLoad=" + workLoad)
-//                .add("status='" + status + "'")
-//                .toString();
-//    }
+    @Override
+    public String toString() {
+        return new StringJoiner(", ", Employee.class.getSimpleName() + "[", "]")
+                .add("id=" + id)
+                .add("companyId=" + companyId)
+                .add("userId=" + userId)
+                .add("roleId='" + roleId + "'")
+                .add("workLoad=" + workLoad)
+                .add("status='" + status + "'")
+                .toString();
+    }
 }
