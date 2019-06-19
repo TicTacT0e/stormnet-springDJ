@@ -2,6 +2,7 @@ package app.entities;
 
 import javax.json.bind.annotation.JsonbTransient;
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -22,6 +23,7 @@ public class Employee {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", updatable = false, nullable = false)
     private int id;
     private int companyId;
     private int userId;
@@ -29,7 +31,7 @@ public class Employee {
     private int workLoad;
     private String status;
 
-    @OneToOne(fetch = FetchType.EAGER, targetEntity = User.class)
+    @OneToOne(targetEntity = User.class)
     @JoinColumn(name = "userId",
             updatable = false, insertable = false)
     private User user;
@@ -39,10 +41,10 @@ public class Employee {
     @JsonbTransient
     private List<Assignment> assignments;
 
-//    @ManyToOne(targetEntity = Company.class)
-//    @JoinColumn(name = "companyId",
-//    updatable = false, insertable = false)
-//    private Company company;
+    @ManyToOne(targetEntity = Company.class)
+    @JoinColumn(name = "companyId",
+    updatable = false, insertable = false)
+    private Company company;
 
     public Employee() {
     }
@@ -121,6 +123,14 @@ public class Employee {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public Company getCompany() {
+        return company;
+    }
+
+    public void setCompany(Company company) {
+        this.company = company;
     }
 
     @Override

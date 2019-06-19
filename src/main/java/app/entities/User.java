@@ -2,8 +2,11 @@ package app.entities;
 
 import javax.json.bind.annotation.JsonbTransient;
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
@@ -15,13 +18,15 @@ import java.util.Objects;
 public class User {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", updatable = false, nullable = false)
     private int id;
     private String name;
     private String phone;
     private String email;
     private String photoUrl;
 
-    @OneToOne(fetch = FetchType.EAGER, targetEntity = Employee.class,
+    @OneToOne(targetEntity = Employee.class,
     cascade = CascadeType.ALL)
     @JoinColumn(name = "id",
             updatable = false, insertable = false)
