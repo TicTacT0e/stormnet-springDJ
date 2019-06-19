@@ -19,13 +19,10 @@ public class HibernateTestConfig {
 
     @Value("${jdbc.driver}")
     private String driver;
-    //@Value("${db.url}")
     @Value("${db.url}")
     private String url;
-    //@Value("${db.username}")
     @Value("${db.username}")
     private String username;
-    //@Value("${db.password}")
     @Value("${db.password}")
     private String password;
     @Value("${db.dialect}")
