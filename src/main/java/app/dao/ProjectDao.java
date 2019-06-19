@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface ProjectDao extends BasicCrudDao<Project>{
+public interface ProjectDao extends BasicCrudDao<Project> {
 
     List<Double> getProjectLoading(int id);
 

@@ -25,7 +25,9 @@ public class Project {
     public Project() {
     }
 
-    public Project(int id, int companyId, String name, String logoUrl, Date startDate, Date endDate, long manHours, String code, String color, String description) {
+    public Project(int id, int companyId, String name, String logoUrl,
+                   Date startDate, Date endDate, long manHours, String code,
+                   String color, String description) {
         this.id = id;
         this.companyId = companyId;
         this.name = name;
