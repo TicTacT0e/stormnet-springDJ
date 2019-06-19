@@ -14,7 +14,7 @@ import java.util.Objects;
 public class User {
 
     @Id
-    private Integer id;
+    private int id;
     private String name;
     private String phone;
     private String email;
@@ -46,11 +46,11 @@ public class User {
                 user.getPhotoUrl());
     }
 
-    public Integer getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -102,17 +102,13 @@ public class User {
         if (!(object instanceof User)) {
             return false;
         }
-        User employee = (User) object;
-        return id == employee.id
-                && Objects.equals(name, employee.name)
-                && Objects.equals(phone, employee.phone)
-                && Objects.equals(email, employee.email)
-                && Objects.equals(photoUrl, employee.photoUrl);
+        User user = (User) object;
+        return getId() == user.getId();
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, phone, email, photoUrl);
+        return Objects.hash(getId());
     }
 
     @Override
