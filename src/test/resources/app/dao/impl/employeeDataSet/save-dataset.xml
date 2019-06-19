@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<dataset>
+    <Employees id="1" companyId="1" userId="1" roleId="1" workLoad="40" status="june"/>
+    <Employees id="2" companyId="2" userId="2" roleId="2" workLoad="38" status="senior"/>
+    <Employees id="3" companyId="3" userId="3" roleId="3" workLoad="37" status="manager"/>
+</dataset>
+
