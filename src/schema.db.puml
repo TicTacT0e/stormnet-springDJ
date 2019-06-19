@@ -1,0 +1,132 @@
+@startuml
+
+    skinparam class {
+        BackgroundColor Pink
+        ArrowColor Blue
+        BorderColor Green
+        BackgroundColor<<Necessarily>> Wheat
+    }
+
+	class Company <<Necessarily>> {
+	    # (PK) name: String
+	    --
+	    + (AK) logo: String
+	    --
+	    *id: int
+	}
+
+	class Employee {
+	    # (PK) companyId: int \n\temployeeId: int
+	    --
+	    *id: int
+	}
+
+	class User <<Necessarily>> {
+	    # (PK) email: String
+	    --
+	    + (AK) name: String
+	    + (AK) phone: String
+	    + (AK) photo: URL
+	    --
+	    *id: int
+	    *roleId: String
+	}
+
+	class Project {
+	    # (PK) companyId: int \n\tname : String
+	    --
+	    + (AK) code: String
+	    + (AK) logo: String
+	    --
+	    *id: int
+	    *startDate: Date
+	    *endDate: Date
+	    *manHours: int
+	    *description: String
+	}
+
+	class Integration {
+	    #(PK) companyId: int
+	    --
+	    #(PK) type: type
+	}
+
+	class Settings {
+	    #(PK) companyId: int
+    	--
+    	#(PK) type: type
+	}
+
+	enum Role <<Necessarily>> {
+	    - owner
+	    - admin
+	    - manager
+	    - hr
+	    - employee
+	    --
+	    *id: String
+     }
+
+	class Invitation {
+	    # (PK) employeeId: int
+	    --
+	    + (AK) code: String
+	    --
+	    *id: int
+	    *status: String
+	    *dateEnd: Date
+	}
+
+	class Notification {
+	    # (PK) employeeId: int
+	    --
+	}
+
+	class Assignment {
+	    # (PK) employeeId: int
+	    --
+	    # (PK) projectId: int
+	    --
+	    # (PK) roleId: String
+	    --
+	    *id: int
+	    *workLoadInMinutes : int
+	}
+
+	class Activity {
+	    # (PK) name: String
+	    --
+	}
+
+	class Logs {
+	    # (PK) assigmentId: int \n\tdate: Date \n\torderId: int
+	    --
+	    *id: int
+	    *comment: String
+	    *time: double
+	}
+
+	class Timesheets {
+	    # (PK) assigmentId: int
+	    --
+	    # (PK) periodId: int
+	    --
+	    *id: int
+	    *status: String
+	}
+
+	Project "*" o-- "1" Company
+	Settings "*" o-- "1" Company
+	Integration "*" o-- "1" Company
+	Partner "*" o-- "1" Company
+	Partner "*" o-- "1" Employee
+	Partner "*" - "1" Role
+	Partner "1" o-- "1" Invitation
+	Partner "1" o-- "*" Notification
+	Assignment "*" *-- "1" Project
+	Assignment "*" *-- "1" Employee
+	Assignment "*" *-- "1" Activity
+	Assignment "*" --o "*" Logs
+	Assignment "*" --o "*" Timesheets
+
+@enduml

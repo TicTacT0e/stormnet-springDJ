@@ -1,55 +1,54 @@
 package app.dao.impl;
 
-import app.dao.LogsDao;
-import app.entities.Logs;
-import app.entities.namespace.LogsNamespace;
-import app.exceptions.EntityNotFoundException;
-import org.springframework.stereotype.Repository;
+import app.dao.LogDao;
+import app.entities.Log;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.query.Query;
+import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.Date;
-import java.util.LinkedList;
+import java.sql.Timestamp;
 import java.util.List;
-import java.util.ListIterator;
 
-@Repository
-public class LogsDaoImpl implements LogsDao {
+public class LogsDaoImpl extends BasicCrudDaoImpl<Log> implements LogDao {
 
-    private static List<Logs> logsList = new LinkedList<>();
+    @Autowired
+    private SessionFactory sessionFactory;
+
+    private static final String FIND_BY_DAY = "FROM Log WHERE "
+            + "date > current_date()";
+    private static final String FIND_BY_PERIOD = "FROM Log WHERE date"
+            + " BETWEEN :startDate AND :endDate";
 
     @Override
-    public synchronized List<Logs> getLogFor(LogsNamespace logsNamespace) {
-        Date boundaryDate = logsNamespace.getBoundaryDate();
-        LinkedList<Logs> resultLogsList = new LinkedList<>();
-
-        ListIterator<Logs> logsIterator
-                = logsList.listIterator(logsList.size());
-        Logs previous;
-        while (logsIterator.hasPrevious()) {
-            previous = logsIterator.previous();
-            if (previous.getDate().before(boundaryDate)) {
-                break;
-            }
-            resultLogsList.add(previous);
+    public void createLog(List<Log> logs) {
+        Session session = sessionFactory.getCurrentSession();
+        for (Log entity : logs) {
+            session.save(entity);
         }
-        return resultLogsList;
     }
 
     @Override
-    public synchronized List<Logs> getAll() {
-        return logsList;
-    }
-
-    @Override
-    public synchronized void save(Logs logs) {
-        logsList.add(logs);
-    }
-
-    @Override
-    public synchronized void delete(Logs retiringLogs) {
-        if (!logsList.contains(retiringLogs)) {
-            throw new EntityNotFoundException();
+    public void updateLog(List<Log> logs) {
+        Session session = sessionFactory.getCurrentSession();
+        for (Log entity : logs) {
+            session.update(entity);
         }
-        logsList.remove(retiringLogs);
     }
 
+    @Override
+    public List<Log> findByDay() {
+        Query query = sessionFactory.getCurrentSession()
+                .createQuery(FIND_BY_DAY);
+        return query.getResultList();
+    }
+
+    @Override
+    public List<Log> findByPeriod(Timestamp periodFrom, Timestamp periodTo) {
+        Query query = sessionFactory.getCurrentSession()
+                .createQuery(FIND_BY_PERIOD);
+        query.setParameter("startDate", periodFrom);
+        query.setParameter("endDate", periodTo);
+        return query.getResultList();
+    }
 }

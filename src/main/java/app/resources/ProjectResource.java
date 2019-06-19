@@ -1,11 +1,18 @@
 package app.resources;
 
-import app.dao.ProjectDao;
+import app.dao.BasicCrudDao;
 import app.entities.Project;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import javax.ws.rs.*;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.List;
@@ -15,43 +22,45 @@ import java.util.List;
 public class ProjectResource {
 
     @Autowired
-    private ProjectDao projectDao;
+    private BasicCrudDao<Project> basicCrudDao;
 
     @GET
-    @Path("/all")
     @Produces(MediaType.APPLICATION_JSON)
-    public List<Project> getAll() {
-        return projectDao.getAll();
+    public List<Project> findAll() {
+        return basicCrudDao.findAll();
     }
 
     @GET
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Project get(@PathParam("id") int id) {
-        return projectDao.findById(id);
-    }
-
-    @POST
-    @Path("/add")
-    @Consumes(MediaType.APPLICATION_JSON)
-    public Response add(Project project) {
-        projectDao.save(project);
-        return Response.status(Response.Status.CREATED.getStatusCode()).build();
+    public Project findById(@PathParam("id") int id) {
+        return basicCrudDao.findById(id);
     }
 
     @PUT
-    @Path("/edit/{id}")
+    @Path("/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response edit(@PathParam("id") int id, Project project) {
-        projectDao.edit(project);
+    public Response update(@PathParam("id") int id, Project project) {
+        if (id != project.getId()) {
+            return Response.status(Response.Status.CONFLICT.getStatusCode())
+                    .build();
+        }
+        basicCrudDao.update(project);
+        return Response.status(Response.Status.CREATED.getStatusCode()).build();
+    }
+
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response create(Project project) {
+        basicCrudDao.create(project);
         return Response.status(Response.Status.CREATED.getStatusCode()).build();
     }
 
     @DELETE
-    @Path("/delete/{id}")
+    @Path("/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response delete(@PathParam("id") int id) {
-        projectDao.delete(id);
+    public Response deleteById(@PathParam("id") int id) {
+        basicCrudDao.deleteById(id);
         return Response.status(Response.Status.OK.getStatusCode()).build();
     }
 }

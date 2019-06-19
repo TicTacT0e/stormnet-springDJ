@@ -1,0 +1,1709 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "description" : "",
+    "version" : "1.0",
+    "title" : "timesheets"
+  },
+  "host" : "virtserver.swaggerhub.com",
+  "basePath" : "/TicTacT0e/timesheet_dev/1.0",
+  "tags" : [ {
+    "name" : "Activity",
+    "description" : "Activity entity"
+  }, {
+    "name" : "Logs",
+    "description" : "Logs enitity"
+  }, {
+    "name" : "Timesheet",
+    "description" : "Timesheet entity"
+  }, {
+    "name" : "Employee",
+    "description" : "Employee entity"
+  }, {
+    "name" : "Project",
+    "description" : "Project entity"
+  }, {
+    "name" : "Assignment",
+    "description" : "Assignment entity"
+  }, {
+    "name" : "Integration",
+    "description" : "Integration entity"
+  }, {
+    "name" : "Settings",
+    "description" : "Settings entity"
+  }, {
+    "name" : "Notification",
+    "description" : "Notification entity"
+  } ],
+  "schemes" : [ "https", "http" ],
+  "paths" : {
+    "/company/{companyId}/activity" : {
+      "get" : {
+        "tags" : [ "Activity" ],
+        "summary" : "Get activities by project/employee IDs",
+        "operationId" : "getActivities",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "companyId",
+          "in" : "path",
+          "description" : "Company IDs",
+          "required" : true,
+          "type" : "integer",
+          "format" : "int64"
+        }, {
+          "name" : "projectId",
+          "in" : "query",
+          "description" : "Project IDs",
+          "required" : false,
+          "type" : "integer",
+          "minimum" : 0,
+          "format" : "int64"
+        }, {
+          "name" : "employeeId",
+          "in" : "query",
+          "description" : "Employee IDs",
+          "required" : false,
+          "type" : "integer",
+          "minimum" : 0,
+          "format" : "int64"
+        } ],
+        "responses" : {
+          "400" : {
+            "description" : "Invalid parameters supplied"
+          },
+          "404" : {
+            "description" : "Not found"
+          },
+          "default" : {
+            "description" : "Success",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/definitions/Activity"
+              }
+            }
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "Activity" ],
+        "summary" : "Add activity to company",
+        "operationId" : "addActivityToCompany",
+        "consumes" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "companyId",
+          "in" : "path",
+          "description" : "Company IDs",
+          "required" : true,
+          "type" : "integer",
+          "format" : "int64"
+        }, {
+          "in" : "body",
+          "name" : "activity",
+          "description" : "New activity",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/Activity"
+          }
+        } ],
+        "responses" : {
+          "201" : {
+            "description" : "Success"
+          },
+          "400" : {
+            "description" : "Invalid parameters supplied"
+          },
+          "404" : {
+            "description" : "Not found"
+          },
+          "409" : {
+            "description" : "Already exist"
+          }
+        }
+      }
+    },
+    "/company/{companyId}/activity/{id}" : {
+      "get" : {
+        "tags" : [ "Activity" ],
+        "summary" : "Find activity by id",
+        "operationId" : "getActivityById",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "companyId",
+          "in" : "path",
+          "description" : "Company IDs",
+          "required" : true,
+          "type" : "integer",
+          "format" : "int64"
+        }, {
+          "name" : "id",
+          "in" : "path",
+          "description" : "Activity IDs",
+          "required" : true,
+          "type" : "integer",
+          "minimum" : 0,
+          "format" : "int64"
+        } ],
+        "responses" : {
+          "400" : {
+            "description" : "Invalid parameters supplied"
+          },
+          "404" : {
+            "description" : "Not found"
+          },
+          "default" : {
+            "description" : "Success",
+            "schema" : {
+              "$ref" : "#/definitions/Activity"
+            }
+          }
+        }
+      },
+      "put" : {
+        "tags" : [ "Activity" ],
+        "summary" : "Update activity",
+        "operationId" : "editActivity",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "companyId",
+          "in" : "path",
+          "description" : "Company IDs",
+          "required" : true,
+          "type" : "integer",
+          "format" : "int64"
+        }, {
+          "name" : "id",
+          "in" : "path",
+          "description" : "Activity IDs",
+          "required" : true,
+          "type" : "integer",
+          "minimum" : 0,
+          "format" : "int64"
+        }, {
+          "in" : "body",
+          "name" : "activity",
+          "description" : "Activity to update",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/Activity"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success"
+          },
+          "400" : {
+            "description" : "Invalid parameters supplied"
+          },
+          "404" : {
+            "description" : "Not found"
+          }
+        }
+      },
+      "delete" : {
+        "tags" : [ "Activity" ],
+        "summary" : "Delete activity",
+        "operationId" : "deleteActivity",
+        "consumes" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "companyId",
+          "in" : "path",
+          "description" : "Company IDs",
+          "required" : true,
+          "type" : "integer",
+          "format" : "int64"
+        }, {
+          "name" : "id",
+          "in" : "path",
+          "description" : "Activity IDs",
+          "required" : true,
+          "type" : "integer",
+          "minimum" : 0,
+          "format" : "int64"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success"
+          },
+          "400" : {
+            "description" : "Invalid parameters supplied"
+          },
+          "404" : {
+            "description" : "Not found"
+          }
+        }
+      }
+    },
+    "/company/{companyId}/logs" : {
+      "get" : {
+        "tags" : [ "Logs" ],
+        "summary" : "Get logs from-to",
+        "operationId" : "getLogs",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "companyId",
+          "in" : "path",
+          "description" : "Company IDs",
+          "required" : true,
+          "type" : "integer",
+          "minimum" : 0,
+          "format" : "int64"
+        }, {
+          "name" : "from",
+          "in" : "query",
+          "description" : "From date",
+          "required" : true,
+          "type" : "string",
+          "format" : "date-time"
+        }, {
+          "name" : "to",
+          "in" : "query",
+          "description" : "To date",
+          "required" : true,
+          "type" : "string",
+          "format" : "date-time"
+        } ],
+        "responses" : {
+          "400" : {
+            "description" : "Invalid parameters supplied"
+          },
+          "404" : {
+            "description" : "Not found"
+          },
+          "default" : {
+            "description" : "Success",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/definitions/Logs"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/company/{companyId}/employee/{employeeId}/logs" : {
+      "post" : {
+        "tags" : [ "Logs" ],
+        "summary" : "Commit Log",
+        "operationId" : "addLogs",
+        "consumes" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "companyId",
+          "in" : "path",
+          "description" : "Company IDs",
+          "required" : true,
+          "type" : "integer",
+          "format" : "int64"
+        }, {
+          "name" : "employeeId",
+          "in" : "path",
+          "description" : "Employee IDs",
+          "required" : true,
+          "type" : "integer",
+          "format" : "int64"
+        }, {
+          "in" : "body",
+          "name" : "settings",
+          "description" : "Logging entry",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/Logs"
+          }
+        } ],
+        "responses" : {
+          "201" : {
+            "description" : "Success"
+          },
+          "400" : {
+            "description" : "Invalid parameters supplied"
+          },
+          "404" : {
+            "description" : "Not found"
+          },
+          "409" : {
+            "description" : "Already exist"
+          }
+        }
+      }
+    },
+    "/company/{companyId}/timesheets" : {
+      "get" : {
+        "tags" : [ "Timesheet" ],
+        "summary" : "Get timesheets from-to",
+        "operationId" : "getTimesheets",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "companyId",
+          "in" : "path",
+          "description" : "Company IDs",
+          "required" : true,
+          "type" : "integer",
+          "minimum" : 0,
+          "format" : "int64"
+        }, {
+          "name" : "from",
+          "in" : "query",
+          "description" : "From date",
+          "required" : true,
+          "type" : "string",
+          "format" : "date-time"
+        }, {
+          "name" : "to",
+          "in" : "query",
+          "description" : "To date",
+          "required" : true,
+          "type" : "string",
+          "format" : "date-time"
+        } ],
+        "responses" : {
+          "400" : {
+            "description" : "Invalid parameters supplied"
+          },
+          "404" : {
+            "description" : "Not found"
+          },
+          "default" : {
+            "description" : "Success",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/definitions/Timesheet"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/company/{companyId}/employee" : {
+      "get" : {
+        "tags" : [ "Employee" ],
+        "summary" : "Get employees by status for employees page",
+        "operationId" : "getEmployeesByStatus",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "companyId",
+          "in" : "path",
+          "description" : "Company IDs",
+          "required" : true,
+          "type" : "integer",
+          "minimum" : 0,
+          "format" : "int64"
+        }, {
+          "name" : "status",
+          "in" : "query",
+          "description" : "Employee status",
+          "required" : false,
+          "type" : "array",
+          "items" : {
+            "type" : "string",
+            "enum" : [ "active", "pending", "deactivated" ]
+          },
+          "collectionFormat" : "multi"
+        } ],
+        "responses" : {
+          "400" : {
+            "description" : "Invalid parameters supplied"
+          },
+          "404" : {
+            "description" : "Not found"
+          },
+          "default" : {
+            "description" : "Success",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/definitions/EmployeeItems"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/company/{companyId}/employee/{id}" : {
+      "get" : {
+        "tags" : [ "Employee" ],
+        "summary" : "Find employee by ID",
+        "operationId" : "getEmployeeById",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "companyId",
+          "in" : "path",
+          "description" : "Company IDs",
+          "required" : true,
+          "type" : "integer",
+          "minimum" : 0,
+          "format" : "int64"
+        }, {
+          "name" : "id",
+          "in" : "path",
+          "description" : "Employee IDs",
+          "required" : true,
+          "type" : "integer",
+          "minimum" : 0,
+          "format" : "int64"
+        } ],
+        "responses" : {
+          "400" : {
+            "description" : "Invalid parameters supplied"
+          },
+          "404" : {
+            "description" : "Not found"
+          },
+          "default" : {
+            "description" : "Success",
+            "schema" : {
+              "$ref" : "#/definitions/EmployeeProfile"
+            }
+          }
+        }
+      },
+      "put" : {
+        "tags" : [ "Employee" ],
+        "summary" : "Update employee",
+        "operationId" : "updateEmployee",
+        "consumes" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "companyId",
+          "in" : "path",
+          "description" : "Company IDs",
+          "required" : true,
+          "type" : "integer",
+          "minimum" : 0,
+          "format" : "int64"
+        }, {
+          "name" : "id",
+          "in" : "path",
+          "description" : "Employee IDs",
+          "required" : true,
+          "type" : "integer",
+          "minimum" : 0,
+          "format" : "int64"
+        }, {
+          "in" : "body",
+          "name" : "employee",
+          "description" : "Employee to edit",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/Employee"
+          }
+        } ],
+        "responses" : {
+          "201" : {
+            "description" : "Success"
+          },
+          "400" : {
+            "description" : "Invalid parameters supplied"
+          },
+          "404" : {
+            "description" : "Not found"
+          }
+        }
+      }
+    },
+    "/company/{companyId}/project" : {
+      "get" : {
+        "tags" : [ "Project" ],
+        "summary" : "Get all projects",
+        "operationId" : "getProjects",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "companyId",
+          "in" : "path",
+          "description" : "Company IDs",
+          "required" : true,
+          "type" : "integer",
+          "minimum" : 0,
+          "format" : "int64"
+        } ],
+        "responses" : {
+          "400" : {
+            "description" : "Invalid parameters supplied"
+          },
+          "404" : {
+            "description" : "Not found"
+          },
+          "default" : {
+            "description" : "Success",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/definitions/ProjectItems"
+              }
+            }
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "Project" ],
+        "summary" : "Add project",
+        "operationId" : "addProject",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "companyId",
+          "in" : "path",
+          "description" : "Company IDs",
+          "required" : true,
+          "type" : "integer",
+          "minimum" : 0,
+          "format" : "int64"
+        }, {
+          "in" : "body",
+          "name" : "project",
+          "description" : "New project",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/Project"
+          }
+        } ],
+        "responses" : {
+          "201" : {
+            "description" : "Success"
+          },
+          "400" : {
+            "description" : "Invalid parameters supplied"
+          },
+          "404" : {
+            "description" : "Not found"
+          },
+          "409" : {
+            "description" : "Already exist"
+          }
+        }
+      }
+    },
+    "/company/{companyId}/project/{id}" : {
+      "get" : {
+        "tags" : [ "Project" ],
+        "summary" : "Find project by ID",
+        "operationId" : "getProjectById",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "companyId",
+          "in" : "path",
+          "description" : "Company IDs",
+          "required" : true,
+          "type" : "integer",
+          "minimum" : 0,
+          "format" : "int64"
+        }, {
+          "name" : "id",
+          "in" : "path",
+          "description" : "Project IDs",
+          "required" : true,
+          "type" : "integer",
+          "minimum" : 0,
+          "format" : "int64"
+        } ],
+        "responses" : {
+          "400" : {
+            "description" : "Invalid parameters supplied"
+          },
+          "404" : {
+            "description" : "Not found"
+          },
+          "default" : {
+            "description" : "Success",
+            "schema" : {
+              "$ref" : "#/definitions/ProjectProfile"
+            }
+          }
+        }
+      },
+      "put" : {
+        "tags" : [ "Project" ],
+        "summary" : "Update project",
+        "operationId" : "updateProject",
+        "consumes" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "companyId",
+          "in" : "path",
+          "description" : "Company IDs",
+          "required" : true,
+          "type" : "integer",
+          "format" : "int64"
+        }, {
+          "name" : "id",
+          "in" : "path",
+          "description" : "Project IDs",
+          "required" : true,
+          "type" : "integer",
+          "minimum" : 0,
+          "format" : "int64"
+        }, {
+          "in" : "body",
+          "name" : "project",
+          "description" : "Project to update",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/Project"
+          }
+        } ],
+        "responses" : {
+          "201" : {
+            "description" : "Success"
+          },
+          "400" : {
+            "description" : "Invalid parameters supplied"
+          },
+          "404" : {
+            "description" : "Not found"
+          }
+        }
+      },
+      "delete" : {
+        "tags" : [ "Project" ],
+        "summary" : "Delete project",
+        "operationId" : "deleteProject",
+        "consumes" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "companyId",
+          "in" : "path",
+          "description" : "Company IDs",
+          "required" : true,
+          "type" : "integer",
+          "format" : "int64"
+        }, {
+          "name" : "id",
+          "in" : "path",
+          "description" : "Project IDs",
+          "required" : true,
+          "type" : "integer",
+          "minimum" : 0,
+          "format" : "int64"
+        } ],
+        "responses" : {
+          "201" : {
+            "description" : "Success"
+          },
+          "400" : {
+            "description" : "Invalid parameters supplied"
+          },
+          "404" : {
+            "description" : "Not found"
+          }
+        }
+      }
+    },
+    "/company/{companyId}/assignment" : {
+      "get" : {
+        "tags" : [ "Assignment" ],
+        "summary" : "All assignments",
+        "operationId" : "getAssignments",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "companyId",
+          "in" : "path",
+          "description" : "Company IDs",
+          "required" : true,
+          "type" : "integer",
+          "format" : "int64"
+        }, {
+          "name" : "projectId",
+          "in" : "query",
+          "description" : "Project IDs",
+          "required" : false,
+          "type" : "integer",
+          "minimum" : 0,
+          "format" : "int64"
+        }, {
+          "name" : "employeeId",
+          "in" : "query",
+          "description" : "Employee IDs",
+          "required" : false,
+          "type" : "integer",
+          "minimum" : 0,
+          "format" : "int64"
+        } ],
+        "responses" : {
+          "400" : {
+            "description" : "Invalid parameters supplied"
+          },
+          "404" : {
+            "description" : "Not found"
+          },
+          "default" : {
+            "description" : "Success",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/definitions/Assignment"
+              }
+            }
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "Assignment" ],
+        "summary" : "Assign employee to project",
+        "operationId" : "assign",
+        "consumes" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "companyId",
+          "in" : "path",
+          "description" : "Company IDs",
+          "required" : true,
+          "type" : "integer",
+          "format" : "int64"
+        }, {
+          "in" : "body",
+          "name" : "assignment",
+          "description" : "New assignment",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/Assignment"
+          }
+        } ],
+        "responses" : {
+          "201" : {
+            "description" : "Success"
+          },
+          "400" : {
+            "description" : "Invalid parameters supplied"
+          },
+          "404" : {
+            "description" : "Not found"
+          },
+          "409" : {
+            "description" : "Already exist"
+          }
+        }
+      }
+    },
+    "/company/{companyId}/assignment/{id}" : {
+      "get" : {
+        "tags" : [ "Assignment" ],
+        "summary" : "Find assignment by ID",
+        "operationId" : "getAssignmentById",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "companyId",
+          "in" : "path",
+          "description" : "Company IDs",
+          "required" : true,
+          "type" : "integer",
+          "format" : "int64"
+        }, {
+          "name" : "id",
+          "in" : "path",
+          "description" : "assignment IDs",
+          "required" : true,
+          "type" : "integer",
+          "minimum" : 0,
+          "format" : "int64"
+        } ],
+        "responses" : {
+          "400" : {
+            "description" : "Invalid parameters supplied"
+          },
+          "404" : {
+            "description" : "Not found"
+          },
+          "default" : {
+            "description" : "Success",
+            "schema" : {
+              "$ref" : "#/definitions/Assignment"
+            }
+          }
+        }
+      },
+      "put" : {
+        "tags" : [ "Assignment" ],
+        "summary" : "Update assignment",
+        "operationId" : "updateAssignment",
+        "consumes" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "companyId",
+          "in" : "path",
+          "description" : "Company IDs",
+          "required" : true,
+          "type" : "integer",
+          "format" : "int64"
+        }, {
+          "name" : "id",
+          "in" : "path",
+          "description" : "assignment IDs",
+          "required" : true,
+          "type" : "integer",
+          "minimum" : 0,
+          "format" : "int64"
+        }, {
+          "in" : "body",
+          "name" : "assignment",
+          "description" : "Assignment to update",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/Assignment"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success"
+          },
+          "400" : {
+            "description" : "Invalid parameters supplied"
+          },
+          "404" : {
+            "description" : "Not found"
+          }
+        }
+      },
+      "delete" : {
+        "tags" : [ "Assignment" ],
+        "summary" : "Delete assignment",
+        "operationId" : "deleteAssignment",
+        "consumes" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "companyId",
+          "in" : "path",
+          "description" : "Company IDs",
+          "required" : true,
+          "type" : "integer",
+          "format" : "int64"
+        }, {
+          "name" : "id",
+          "in" : "path",
+          "description" : "assignment IDs",
+          "required" : true,
+          "type" : "integer",
+          "minimum" : 0,
+          "format" : "int64"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success"
+          },
+          "400" : {
+            "description" : "Invalid parameters supplied"
+          },
+          "404" : {
+            "description" : "Not found"
+          }
+        }
+      }
+    },
+    "/company/{companyId}/project/{projectId}/integrations" : {
+      "get" : {
+        "tags" : [ "Integration" ],
+        "summary" : "All integrations of company",
+        "operationId" : "getIntegrations",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "companyId",
+          "in" : "path",
+          "description" : "Company IDs",
+          "required" : true,
+          "type" : "integer",
+          "format" : "int64"
+        }, {
+          "name" : "projectId",
+          "in" : "path",
+          "description" : "Project IDs",
+          "required" : true,
+          "type" : "integer",
+          "minimum" : 0,
+          "format" : "int64"
+        } ],
+        "responses" : {
+          "400" : {
+            "description" : "Invalid parameters supplied"
+          },
+          "404" : {
+            "description" : "Not found"
+          },
+          "default" : {
+            "description" : "Success",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/definitions/Integration"
+              }
+            }
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "Integration" ],
+        "summary" : "Add new integration",
+        "operationId" : "addIntegration",
+        "consumes" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "companyId",
+          "in" : "path",
+          "description" : "Company IDs",
+          "required" : true,
+          "type" : "integer",
+          "format" : "int64"
+        }, {
+          "name" : "projectId",
+          "in" : "path",
+          "description" : "Project IDs",
+          "required" : true,
+          "type" : "integer",
+          "minimum" : 0,
+          "format" : "int64"
+        }, {
+          "in" : "body",
+          "name" : "integration",
+          "description" : "New integration",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/Integration"
+          }
+        } ],
+        "responses" : {
+          "201" : {
+            "description" : "Success"
+          },
+          "400" : {
+            "description" : "Invalid parameters supplied"
+          },
+          "404" : {
+            "description" : "Not found"
+          },
+          "409" : {
+            "description" : "Already exist"
+          }
+        }
+      }
+    },
+    "/company/{companyId}/project/{projectId}/integrations/{id}" : {
+      "get" : {
+        "tags" : [ "Integration" ],
+        "summary" : "Find project integrations by ID",
+        "operationId" : "getIntegrationById",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "companyId",
+          "in" : "path",
+          "description" : "Company IDs",
+          "required" : true,
+          "type" : "integer",
+          "format" : "int64"
+        }, {
+          "name" : "projectId",
+          "in" : "path",
+          "description" : "Project IDs",
+          "required" : true,
+          "type" : "integer",
+          "minimum" : 0,
+          "format" : "int64"
+        }, {
+          "name" : "id",
+          "in" : "path",
+          "description" : "Integration IDs",
+          "required" : true,
+          "type" : "integer",
+          "minimum" : 0,
+          "format" : "int64"
+        } ],
+        "responses" : {
+          "400" : {
+            "description" : "Invalid parameters supplied"
+          },
+          "404" : {
+            "description" : "Not found"
+          },
+          "default" : {
+            "description" : "Success",
+            "schema" : {
+              "$ref" : "#/definitions/Integration"
+            }
+          }
+        }
+      },
+      "put" : {
+        "tags" : [ "Integration" ],
+        "summary" : "Update integration",
+        "operationId" : "updateIntegration",
+        "consumes" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "companyId",
+          "in" : "path",
+          "description" : "Company IDs",
+          "required" : true,
+          "type" : "integer",
+          "format" : "int64"
+        }, {
+          "name" : "projectId",
+          "in" : "path",
+          "description" : "Project IDs",
+          "required" : true,
+          "type" : "integer",
+          "minimum" : 0,
+          "format" : "int64"
+        }, {
+          "name" : "id",
+          "in" : "path",
+          "description" : "Integration IDs",
+          "required" : true,
+          "type" : "integer",
+          "minimum" : 0,
+          "format" : "int64"
+        }, {
+          "in" : "body",
+          "name" : "integration",
+          "description" : "Integration to update",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/Integration"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success"
+          },
+          "400" : {
+            "description" : "Invalid parameters supplied"
+          },
+          "404" : {
+            "description" : "Not found"
+          }
+        }
+      },
+      "delete" : {
+        "tags" : [ "Integration" ],
+        "summary" : "Delete integration",
+        "operationId" : "deleteIntegration",
+        "consumes" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "companyId",
+          "in" : "path",
+          "description" : "Company IDs",
+          "required" : true,
+          "type" : "integer",
+          "format" : "int64"
+        }, {
+          "name" : "projectId",
+          "in" : "path",
+          "description" : "Project IDs",
+          "required" : true,
+          "type" : "integer",
+          "minimum" : 0,
+          "format" : "int64"
+        }, {
+          "name" : "id",
+          "in" : "path",
+          "description" : "Integration IDs",
+          "required" : true,
+          "type" : "integer",
+          "minimum" : 0,
+          "format" : "int64"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success"
+          },
+          "400" : {
+            "description" : "Invalid parameters supplied"
+          },
+          "404" : {
+            "description" : "Not found"
+          }
+        }
+      }
+    },
+    "/company/{companyId}/settings" : {
+      "get" : {
+        "tags" : [ "Settings" ],
+        "summary" : "Get company settings",
+        "operationId" : "getCompanySettings",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "companyId",
+          "in" : "path",
+          "description" : "Company IDs",
+          "required" : true,
+          "type" : "integer",
+          "format" : "int64"
+        } ],
+        "responses" : {
+          "400" : {
+            "description" : "Invalid parameters supplied"
+          },
+          "404" : {
+            "description" : "Not found"
+          },
+          "default" : {
+            "description" : "Success",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/definitions/Settings"
+              }
+            }
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "Settings" ],
+        "summary" : "Add settings to the company",
+        "operationId" : "addSettings",
+        "consumes" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "companyId",
+          "in" : "path",
+          "description" : "Company IDs",
+          "required" : true,
+          "type" : "integer",
+          "format" : "int64"
+        }, {
+          "in" : "body",
+          "name" : "settings",
+          "description" : "Settings for company",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/CompanySettings"
+          }
+        } ],
+        "responses" : {
+          "201" : {
+            "description" : "Success"
+          },
+          "400" : {
+            "description" : "Invalid parameters supplied"
+          },
+          "404" : {
+            "description" : "Not found"
+          },
+          "409" : {
+            "description" : "Already exist"
+          }
+        }
+      }
+    },
+    "/company/{companyId}/employee{employeeId}" : {
+      "get" : {
+        "tags" : [ "Notification" ],
+        "summary" : "Get notifications",
+        "operationId" : "getNotifications",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "companyId",
+          "in" : "path",
+          "description" : "Company IDs",
+          "required" : true,
+          "type" : "integer",
+          "format" : "int64"
+        }, {
+          "name" : "employeeId",
+          "in" : "path",
+          "description" : "Employee IDs",
+          "required" : true,
+          "type" : "integer",
+          "format" : "int64"
+        } ],
+        "responses" : {
+          "400" : {
+            "description" : "Invalid parameters supplied"
+          },
+          "404" : {
+            "description" : "Not found"
+          },
+          "default" : {
+            "description" : "Success",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/definitions/Notification"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions" : {
+    "Project" : {
+      "type" : "object",
+      "properties" : {
+        "name" : {
+          "type" : "string"
+        },
+        "color" : {
+          "type" : "string"
+        },
+        "code" : {
+          "type" : "string"
+        },
+        "status" : {
+          "type" : "string"
+        },
+        "team" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/ProjectTeammate"
+          }
+        },
+        "integrations" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/ProjectTeammate"
+          }
+        }
+      }
+    },
+    "ProjectProfile" : {
+      "type" : "object",
+      "properties" : {
+        "name" : {
+          "type" : "string"
+        },
+        "color" : {
+          "type" : "string"
+        },
+        "code" : {
+          "type" : "string"
+        },
+        "status" : {
+          "type" : "string"
+        },
+        "projectType" : {
+          "type" : "string"
+        },
+        "startDate" : {
+          "type" : "string",
+          "format" : "date"
+        },
+        "endDate" : {
+          "type" : "string",
+          "format" : "date"
+        },
+        "progressBar" : {
+          "$ref" : "#/definitions/ProgressBar"
+        },
+        "team" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/ProjectTeammate"
+          }
+        },
+        "integrations" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/Integration"
+          }
+        },
+        "yearsWorkload" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/MonthlyWorkloadBar"
+          }
+        }
+      }
+    },
+    "ProgressBar" : {
+      "type" : "object",
+      "properties" : {
+        "total" : {
+          "type" : "number",
+          "format" : "double"
+        },
+        "currentlySpent" : {
+          "type" : "number",
+          "format" : "double"
+        },
+        "expected" : {
+          "type" : "number",
+          "format" : "double"
+        }
+      }
+    },
+    "ProjectItems" : {
+      "type" : "object",
+      "properties" : {
+        "color" : {
+          "type" : "string"
+        },
+        "name" : {
+          "type" : "string"
+        },
+        "team" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/ProjectTeammate"
+          }
+        },
+        "startDate" : {
+          "type" : "string",
+          "format" : "date"
+        },
+        "endDate" : {
+          "type" : "string",
+          "format" : "date"
+        },
+        "planned" : {
+          "type" : "number",
+          "format" : "double"
+        },
+        "actual" : {
+          "type" : "number",
+          "format" : "double"
+        }
+      }
+    },
+    "ProjectTeammate" : {
+      "type" : "object",
+      "properties" : {
+        "photo" : {
+          "type" : "string",
+          "format" : "url"
+        },
+        "name" : {
+          "type" : "string"
+        },
+        "workload" : {
+          "type" : "integer",
+          "format" : "int64"
+        }
+      }
+    },
+    "EmployeeItems" : {
+      "type" : "object",
+      "properties" : {
+        "name" : {
+          "type" : "string"
+        },
+        "role" : {
+          "type" : "string"
+        },
+        "planned" : {
+          "type" : "number",
+          "format" : "double"
+        },
+        "actual" : {
+          "type" : "number",
+          "format" : "double"
+        },
+        "status" : {
+          "type" : "string",
+          "enum" : [ "active", "pending", "deactivated" ]
+        },
+        "pendingApprovalTimesheets" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/TimesheetsPendingApproval"
+          }
+        }
+      }
+    },
+    "Employee" : {
+      "type" : "object",
+      "properties" : {
+        "status" : {
+          "type" : "string"
+        },
+        "role" : {
+          "type" : "string"
+        },
+        "workload" : {
+          "type" : "integer",
+          "format" : "int64"
+        },
+        "employeeProjects" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/EmployeeProject"
+          }
+        }
+      }
+    },
+    "EmployeeProfile" : {
+      "type" : "object",
+      "properties" : {
+        "name" : {
+          "type" : "string"
+        },
+        "role" : {
+          "type" : "string"
+        },
+        "workload" : {
+          "type" : "integer",
+          "format" : "int64"
+        },
+        "email" : {
+          "type" : "string",
+          "format" : "email"
+        },
+        "phone" : {
+          "type" : "string",
+          "format" : "phone-number"
+        },
+        "employeeProjects" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/EmployeeProject"
+          }
+        },
+        "yearsWorkload" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/MonthlyWorkloadBar"
+          }
+        },
+        "timesheetsPendingApproval" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/Timesheet"
+          }
+        },
+        "timesheetCurrentWeek" : {
+          "$ref" : "#/definitions/Timesheet"
+        },
+        "notificationsSettings" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/Settings"
+          }
+        }
+      }
+    },
+    "EmployeeProject" : {
+      "type" : "object",
+      "properties" : {
+        "color" : {
+          "type" : "string"
+        },
+        "name" : {
+          "type" : "string"
+        },
+        "activity" : {
+          "type" : "string"
+        },
+        "workLoad" : {
+          "type" : "integer",
+          "format" : "int64"
+        }
+      }
+    },
+    "MonthlyWorkloadBar" : {
+      "type" : "object",
+      "properties" : {
+        "projectsWorkload" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/ProjectWorkloadBar"
+          }
+        }
+      }
+    },
+    "ProjectWorkloadBar" : {
+      "type" : "object",
+      "properties" : {
+        "color" : {
+          "type" : "string"
+        },
+        "name" : {
+          "type" : "string"
+        },
+        "workload" : {
+          "type" : "number",
+          "format" : "double"
+        }
+      }
+    },
+    "Assignment" : {
+      "type" : "object",
+      "properties" : {
+        "employeeName" : {
+          "type" : "string"
+        },
+        "activities" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/Activity"
+          }
+        },
+        "workLoad" : {
+          "type" : "integer",
+          "format" : "int64"
+        }
+      }
+    },
+    "Integration" : {
+      "type" : "object",
+      "properties" : {
+        "type" : {
+          "type" : "string"
+        },
+        "login" : {
+          "type" : "string"
+        },
+        "password" : {
+          "type" : "string"
+        }
+      }
+    },
+    "Activity" : {
+      "type" : "object",
+      "properties" : {
+        "name" : {
+          "type" : "string"
+        }
+      }
+    },
+    "Logs" : {
+      "type" : "object",
+      "properties" : {
+        "projectName" : {
+          "type" : "string"
+        },
+        "time" : {
+          "type" : "number",
+          "format" : "double"
+        },
+        "comment" : {
+          "type" : "string"
+        }
+      }
+    },
+    "TimesheetsPendingApproval" : {
+      "type" : "object",
+      "properties" : {
+        "from" : {
+          "type" : "string",
+          "format" : "date-time"
+        },
+        "to" : {
+          "type" : "string",
+          "format" : "date-time"
+        },
+        "planned" : {
+          "type" : "number",
+          "format" : "double"
+        },
+        "actual" : {
+          "type" : "number",
+          "format" : "double"
+        }
+      }
+    },
+    "TimesheetLogs" : {
+      "type" : "object",
+      "properties" : {
+        "color" : {
+          "type" : "string",
+          "description" : "Projects color"
+        },
+        "comment" : {
+          "type" : "string"
+        },
+        "time" : {
+          "type" : "number",
+          "format" : "double"
+        }
+      }
+    },
+    "TimesheetWorkload" : {
+      "type" : "object",
+      "properties" : {
+        "planned" : {
+          "type" : "number",
+          "format" : "double"
+        },
+        "actual" : {
+          "type" : "number",
+          "format" : "double"
+        },
+        "projects" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/TimesheetProject"
+          }
+        }
+      }
+    },
+    "TimesheetProject" : {
+      "type" : "object",
+      "properties" : {
+        "color" : {
+          "type" : "string"
+        },
+        "name" : {
+          "type" : "string"
+        },
+        "planned" : {
+          "type" : "number",
+          "format" : "double"
+        },
+        "actual" : {
+          "type" : "number",
+          "format" : "double"
+        }
+      }
+    },
+    "Timesheet" : {
+      "type" : "object",
+      "properties" : {
+        "logs" : {
+          "$ref" : "#/definitions/TimesheetLogs"
+        },
+        "timesheetWorkload" : {
+          "$ref" : "#/definitions/TimesheetWorkload"
+        }
+      }
+    },
+    "Settings" : {
+      "type" : "object",
+      "properties" : {
+        "key" : {
+          "type" : "string"
+        },
+        "value" : {
+          "type" : "string"
+        }
+      }
+    },
+    "CompanySettings" : {
+      "type" : "object",
+      "properties" : {
+        "companyActivities" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/Activity"
+          }
+        },
+        "defaultProjectIDs" : {
+          "type" : "array",
+          "items" : {
+            "type" : "integer",
+            "format" : "int64"
+          }
+        },
+        "settings" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/Settings"
+          }
+        },
+        "integrations" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/Integration"
+          }
+        }
+      }
+    },
+    "Notification" : {
+      "type" : "object",
+      "properties" : {
+        "name" : {
+          "type" : "string"
+        },
+        "projectName" : {
+          "type" : "string"
+        },
+        "description" : {
+          "type" : "string"
+        },
+        "endDate" : {
+          "type" : "string",
+          "format" : "date"
+        }
+      }
+    }
+  }
+}
