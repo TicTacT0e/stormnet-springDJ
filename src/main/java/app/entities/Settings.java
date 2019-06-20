@@ -1,11 +1,18 @@
 package app.entities;
 
+import javax.json.bind.annotation.JsonbTransient;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -19,6 +26,13 @@ public class Settings {
     private int companyId;
     private String type;
     private String value;
+
+    @ManyToOne(fetch = FetchType.LAZY, targetEntity = Company.class,
+            cascade = CascadeType.ALL)
+    @JoinColumn(name = "companyId",
+            updatable = false, insertable = false)
+    @JsonbTransient
+    private Company company;
 
     public Settings() {
     }
@@ -75,6 +89,14 @@ public class Settings {
 
     public void setValue(String value) {
         this.value = value;
+    }
+
+    public Company getCompany() {
+        return company;
+    }
+
+    public void setCompany(Company company) {
+        this.company = company;
     }
 
     @Override

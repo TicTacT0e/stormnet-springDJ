@@ -30,6 +30,10 @@ public class Company {
     @JsonbTransient
     private List<Employee> employees;
 
+    @OneToMany(fetch = FetchType.LAZY, targetEntity = Settings.class,
+            mappedBy = "company")
+    private List<Settings> settings;
+
     public Company() {
     }
 
@@ -85,6 +89,14 @@ public class Company {
 
     public void setEmployees(List<Employee> employees) {
         this.employees = employees;
+    }
+
+    public List<Settings> getSettings() {
+        return settings;
+    }
+
+    public void setSettings(List<Settings> settings) {
+        this.settings = settings;
     }
 
     @Override
