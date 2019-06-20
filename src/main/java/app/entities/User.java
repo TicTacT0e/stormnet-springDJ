@@ -4,7 +4,6 @@ import javax.json.bind.annotation.JsonbTransient;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -27,7 +26,7 @@ public class User {
     private String photoUrl;
 
     @OneToOne(targetEntity = Employee.class,
-    cascade = CascadeType.ALL)
+            cascade = CascadeType.ALL)
     @JoinColumn(name = "id",
             updatable = false, insertable = false)
     @JsonbTransient
