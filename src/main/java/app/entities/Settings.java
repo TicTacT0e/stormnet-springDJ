@@ -20,8 +20,8 @@ public class Settings {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", updatable = false, nullable = false)
-    private int id;
-    private int companyId;
+    private Integer id;
+    private Integer companyId;
     private String type;
     private String value;
 
@@ -35,14 +35,14 @@ public class Settings {
     public Settings() {
     }
 
-    public Settings(int id, int companyId, String type, String value) {
+    public Settings(Integer id, Integer companyId, String type, String value) {
         this.id = id;
         this.companyId = companyId;
         this.type = type;
         this.value = value;
     }
 
-    public Settings(int companyId, String type, String value) {
+    public Settings(Integer companyId, String type, String value) {
         this.companyId = companyId;
         this.type = type;
         this.value = value;
@@ -57,19 +57,19 @@ public class Settings {
         );
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
-    public int getCompanyId() {
+    public Integer getCompanyId() {
         return companyId;
     }
 
-    public void setCompanyId(int companyId) {
+    public void setCompanyId(Integer companyId) {
         this.companyId = companyId;
     }
 
@@ -106,7 +106,7 @@ public class Settings {
             return false;
         }
         Settings settings = (Settings) object;
-        return getId() == settings.getId();
+        return getId().equals(settings.getId());
     }
 
     @Override

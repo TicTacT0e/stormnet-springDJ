@@ -20,10 +20,10 @@ public class Company {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", updatable = false, nullable = false)
-    private int id;
+    private Integer id;
     private String name;
     private String logo;
-    private int ownerId;
+    private Integer ownerId;
 
     @OneToMany(fetch = FetchType.LAZY, targetEntity = Employee.class,
             mappedBy = "company", cascade = CascadeType.ALL)
@@ -37,7 +37,7 @@ public class Company {
     public Company() {
     }
 
-    public Company(int id, String name, String logoUrl, int ownerId) {
+    public Company(Integer id, String name, String logoUrl, Integer ownerId) {
         this.id = id;
         this.name = name;
         this.logo = logoUrl;
@@ -51,11 +51,11 @@ public class Company {
                 company.getOwnerId());
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -75,11 +75,11 @@ public class Company {
         this.logo = logo;
     }
 
-    public int getOwnerId() {
+    public Integer getOwnerId() {
         return ownerId;
     }
 
-    public void setOwnerId(int ownerId) {
+    public void setOwnerId(Integer ownerId) {
         this.ownerId = ownerId;
     }
 
@@ -100,23 +100,20 @@ public class Company {
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) {
+    public boolean equals(Object object) {
+        if (this == object) {
             return true;
         }
-        if (o == null || getClass() != o.getClass()) {
+        if (!(object instanceof Company)) {
             return false;
         }
-        Company company = (Company) o;
-        return Objects.equals(getId(), company.getId())
-                && Objects.equals(getName(), company.getName())
-                && Objects.equals(getLogo(), company.getLogo())
-                && Objects.equals(getOwnerId(), company.getOwnerId());
+        Company company = (Company) object;
+        return Objects.equals(getId(), company.getId());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getName(), getLogo(), getOwnerId());
+        return Objects.hash(getId());
     }
 
     @Override

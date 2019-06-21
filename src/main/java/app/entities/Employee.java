@@ -24,11 +24,11 @@ public class Employee {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", updatable = false, nullable = false)
-    private int id;
-    private int companyId;
-    private int userId;
+    private Integer id;
+    private Integer companyId;
+    private Integer userId;
     private String roleId;
-    private int workLoad;
+    private Integer workLoad;
     private String status;
 
     @OneToOne(targetEntity = User.class)
@@ -54,8 +54,8 @@ public class Employee {
     public Employee() {
     }
 
-    public Employee(int id, int companyId, int userId, String roleId,
-                    int workLoad, String status) {
+    public Employee(Integer id, Integer companyId, Integer userId,
+                    String roleId, Integer workLoad, String status) {
         this.id = id;
         this.companyId = companyId;
         this.userId = userId;
@@ -64,27 +64,27 @@ public class Employee {
         this.status = status;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
-    public int getCompanyId() {
+    public Integer getCompanyId() {
         return companyId;
     }
 
-    public void setCompanyId(int companyId) {
+    public void setCompanyId(Integer companyId) {
         this.companyId = companyId;
     }
 
-    public int getUserId() {
+    public Integer getUserId() {
         return userId;
     }
 
-    public void setUserId(int userId) {
+    public void setUserId(Integer userId) {
         this.userId = userId;
     }
 
@@ -96,11 +96,11 @@ public class Employee {
         this.roleId = roleId;
     }
 
-    public int getWorkLoad() {
+    public Integer getWorkLoad() {
         return workLoad;
     }
 
-    public void setWorkLoad(int workLoad) {
+    public void setWorkLoad(Integer workLoad) {
         this.workLoad = workLoad;
     }
 
@@ -153,7 +153,7 @@ public class Employee {
             return false;
         }
         Employee employee = (Employee) object;
-        return getId() == employee.getId();
+        return getId().equals(employee.getId());
     }
 
     @Override

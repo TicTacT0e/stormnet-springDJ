@@ -20,7 +20,7 @@ public class Activity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", updatable = false, nullable = false)
-    private int id;
+    private Integer id;
     private String name;
 
     @OneToMany(fetch = FetchType.LAZY, targetEntity = Assignment.class,
@@ -31,7 +31,7 @@ public class Activity {
     public Activity() {
     }
 
-    public Activity(int id, String name) {
+    public Activity(Integer id, String name) {
         this.id = id;
         this.name = name;
     }
@@ -47,11 +47,11 @@ public class Activity {
         );
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -80,7 +80,7 @@ public class Activity {
             return false;
         }
         Activity activity = (Activity) object;
-        return getId() == activity.getId();
+        return getId().equals(activity.getId());
     }
 
     @Override

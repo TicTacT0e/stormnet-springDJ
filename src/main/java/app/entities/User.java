@@ -19,7 +19,7 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", updatable = false, nullable = false)
-    private int id;
+    private Integer id;
     private String name;
     private String phone;
     private String email;
@@ -35,7 +35,7 @@ public class User {
     public User() {
     }
 
-    public User(int id, String name, String phone,
+    public User(Integer id, String name, String phone,
                 String email, String photoUrl) {
         this.id = id;
         this.name = name;
@@ -52,11 +52,11 @@ public class User {
                 user.getPhotoUrl());
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -109,7 +109,7 @@ public class User {
             return false;
         }
         User user = (User) object;
-        return getId() == user.getId();
+        return getId().equals(user.getId());
     }
 
     @Override

@@ -17,11 +17,11 @@ public class Assignment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", updatable = false, nullable = false)
-    private int id;
-    private int employeeId;
-    private int projectId;
-    private int activityId;
-    private int workLoad;
+    private Integer id;
+    private Integer employeeId;
+    private Integer projectId;
+    private Integer activityId;
+    private Integer workLoad;
 
     @ManyToOne(targetEntity = Employee.class)
     @JoinColumn(name = "employeeId",
@@ -39,8 +39,8 @@ public class Assignment {
     public Assignment() {
     }
 
-    public Assignment(int id, int projectId, int employeeId,
-                      int activityId, int workLoad) {
+    public Assignment(Integer id, Integer projectId, Integer employeeId,
+                      Integer activityId, Integer workLoad) {
         this.id = id;
         this.projectId = projectId;
         this.employeeId = employeeId;
@@ -58,43 +58,43 @@ public class Assignment {
         );
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
-    public int getEmployeeId() {
+    public Integer getEmployeeId() {
         return employeeId;
     }
 
-    public void setEmployeeId(int employeeId) {
+    public void setEmployeeId(Integer employeeId) {
         this.employeeId = employeeId;
     }
 
-    public int getProjectId() {
+    public Integer getProjectId() {
         return projectId;
     }
 
-    public void setProjectId(int projectId) {
+    public void setProjectId(Integer projectId) {
         this.projectId = projectId;
     }
 
-    public int getActivityId() {
+    public Integer getActivityId() {
         return activityId;
     }
 
-    public void setActivityId(int activityId) {
+    public void setActivityId(Integer activityId) {
         this.activityId = activityId;
     }
 
-    public int getWorkLoad() {
+    public Integer getWorkLoad() {
         return workLoad;
     }
 
-    public void setWorkLoad(int workLoad) {
+    public void setWorkLoad(Integer workLoad) {
         this.workLoad = workLoad;
     }
 
@@ -131,7 +131,7 @@ public class Assignment {
             return false;
         }
         Assignment that = (Assignment) object;
-        return getId() == that.getId();
+        return getId().equals(that.getId());
     }
 
     @Override
