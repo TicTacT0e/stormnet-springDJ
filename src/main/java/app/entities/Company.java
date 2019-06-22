@@ -1,10 +1,7 @@
 package app.entities;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -17,6 +14,9 @@ public class Company {
     private String name;
     private String logo;
     private Integer ownerId;
+
+    @OneToMany(mappedBy = "Companies", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+    private List<Project> projects;
 
     public Company() {
     }
@@ -33,6 +33,10 @@ public class Company {
                 company.getName(),
                 company.getLogo(),
                 company.getOwnerId());
+    }
+
+    public List<Project> getProjects() {
+        return projects;
     }
 
     public Integer getId() {

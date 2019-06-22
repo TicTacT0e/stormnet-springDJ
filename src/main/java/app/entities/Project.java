@@ -1,8 +1,6 @@
 package app.entities;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.sql.Date;
 import java.util.Objects;
 
@@ -10,6 +8,7 @@ import java.util.Objects;
 @Table(name = "Projects")
 public class Project {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private int companyId;
     private String name;
@@ -20,6 +19,10 @@ public class Project {
     private String code;
     private String color;
     private String description;
+
+    @ManyToOne
+    @JoinColumn(name = "id")
+    private Company company;
 
     public Project() {
     }
@@ -50,6 +53,10 @@ public class Project {
                 project.getCode(),
                 project.getColor(),
                 project.getDescription());
+    }
+
+    public Company getCompany() {
+        return company;
     }
 
     public int getId() {
