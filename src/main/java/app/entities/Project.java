@@ -1,31 +1,47 @@
 package app.entities;
 
+import javax.json.bind.annotation.JsonbTransient;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import java.sql.Date;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
 @Table(name = "Projects")
 public class Project {
+
     @Id
-    private int id;
-    private int companyId;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", updatable = false, nullable = false)
+    private Integer id;
+    private Integer companyId;
     private String name;
     private String logoUrl;
     private Date startDate;
     private Date endDate;
-    private long manHours;
+    private Long manHours;
     private String code;
     private String color;
     private String description;
 
+    @OneToMany(fetch = FetchType.LAZY, targetEntity = Assignment.class,
+            mappedBy = "project", cascade = CascadeType.ALL)
+    @JsonbTransient
+    private List<Assignment> assignments;
+
     public Project() {
     }
 
-    public Project(int id, int companyId, String name, String logoUrl,
-                   Date startDate, Date endDate, long manHours,
+    public Project(Integer id, Integer companyId, String name, String logoUrl,
+                   Date startDate, Date endDate, Long manHours,
                    String code, String color, String description) {
         this.id = id;
         this.companyId = companyId;
@@ -52,19 +68,19 @@ public class Project {
                 project.getDescription());
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
-    public int getCompanyId() {
+    public Integer getCompanyId() {
         return companyId;
     }
 
-    public void setCompanyId(int companyId) {
+    public void setCompanyId(Integer companyId) {
         this.companyId = companyId;
     }
 
@@ -124,12 +140,20 @@ public class Project {
         this.description = description;
     }
 
-    public long getManHours() {
+    public Long getManHours() {
         return manHours;
     }
 
-    public void setManHours(long manHours) {
+    public void setManHours(Long manHours) {
         this.manHours = manHours;
+    }
+
+    public List<Assignment> getAssignments() {
+        return assignments;
+    }
+
+    public void setAssignments(List<Assignment> assignments) {
+        this.assignments = assignments;
     }
 
     @Override
@@ -137,28 +161,16 @@ public class Project {
         if (this == object) {
             return true;
         }
-        if (object == null || getClass() != object.getClass()) {
+        if (!(object instanceof Project)) {
             return false;
         }
         Project project = (Project) object;
-        if (id != project.id) {
-            return false;
-        }
-        if (companyId != project.companyId) {
-            return false;
-        }
-        if (!Objects.equals(name, project.name)) {
-            return false;
-        }
-        if (!Objects.equals(logoUrl, project.logoUrl)) {
-            return false;
-        }
-        return !Objects.equals(code, project.code);
+        return Objects.equals(getId(), project.getId());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, companyId, name, logoUrl, code);
+        return Objects.hash(getId());
     }
 
     @Override

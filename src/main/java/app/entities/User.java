@@ -1,12 +1,15 @@
 package app.entities;
 
-import javax.persistence.CollectionTable;
-import javax.persistence.ElementCollection;
+import javax.json.bind.annotation.JsonbTransient;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -14,20 +17,25 @@ import java.util.Objects;
 public class User {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", updatable = false, nullable = false)
     private Integer id;
     private String name;
     private String phone;
     private String email;
     private String photoUrl;
 
-    @ElementCollection
-    @CollectionTable(name = "Project")
-    private List<Project> projects = new LinkedList<>();
+    @OneToOne(targetEntity = Employee.class,
+            cascade = CascadeType.ALL)
+    @JoinColumn(name = "id",
+            updatable = false, insertable = false)
+    @JsonbTransient
+    private Employee employee;
 
     public User() {
     }
 
-    public User(int id, String name, String phone,
+    public User(Integer id, String name, String phone,
                 String email, String photoUrl) {
         this.id = id;
         this.name = name;
@@ -42,7 +50,6 @@ public class User {
                 user.getPhone(),
                 user.getEmail(),
                 user.getPhotoUrl());
-        this.projects = user.getProjects();
     }
 
     public Integer getId() {
@@ -85,15 +92,15 @@ public class User {
         this.photoUrl = photoUrl;
     }
 
-    public List<Project> getProjects() {
-        return projects;
+    public Employee getEmployee() {
+        return employee;
     }
 
-    public void setProjects(List<Project> projects) {
-        this.projects = projects;
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
     }
 
-        @Override
+    @Override
     public boolean equals(Object object) {
         if (this == object) {
             return true;
@@ -101,18 +108,13 @@ public class User {
         if (!(object instanceof User)) {
             return false;
         }
-        User employee = (User) object;
-        return id == employee.id
-                && Objects.equals(name, employee.name)
-                && Objects.equals(phone, employee.phone)
-                && Objects.equals(email, employee.email)
-                && Objects.equals(photoUrl, employee.photoUrl)
-                && Objects.equals(projects, employee.projects);
+        User user = (User) object;
+        return getId().equals(user.getId());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, phone, email, photoUrl, projects);
+        return Objects.hash(getId());
     }
 
     @Override
@@ -123,9 +125,7 @@ public class User {
                 + ", photo='" + phone + '\''
                 + ", email='" + email + '\''
                 + ", email='" + photoUrl + '\''
-                + '\n'
-                + ", projects=" + projects
-                + '}';
+                + "}";
     }
 }
 

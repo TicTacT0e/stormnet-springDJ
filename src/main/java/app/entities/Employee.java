@@ -1,10 +1,20 @@
 package app.entities;
 
+import javax.json.bind.annotation.JsonbTransient;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import java.util.List;
+import java.util.Objects;
 import java.util.StringJoiner;
 
 @Entity
@@ -13,6 +23,7 @@ public class Employee {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", updatable = false, nullable = false)
     private Integer id;
     private Integer companyId;
     private Integer userId;
@@ -20,11 +31,31 @@ public class Employee {
     private Integer workLoad;
     private String status;
 
+    @OneToOne(targetEntity = User.class)
+    @JoinColumn(name = "userId",
+            updatable = false, insertable = false)
+    private User user;
+
+    @OneToMany(fetch = FetchType.LAZY, targetEntity = Assignment.class,
+            mappedBy = "employee", cascade = CascadeType.ALL)
+    @JsonbTransient
+    private List<Assignment> assignments;
+
+    @ManyToOne(targetEntity = Company.class)
+    @JoinColumn(name = "companyId",
+    updatable = false, insertable = false)
+    private Company company;
+
+    @ManyToOne(targetEntity = Role.class)
+    @JoinColumn(name = "roleId",
+    updatable = false, insertable = false)
+    private Role role;
+
     public Employee() {
     }
 
-    public Employee(int id, int companyId, int userId, String roleId,
-                    int workLoad, String status) {
+    public Employee(Integer id, Integer companyId, Integer userId,
+                    String roleId, Integer workLoad, String status) {
         this.id = id;
         this.companyId = companyId;
         this.userId = userId;
@@ -79,6 +110,55 @@ public class Employee {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public List<Assignment> getAssignments() {
+        return assignments;
+    }
+
+    public void setAssignments(List<Assignment> assignments) {
+        this.assignments = assignments;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public Company getCompany() {
+        return company;
+    }
+
+    public void setCompany(Company company) {
+        this.company = company;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        if (this == object) {
+            return true;
+        }
+        if (!(object instanceof Employee)) {
+            return false;
+        }
+        Employee employee = (Employee) object;
+        return getId().equals(employee.getId());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId());
     }
 
     @Override
