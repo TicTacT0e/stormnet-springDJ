@@ -23,17 +23,17 @@ public class ProjectDaoImpl extends BasicCrudDaoImpl<Project>
     private SessionFactory sessionFactory;
 
     private static final String GET_PROJECT_TEAM_QUERY =
-            "select empl.name, empl.photoUrl from Employee empl "
-                    + "join Assignment assign on empl.id = assign.employeeId "
-                    + "join Project proj on proj.id = assign.projectId "
+            "select u.name, u.photoUrl from Users as u join "
+                    + "Employees as empl on u.id = empl.userId join "
+                    + "Assignments as assign on empl.id = assign.employeeId "
+                    + "join Projects as proj on proj.id = assign.projectId "
                     + "where proj.id = ?";
     private static final String GET_PROJECTS_BY_COMPANYID =
             "from Project where companyId =:companyId";
     private static final String GET_PROJECTLOADING_QUERY =
             "SELECT projectId, SUM(time) from Logs log "
-                    + "join Assignment assign on log.assignmentId = assign.id "
+                    + "join Assignments assign on log.assignmentId = assign.id "
                     + "where assign.projectId = ? group by projectId";
-
 
     @Override
     public List<Double> getProjectLoading(int projectId) {
