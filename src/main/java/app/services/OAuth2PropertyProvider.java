@@ -10,10 +10,8 @@ public class OAuth2PropertyProvider {
     private String clientIdGoogle;
     @Value("${client.secret.google}")
     private String clientSecretGoogle;
-    @Value("${client.id.facebook}")
-    private String clientIdFacebook;
-    @Value("${client.secret.facebook}")
-    private String clientSecretFacebook;
+    @Value("${google.scope}")
+    private String googleScope;
 
     public String getClientIdGoogle() {
         return clientIdGoogle;
@@ -31,19 +29,11 @@ public class OAuth2PropertyProvider {
         this.clientSecretGoogle = clientSecretGoogle;
     }
 
-    public String getClientIdFacebook() {
-        return clientIdFacebook;
+    public String getGoogleScope() {
+        return googleScope;
     }
 
-    public void setClientIdFacebook(String clientIdFacebook) {
-        this.clientIdFacebook = clientIdFacebook;
-    }
-
-    public String getClientSecretFacebook() {
-        return clientSecretFacebook;
-    }
-
-    public void setClientSecretFacebook(String clientSecretFacebook) {
-        this.clientSecretFacebook = clientSecretFacebook;
+    public void setGoogleScope(String googleScope) {
+        this.googleScope = googleScope;
     }
 }

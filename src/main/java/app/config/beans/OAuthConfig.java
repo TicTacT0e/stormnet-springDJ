@@ -13,4 +13,5 @@ public class OAuthConfig {
     public OAuth2PropertyProvider getOAuth2Service() {
         return new OAuth2PropertyProvider();
     }
+
 }

@@ -1,4 +1,4 @@
-package app.resources;
+package app.resources.oauth2;
 
 import app.security.OAuth2Service;
 import app.services.OAuth2PropertyProvider;
@@ -25,20 +25,8 @@ public class OAuth2Resource {
 
     @Context
     private UriInfo uriInfo;
-
     @Autowired
     private OAuth2PropertyProvider oAuth2PropertyProvider;
-
-
-    private String clientSecret = "8UL-DCcDlQD1jLjh2tehN-42";
-    private String clientId = "741125894809-j3tls88pr4u1lmadblb85rv086ecnsvp.apps.googleusercontent.com";
-    private String userAuthirizationUri = "https://accounts.google.com/o/oauth2/v2/auth";
-    private String scope = "https://www.googleapis.com/auth/userinfo.email,https://www.googleapis.com/auth/userinfo.profile";
-    private String accessTokenUri = "https://www.googleapis.com/oauth2/v4/token";
-    private String tokenName = "authorization_code";
-    private String oauth2FilterCallbackPath = "/oauth2/callback";
-    private String userInfoUri = "https://www.googleapis.com/oauth2/v3/userinfo";
-
     private static final String BASE_URI = "/";
 
     @GET
@@ -57,7 +45,7 @@ public class OAuth2Resource {
                 .googleFlowBuilder(
                         OAuth2Service.getClientIdentifier(),
                         redirectURI,
-                        "https://www.googleapis.com/auth/plus.login"
+                        oAuth2PropertyProvider.getGoogleScope()
                 )
                 .prompt(OAuth2FlowGoogleBuilder.Prompt.CONSENT).build();
 
@@ -78,11 +66,10 @@ public class OAuth2Resource {
         OAuth2Service.setAccessToken(tokenResult.getAccessToken());
         final String redirectUri =
                 UriBuilder.fromUri(uriInfo.getBaseUri())
-                .path(BASE_URI).build().toString();
+                        .path(BASE_URI).build().toString();
 
         return Response.seeOther(UriBuilder.fromUri(redirectUri).build()).build();
     }
-
 
     @GET
     @Path("/secured")

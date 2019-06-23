@@ -6,7 +6,7 @@ import app.resources.EmployeeResource;
 import app.resources.InvitationResource;
 import app.resources.LogsResource;
 import app.resources.NotificationResource;
-import app.resources.OAuth2Resource;
+import app.resources.oauth2.OAuth2Resource;
 import app.resources.ProjectResource;
 import app.resources.ProjectVersionResource;
 import app.resources.SettingsResource;
