@@ -1,7 +1,6 @@
 package app.resources;
 
-import app.dao.impl.EmployeeDaoImpl;
-import app.dao.impl.ProjectDaoImpl;
+import app.dao.BasicCrudDao;
 import app.entities.Employee;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -23,12 +22,9 @@ import java.util.List;
 public class EmployeeResource {
 
     @Autowired
-    private EmployeeDaoImpl employeeDao;
-    @Autowired
-    private ProjectDaoImpl projectDao;
+    private BasicCrudDao<Employee> employeeDao;
 
     @GET
-    @Path("/all")
     @Produces(MediaType.APPLICATION_JSON)
     public List<Employee> getAll() {
         return employeeDao.findAll();
@@ -42,7 +38,6 @@ public class EmployeeResource {
     }
 
     @POST
-    @Path("/add")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response add(Employee employee) {
         employeeDao.create(employee);
@@ -50,7 +45,7 @@ public class EmployeeResource {
     }
 
     @PUT
-    @Path("/edit/{id}")
+    @Path("/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response edit(@PathParam("id") int id, Employee employee) {
         employeeDao.update(employee);
@@ -58,7 +53,7 @@ public class EmployeeResource {
     }
 
     @DELETE
-    @Path("/delete/{id}")
+    @Path("/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response delete(@PathParam("id") int id, Employee employee) {
         employeeDao.delete(employee);
