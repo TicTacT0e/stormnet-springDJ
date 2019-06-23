@@ -6,6 +6,7 @@ import app.resources.EmployeeResource;
 import app.resources.InvitationResource;
 import app.resources.LogsResource;
 import app.resources.NotificationResource;
+import app.resources.OAuth2Resource;
 import app.resources.ProjectResource;
 import app.resources.ProjectVersionResource;
 import app.resources.SettingsResource;
@@ -32,5 +33,6 @@ public class JerseyConfig extends ResourceConfig {
         register(SettingsResource.class);
         register(TimesheetResource.class);
         register(ProjectEditPageResources.class);
+        register(OAuth2Resource.class);
     }
 }
