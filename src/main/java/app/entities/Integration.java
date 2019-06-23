@@ -5,6 +5,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import java.util.Objects;
 
@@ -20,6 +22,11 @@ public class Integration {
     private String type;
     private String login;
     private String password;
+
+    @ManyToOne(targetEntity = Company.class)
+    @JoinColumn(name = "companyId",
+            updatable = false, insertable = false)
+    private Company company;
 
     public Integration() {
     }
@@ -89,6 +96,14 @@ public class Integration {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public Company getCompany() {
+        return company;
+    }
+
+    public void setCompany(Company company) {
+        this.company = company;
     }
 
     @Override

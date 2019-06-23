@@ -41,14 +41,18 @@ public class Employee {
     @JsonbTransient
     private List<Assignment> assignments;
 
+    @OneToMany(fetch = FetchType.LAZY, targetEntity = Notification.class,
+            mappedBy = "employee", cascade = CascadeType.ALL)
+    private List<Notification> notifications;
+
     @ManyToOne(targetEntity = Company.class)
     @JoinColumn(name = "companyId",
-    updatable = false, insertable = false)
+            updatable = false, insertable = false)
     private Company company;
 
     @ManyToOne(targetEntity = Role.class)
     @JoinColumn(name = "roleId",
-    updatable = false, insertable = false)
+            updatable = false, insertable = false)
     private Role role;
 
     public Employee() {
@@ -142,6 +146,14 @@ public class Employee {
 
     public void setRole(Role role) {
         this.role = role;
+    }
+
+    public List<Notification> getNotifications() {
+        return notifications;
+    }
+
+    public void setNotifications(List<Notification> notifications) {
+        this.notifications = notifications;
     }
 
     @Override
