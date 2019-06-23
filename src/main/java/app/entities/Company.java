@@ -1,10 +1,16 @@
 package app.entities;
 
+import javax.json.bind.annotation.JsonbTransient;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -13,10 +19,20 @@ public class Company {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", updatable = false, nullable = false)
     private Integer id;
     private String name;
     private String logo;
     private Integer ownerId;
+
+    @OneToMany(fetch = FetchType.LAZY, targetEntity = Employee.class,
+            mappedBy = "company", cascade = CascadeType.ALL)
+    @JsonbTransient
+    private List<Employee> employees;
+
+    @OneToMany(fetch = FetchType.LAZY, targetEntity = Settings.class,
+            mappedBy = "company")
+    private List<Settings> settings;
 
     public Company() {
     }
@@ -39,52 +55,65 @@ public class Company {
         return id;
     }
 
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
     public String getName() {
         return name;
-    }
-
-    public String getLogo() {
-        return logo;
-    }
-
-    public Integer getOwnerId() {
-        return ownerId;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public void setName(String name) {
         this.name = name;
     }
 
+    public String getLogo() {
+        return logo;
+    }
+
     public void setLogo(String logo) {
         this.logo = logo;
     }
 
-    public void setOwnerId(int ownerId) {
+    public Integer getOwnerId() {
+        return ownerId;
+    }
+
+    public void setOwnerId(Integer ownerId) {
         this.ownerId = ownerId;
     }
 
+    public List<Employee> getEmployees() {
+        return employees;
+    }
+
+    public void setEmployees(List<Employee> employees) {
+        this.employees = employees;
+    }
+
+    public List<Settings> getSettings() {
+        return settings;
+    }
+
+    public void setSettings(List<Settings> settings) {
+        this.settings = settings;
+    }
+
     @Override
-    public boolean equals(Object o) {
-        if (this == o) {
+    public boolean equals(Object object) {
+        if (this == object) {
             return true;
         }
-        if (o == null || getClass() != o.getClass()) {
+        if (!(object instanceof Company)) {
             return false;
         }
-        Company company = (Company) o;
-        return Objects.equals(getId(), company.getId())
-                && Objects.equals(getName(), company.getName())
-                && Objects.equals(getLogo(), company.getLogo())
-                && Objects.equals(getOwnerId(), company.getOwnerId());
+        Company company = (Company) object;
+        return Objects.equals(getId(), company.getId());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getName(), getLogo(), getOwnerId());
+        return Objects.hash(getId());
     }
 
     @Override

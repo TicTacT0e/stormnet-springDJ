@@ -1,11 +1,16 @@
 package app.entities;
 
+import javax.json.bind.annotation.JsonbTransient;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -15,13 +20,18 @@ public class Activity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", updatable = false, nullable = false)
-    private int id;
+    private Integer id;
     private String name;
+
+    @OneToMany(fetch = FetchType.LAZY, targetEntity = Assignment.class,
+            mappedBy = "activity", cascade = CascadeType.ALL)
+    @JsonbTransient
+    private List<Assignment> assignments;
 
     public Activity() {
     }
 
-    public Activity(int id, String name) {
+    public Activity(Integer id, String name) {
         this.id = id;
         this.name = name;
     }
@@ -37,11 +47,11 @@ public class Activity {
         );
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -53,6 +63,14 @@ public class Activity {
         this.name = name;
     }
 
+    public List<Assignment> getAssignments() {
+        return assignments;
+    }
+
+    public void setAssignments(List<Assignment> assignments) {
+        this.assignments = assignments;
+    }
+
     @Override
     public boolean equals(Object object) {
         if (this == object) {
@@ -62,7 +80,7 @@ public class Activity {
             return false;
         }
         Activity activity = (Activity) object;
-        return getId() == activity.getId();
+        return getId().equals(activity.getId());
     }
 
     @Override
