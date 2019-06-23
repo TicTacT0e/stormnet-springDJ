@@ -53,7 +53,7 @@ public class TimesheetDaoTest extends ConnectionForTests {
 
 	@Test
 	public void testCreate() throws SQLException, DatabaseUnitException {
-		basicCrudDao.create(new Timesheet(5, 5, null, "ok"));
+		basicCrudDao.create(new Timesheet(5,5, 5, null, "ok"));
 		ITable actualDataSet = connection.createDataSet().getTable(table);
 		ITable expectedDataSet = new FlatXmlDataSetBuilder().build(getClass()
 				.getClassLoader()
@@ -73,7 +73,7 @@ public class TimesheetDaoTest extends ConnectionForTests {
 
 	@Test
 	public void testUpdate() throws SQLException, DatabaseUnitException {
-		basicCrudDao.update(new Timesheet(3, 8, null, "notOk"));
+		basicCrudDao.update(new Timesheet(3, 8, 8, null, "notOk"));
 		ITable actualDataSet = connection.createDataSet().getTable(table);
 		ITable expectedDataSet = new FlatXmlDataSetBuilder().build(getClass()
 				.getClassLoader()

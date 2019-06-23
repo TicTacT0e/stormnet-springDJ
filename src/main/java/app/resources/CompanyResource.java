@@ -28,7 +28,6 @@ public class CompanyResource {
     private BasicCrudDao<Company> companyDao;
 
     @GET
-    @Path("/all")
     @Produces(MediaType.APPLICATION_JSON)
     public List<Company> findAll() {
         LOG.warn("getAll method called");
@@ -43,7 +42,6 @@ public class CompanyResource {
     }
 
     @POST
-    @Path("/")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response create(Company company) {
         companyDao.create(company);
@@ -51,7 +49,7 @@ public class CompanyResource {
     }
 
     @PUT
-    @Path("/edit/{id}")
+    @Path("/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response update(@PathParam("id") int id, Company company) {
         companyDao.update(company);
@@ -59,18 +57,10 @@ public class CompanyResource {
     }
 
     @DELETE
-    @Path("/delete/{id}")
+    @Path("/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response deleteById(@PathParam("id") int id) {
         companyDao.deleteById(id);
-        return Response.status(Response.Status.OK.getStatusCode()).build();
-    }
-
-    @DELETE
-    @Path("/delete")
-    @Consumes(MediaType.APPLICATION_JSON)
-    public Response delete(Company company) {
-        companyDao.delete(company);
         return Response.status(Response.Status.OK.getStatusCode()).build();
     }
 }

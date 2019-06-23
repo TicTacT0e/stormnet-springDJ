@@ -46,8 +46,8 @@
 
     <changeSet id="5" author="Igor_Kraskovski">
         <renameTable catalogName="Timesheetmanager"
-                     newTableName= "Activities"
-                     oldTableName= "Activity"/>
+                     newTableName="Activities"
+                     oldTableName="Activity"/>
     </changeSet>
 
     <changeSet id="6" author="Igor_Kraskovski">
@@ -110,6 +110,13 @@
                         columnName="TimesheetJson"
                         newDataType="varchar(250)"
                         tableName="Timesheets"/>
+    </changeSet>
+
+    <changeSet id="19" author="Igor_Kraskovski">
+        <addColumn catalogName="Timesheetmanager"
+                   tableName="Logs">
+            <column name="version" type="bigint(20)"/>
+        </addColumn>
     </changeSet>
 
 </databaseChangeLog>

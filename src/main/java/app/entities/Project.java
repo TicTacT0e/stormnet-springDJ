@@ -1,38 +1,55 @@
 package app.entities;
 
+import javax.json.bind.annotation.JsonbTransient;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import java.sql.Date;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
 @Table(name = "Projects")
 public class Project {
+
     @Id
-    private int id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", updatable = false, nullable = false)
+    private Integer id;
+    private Integer companyId;
     private String name;
     private String logoUrl;
     private Date startDate;
     private Date endDate;
-    private long manHours;
+    private Long manHours;
     private String code;
     private String color;
     private String description;
 
+    @OneToMany(fetch = FetchType.LAZY, targetEntity = Assignment.class,
+            mappedBy = "project", cascade = CascadeType.ALL)
+    @JsonbTransient
+    private List<Assignment> assignments;
 
     public Project() {
     }
 
-    public Project(int id, String name, String logoUrl,
-                   Date startDate, Date endDate, long manHoursInMilliseconds,
+    public Project(Integer id, Integer companyId, String name, String logoUrl,
+                   Date startDate, Date endDate, Long manHours,
                    String code, String color, String description) {
         this.id = id;
+        this.companyId = companyId;
         this.name = name;
         this.logoUrl = logoUrl;
         this.startDate = startDate;
         this.endDate = endDate;
-        this.manHours = manHoursInMilliseconds;
+        this.manHours = manHours;
         this.code = code;
         this.color = color;
         this.description = description;
@@ -40,6 +57,7 @@ public class Project {
 
     public Project(Project project) {
         this(project.getId(),
+                project.getCompanyId(),
                 project.getName(),
                 project.getLogoUrl(),
                 project.getStartDate(),
@@ -50,12 +68,20 @@ public class Project {
                 project.getDescription());
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
+    }
+
+    public Integer getCompanyId() {
+        return companyId;
+    }
+
+    public void setCompanyId(Integer companyId) {
+        this.companyId = companyId;
     }
 
     public String getName() {
@@ -114,76 +140,47 @@ public class Project {
         this.description = description;
     }
 
-    public long getManHours() {
+    public Long getManHours() {
         return manHours;
     }
 
-    public void setManHours(long manHoursInMilliseconds) {
-        this.manHours = manHoursInMilliseconds;
+    public void setManHours(Long manHours) {
+        this.manHours = manHours;
+    }
+
+    public List<Assignment> getAssignments() {
+        return assignments;
+    }
+
+    public void setAssignments(List<Assignment> assignments) {
+        this.assignments = assignments;
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) {
+    public boolean equals(Object object) {
+        if (this == object) {
             return true;
         }
-        if (o == null || getClass() != o.getClass()) {
+        if (!(object instanceof Project)) {
             return false;
         }
-        Project project = (Project) o;
-        if (id != project.id) {
-            return false;
-        }
-        if (manHours != project.manHours) {
-            return false;
-        }
-        if (name != null ? !name
-                .equals(project.name) : project.name != null) {
-            return false;
-        }
-        if (logoUrl != null ? !logoUrl
-                .equals(project.logoUrl) : project.logoUrl != null) {
-            return false;
-        }
-        if (startDate != null ? !startDate
-                .equals(project.startDate) : project.startDate != null) {
-            return false;
-        }
-        if (endDate != null ? !endDate
-                .equals(project.endDate) : project.endDate != null) {
-            return false;
-        }
-        if (code != null ? !code
-                .equals(project.code) : project.code != null) {
-            return false;
-        }
-        if (color != null ? !color
-                .equals(project.color) : project.color != null) {
-            return false;
-        }
-        return description != null ? description
-                .equals(project.description) : project.description == null;
+        Project project = (Project) object;
+        return Objects.equals(getId(), project.getId());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getManHours(), getName(), getLogoUrl(),
-                getStartDate(), getEndDate(), getCode(), getColor(),
-                getDescription());
+        return Objects.hash(getId());
     }
 
     @Override
     public String toString() {
         return "Project{"
                 + "id=" + id
+                + ", companyId='" + companyId + '\''
                 + ", name='" + name + '\''
                 + ", logoUrl='" + logoUrl + '\''
-                + ", startDate=" + startDate
-                + ", endDate=" + endDate
-                + ", manHours=" + manHours + '\''
                 + ", code=" + code
-                + ", color" + color + '\''
-                + ", description=" + description
                 + '}';
     }
 }

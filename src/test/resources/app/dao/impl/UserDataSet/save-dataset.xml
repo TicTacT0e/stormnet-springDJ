@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<dataset>
+    <Users id="1" name="Max" phone="798546789" email="max@mail.ru" photoUrl="MaxPhotoUrl" />
+    <Users id="2" name="Sergey" phone="0987654" email="sergey@mail.ru" photoUrl="SergeyPhotoUrl" />
+    <Users id="3" name="Valia" phone="8765435678" email="valia@gmail.by" photoUrl="ValiaPhotoUrl" />
+</dataset>
+

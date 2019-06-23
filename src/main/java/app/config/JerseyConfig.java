@@ -11,6 +11,8 @@ import app.resources.ProjectVersionResource;
 import app.resources.SettingsResource;
 import app.resources.TimesheetResource;
 import app.resources.ProjectEditPageResources;
+import app.resources.LoginController;
+import app.resources.UserResource;
 import org.glassfish.jersey.server.ResourceConfig;
 
 import javax.ws.rs.ApplicationPath;
@@ -21,6 +23,7 @@ public class JerseyConfig extends ResourceConfig {
     public JerseyConfig() {
         register(CompanyResource.class);
         register(EmployeeResource.class);
+        register(UserResource.class);
         register(LogsResource.class);
         register(ProjectResource.class);
         register(AssignmentResource.class);
@@ -30,5 +33,6 @@ public class JerseyConfig extends ResourceConfig {
         register(SettingsResource.class);
         register(TimesheetResource.class);
         register(ProjectEditPageResources.class);
+        register(LoginController.class);
     }
 }

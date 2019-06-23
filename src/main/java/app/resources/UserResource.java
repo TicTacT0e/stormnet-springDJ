@@ -1,7 +1,7 @@
 package app.resources;
 
 import app.dao.BasicCrudDao;
-import app.entities.Employee;
+import app.entities.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -17,46 +17,50 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.List;
 
+
 @Component
-@Path("/employee")
-public class EmployeeResource {
+@Path("/user")
+public class UserResource {
 
     @Autowired
-    private BasicCrudDao<Employee> employeeDao;
+    private BasicCrudDao<User> basicCrudDao;
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public List<Employee> getAll() {
-        return employeeDao.findAll();
+    public List<User> getAll() {
+        return basicCrudDao.findAll();
     }
 
     @GET
-    @Path("/{id}")
+    @Path("/{userId}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Employee get(@PathParam("id") int id) {
-        return employeeDao.findById(id);
+    public User get(@PathParam("userId") int userId) {
+        return basicCrudDao.findById(userId);
     }
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response add(Employee employee) {
-        employeeDao.create(employee);
+    public Response add(User user) {
+        basicCrudDao.create(user);
         return Response.status(Response.Status.CREATED.getStatusCode()).build();
     }
 
     @PUT
-    @Path("/{id}")
+    @Path("/{userId}")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response edit(@PathParam("id") int id, Employee employee) {
-        employeeDao.update(employee);
+    public Response edit(
+            @PathParam("userId") int assignmentId,
+            User user
+    ) {
+        basicCrudDao.update(user);
         return Response.status(Response.Status.CREATED.getStatusCode()).build();
     }
 
     @DELETE
-    @Path("/{id}")
-    @Consumes(MediaType.APPLICATION_JSON)
-    public Response delete(@PathParam("id") int id, Employee employee) {
-        employeeDao.delete(employee);
+    @Path("/{userId}")
+    public Response delete(
+            @PathParam("userId") int userId) {
+        basicCrudDao.deleteById(userId);
         return Response.status(Response.Status.OK.getStatusCode()).build();
     }
 }

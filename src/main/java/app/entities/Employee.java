@@ -1,103 +1,150 @@
 package app.entities;
 
-import javax.persistence.CollectionTable;
-import javax.persistence.ElementCollection;
+import javax.json.bind.annotation.JsonbTransient;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
+import java.util.StringJoiner;
 
 @Entity
 @Table(name = "Employees")
 public class Employee {
 
     @Id
-    private int id;
-    private String name;
-    private String phone;
-    private String email;
-    private String photoUrl;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", updatable = false, nullable = false)
+    private Integer id;
+    private Integer companyId;
+    private Integer userId;
+    private String roleId;
+    private Integer workLoad;
+    private String status;
 
-    @ElementCollection
-    @CollectionTable(name = "Project")
-    private List<Project> projects = new LinkedList<>();
+    @OneToOne(targetEntity = User.class)
+    @JoinColumn(name = "userId",
+            updatable = false, insertable = false)
+    private User user;
+
+    @OneToMany(fetch = FetchType.LAZY, targetEntity = Assignment.class,
+            mappedBy = "employee", cascade = CascadeType.ALL)
+    @JsonbTransient
+    private List<Assignment> assignments;
+
+    @ManyToOne(targetEntity = Company.class)
+    @JoinColumn(name = "companyId",
+    updatable = false, insertable = false)
+    private Company company;
+
+    @ManyToOne(targetEntity = Role.class)
+    @JoinColumn(name = "roleId",
+    updatable = false, insertable = false)
+    private Role role;
 
     public Employee() {
     }
 
-    public Employee(int id, String name, String phone,
-                    String email, String photoUrl) {
+    public Employee(Integer id, Integer companyId, Integer userId,
+                    String roleId, Integer workLoad, String status) {
         this.id = id;
-        this.name = name;
-        this.phone = phone;
-        this.email = email;
-        this.photoUrl = photoUrl;
+        this.companyId = companyId;
+        this.userId = userId;
+        this.roleId = roleId;
+        this.workLoad = workLoad;
+        this.status = status;
     }
 
-    public Employee(Employee employee) {
-        this(employee.getId(),
-                employee.getName(),
-                employee.getPhone(),
-                employee.getEmail(),
-                employee.getPhotoUrl());
-        this.projects = employee.getProjects();
-    }
-
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public Integer getCompanyId() {
+        return companyId;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setCompanyId(Integer companyId) {
+        this.companyId = companyId;
     }
 
-    public String getPhone() {
-        return phone;
+    public Integer getUserId() {
+        return userId;
     }
 
-    public void setPhone(String phone) {
-        this.phone = phone;
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 
-    public String getEmail() {
-        return email;
+    public String getRoleId() {
+        return roleId;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setRoleId(String roleId) {
+        this.roleId = roleId;
     }
 
-    public String getPhotoUrl() {
-        return photoUrl;
+    public Integer getWorkLoad() {
+        return workLoad;
     }
 
-    public void setPhotoUrl(String photoUrl) {
-        this.photoUrl = photoUrl;
+    public void setWorkLoad(Integer workLoad) {
+        this.workLoad = workLoad;
     }
 
-    public List<Project> getProjects() {
-        return projects;
+    public String getStatus() {
+        return status;
     }
 
-    public void setProjects(List<Project> projects) {
-        this.projects = projects;
+    public void setStatus(String status) {
+        this.status = status;
     }
 
-    public void assignToProject(Project project) {
-            projects.add(project);
+    public List<Assignment> getAssignments() {
+        return assignments;
     }
 
-        @Override
+    public void setAssignments(List<Assignment> assignments) {
+        this.assignments = assignments;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public Company getCompany() {
+        return company;
+    }
+
+    public void setCompany(Company company) {
+        this.company = company;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
+
+    @Override
     public boolean equals(Object object) {
         if (this == object) {
             return true;
@@ -106,30 +153,23 @@ public class Employee {
             return false;
         }
         Employee employee = (Employee) object;
-        return id == employee.id
-                && Objects.equals(name, employee.name)
-                && Objects.equals(phone, employee.phone)
-                && Objects.equals(email, employee.email)
-                && Objects.equals(photoUrl, employee.photoUrl)
-                && Objects.equals(projects, employee.projects);
+        return getId().equals(employee.getId());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, phone, email, photoUrl, projects);
+        return Objects.hash(getId());
     }
 
     @Override
     public String toString() {
-        return "Employee{"
-                + "id=" + id
-                + ", name='" + name + '\''
-                + ", photo='" + phone + '\''
-                + ", email='" + email + '\''
-                + ", email='" + photoUrl + '\''
-                + '\n'
-                + ", projects=" + projects
-                + '}';
+        return new StringJoiner(", ", Employee.class.getSimpleName() + "[", "]")
+                .add("id=" + id)
+                .add("companyId=" + companyId)
+                .add("userId=" + userId)
+                .add("roleId='" + roleId + "'")
+                .add("workLoad=" + workLoad)
+                .add("status='" + status + "'")
+                .toString();
     }
 }
-
