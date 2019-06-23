@@ -1,6 +1,6 @@
 package app.resources.oauth2;
 
-import app.security.OAuth2Service;
+import app.security.OAuth2GoogleCurrentClientInfo;
 import app.services.OAuth2PropertyProvider;
 import org.glassfish.jersey.client.oauth2.ClientIdentifier;
 import org.glassfish.jersey.client.oauth2.OAuth2ClientSupport;
@@ -33,7 +33,7 @@ public class OAuth2Resource {
     @Path("/login/google")
     @Produces("text/html")
     public Response googleAuthentication() {
-        OAuth2Service.setClientIdentifier(new ClientIdentifier(
+        OAuth2GoogleCurrentClientInfo.setClientIdentifier(new ClientIdentifier(
                 oAuth2PropertyProvider.getClientIdGoogle(),
                 oAuth2PropertyProvider.getClientSecretGoogle()
         ));
@@ -43,16 +43,17 @@ public class OAuth2Resource {
 
         final OAuth2CodeGrantFlow flow = OAuth2ClientSupport
                 .googleFlowBuilder(
-                        OAuth2Service.getClientIdentifier(),
+                        OAuth2GoogleCurrentClientInfo.getClientIdentifier(),
                         redirectURI,
                         oAuth2PropertyProvider.getGoogleScope()
                 )
                 .prompt(OAuth2FlowGoogleBuilder.Prompt.CONSENT).build();
 
-        OAuth2Service.setFlow(flow);
+        OAuth2GoogleCurrentClientInfo.setFlow(flow);
         final String googleAuthURI = flow.start();
 
-        return Response.seeOther(UriBuilder.fromUri(googleAuthURI).build()).build();
+        return Response.seeOther(UriBuilder
+                .fromUri(googleAuthURI).build()).build();
     }
 
     @GET
@@ -61,23 +62,27 @@ public class OAuth2Resource {
             @QueryParam("code") String code,
             @QueryParam("state") String state
     ) {
-        final OAuth2CodeGrantFlow flow = OAuth2Service.getFlow();
+        final OAuth2CodeGrantFlow flow
+                = OAuth2GoogleCurrentClientInfo.getFlow();
         final TokenResult tokenResult = flow.finish(code, state);
-        OAuth2Service.setAccessToken(tokenResult.getAccessToken());
+        OAuth2GoogleCurrentClientInfo
+                .setAccessToken(tokenResult.getAccessToken());
         final String redirectUri =
                 UriBuilder.fromUri(uriInfo.getBaseUri())
                         .path(BASE_URI).build().toString();
 
-        return Response.seeOther(UriBuilder.fromUri(redirectUri).build()).build();
+        return Response.seeOther(UriBuilder
+                .fromUri(redirectUri).build()).build();
     }
 
     @GET
     @Path("/secured")
     @Produces("text/html")
     public Response securedEndPoint() {
-        return OAuth2Service.getAccessToken() == null ?
-                Response.status(Response.Status.UNAUTHORIZED.getStatusCode()).build() :
-                Response.ok("Secured end point").build();
+        return OAuth2GoogleCurrentClientInfo.getAccessToken() == null
+                ? Response.status(Response.Status.UNAUTHORIZED
+                        .getStatusCode()).build()
+                : Response.ok("Secured end point").build();
     }
 
 }
