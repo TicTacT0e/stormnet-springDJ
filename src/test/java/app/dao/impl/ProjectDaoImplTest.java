@@ -70,7 +70,7 @@ public class ProjectDaoImplTest extends ConnectionForTests {
     public void createTest() throws SQLException, DatabaseUnitException {
         Date startDate = parseDate("2019-05-01");
         Date endDate = parseDate("2020-05-01");
-        projectBasicCrudDao.create(new Project(5, 55, "project_5", "logo5", startDate, endDate, 50, "005", "yellow", "description5"));
+        projectBasicCrudDao.create(new Project(5, 55, "project_5", "logo5", startDate, endDate, (long)50, "005", "yellow", "description5"));
         ITable actualData = connection.createDataSet().getTable(table);
         ITable expectedData = new FlatXmlDataSetBuilder().build(getClass()
                 .getClassLoader()
@@ -92,7 +92,7 @@ public class ProjectDaoImplTest extends ConnectionForTests {
     public void updateTest() throws SQLException, DatabaseUnitException {
         Date startDate = parseDate("2019-01-19");
         Date endDate = parseDate("2020-01-19");
-        projectBasicCrudDao.update(new Project(2, 22, "project_2", "logo2", startDate, endDate, 20, "002", "grey", "description2"));
+        projectBasicCrudDao.update(new Project(2, 22, "project_2", "logo2", startDate, endDate, (long)20, "002", "grey", "description2"));
         ITable actualData = connection.createDataSet().getTable(table);
         ITable expectedData = new FlatXmlDataSetBuilder().build(getClass()
                 .getClassLoader()
