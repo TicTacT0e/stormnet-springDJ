@@ -1,6 +1,8 @@
 package app.resources;
 
 import app.dao.BasicCrudDao;
+import app.dto.EmployeesPageDto;
+import app.dto.EmployeesPageItemDto;
 import app.entities.Employee;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -16,6 +18,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 @Path("/employee")
@@ -26,8 +29,8 @@ public class EmployeeResource {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public List<Employee> getAll() {
-        return employeeDao.findAll();
+    public EmployeesPageDto getAll() {
+        return getEmployeesPageDto();
     }
 
     @GET
@@ -58,5 +61,24 @@ public class EmployeeResource {
     public Response delete(@PathParam("id") int id, Employee employee) {
         employeeDao.delete(employee);
         return Response.status(Response.Status.OK.getStatusCode()).build();
+    }
+
+    private EmployeesPageDto getEmployeesPageDto() {
+        EmployeesPageDto employeesPageDto = new EmployeesPageDto();
+        List<Employee> employees = employeeDao.findAll();
+
+        List<EmployeesPageItemDto> items = employees.stream()
+                .map((Employee employee) -> {
+                    EmployeesPageItemDto employeesPageItemDto
+                            = new EmployeesPageItemDto();
+                    employeesPageItemDto.setName(employee.getUser().getName());
+                    employeesPageItemDto.setPhotoUrl(employee.getUser().getPhotoUrl());
+                    employeesPageItemDto.setRole(employee.getRole().getName());
+                    employeesPageItemDto.setStatus(employee.getStatus());
+                    return employeesPageItemDto;
+                }).collect(Collectors.toList());
+
+        employeesPageDto.setItems(items);
+        return employeesPageDto;
     }
 }

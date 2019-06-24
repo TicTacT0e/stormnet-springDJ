@@ -5,6 +5,7 @@ import java.util.List;
 public class EmployeesPageItemDto {
 
     private String name;
+    private String photoUrl;
     private String role;
     private Double planned;
     private Double actual;
@@ -20,6 +21,14 @@ public class EmployeesPageItemDto {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getPhotoUrl() {
+        return photoUrl;
+    }
+
+    public void setPhotoUrl(String photoUrl) {
+        this.photoUrl = photoUrl;
     }
 
     public String getRole() {
