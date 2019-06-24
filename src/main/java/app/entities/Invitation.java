@@ -1,5 +1,6 @@
 package app.entities;
 
+import javax.json.bind.annotation.JsonbTransient;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -26,7 +27,8 @@ public class Invitation {
 
     @OneToOne(targetEntity = Employee.class,
             cascade = CascadeType.ALL)
-    @JoinColumn(name = "emloyeeId", updatable = false, insertable = false)
+    @JoinColumn(name = "employeeId", updatable = false, insertable = false)
+    @JsonbTransient
     private Employee employee;
 
     public Invitation() {
