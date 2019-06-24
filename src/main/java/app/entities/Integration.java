@@ -17,8 +17,8 @@ public class Integration {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", updatable = false, nullable = false)
-    private int id;
-    private int companyId;
+    private Integer id;
+    private Integer companyId;
     private String type;
     private String login;
     private String password;
