@@ -3,50 +3,55 @@ package app.entities;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.util.Date;
 
 @Entity
 @Table(name = "Timesheets")
 public class Timesheet {
     @Id
-    private int id;
-    private int assignmentId;
-    private int periodId;
+    private Integer id;
+    private Integer assignmentId;
+    private Integer periodId;
     private String timesheetJson;
     private String status;
+    private Date fromDate;
+    private Date toDate;
 
     public Timesheet() {
     }
 
-    public Timesheet(int id, int periodId, int assignmentId,
-                     String timesheetJson, String status) {
+    public Timesheet(Integer id, Integer periodId, Integer assignmentId,
+                     String timesheetJson, String status, Date fromDate, Date toDate) {
         this.id = id;
         this.assignmentId = assignmentId;
         this.periodId = periodId;
         this.timesheetJson = timesheetJson;
         this.status = status;
+        this.fromDate = fromDate;
+        this.toDate = toDate;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
-    public int getAssignmentId() {
+    public Integer getAssignmentId() {
         return assignmentId;
     }
 
-    public void setAssignmentId(int assignmentId) {
+    public void setAssignmentId(Integer assignmentId) {
         this.assignmentId = assignmentId;
     }
 
-    public int getPeriodId() {
+    public Integer getPeriodId() {
         return periodId;
     }
 
-    public void setPeriodId(int periodId) {
+    public void setPeriodId(Integer periodId) {
         this.periodId = periodId;
     }
 
@@ -64,5 +69,21 @@ public class Timesheet {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public Date getFromDate() {
+        return fromDate;
+    }
+
+    public void setFromDate(Date fromDate) {
+        this.fromDate = fromDate;
+    }
+
+    public Date getToDate() {
+        return toDate;
+    }
+
+    public void setToDate(Date toDate) {
+        this.toDate = toDate;
     }
 }
