@@ -11,7 +11,6 @@ public class Timesheet {
     @Id
     private Integer id;
     private Integer assignmentId;
-    private Integer periodId;
     private String timesheetJson;
     private String status;
     private Date fromDate;
@@ -20,11 +19,10 @@ public class Timesheet {
     public Timesheet() {
     }
 
-    public Timesheet(Integer id, Integer periodId, Integer assignmentId,
+    public Timesheet(Integer id, Integer assignmentId,
                      String timesheetJson, String status, Date fromDate, Date toDate) {
         this.id = id;
         this.assignmentId = assignmentId;
-        this.periodId = periodId;
         this.timesheetJson = timesheetJson;
         this.status = status;
         this.fromDate = fromDate;
@@ -45,14 +43,6 @@ public class Timesheet {
 
     public void setAssignmentId(Integer assignmentId) {
         this.assignmentId = assignmentId;
-    }
-
-    public Integer getPeriodId() {
-        return periodId;
-    }
-
-    public void setPeriodId(Integer periodId) {
-        this.periodId = periodId;
     }
 
     public String getTimesheetJson() {
