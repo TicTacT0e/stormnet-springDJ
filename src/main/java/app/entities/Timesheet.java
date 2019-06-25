@@ -19,8 +19,8 @@ public class Timesheet {
     public Timesheet() {
     }
 
-    public Timesheet(Integer id, Integer assignmentId,
-                     String timesheetJson, String status, Date fromDate, Date toDate) {
+    public Timesheet(Integer id, Integer assignmentId, String timesheetJson,
+                     String status, Date fromDate, Date toDate) {
         this.id = id;
         this.assignmentId = assignmentId;
         this.timesheetJson = timesheetJson;
