@@ -9,6 +9,7 @@ import org.dbunit.dataset.xml.FlatXmlDataSetBuilder;
 import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+
 import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
@@ -38,7 +39,7 @@ public class TimesheetDaoTest extends ConnectionForTests {
 
     @Test
     public void findById() throws SQLException, DatabaseUnitException {
-    basicCrudDao.findById(2);
+        basicCrudDao.findById(2);
         ITable expectedDataSet = new FlatXmlDataSetBuilder().build(getClass()
                 .getClassLoader()
                 .getResourceAsStream("app/dao/impl/timesheetDataSet/initialDataset.xml")).getTable(table);
