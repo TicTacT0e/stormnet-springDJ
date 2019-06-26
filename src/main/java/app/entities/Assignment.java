@@ -1,13 +1,17 @@
 package app.entities;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -35,6 +39,9 @@ public class Assignment {
     @JoinColumn(name = "activityId",
             updatable = false, insertable = false)
     private Activity activity;
+    @OneToMany(fetch = FetchType.LAZY, targetEntity = Timesheet.class,
+            mappedBy = "assignment", cascade = CascadeType.ALL)
+    private List<Timesheet> timesheetList;
 
     public Assignment() {
     }
@@ -120,6 +127,14 @@ public class Assignment {
 
     public void setActivity(Activity activity) {
         this.activity = activity;
+    }
+
+    public List<Timesheet> getTimesheetList() {
+        return timesheetList;
+    }
+
+    public void setTimesheetList(List<Timesheet> timesheetList) {
+        this.timesheetList = timesheetList;
     }
 
     @Override
