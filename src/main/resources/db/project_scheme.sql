@@ -100,13 +100,6 @@ CREATE TABLE `Notifications` (
   CONSTRAINT `NotificationPartnerId` FOREIGN KEY (`employeeId`) REFERENCES `Employees` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8
 
-CREATE TABLE `Periods` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `from` date NOT NULL,
-  `to` date NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8
-
 CREATE TABLE `Projects` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `companyId` bigint(20) NOT NULL,
@@ -145,15 +138,14 @@ CREATE TABLE `Settings` (
 CREATE TABLE `Timesheets` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `assignmentId` bigint(20) NOT NULL,
-  `periodId` bigint(20) NOT NULL,
   `status` varchar(100) NOT NULL,
-  `TimesheetJson` char(100) NOT NULL,
+  `TimesheetJson` varchar(250) DEFAULT NULL,
+  `fromDate` date NOT NULL,
+  `toDate` date NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `AssignmentIdPeriodId_UNIQUE` (`assignmentId`,`periodId`),
+  UNIQUE KEY `AssignmentIdFromDateToDate_UNIQUE` (`assignmentId`,`fromDate`,`toDate`),
   KEY `TimesheetAssignment_idx` (`assignmentId`),
-  KEY `TimesheetPeriodId_idx` (`periodId`),
-  CONSTRAINT `TimesheetAssignment` FOREIGN KEY (`assignmentId`) REFERENCES `Assignments` (`id`),
-  CONSTRAINT `TimesheetPeriodId` FOREIGN KEY (`periodId`) REFERENCES `Periods` (`id`)
+  CONSTRAINT `TimesheetAssignment` FOREIGN KEY (`assignmentId`) REFERENCES `Assignments` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8
 
 CREATE TABLE `Users` (
