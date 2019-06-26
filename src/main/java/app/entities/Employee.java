@@ -43,13 +43,17 @@ public class Employee {
 
     @ManyToOne(targetEntity = Company.class)
     @JoinColumn(name = "companyId",
-    updatable = false, insertable = false)
+            updatable = false, insertable = false)
     private Company company;
 
     @ManyToOne(targetEntity = Role.class)
     @JoinColumn(name = "roleId",
-    updatable = false, insertable = false)
+            updatable = false, insertable = false)
     private Role role;
+
+    @OneToOne(optional = false, targetEntity = Invitation.class,
+            cascade = CascadeType.ALL, mappedBy = "employee")
+    private Invitation invitation;
 
     public Employee() {
     }
@@ -142,6 +146,14 @@ public class Employee {
 
     public void setRole(Role role) {
         this.role = role;
+    }
+
+    public Invitation getInvitation() {
+        return invitation;
+    }
+
+    public void setInvitation(Invitation invitation) {
+        this.invitation = invitation;
     }
 
     @Override
