@@ -4,6 +4,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OrderColumn;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
@@ -30,6 +32,11 @@ public class Log {
 
     @Version
     private Long version;
+
+    @ManyToOne(targetEntity = Assignment.class)
+    @JoinColumn(name = "assignmentId",
+            updatable = false, insertable = false)
+    private Assignment assignment;
 
     public Log() {
     }
@@ -69,6 +76,15 @@ public class Log {
     public void setAssignmentId(Integer assignmentId) {
         this.assignmentId = assignmentId;
     }
+
+    public Assignment getAssignment() {
+        return assignment;
+    }
+
+    public void setAssignment(Assignment assignment) {
+        this.assignment = assignment;
+    }
+
 
     public Double getTime() {
         return time;

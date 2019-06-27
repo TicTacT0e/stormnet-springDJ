@@ -18,6 +18,11 @@ public class Timesheet {
     private Date fromDate;
     private Date toDate;
 
+    @ManyToOne(targetEntity = Assignment.class)
+    @JoinColumn(name = "assignmentId",
+            updatable = false, insertable = false)
+    private Assignment assignment;
+
     public Timesheet() {
     }
 
@@ -30,11 +35,6 @@ public class Timesheet {
         this.fromDate = fromDate;
         this.toDate = toDate;
     }
-
-    @ManyToOne(targetEntity = Assignment.class)
-    @JoinColumn(name = "assignmentId",
-            updatable = false, insertable = false)
-    private Assignment assignment;
 
     public int getId() {
         return id;
