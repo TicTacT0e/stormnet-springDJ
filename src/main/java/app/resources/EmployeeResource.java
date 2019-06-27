@@ -78,7 +78,7 @@ public class EmployeeResource {
                     return employeesPageItemDto;
                 }).collect(Collectors.toList());
 
-        employeesPageDto.setItems(items);
+        employeesPageDto.setEmployeeItems(items);
         return employeesPageDto;
     }
 }

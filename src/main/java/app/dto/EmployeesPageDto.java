@@ -4,16 +4,16 @@ import java.util.List;
 
 public class EmployeesPageDto {
 
-    private List<EmployeesPageItemDto> items;
+    private List<EmployeesPageItemDto> employeeItems;
 
     public EmployeesPageDto() {
     }
 
-    public List<EmployeesPageItemDto> getItems() {
-        return items;
+    public List<EmployeesPageItemDto> getEmployeeItems() {
+        return employeeItems;
     }
 
-    public void setItems(List<EmployeesPageItemDto> items) {
-        this.items = items;
+    public void setEmployeeItems(List<EmployeesPageItemDto> employeeItems) {
+        this.employeeItems = employeeItems;
     }
 }
