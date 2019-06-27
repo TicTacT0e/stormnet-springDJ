@@ -17,7 +17,7 @@ public class Timesheet {
     private String status;
     private Date fromDate;
     private Date toDate;
-
+  
     @ManyToOne(targetEntity = Assignment.class)
     @JoinColumn(name = "assignmentId",
             updatable = false, insertable = false)
@@ -36,7 +36,7 @@ public class Timesheet {
         this.toDate = toDate;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
