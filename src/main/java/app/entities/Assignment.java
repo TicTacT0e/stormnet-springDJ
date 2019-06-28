@@ -1,5 +1,6 @@
 package app.entities;
 
+import javax.json.bind.annotation.JsonbTransient;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -42,6 +43,16 @@ public class Assignment {
     @OneToMany(fetch = FetchType.LAZY, targetEntity = Timesheet.class,
             mappedBy = "assignment", cascade = CascadeType.ALL)
     private List<Timesheet> timesheetList;
+
+    @OneToMany(mappedBy = "assignment", fetch = FetchType.LAZY,
+            targetEntity = Timesheet.class, cascade = CascadeType.ALL)
+    @JsonbTransient
+    private List<Timesheet> timesheet;
+
+    @OneToMany(mappedBy = "assignment", fetch = FetchType.LAZY,
+            targetEntity = Log.class, cascade = CascadeType.ALL)
+    @JsonbTransient
+    private List<Log> log;
 
     public Assignment() {
     }
@@ -95,6 +106,22 @@ public class Assignment {
 
     public void setActivityId(Integer activityId) {
         this.activityId = activityId;
+    }
+
+    public List<Timesheet> getTimesheet() {
+        return timesheet;
+    }
+
+    public void setTimesheet(List<Timesheet> timesheet) {
+        this.timesheet = timesheet;
+    }
+
+    public List<Log> getLog() {
+        return log;
+    }
+
+    public void setLog(List<Log> log) {
+        this.log = log;
     }
 
     public Integer getWorkLoad() {
