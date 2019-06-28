@@ -25,12 +25,6 @@ public class Timesheet {
             updatable = false, insertable = false)
     private Assignment assignment;
 
-    @ManyToOne(targetEntity = Assignment.class)
-    @JoinColumn(name = "assignmentId",
-            updatable = false, insertable = false)
-    @JsonbTransient
-    private Assignment assignment;
-
     public Timesheet() {
     }
 
@@ -98,14 +92,6 @@ public class Timesheet {
 
     public void setToDate(Date toDate) {
         this.toDate = toDate;
-    }
-
-    public Assignment getAssignment() {
-        return assignment;
-    }
-
-    public void setAssignment(Assignment assignment) {
-        this.assignment = assignment;
     }
 
     @Override

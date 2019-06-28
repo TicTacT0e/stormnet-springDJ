@@ -40,9 +40,6 @@ public class Assignment {
     @JoinColumn(name = "activityId",
             updatable = false, insertable = false)
     private Activity activity;
-    @OneToMany(fetch = FetchType.LAZY, targetEntity = Timesheet.class,
-            mappedBy = "assignment", cascade = CascadeType.ALL)
-    private List<Timesheet> timesheetList;
 
     @OneToMany(mappedBy = "assignment", fetch = FetchType.LAZY,
             targetEntity = Timesheet.class, cascade = CascadeType.ALL)
@@ -154,14 +151,6 @@ public class Assignment {
 
     public void setActivity(Activity activity) {
         this.activity = activity;
-    }
-
-    public List<Timesheet> getTimesheetList() {
-        return timesheetList;
-    }
-
-    public void setTimesheetList(List<Timesheet> timesheetList) {
-        this.timesheetList = timesheetList;
     }
 
     @Override
