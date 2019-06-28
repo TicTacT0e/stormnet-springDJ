@@ -6,12 +6,12 @@ import app.resources.EmployeeResource;
 import app.resources.InvitationResource;
 import app.resources.LogsResource;
 import app.resources.NotificationResource;
+import app.resources.oauth2.OAuth2Resource;
 import app.resources.ProjectResource;
 import app.resources.ProjectVersionResource;
 import app.resources.SettingsResource;
 import app.resources.TimesheetResource;
 import app.resources.ProjectEditPageResources;
-import app.resources.LoginController;
 import app.resources.UserResource;
 import org.glassfish.jersey.server.ResourceConfig;
 
@@ -33,6 +33,6 @@ public class JerseyConfig extends ResourceConfig {
         register(SettingsResource.class);
         register(TimesheetResource.class);
         register(ProjectEditPageResources.class);
-        register(LoginController.class);
+        register(OAuth2Resource.class);
     }
 }

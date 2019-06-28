@@ -11,7 +11,7 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.sql.Date;
+import java.util.Date;
 import java.sql.SQLException;
 import java.util.List;
 

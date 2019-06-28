@@ -1,6 +1,6 @@
 package app.config.beans;
 
-import app.services.OAuth2Service;
+import app.services.OAuth2PropertyProvider;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
@@ -10,7 +10,8 @@ import org.springframework.context.annotation.PropertySource;
 public class OAuthConfig {
 
     @Bean
-    public OAuth2Service getOAuth2Service() {
-        return new OAuth2Service();
+    public OAuth2PropertyProvider getOAuth2Service() {
+        return new OAuth2PropertyProvider();
     }
+
 }

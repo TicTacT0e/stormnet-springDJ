@@ -56,6 +56,10 @@ public class Employee {
             updatable = false, insertable = false)
     private Role role;
 
+    @OneToOne(optional = false, targetEntity = Invitation.class,
+            cascade = CascadeType.ALL, mappedBy = "employee")
+    private Invitation invitation;
+
     public Employee() {
     }
 
@@ -155,6 +159,14 @@ public class Employee {
 
     public void setNotifications(List<Notification> notifications) {
         this.notifications = notifications;
+    }
+
+    public Invitation getInvitation() {
+        return invitation;
+    }
+
+    public void setInvitation(Invitation invitation) {
+        this.invitation = invitation;
     }
 
     @Override

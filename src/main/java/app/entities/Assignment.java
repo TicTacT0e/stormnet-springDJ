@@ -1,13 +1,18 @@
 package app.entities;
 
+import javax.json.bind.annotation.JsonbTransient;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -35,6 +40,16 @@ public class Assignment {
     @JoinColumn(name = "activityId",
             updatable = false, insertable = false)
     private Activity activity;
+
+    @OneToMany(mappedBy = "assignment", fetch = FetchType.LAZY,
+            targetEntity = Timesheet.class, cascade = CascadeType.ALL)
+    @JsonbTransient
+    private List<Timesheet> timesheet;
+
+    @OneToMany(mappedBy = "assignment", fetch = FetchType.LAZY,
+            targetEntity = Log.class, cascade = CascadeType.ALL)
+    @JsonbTransient
+    private List<Log> log;
 
     public Assignment() {
     }
@@ -88,6 +103,22 @@ public class Assignment {
 
     public void setActivityId(Integer activityId) {
         this.activityId = activityId;
+    }
+
+    public List<Timesheet> getTimesheet() {
+        return timesheet;
+    }
+
+    public void setTimesheet(List<Timesheet> timesheet) {
+        this.timesheet = timesheet;
+    }
+
+    public List<Log> getLog() {
+        return log;
+    }
+
+    public void setLog(List<Log> log) {
+        this.log = log;
     }
 
     public Integer getWorkLoad() {

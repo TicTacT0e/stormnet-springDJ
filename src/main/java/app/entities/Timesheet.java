@@ -2,53 +2,63 @@ package app.entities;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import java.util.Date;
 import java.util.Objects;
 
 @Entity
 @Table(name = "Timesheets")
 public class Timesheet {
     @Id
-    private int id;
-    private int assignmentId;
-    private int periodId;
+    private Integer id;
+    private Integer assignmentId;
     private String timesheetJson;
     private String status;
+    private Date fromDate;
+    private Date toDate;
+
+    @ManyToOne(targetEntity = Assignment.class)
+    @JoinColumn(name = "assignmentId",
+            updatable = false, insertable = false)
+    private Assignment assignment;
 
     public Timesheet() {
     }
 
-    public Timesheet(int id, int periodId, int assignmentId,
-                     String timesheetJson, String status) {
+    public Timesheet(Integer id, Integer assignmentId, String timesheetJson,
+                     String status, Date fromDate, Date toDate) {
         this.id = id;
         this.assignmentId = assignmentId;
-        this.periodId = periodId;
         this.timesheetJson = timesheetJson;
         this.status = status;
+        this.fromDate = fromDate;
+        this.toDate = toDate;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
-    public int getAssignmentId() {
+    public Integer getAssignmentId() {
         return assignmentId;
     }
 
-    public void setAssignmentId(int assignmentId) {
+    public void setAssignmentId(Integer assignmentId) {
         this.assignmentId = assignmentId;
     }
 
-    public int getPeriodId() {
-        return periodId;
+    public Assignment getAssignment() {
+        return assignment;
     }
 
-    public void setPeriodId(int periodId) {
-        this.periodId = periodId;
+    public void setAssignment(Assignment assignment) {
+        this.assignment = assignment;
     }
 
     public String getTimesheetJson() {
@@ -82,5 +92,21 @@ public class Timesheet {
     @Override
     public int hashCode() {
         return Objects.hash(getId());
+    }
+
+    public Date getFromDate() {
+        return fromDate;
+    }
+
+    public void setFromDate(Date fromDate) {
+        this.fromDate = fromDate;
+    }
+
+    public Date getToDate() {
+        return toDate;
+    }
+
+    public void setToDate(Date toDate) {
+        this.toDate = toDate;
     }
 }
