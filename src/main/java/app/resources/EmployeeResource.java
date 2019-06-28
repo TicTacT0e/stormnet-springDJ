@@ -3,9 +3,11 @@ package app.resources;
 import app.dao.BasicCrudDao;
 import app.dto.EmployeesPageDto;
 import app.dto.EmployeesPageItemDto;
+import app.dto.TimesheetPendingApprovalDto;
 import app.entities.Assignment;
 import app.entities.Employee;
 import app.entities.Log;
+import app.entities.Timesheet;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeConstants;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +28,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
-@Path("/employee")
+@Path("company/{companyId}/employee")
 public class EmployeeResource {
 
     @Autowired
@@ -72,18 +74,22 @@ public class EmployeeResource {
         EmployeesPageDto employeesPageDto = new EmployeesPageDto();
         List<Employee> employees = employeeDao.findAll();
 
-        List<EmployeesPageItemDto> items = employees.stream()
+        List<EmployeesPageItemDto> items
+                = employees.stream()
                 .map(employee -> {
-                    EmployeesPageItemDto employeesPageItemDto
+                    EmployeesPageItemDto employeesPageItem
                             = new EmployeesPageItemDto();
-                    employeesPageItemDto.setName(employee.getUser().getName());
-                    employeesPageItemDto.setPhotoUrl(employee.getUser().getPhotoUrl());
-                    employeesPageItemDto.setRole(employee.getRole().getName());
-                    employeesPageItemDto.setPlanned(Double.valueOf(employee.getWorkLoad()));
-                    employeesPageItemDto
+                    employeesPageItem.setName(employee.getUser().getName());
+                    employeesPageItem.setPhotoUrl(employee.getUser().getPhotoUrl());
+                    employeesPageItem.setRole(employee.getRole().getName());
+                    employeesPageItem.setPlanned(Double.valueOf(employee.getWorkLoad()));
+                    employeesPageItem
                             .setActual(getActualEmployeeWorkloadThisWeek(employee));
-                    employeesPageItemDto.setStatus(employee.getStatus());
-                    return employeesPageItemDto;
+                    employeesPageItem.setStatus(employee.getStatus());
+                    employeesPageItem.setPendingApprovalDtoList(
+                            getTimesheetsForEmployeesPage(employee)
+                    );
+                    return employeesPageItem;
                 }).collect(Collectors.toList());
 
         employeesPageDto.setEmployeeItems(items);
@@ -103,12 +109,37 @@ public class EmployeeResource {
         List<Double> actualWorkLoadByAssignments
                 = assignments.stream()
                 .map(assignment ->
-                    assignment.getLogs().stream()
-                            .filter(log -> log.getDate().after(startWeekDate)
-                            && log.getDate().before(endWeekDate))
-                            .mapToDouble(Log::getTime).sum()
+                        assignment.getLogs().stream()
+                                .filter(log -> log.getDate().after(startWeekDate)
+                                        && log.getDate().before(endWeekDate))
+                                .mapToDouble(Log::getTime).sum()
                 ).collect(Collectors.toList());
         return actualWorkLoadByAssignments.stream()
-        .mapToDouble(Double::doubleValue).sum();
+                .mapToDouble(Double::doubleValue).sum();
+    }
+
+    private List<TimesheetPendingApprovalDto> getTimesheetsForEmployeesPage(Employee employee) {
+        List<Assignment> assignments = employee.getAssignments();
+
+        List<Timesheet> timesheetsByEmployee =
+                assignments.stream()
+                .flatMap(assignment -> assignment.getTimesheets().stream())
+                .collect(Collectors.toList());
+
+        return timesheetsByEmployee.stream()
+        .map(timesheet -> {
+            TimesheetPendingApprovalDto timesheetItem
+                    = new TimesheetPendingApprovalDto();
+            timesheetItem.setFromDate(timesheet.getFromDate());
+            timesheetItem.setToDate(timesheet.getToDate());
+            timesheetItem.setPlanned(Double
+                    .valueOf(timesheet.getAssignment().getWorkLoad()));
+            timesheetItem.setActual(
+                    timesheet.getAssignment()
+                    .getLogs().stream()
+                    .mapToDouble(Log::getTime).sum()
+            );
+            return timesheetItem;
+        }).collect(Collectors.toList());
     }
 }
