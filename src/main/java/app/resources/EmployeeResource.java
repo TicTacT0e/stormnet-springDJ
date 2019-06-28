@@ -3,7 +3,7 @@ package app.resources;
 import app.dao.BasicCrudDao;
 import app.dto.EmployeesPageDto;
 import app.dto.EmployeesPageItemDto;
-import app.dto.TimesheetPendingApprovalDto;
+import app.dto.TimesheetItemsDto;
 import app.entities.Assignment;
 import app.entities.Employee;
 import app.entities.Log;
@@ -80,14 +80,16 @@ public class EmployeeResource {
                     EmployeesPageItemDto employeesPageItem
                             = new EmployeesPageItemDto();
                     employeesPageItem.setName(employee.getUser().getName());
-                    employeesPageItem.setPhotoUrl(employee.getUser().getPhotoUrl());
+                    employeesPageItem.setPhotoUrl(employee
+                            .getUser().getPhotoUrl());
                     employeesPageItem.setRole(employee.getRole().getName());
-                    employeesPageItem.setPlanned(Double.valueOf(employee.getWorkLoad()));
+                    employeesPageItem.setPlanned(Double
+                            .valueOf(employee.getWorkLoad()));
                     employeesPageItem
-                            .setActual(getActualEmployeeWorkloadThisWeek(employee));
+                            .setActual(getActualWorkloadThisWeek(employee));
                     employeesPageItem.setStatus(employee.getStatus());
                     employeesPageItem.setPendingApprovalDtoList(
-                            getTimesheetsForEmployeesPage(employee)
+                            getEmployeeTimesheets(employee)
                     );
                     return employeesPageItem;
                 }).collect(Collectors.toList());
@@ -96,7 +98,7 @@ public class EmployeeResource {
         return employeesPageDto;
     }
 
-    private Double getActualEmployeeWorkloadThisWeek(Employee employee) {
+    private Double getActualWorkloadThisWeek(Employee employee) {
         List<Assignment> assignments = employee.getAssignments();
 
         final Date startWeekDate = DateTime.now()
@@ -110,7 +112,8 @@ public class EmployeeResource {
                 = assignments.stream()
                 .map(assignment ->
                         assignment.getLogs().stream()
-                                .filter(log -> log.getDate().after(startWeekDate)
+                                .filter(log ->
+                                        log.getDate().after(startWeekDate)
                                         && log.getDate().before(endWeekDate))
                                 .mapToDouble(Log::getTime).sum()
                 ).collect(Collectors.toList());
@@ -118,7 +121,7 @@ public class EmployeeResource {
                 .mapToDouble(Double::doubleValue).sum();
     }
 
-    private List<TimesheetPendingApprovalDto> getTimesheetsForEmployeesPage(Employee employee) {
+    private List<TimesheetItemsDto> getEmployeeTimesheets(Employee employee) {
         List<Assignment> assignments = employee.getAssignments();
 
         List<Timesheet> timesheetsByEmployee =
@@ -128,8 +131,8 @@ public class EmployeeResource {
 
         return timesheetsByEmployee.stream()
         .map(timesheet -> {
-            TimesheetPendingApprovalDto timesheetItem
-                    = new TimesheetPendingApprovalDto();
+            TimesheetItemsDto timesheetItem
+                    = new TimesheetItemsDto();
             timesheetItem.setFromDate(timesheet.getFromDate());
             timesheetItem.setToDate(timesheet.getToDate());
             timesheetItem.setPlanned(Double

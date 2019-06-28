@@ -2,14 +2,14 @@ package app.dto;
 
 import java.util.Date;
 
-public class TimesheetPendingApprovalDto {
+public class TimesheetItemsDto {
 
     private Date fromDate;
     private Date toDate;
     private Double planned;
     private Double actual;
 
-    public TimesheetPendingApprovalDto() {
+    public TimesheetItemsDto() {
     }
 
     public Date getFromDate() {

@@ -10,7 +10,7 @@ public class EmployeesPageItemDto {
     private Double planned;
     private Double actual;
     private String status;
-    private List<TimesheetPendingApprovalDto> pendingApprovalDtoList;
+    private List<TimesheetItemsDto> pendingApprovalDtoList;
 
     public EmployeesPageItemDto() {
     }
@@ -63,11 +63,13 @@ public class EmployeesPageItemDto {
         this.status = status;
     }
 
-    public List<TimesheetPendingApprovalDto> getPendingApprovalDtoList() {
+    public List<TimesheetItemsDto> getPendingApprovalDtoList() {
         return pendingApprovalDtoList;
     }
 
-    public void setPendingApprovalDtoList(List<TimesheetPendingApprovalDto> pendingApprovalDtoList) {
+    public void setPendingApprovalDtoList(
+            List<TimesheetItemsDto> pendingApprovalDtoList
+    ) {
         this.pendingApprovalDtoList = pendingApprovalDtoList;
     }
 }
