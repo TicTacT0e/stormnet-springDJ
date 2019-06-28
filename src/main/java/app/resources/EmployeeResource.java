@@ -3,7 +3,9 @@ package app.resources;
 import app.dao.BasicCrudDao;
 import app.dto.EmployeesPageDto;
 import app.dto.EmployeesPageItemDto;
+import app.entities.Assignment;
 import app.entities.Employee;
+import app.entities.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -68,17 +70,32 @@ public class EmployeeResource {
         List<Employee> employees = employeeDao.findAll();
 
         List<EmployeesPageItemDto> items = employees.stream()
-                .map((Employee employee) -> {
+                .map(employee -> {
                     EmployeesPageItemDto employeesPageItemDto
                             = new EmployeesPageItemDto();
                     employeesPageItemDto.setName(employee.getUser().getName());
                     employeesPageItemDto.setPhotoUrl(employee.getUser().getPhotoUrl());
                     employeesPageItemDto.setRole(employee.getRole().getName());
+                    employeesPageItemDto.setPlanned(Double.valueOf(employee.getWorkLoad()));
+                    employeesPageItemDto
+                            .setActual(getActualEmployeeWorkloadThisWeek(employee));
                     employeesPageItemDto.setStatus(employee.getStatus());
                     return employeesPageItemDto;
                 }).collect(Collectors.toList());
 
         employeesPageDto.setEmployeeItems(items);
         return employeesPageDto;
+    }
+
+    private Double getActualEmployeeWorkloadThisWeek(Employee employee) {
+        List<Assignment> assignments = employee.getAssignments();
+        List<Double> actualWorkLoadByAssignments
+                = assignments.stream()
+                .map(assignment ->
+                    assignment.getLogs().stream()
+                            .mapToDouble(Log::getTime).sum()
+                ).collect(Collectors.toList());
+        return actualWorkLoadByAssignments.stream()
+        .mapToDouble(Double::doubleValue).sum();
     }
 }
