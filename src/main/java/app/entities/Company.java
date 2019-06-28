@@ -36,6 +36,7 @@ public class Company {
 
     @OneToMany(fetch = FetchType.LAZY, targetEntity = Integration.class,
             mappedBy = "company", cascade = CascadeType.ALL)
+    @JsonbTransient
     private List<Integration> integrations;
 
     public Company() {

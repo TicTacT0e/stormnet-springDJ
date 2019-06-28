@@ -43,6 +43,7 @@ public class Employee {
 
     @OneToMany(fetch = FetchType.LAZY, targetEntity = Notification.class,
             mappedBy = "employee", cascade = CascadeType.ALL)
+    @JsonbTransient
     private List<Notification> notifications;
 
     @ManyToOne(targetEntity = Company.class)
