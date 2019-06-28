@@ -1,6 +1,5 @@
 package app.entities;
 
-import javax.json.bind.annotation.JsonbTransient;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -19,7 +18,7 @@ public class Timesheet {
     private String status;
     private Date fromDate;
     private Date toDate;
-  
+
     @ManyToOne(targetEntity = Assignment.class)
     @JoinColumn(name = "assignmentId",
             updatable = false, insertable = false)

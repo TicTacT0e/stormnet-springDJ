@@ -1,31 +1,31 @@
 package app.dto;
 
-import java.sql.Timestamp;
+import java.sql.Date;
 
 public class TimesheetPendingApprovalDto {
 
-    private Timestamp from;
-    private Timestamp to;
+    private Date fromDate;
+    private Date toDate;
     private Double planned;
     private Double actual;
 
     public TimesheetPendingApprovalDto() {
     }
 
-    public Timestamp getFrom() {
-        return from;
+    public Date getFromDate() {
+        return fromDate;
     }
 
-    public void setFrom(Timestamp from) {
-        this.from = from;
+    public void setFromDate(Date fromDate) {
+        this.fromDate = fromDate;
     }
 
-    public Timestamp getTo() {
-        return to;
+    public Date getToDate() {
+        return toDate;
     }
 
-    public void setTo(Timestamp to) {
-        this.to = to;
+    public void setToDate(Date toDate) {
+        this.toDate = toDate;
     }
 
     public Double getPlanned() {
