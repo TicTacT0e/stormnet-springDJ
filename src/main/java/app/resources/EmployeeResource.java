@@ -6,6 +6,8 @@ import app.dto.EmployeesPageItemDto;
 import app.entities.Assignment;
 import app.entities.Employee;
 import app.entities.Log;
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -19,6 +21,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -89,10 +92,20 @@ public class EmployeeResource {
 
     private Double getActualEmployeeWorkloadThisWeek(Employee employee) {
         List<Assignment> assignments = employee.getAssignments();
+
+        final Date startWeekDate = DateTime.now()
+                .withDayOfWeek(DateTimeConstants.MONDAY)
+                .withTimeAtStartOfDay().toDate();
+        final Date endWeekDate = DateTime.now()
+                .withDayOfWeek(DateTimeConstants.SUNDAY)
+                .withTimeAtStartOfDay().toDate();
+
         List<Double> actualWorkLoadByAssignments
                 = assignments.stream()
                 .map(assignment ->
                     assignment.getLogs().stream()
+                            .filter(log -> log.getDate().after(startWeekDate)
+                            && log.getDate().before(endWeekDate))
                             .mapToDouble(Log::getTime).sum()
                 ).collect(Collectors.toList());
         return actualWorkLoadByAssignments.stream()
