@@ -44,12 +44,12 @@ public class Assignment {
     @OneToMany(mappedBy = "assignment", fetch = FetchType.LAZY,
             targetEntity = Timesheet.class, cascade = CascadeType.ALL)
     @JsonbTransient
-    private List<Timesheet> timesheet;
+    private List<Timesheet> timesheets;
 
     @OneToMany(mappedBy = "assignment", fetch = FetchType.LAZY,
             targetEntity = Log.class, cascade = CascadeType.ALL)
     @JsonbTransient
-    private List<Log> log;
+    private List<Log> logs;
 
     public Assignment() {
     }
@@ -105,20 +105,20 @@ public class Assignment {
         this.activityId = activityId;
     }
 
-    public List<Timesheet> getTimesheet() {
-        return timesheet;
+    public List<Timesheet> getTimesheets() {
+        return timesheets;
     }
 
-    public void setTimesheet(List<Timesheet> timesheet) {
-        this.timesheet = timesheet;
+    public void setTimesheets(List<Timesheet> timesheet) {
+        this.timesheets = timesheet;
     }
 
-    public List<Log> getLog() {
-        return log;
+    public List<Log> getLogs() {
+        return logs;
     }
 
-    public void setLog(List<Log> log) {
-        this.log = log;
+    public void setLogs(List<Log> log) {
+        this.logs = log;
     }
 
     public Integer getWorkLoad() {
