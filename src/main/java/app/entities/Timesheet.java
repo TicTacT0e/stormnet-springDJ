@@ -2,6 +2,8 @@ package app.entities;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import java.util.Date;
 
@@ -15,6 +17,11 @@ public class Timesheet {
     private String status;
     private Date fromDate;
     private Date toDate;
+  
+    @ManyToOne(targetEntity = Assignment.class)
+    @JoinColumn(name = "assignmentId",
+            updatable = false, insertable = false)
+    private Assignment assignment;
 
     public Timesheet() {
     }
@@ -43,6 +50,14 @@ public class Timesheet {
 
     public void setAssignmentId(Integer assignmentId) {
         this.assignmentId = assignmentId;
+    }
+
+    public Assignment getAssignment() {
+        return assignment;
+    }
+
+    public void setAssignment(Assignment assignment) {
+        this.assignment = assignment;
     }
 
     public String getTimesheetJson() {
