@@ -101,8 +101,8 @@ public class Timesheet {
         if (!(object instanceof Timesheet)) {
             return false;
         }
-        Timesheet that = (Timesheet) object;
-        return getId() == that.getId();
+        Timesheet timesheet = (Timesheet) object;
+        return Objects.equals(getId(), timesheet.getId());
     }
 
     @Override
