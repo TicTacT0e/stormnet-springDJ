@@ -34,6 +34,11 @@ public class Company {
             mappedBy = "company")
     private List<Settings> settings;
 
+    @OneToMany(fetch = FetchType.LAZY, targetEntity = Integration.class,
+            mappedBy = "company", cascade = CascadeType.ALL)
+    @JsonbTransient
+    private List<Integration> integrations;
+
     public Company() {
     }
 
@@ -97,6 +102,14 @@ public class Company {
 
     public void setSettings(List<Settings> settings) {
         this.settings = settings;
+    }
+
+    public List<Integration> getIntegrations() {
+        return integrations;
+    }
+
+    public void setIntegrations(List<Integration> integrations) {
+        this.integrations = integrations;
     }
 
     @Override
