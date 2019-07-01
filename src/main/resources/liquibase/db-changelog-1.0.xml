@@ -119,4 +119,35 @@
         </addColumn>
     </changeSet>
 
+    <changeSet id="20" author="Igor_Kraskovski">
+        <dropForeignKeyConstraint baseTableName="Timesheets"
+                                  constraintName="TimesheetPeriodId"/>
+    </changeSet>
+
+    <changeSet id="21" author="Igor_Kraskovski">
+        <dropTable cascadeConstraints="true"
+                   catalogName="Timesheetmanager"
+                   tableName="Periods"/>
+    </changeSet>
+
+    <changeSet id="22" author="Igor_Kraskovski">
+        <dropColumn catalogName="Timesheetmanager"
+                    columnName="periodId"
+                    tableName="Timesheets"/>
+    </changeSet>
+
+    <changeSet id="23" author="Igor_Kraskovski">
+        <addColumn catalogName="Timesheetmanager"
+                   tableName="Timesheets">
+            <column name="fromDate" type="DATE"/>
+        </addColumn>
+    </changeSet>
+
+    <changeSet id="24" author="Igor_Kraskovski">
+        <addColumn catalogName="Timesheetmanager"
+                   tableName="Timesheets">
+            <column name="toDate" type="DATE"/>
+        </addColumn>
+    </changeSet>
+
 </databaseChangeLog>

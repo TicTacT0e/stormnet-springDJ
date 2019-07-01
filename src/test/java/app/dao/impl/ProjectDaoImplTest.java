@@ -1,104 +1,102 @@
 package app.dao.impl;
 
-import app.config.beans.DaoConfig;
-import app.config.beans.HibernateConfig;
-import app.config.beans.PropertyConfig;
 import app.dao.BasicCrudDao;
 import app.entities.Project;
 import org.dbunit.Assertion;
-import org.dbunit.DBTestCase;
-import org.dbunit.PropertiesBasedJdbcDatabaseTester;
-import org.dbunit.database.DatabaseConfig;
-import org.dbunit.database.IDatabaseConnection;
-import org.dbunit.dataset.IDataSet;
+import org.dbunit.DatabaseUnitException;
 import org.dbunit.dataset.ITable;
 import org.dbunit.dataset.xml.FlatXmlDataSetBuilder;
-import org.dbunit.ext.mysql.MySqlDataTypeFactory;
-import org.dbunit.ext.mysql.MySqlMetadataHandler;
-import org.dbunit.operation.DatabaseOperation;
-import org.junit.Before;
+import org.junit.Assert;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import java.io.IOException;
-import java.util.Objects;
-import java.util.Properties;
+import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
+import java.util.TimeZone;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = {DaoConfig.class, PropertyConfig.class, HibernateConfig.class})
-public class ProjectDaoImplTest extends DBTestCase {
+public class ProjectDaoImplTest extends ConnectionForTests {
+
+    static {
+        TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
+    }
 
     @Autowired
-    protected BasicCrudDao<Project> basicCrudDao;
+    private BasicCrudDao<Project> projectBasicCrudDao;
 
-    private String driver;
-    private String url;
-    private String username;
-    private String password;
-    private String schema;
-    protected String table;
+    private String table = "Projects";
+    private String[] columnsToIgnore = {"endDate", "startDate"};
 
     public ProjectDaoImplTest() {
-        Properties properties = new Properties();
-        try {
-            properties.load(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("project.properties")));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        driver = properties.getProperty("jdbc.driver");
-        url = properties.getProperty("db.url");
-        username = properties.getProperty("db.username");
-        password = properties.getProperty("db.password");
-        schema = properties.getProperty("schema");
-        table = properties.getProperty("table");
-
-        System.setProperty(PropertiesBasedJdbcDatabaseTester.DBUNIT_DRIVER_CLASS, driver);
-        System.setProperty(PropertiesBasedJdbcDatabaseTester.DBUNIT_CONNECTION_URL, url);
-        System.setProperty(PropertiesBasedJdbcDatabaseTester.DBUNIT_USERNAME, username);
-        System.setProperty(PropertiesBasedJdbcDatabaseTester.DBUNIT_PASSWORD, password);
-        System.setProperty(PropertiesBasedJdbcDatabaseTester.DBUNIT_SCHEMA, schema);
-    }
-
-    @Before
-    public void setUp() throws Exception {
-        IDataSet data = getDataSet();
-        IDatabaseConnection connection = getMySqlConnection();
-        DatabaseOperation.CLEAN_INSERT.execute(connection, data);
-    }
-
-    protected IDatabaseConnection getMySqlConnection() throws Exception {
-        IDatabaseConnection connection = super.getConnection();
-        DatabaseConfig dbConfig = connection.getConfig();
-        dbConfig.setProperty(DatabaseConfig.PROPERTY_DATATYPE_FACTORY, new MySqlDataTypeFactory());
-        dbConfig.setProperty(DatabaseConfig.PROPERTY_METADATA_HANDLER, new MySqlMetadataHandler());
-        return connection;
-    }
-
-    @Override
-    protected IDataSet getDataSet() throws Exception {
-        return new FlatXmlDataSetBuilder().build(this.getClass().getClassLoader()
-                .getResourceAsStream("D:\\Alena\\J2EE_projects\\TimesheetManagement\\src\\test\\resources\\app\\dao\\impl\\inputDb.xml"));
-    }
-
-    protected DatabaseOperation getSetUpOperation() throws Exception {
-        return DatabaseOperation.REFRESH;
-    }
-
-    protected DatabaseOperation getTearDownOperation() throws Exception {
-        return DatabaseOperation.NONE;
+        super("app/dao/impl/projectDataSet/inputDb.xml");
     }
 
     @Test
-    public void setUpDatabaseTest() throws Exception {
-        IDataSet expectedDataSet = new FlatXmlDataSetBuilder().build(this.getClass().getClassLoader()
-                .getResourceAsStream("D:\\Alena\\J2EE_projects\\TimesheetManagement\\src\\test\\resources\\app\\dao\\impl\\inputDb.xml"));
-        ITable expectedTable = expectedDataSet.getTable(table);
-        IDataSet actualDataSet = getMySqlConnection().createDataSet();
-        ITable actualTable = actualDataSet.getTable(table);
-        Assertion.assertEquals(expectedTable, actualTable);
+    public void findAllTest() throws SQLException, DatabaseUnitException {
+        List<Project> projects = projectBasicCrudDao.findAll();
+        ITable expectedData = new FlatXmlDataSetBuilder().build(getClass()
+                .getClassLoader()
+                .getResourceAsStream("app/dao/impl/projectDataSet/inputDb.xml")).getTable(table);
+        ITable actualData = connection.createDataSet().getTable(table);
+        Assertion.assertEquals(expectedData, actualData);
+        Assert.assertEquals(expectedData.getRowCount(), projects.size());
+    }
+
+    @Test
+    public void findByIdTest() throws SQLException, DatabaseUnitException {
+        Project project = projectBasicCrudDao.findById(1);
+
+        ITable expectedData = new FlatXmlDataSetBuilder().build(getClass()
+                .getClassLoader()
+                .getResourceAsStream("app/dao/impl/projectDataSet/inputDb.xml")).getTable(table);
+        ITable actualData = connection.createDataSet().getTable(table);
+        String expectedTitleOfProject = (String) expectedData.getValue(0, "name");
+
+        Assertion.assertEquals(expectedData, actualData);
+        Assert.assertEquals(expectedTitleOfProject, project.getName());
+    }
+
+    public static Date parseDate(String date) {
+        try {
+            return new SimpleDateFormat("yyyy-mm-dd").parse(date);
+        } catch (ParseException e) {
+            return null;
+        }
+    }
+
+    @Test
+    public void createTest() throws SQLException, DatabaseUnitException {
+        Date startDate = parseDate("2019-05-01");
+        Date endDate = parseDate("2020-05-01");
+        projectBasicCrudDao.create(new Project(5, 55, "project_5", "logo5", startDate, endDate, (long)50, "005", "yellow", "description5"));
+        ITable actualData = connection.createDataSet().getTable(table);
+        ITable expectedData = new FlatXmlDataSetBuilder().build(getClass()
+                .getClassLoader()
+                .getResourceAsStream("app/dao/impl/projectDataSet/createDb.xml")).getTable(table);
+        Assertion.assertEqualsIgnoreCols(expectedData, actualData, columnsToIgnore);
+    }
+
+    @Test
+    public void deleteByIdTest() throws SQLException, DatabaseUnitException {
+        projectBasicCrudDao.deleteById(2);
+        ITable actualData = connection.createDataSet().getTable(table);
+        ITable expectedData = new FlatXmlDataSetBuilder().build(getClass()
+                .getClassLoader()
+                .getResourceAsStream("app/dao/impl/projectDataSet/deleteDb.xml")).getTable(table);
+        Assertion.assertEquals(expectedData, actualData);
+    }
+
+    @Test
+    public void updateTest() throws SQLException, DatabaseUnitException {
+        Date startDate = parseDate("2019-01-19");
+        Date endDate = parseDate("2020-01-19");
+        projectBasicCrudDao.update(new Project(2, 22, "project_2", "logo2", startDate, endDate, (long)20, "002", "grey", "description2"));
+        ITable actualData = connection.createDataSet().getTable(table);
+        ITable expectedData = new FlatXmlDataSetBuilder().build(getClass()
+                .getClassLoader()
+                .getResourceAsStream("app/dao/impl/projectDataSet/updateDb.xml")).getTable(table);
+        Assertion.assertEqualsIgnoreCols(expectedData, actualData, columnsToIgnore);
     }
 }

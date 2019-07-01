@@ -1,8 +1,18 @@
 package app.entities;
 
+import javax.json.bind.annotation.JsonbTransient;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -10,17 +20,42 @@ import java.util.Objects;
 public class Assignment {
 
     @Id
-    private int id;
-    private int projectId;
-    private int employeeId;
-    private int activityId;
-    private int workLoad;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", updatable = false, nullable = false)
+    private Integer id;
+    private Integer employeeId;
+    private Integer projectId;
+    private Integer activityId;
+    private Integer workLoad;
+
+    @ManyToOne(targetEntity = Employee.class)
+    @JoinColumn(name = "employeeId",
+            updatable = false, insertable = false)
+    private Employee employee;
+    @ManyToOne(targetEntity = Project.class)
+    @JoinColumn(name = "projectId",
+            updatable = false, insertable = false)
+    private Project project;
+    @ManyToOne(targetEntity = Activity.class)
+    @JoinColumn(name = "activityId",
+            updatable = false, insertable = false)
+    private Activity activity;
+
+    @OneToMany(mappedBy = "assignment", fetch = FetchType.LAZY,
+            targetEntity = Timesheet.class, cascade = CascadeType.ALL)
+    @JsonbTransient
+    private List<Timesheet> timesheet;
+
+    @OneToMany(mappedBy = "assignment", fetch = FetchType.LAZY,
+            targetEntity = Log.class, cascade = CascadeType.ALL)
+    @JsonbTransient
+    private List<Log> log;
 
     public Assignment() {
     }
 
-    public Assignment(int id, int projectId, int employeeId,
-                      int activityId, int workLoad) {
+    public Assignment(Integer id, Integer projectId, Integer employeeId,
+                      Integer activityId, Integer workLoad) {
         this.id = id;
         this.projectId = projectId;
         this.employeeId = employeeId;
@@ -38,44 +73,84 @@ public class Assignment {
         );
     }
 
-    public int getProjectId() {
-        return projectId;
-    }
-
-    public void setProjectId(int projectId) {
-        this.projectId = projectId;
-    }
-
-    public int getEmployeeId() {
-        return employeeId;
-    }
-
-    public void setEmployeeId(int employeeId) {
-        this.employeeId = employeeId;
-    }
-
-    public int getWorkLoad() {
-        return workLoad;
-    }
-
-    public void setWorkLoad(int workLoadInMinutes) {
-        this.workLoad = workLoadInMinutes;
-    }
-
-    public int getActivityId() {
-        return activityId;
-    }
-
-    public void setActivityId(int activityId) {
-        this.activityId = activityId;
-    }
-
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
+    }
+
+    public Integer getEmployeeId() {
+        return employeeId;
+    }
+
+    public void setEmployeeId(Integer employeeId) {
+        this.employeeId = employeeId;
+    }
+
+    public Integer getProjectId() {
+        return projectId;
+    }
+
+    public void setProjectId(Integer projectId) {
+        this.projectId = projectId;
+    }
+
+    public Integer getActivityId() {
+        return activityId;
+    }
+
+    public void setActivityId(Integer activityId) {
+        this.activityId = activityId;
+    }
+
+    public List<Timesheet> getTimesheet() {
+        return timesheet;
+    }
+
+    public void setTimesheet(List<Timesheet> timesheet) {
+        this.timesheet = timesheet;
+    }
+
+    public List<Log> getLog() {
+        return log;
+    }
+
+    public void setLog(List<Log> log) {
+        this.log = log;
+    }
+
+    public Integer getWorkLoad() {
+        return workLoad;
+    }
+
+    public void setWorkLoad(Integer workLoad) {
+        this.workLoad = workLoad;
+    }
+
+    public Employee getEmployee() {
+        return employee;
+    }
+
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
+    }
+
+    public Project getProject() {
+        return project;
+    }
+
+    public void setProject(Project project) {
+        this.project = project;
+    }
+
+    public Activity getActivity() {
+        return activity;
+    }
+
+    public void setActivity(Activity activity) {
+        this.activity = activity;
     }
 
     @Override
@@ -87,7 +162,7 @@ public class Assignment {
             return false;
         }
         Assignment that = (Assignment) object;
-        return getId() == that.getId();
+        return getId().equals(that.getId());
     }
 
     @Override
