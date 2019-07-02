@@ -5,6 +5,8 @@ import app.dao.LogDao;
 import app.dto.EmployeeProfileDto;
 import app.dto.EmployeesPageDto;
 import app.dto.EmployeesPageItemDto;
+import app.dto.LogDto;
+import app.dto.TimesheetDto;
 import app.dto.TimesheetItemsDto;
 import app.entities.Assignment;
 import app.entities.Employee;
@@ -47,8 +49,8 @@ public class EmployeeResource {
     @GET
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Employee get(@PathParam("id") int id) {
-        return employeeDao.findById(id);
+    public EmployeeProfileDto get(@PathParam("id") int id) {
+        return getEmployeeProfile(id);
     }
 
     @POST
@@ -83,8 +85,45 @@ public class EmployeeResource {
         employeeProfileDto.setWorkload(employee.getWorkLoad());
         employeeProfileDto.setEmail(employee.getUser().getEmail());
         employeeProfileDto.setPhone(employee.getUser().getPhone());
+        employeeProfileDto
+                .setTimesheetCurrentWeek(getTimesheetCurrentWeek(employee));
 
-        return null;
+        return employeeProfileDto;
+    }
+
+    private TimesheetDto getTimesheetCurrentWeek(Employee employee) {
+        TimesheetDto currentWeekTimesheet = new TimesheetDto();
+        List<Assignment> assignments = employee.getAssignments();
+        List<LogDto> currentWeekLogs = getCurrentWeekLogs(assignments);
+        currentWeekTimesheet.setLogs(currentWeekLogs);
+        currentWeekTimesheet.setPlanned(Double.valueOf(employee.getWorkLoad()));
+        currentWeekTimesheet.setActual(getActualWorkloadCurrentWeek(employee));
+        return currentWeekTimesheet;
+    }
+
+    private List<LogDto> getCurrentWeekLogs(List<Assignment> assignments) {
+        final Date startWeekDate = DateTime.now()
+                .withDayOfWeek(DateTimeConstants.MONDAY)
+                .withTimeAtStartOfDay().toDate();
+        final Date endWeekDate = DateTime.now()
+                .withDayOfWeek(DateTimeConstants.SUNDAY)
+                .withTimeAtStartOfDay().toDate();
+
+        List<Log> logs = assignments.stream()
+                .flatMap(assignment -> assignment.getLogs().stream()
+                        .filter(log ->
+                                log.getDate().after(startWeekDate)
+                                        && log.getDate().before(endWeekDate)))
+                .collect(Collectors.toList());
+
+        return logs.stream()
+                .map(log -> {
+                    LogDto logDto = new LogDto();
+                    logDto.setColor(log.getAssignment().getProject().getColor());
+                    logDto.setComment(log.getComment());
+                    logDto.setTime(log.getTime());
+                    return logDto;
+                }).collect(Collectors.toList());
     }
 
     private EmployeesPageDto getEmployeesPageDto() {
@@ -103,7 +142,7 @@ public class EmployeeResource {
                     employeesPageItem.setPlanned(Double
                             .valueOf(employee.getWorkLoad()));
                     employeesPageItem
-                            .setActual(getActualWorkloadThisWeek(employee));
+                            .setActual(getActualWorkloadCurrentWeek(employee));
                     employeesPageItem.setStatus(employee.getStatus());
                     employeesPageItem.setPendingApprovalDtoList(
                             getEmployeeTimesheets(employee)
@@ -115,7 +154,7 @@ public class EmployeeResource {
         return employeesPageDto;
     }
 
-    private Double getActualWorkloadThisWeek(Employee employee) {
+    private Double getActualWorkloadCurrentWeek(Employee employee) {
         List<Assignment> assignments = employee.getAssignments();
 
         final Date startWeekDate = DateTime.now()
@@ -131,7 +170,7 @@ public class EmployeeResource {
                         assignment.getLogs().stream()
                                 .filter(log ->
                                         log.getDate().after(startWeekDate)
-                                        && log.getDate().before(endWeekDate))
+                                                && log.getDate().before(endWeekDate))
                                 .mapToDouble(Log::getTime).sum()
                 ).collect(Collectors.toList());
         return actualWorkLoadByAssignments.stream()
@@ -143,23 +182,23 @@ public class EmployeeResource {
 
         List<Timesheet> timesheetsByEmployee =
                 assignments.stream()
-                .flatMap(assignment -> assignment.getTimesheets().stream())
-                .collect(Collectors.toList());
+                        .flatMap(assignment -> assignment.getTimesheets().stream())
+                        .collect(Collectors.toList());
 
         return timesheetsByEmployee.stream()
-        .map(timesheet -> {
-            TimesheetItemsDto timesheetItem
-                    = new TimesheetItemsDto();
-            timesheetItem.setFromDate(timesheet.getFromDate());
-            timesheetItem.setToDate(timesheet.getToDate());
-            timesheetItem.setPlanned(Double
-                    .valueOf(timesheet.getAssignment().getWorkLoad()));
-            timesheetItem.setActual(
-                    timesheet.getAssignment()
-                    .getLogs().stream()
-                    .mapToDouble(Log::getTime).sum()
-            );
-            return timesheetItem;
-        }).collect(Collectors.toList());
+                .map(timesheet -> {
+                    TimesheetItemsDto timesheetItem
+                            = new TimesheetItemsDto();
+                    timesheetItem.setFromDate(timesheet.getFromDate());
+                    timesheetItem.setToDate(timesheet.getToDate());
+                    timesheetItem.setPlanned(Double
+                            .valueOf(timesheet.getAssignment().getWorkLoad()));
+                    timesheetItem.setActual(
+                            timesheet.getAssignment()
+                                    .getLogs().stream()
+                                    .mapToDouble(Log::getTime).sum()
+                    );
+                    return timesheetItem;
+                }).collect(Collectors.toList());
     }
 }
