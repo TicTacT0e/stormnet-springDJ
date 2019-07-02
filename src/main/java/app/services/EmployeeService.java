@@ -26,6 +26,13 @@ public class EmployeeService {
     @Autowired
     private BasicCrudDao<Employee> employeeDao;
 
+    private static final Date START_WEEK_DATE = DateTime.now()
+            .withDayOfWeek(DateTimeConstants.MONDAY)
+            .withTimeAtStartOfDay().toDate();
+    private static final Date END_WEEK_DATE = DateTime.now()
+            .withDayOfWeek(DateTimeConstants.SUNDAY)
+            .withTimeAtStartOfDay().toDate();
+
     public EmployeesPageDto getAll() {
         return getEmployeesPageDto();
     }
@@ -76,18 +83,11 @@ public class EmployeeService {
     }
 
     private List<LogDto> getCurrentWeekLogs(List<Assignment> assignments) {
-        final Date startWeekDate = DateTime.now()
-                .withDayOfWeek(DateTimeConstants.MONDAY)
-                .withTimeAtStartOfDay().toDate();
-        final Date endWeekDate = DateTime.now()
-                .withDayOfWeek(DateTimeConstants.SUNDAY)
-                .withTimeAtStartOfDay().toDate();
-
         List<Log> logs = assignments.stream()
                 .flatMap(assignment -> assignment.getLogs().stream()
                         .filter(log ->
-                                log.getDate().after(startWeekDate)
-                                        && log.getDate().before(endWeekDate)))
+                                log.getDate().after(START_WEEK_DATE)
+                                        && log.getDate().before(END_WEEK_DATE)))
                 .collect(Collectors.toList());
 
         return logs.stream()
@@ -130,21 +130,13 @@ public class EmployeeService {
 
     private Double getActualWorkloadCurrentWeek(Employee employee) {
         List<Assignment> assignments = employee.getAssignments();
-
-        final Date startWeekDate = DateTime.now()
-                .withDayOfWeek(DateTimeConstants.MONDAY)
-                .withTimeAtStartOfDay().toDate();
-        final Date endWeekDate = DateTime.now()
-                .withDayOfWeek(DateTimeConstants.SUNDAY)
-                .withTimeAtStartOfDay().toDate();
-
         List<Double> actualWorkLoadByAssignments
                 = assignments.stream()
                 .map(assignment ->
                         assignment.getLogs().stream()
                                 .filter(log ->
-                                        log.getDate().after(startWeekDate)
-                                                && log.getDate().before(endWeekDate))
+                                        log.getDate().after(START_WEEK_DATE)
+                                                && log.getDate().before(END_WEEK_DATE))
                                 .mapToDouble(Log::getTime).sum()
                 ).collect(Collectors.toList());
         return actualWorkLoadByAssignments.stream()

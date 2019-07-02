@@ -1,6 +1,5 @@
 package app.resources;
 
-import app.dao.BasicCrudDao;
 import app.dto.EmployeeProfileDto;
 import app.dto.EmployeesPageDto;
 import app.entities.Employee;
@@ -25,9 +24,6 @@ public class EmployeeResource {
 
     @Autowired
     private EmployeeService employeeService;
-
-    @Autowired
-    private BasicCrudDao<Employee> employeeDao;
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
