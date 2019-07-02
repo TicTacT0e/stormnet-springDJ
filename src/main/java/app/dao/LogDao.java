@@ -16,10 +16,4 @@ public interface LogDao extends BasicCrudDao<Log> {
     List<Log> findByDay();
 
     List<Log> findByPeriod(Timestamp periodFrom, Timestamp periodTo);
-
-    List<Log> findByPeriodAndAssignment(
-            int assignmentId,
-            Timestamp periodFrom,
-            Timestamp periodTo
-    );
 }

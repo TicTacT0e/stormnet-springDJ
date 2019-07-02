@@ -19,9 +19,6 @@ public class LogsDaoImpl extends BasicCrudDaoImpl<Log> implements LogDao {
             + "date > current_date()";
     private static final String FIND_BY_PERIOD = "FROM Log WHERE date"
             + " BETWEEN :startDate AND :endDate";
-    private static final String FIND_BY_ASSIGNMENT_AND_PERIOD
-            = "FROM Log WHERE assignmentId = :assignmentId AND date"
-            + " BETWEEN :startDate AND :endDate";
 
     @Override
     public void createLog(List<Log> logs) {
@@ -50,19 +47,6 @@ public class LogsDaoImpl extends BasicCrudDaoImpl<Log> implements LogDao {
     public List<Log> findByPeriod(Timestamp periodFrom, Timestamp periodTo) {
         Query query = sessionFactory.getCurrentSession()
                 .createQuery(FIND_BY_PERIOD);
-        query.setParameter("startDate", periodFrom);
-        query.setParameter("endDate", periodTo);
-        return query.getResultList();
-    }
-
-    @Override
-    public List<Log> findByPeriodAndAssignment(
-            int assignmentId,
-            Timestamp periodFrom,
-            Timestamp periodTo) {
-        Query query = sessionFactory.getCurrentSession()
-                .createQuery(FIND_BY_ASSIGNMENT_AND_PERIOD);
-        query.setParameter("assignmentId", assignmentId);
         query.setParameter("startDate", periodFrom);
         query.setParameter("endDate", periodTo);
         return query.getResultList();
