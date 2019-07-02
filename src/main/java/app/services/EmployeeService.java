@@ -7,6 +7,7 @@ import app.dto.EmployeesPageItemDto;
 import app.dto.LogDto;
 import app.dto.TimesheetDto;
 import app.dto.TimesheetItemsDto;
+import app.dto.TimesheetProjectItem;
 import app.entities.Assignment;
 import app.entities.Employee;
 import app.entities.Log;
@@ -53,7 +54,7 @@ public class EmployeeService {
         employeeDao.deleteById(id);
     }
 
-    public void delete(Employee employee){
+    public void delete(Employee employee) {
         employeeDao.delete(employee);
     }
 
@@ -79,8 +80,32 @@ public class EmployeeService {
         currentWeekTimesheet.setLogs(currentWeekLogs);
         currentWeekTimesheet.setPlanned(Double.valueOf(employee.getWorkLoad()));
         currentWeekTimesheet.setActual(getActualWorkloadCurrentWeek(employee));
+
+        List<TimesheetProjectItem> projectItems = assignments.stream()
+                .map(assignment -> {
+                    TimesheetProjectItem projectItem = new TimesheetProjectItem();
+                    projectItem.setColor(assignment.getProject().getColor());
+                    projectItem.setName(assignment.getProject().getName());
+                    projectItem.setPlanned(Double.valueOf(assignment.getWorkLoad()));
+                    projectItem
+                            .setActual(getActualWorkloadThisWeekByAssignment(assignment));
+                    return projectItem;
+                }).collect(Collectors.toList());
+
+        currentWeekTimesheet.setProjects(projectItems);
+
         return currentWeekTimesheet;
     }
+
+    private Double getActualWorkloadThisWeekByAssignment(Assignment assignment) {
+        List<Log> logs = assignment.getLogs();
+        return logs.stream()
+                .filter(log ->
+                        log.getDate().after(START_WEEK_DATE)
+                                && log.getDate().before(END_WEEK_DATE))
+                .mapToDouble(Log::getTime).sum();
+    }
+
 
     private List<LogDto> getCurrentWeekLogs(List<Assignment> assignments) {
         List<Log> logs = assignments.stream()
