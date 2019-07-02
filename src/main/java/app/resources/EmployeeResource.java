@@ -1,6 +1,8 @@
 package app.resources;
 
 import app.dao.BasicCrudDao;
+import app.dao.LogDao;
+import app.dto.EmployeeProfileDto;
 import app.dto.EmployeesPageDto;
 import app.dto.EmployeesPageItemDto;
 import app.dto.TimesheetItemsDto;
@@ -33,6 +35,8 @@ public class EmployeeResource {
 
     @Autowired
     private BasicCrudDao<Employee> employeeDao;
+    @Autowired
+    private LogDao logDao;
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
@@ -68,6 +72,19 @@ public class EmployeeResource {
     public Response delete(@PathParam("id") int id, Employee employee) {
         employeeDao.delete(employee);
         return Response.status(Response.Status.OK.getStatusCode()).build();
+    }
+
+    private EmployeeProfileDto getEmployeeProfile(int id) {
+        Employee employee = employeeDao.findById(id);
+        EmployeeProfileDto employeeProfileDto = new EmployeeProfileDto();
+        employeeProfileDto.setName(employee.getUser().getName());
+        employeeProfileDto.setPhotoUrl(employee.getUser().getPhotoUrl());
+        employeeProfileDto.setRole(employee.getRole().getName());
+        employeeProfileDto.setWorkload(employee.getWorkLoad());
+        employeeProfileDto.setEmail(employee.getUser().getEmail());
+        employeeProfileDto.setPhone(employee.getUser().getPhone());
+
+        return null;
     }
 
     private EmployeesPageDto getEmployeesPageDto() {
