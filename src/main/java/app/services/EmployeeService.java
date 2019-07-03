@@ -83,6 +83,8 @@ public class EmployeeService {
                     timesheetDto.setFromDate(item.getKey().getStartWeek());
                     timesheetDto.setToDate(item.getKey().getEndWeek());
                     timesheetDto.setLogs(getLogsDtoFromLogs(item.getValue()));
+                    timesheetDto.setPlanned(Double.valueOf(employee.getWorkLoad()));
+                    timesheetDto.setActual(getActualWorkloadByLogs(item.getValue()));
                     return timesheetDto;
                 })
                 .collect(Collectors.toList());
@@ -104,22 +106,17 @@ public class EmployeeService {
                     projectItem.setPlanned(Double
                             .valueOf(log.getAssignment().getWorkLoad()));
                     projectItem
-                            .setActual(getActualWorkloadThisWeekByAssignment(log.getAssignment()));
+                            .setActual(getActualWorkloadByLogs(currentWeekLogs));
                     return projectItem;
                 }).collect(Collectors.toList());
         currentWeekTimesheet.setProjects(projectItems);
         return currentWeekTimesheet;
     }
 
-    private Double getActualWorkloadThisWeekByAssignment(Assignment assignment) {
-        List<Log> logs = assignment.getLogs();
-        return logs.stream()
-                .filter(log ->
-                        log.getDate().after(currentWeekPeriod.getStartWeek())
-                                && log.getDate().before(currentWeekPeriod.getEndWeek()))
-                .mapToDouble(Log::getTime).sum();
+    private Double getActualWorkloadByLogs(List<Log> logs) {
+        return logs.stream().mapToDouble(Log::getTime).sum();
     }
-
+    
     private List<LogDto> getLogsDtoFromLogs(List<Log> logs) {
         return logs.stream()
                 .map(log -> {
