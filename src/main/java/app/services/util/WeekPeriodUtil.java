@@ -17,17 +17,10 @@ public class WeekPeriodUtil {
     public WeekPeriodUtil(Date date) {
         checkDate(date);
         DateTime dateTime = new DateTime(date);
-        this.startWeek = dateTime.withDayOfWeek(DateTimeConstants.MONDAY)
+        this.startWeek = dateTime.dayOfWeek().withMinimumValue()
                 .withTimeAtStartOfDay().toDate();
-        this.endWeek = dateTime.withDayOfWeek(DateTimeConstants.SUNDAY)
+        this.endWeek = dateTime.dayOfWeek().withMaximumValue()
                 .withTimeAtStartOfDay().toDate();
-    }
-
-    public WeekPeriodUtil(Date startWeek, Date endWeek) {
-        checkDate(startWeek);
-        checkDate(endWeek);
-        this.startWeek = startWeek;
-        this.endWeek = endWeek;
     }
 
     public Date getStartWeek() {
