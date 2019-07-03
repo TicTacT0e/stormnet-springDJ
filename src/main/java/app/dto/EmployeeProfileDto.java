@@ -69,7 +69,9 @@ public class EmployeeProfileDto {
         return employeeProjects;
     }
 
-    public void setEmployeeProjects(List<EmployeeProjectItemDto> employeeProjects) {
+    public void setEmployeeProjects(
+            List<EmployeeProjectItemDto> employeeProjects
+    ) {
         this.employeeProjects = employeeProjects;
     }
 

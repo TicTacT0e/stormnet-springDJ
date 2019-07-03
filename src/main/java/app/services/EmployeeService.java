@@ -66,9 +66,11 @@ public class EmployeeService {
         employeeProfileDto
                 .setTimesheetCurrentWeek(getTimesheetCurrentWeek(employee));
         employeeProfileDto
-                .setEmployeeProjects(getProjectItemsForEmployeeProfile(employee));
+                .setEmployeeProjects(
+                        getProjectItemsForEmployeeProfile(employee));
         employeeProfileDto
-                .setTimesheetsPending(getPendingForApprovalTimesheets(employee));
+                .setTimesheetsPending(
+                        getPendingForApprovalTimesheets(employee));
         return employeeProfileDto;
     }
 
@@ -77,7 +79,8 @@ public class EmployeeService {
     ) {
         return employee.getAssignments().stream()
                 .map(assignment -> {
-                    EmployeeProjectItemDto projectItem = new EmployeeProjectItemDto();
+                    EmployeeProjectItemDto projectItem
+                            = new EmployeeProjectItemDto();
                     projectItem.setName(assignment.getProject().getName());
                     projectItem.setColor(assignment.getProject().getColor());
                     projectItem.setActivity(assignment.getActivity().getName());
@@ -87,17 +90,22 @@ public class EmployeeService {
                 .collect(Collectors.toList());
     }
 
-    private List<TimesheetDto> getPendingForApprovalTimesheets(Employee employee) {
+    private List<TimesheetDto> getPendingForApprovalTimesheets(
+            Employee employee) {
         Map<WeekPeriodUtil, List<Log>> logsByWeekPeriod
-                = getLogsForPendingApprovalTimesheetsGroupByWeekPeriod(employee.getAssignments());
+                = getLogsForPendingApprovalTimesheetsGroupByWeekPeriod(
+                employee.getAssignments());
         return logsByWeekPeriod.entrySet().stream()
                 .map(item -> {
                     TimesheetDto timesheetDto = new TimesheetDto();
                     timesheetDto.setFromDate(item.getKey().getStartWeek());
                     timesheetDto.setToDate(item.getKey().getEndWeek());
                     timesheetDto.setLogs(getLogsDtoFromLogs(item.getValue()));
-                    timesheetDto.setPlanned(Double.valueOf(employee.getWorkLoad()));
-                    timesheetDto.setActual(getActualWorkloadByLogs(item.getValue()));
+                    timesheetDto
+                            .setPlanned(Double.valueOf(employee.getWorkLoad()));
+                    timesheetDto
+                            .setActual(getActualWorkloadByLogs(
+                                    item.getValue()));
                     timesheetDto
                             .setProjects(getProjectItemsForTimesheets(
                                     employee.getAssignments(),
@@ -109,11 +117,14 @@ public class EmployeeService {
 
     private TimesheetDto getTimesheetCurrentWeek(Employee employee) {
         TimesheetDto currentWeekTimesheet = new TimesheetDto();
-        List<Log> currentWeekLogs = getCurrentWeekLogs(employee.getAssignments());
+        List<Log> currentWeekLogs
+                = getCurrentWeekLogs(employee.getAssignments());
         List<LogDto> currentWeekLogsDto = getLogsDtoFromLogs(currentWeekLogs);
         currentWeekTimesheet.setLogs(currentWeekLogsDto);
-        currentWeekTimesheet.setPlanned(Double.valueOf(employee.getWorkLoad()));
-        currentWeekTimesheet.setActual(getActualWorkloadByLogs(currentWeekLogs));
+        currentWeekTimesheet
+                .setPlanned(Double.valueOf(employee.getWorkLoad()));
+        currentWeekTimesheet
+                .setActual(getActualWorkloadByLogs(currentWeekLogs));
         currentWeekTimesheet
                 .setProjects(getProjectItemsForTimesheets(
                         employee.getAssignments(),
@@ -127,10 +138,12 @@ public class EmployeeService {
     ) {
         return assignments.stream()
                 .map(assignment -> {
-                    TimesheetProjectItemDto projectItem = new TimesheetProjectItemDto();
+                    TimesheetProjectItemDto projectItem
+                            = new TimesheetProjectItemDto();
                     projectItem.setName(assignment.getProject().getName());
                     projectItem.setColor(assignment.getProject().getColor());
-                    projectItem.setPlanned(Double.valueOf(assignment.getWorkLoad()));
+                    projectItem.setPlanned(Double
+                            .valueOf(assignment.getWorkLoad()));
                     projectItem.setActual(getActualWorkloadByLogs(logs));
                     return projectItem;
                 }).collect(Collectors.toList());
@@ -144,21 +157,25 @@ public class EmployeeService {
         return logs.stream()
                 .map(log -> {
                     LogDto logDto = new LogDto();
-                    logDto.setColor(log.getAssignment().getProject().getColor());
+                    logDto.setColor(log
+                            .getAssignment()
+                            .getProject().getColor());
                     logDto.setComment(log.getComment());
                     logDto.setTime(log.getTime());
                     return logDto;
                 }).collect(Collectors.toList());
     }
 
-    private Map<WeekPeriodUtil, List<Log>> getLogsForPendingApprovalTimesheetsGroupByWeekPeriod
-            (
-                    List<Assignment> assignments
-            ) {
+    private Map<WeekPeriodUtil, List<Log>>
+    getLogsForPendingApprovalTimesheetsGroupByWeekPeriod(
+            List<Assignment> assignments
+    ) {
         List<Log> logs = assignments.stream()
                 .flatMap(assignment -> assignment.getLogs().stream()
-                        .filter(log ->
-                                log.getDate().before(currentWeekPeriod.getStartWeek())))
+                        .filter(log -> log
+                                .getDate()
+                                .before(currentWeekPeriod
+                                        .getStartWeek())))
                 .collect(Collectors.toList());
         return logs.stream().collect(
                 Collectors.groupingBy(log ->
@@ -169,8 +186,12 @@ public class EmployeeService {
         return assignments.stream()
                 .flatMap(assignment -> assignment.getLogs().stream()
                         .filter(log ->
-                                log.getDate().after(currentWeekPeriod.getStartWeek())
-                                        && log.getDate().before(currentWeekPeriod.getEndWeek())))
+                                log.getDate()
+                                        .after(currentWeekPeriod
+                                                .getStartWeek())
+                                        && log.getDate()
+                                        .before(currentWeekPeriod
+                                                .getEndWeek())))
                 .collect(Collectors.toList());
     }
 
@@ -190,7 +211,8 @@ public class EmployeeService {
                             .valueOf(employee.getWorkLoad()));
                     employeesPageItem
                             .setActual(getActualWorkloadByLogs(
-                                    getCurrentWeekLogs(employee.getAssignments())
+                                    getCurrentWeekLogs(
+                                            employee.getAssignments())
                             ));
                     employeesPageItem.setStatus(employee.getStatus());
                     employeesPageItem.setPendingApprovalDtoList(
@@ -202,16 +224,21 @@ public class EmployeeService {
         return employeesPageDto;
     }
 
-    private List<TimesheetItemsDto> getTimesheetItemsForEmployeesPage(Employee employee) {
+    private List<TimesheetItemsDto> getTimesheetItemsForEmployeesPage(
+            Employee employee
+    ) {
         Map<WeekPeriodUtil, List<Log>> logsByWeekPeriod
-                = getLogsForPendingApprovalTimesheetsGroupByWeekPeriod(employee.getAssignments());
+                = getLogsForPendingApprovalTimesheetsGroupByWeekPeriod(
+                employee.getAssignments());
         return logsByWeekPeriod.entrySet().stream()
                 .map(item -> {
                     TimesheetItemsDto timesheetItem = new TimesheetItemsDto();
                     timesheetItem.setFromDate(item.getKey().getStartWeek());
                     timesheetItem.setToDate(item.getKey().getEndWeek());
-                    timesheetItem.setPlanned(Double.valueOf(employee.getWorkLoad()));
-                    timesheetItem.setActual(getActualWorkloadByLogs(item.getValue()));
+                    timesheetItem.setPlanned(Double
+                            .valueOf(employee.getWorkLoad()));
+                    timesheetItem.setActual(
+                            getActualWorkloadByLogs(item.getValue()));
                     return timesheetItem;
                 }).collect(Collectors.toList());
     }

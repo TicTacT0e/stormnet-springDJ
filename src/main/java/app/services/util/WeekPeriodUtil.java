@@ -1,7 +1,6 @@
 package app.services.util;
 
 import org.joda.time.DateTime;
-import org.joda.time.DateTimeConstants;
 
 import java.util.Date;
 import java.util.Objects;
