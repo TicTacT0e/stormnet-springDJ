@@ -4,6 +4,7 @@ import org.joda.time.DateTime;
 import org.joda.time.DateTimeConstants;
 
 import java.util.Date;
+import java.util.Objects;
 
 public class WeekPeriodUtil {
 
@@ -51,5 +52,23 @@ public class WeekPeriodUtil {
         if (date == null || date.getTime() <= 0) {
             throw new IllegalArgumentException();
         }
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        if (this == object) {
+            return true;
+        }
+        if (!(object instanceof WeekPeriodUtil)) {
+            return false;
+        }
+        WeekPeriodUtil that = (WeekPeriodUtil) object;
+        return Objects.equals(getStartWeek(), that.getStartWeek())
+                && Objects.equals(getEndWeek(), that.getEndWeek());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getStartWeek(), getEndWeek());
     }
 }
