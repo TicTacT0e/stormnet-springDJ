@@ -1,13 +1,13 @@
 package app.dto;
 
-public class TimesheetProjectItem {
+public class TimesheetProjectItemDto {
 
     private String name;
     private String color;
     private Double planned;
     private Double actual;
 
-    public TimesheetProjectItem() {
+    public TimesheetProjectItemDto() {
     }
 
     public String getName() {

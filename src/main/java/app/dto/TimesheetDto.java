@@ -10,7 +10,7 @@ public class TimesheetDto {
     private List<LogDto> logs;
     private Double planned;
     private Double actual;
-    private List<TimesheetProjectItem> projects;
+    private List<TimesheetProjectItemDto> projects;
 
     public TimesheetDto() {
     }
@@ -55,11 +55,11 @@ public class TimesheetDto {
         this.actual = actual;
     }
 
-    public List<TimesheetProjectItem> getProjects() {
+    public List<TimesheetProjectItemDto> getProjects() {
         return projects;
     }
 
-    public void setProjects(List<TimesheetProjectItem> projects) {
+    public void setProjects(List<TimesheetProjectItemDto> projects) {
         this.projects = projects;
     }
 }

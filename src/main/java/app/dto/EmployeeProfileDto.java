@@ -10,7 +10,7 @@ public class EmployeeProfileDto {
     private Integer workload;
     private String email;
     private String phone;
-    private List<EmployeeProjectItem> employeeProjects;
+    private List<EmployeeProjectItemDto> employeeProjects;
     private TimesheetDto timesheetCurrentWeek;
     private List<TimesheetDto> timesheetsPending;
 
@@ -65,11 +65,11 @@ public class EmployeeProfileDto {
         this.phone = phone;
     }
 
-    public List<EmployeeProjectItem> getEmployeeProjects() {
+    public List<EmployeeProjectItemDto> getEmployeeProjects() {
         return employeeProjects;
     }
 
-    public void setEmployeeProjects(List<EmployeeProjectItem> employeeProjects) {
+    public void setEmployeeProjects(List<EmployeeProjectItemDto> employeeProjects) {
         this.employeeProjects = employeeProjects;
     }
 

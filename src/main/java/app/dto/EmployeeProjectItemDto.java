@@ -1,13 +1,13 @@
 package app.dto;
 
-public class EmployeeProjectItem {
+public class EmployeeProjectItemDto {
 
     private String name;
     private String color;
     private String activity;
     private Integer workload;
 
-    public EmployeeProjectItem() {
+    public EmployeeProjectItemDto() {
     }
 
     public String getName() {

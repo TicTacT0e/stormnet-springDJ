@@ -2,12 +2,13 @@ package app.services;
 
 import app.dao.BasicCrudDao;
 import app.dto.EmployeeProfileDto;
+import app.dto.EmployeeProjectItemDto;
 import app.dto.EmployeesPageDto;
 import app.dto.EmployeesPageItemDto;
 import app.dto.LogDto;
 import app.dto.TimesheetDto;
 import app.dto.TimesheetItemsDto;
-import app.dto.TimesheetProjectItem;
+import app.dto.TimesheetProjectItemDto;
 import app.entities.Assignment;
 import app.entities.Employee;
 import app.entities.Log;
@@ -71,6 +72,12 @@ public class EmployeeService {
         return employeeProfileDto;
     }
 
+    private List<EmployeeProjectItemDto> getProjectItemsForEmployeeProfile(
+            Employee employee
+    ) {
+        return null;
+    }
+
     private List<TimesheetDto> getPendingForApprovalTimesheets(Employee employee) {
         List<Log> logs = getLogForPendingApprovalTimesheet(employee.getAssignments());
         Map<WeekPeriodUtil, List<Log>> logsByWeekPeriod
@@ -108,13 +115,13 @@ public class EmployeeService {
         return currentWeekTimesheet;
     }
 
-    private List<TimesheetProjectItem> getProjectItemsForTimesheets(
+    private List<TimesheetProjectItemDto> getProjectItemsForTimesheets(
             List<Assignment> assignments,
             List<Log> logs
     ) {
         return assignments.stream()
                 .map(assignment -> {
-                    TimesheetProjectItem projectItem = new TimesheetProjectItem();
+                    TimesheetProjectItemDto projectItem = new TimesheetProjectItemDto();
                     projectItem.setName(assignment.getProject().getName());
                     projectItem.setColor(assignment.getProject().getColor());
                     projectItem.setPlanned(Double.valueOf(assignment.getWorkLoad()));
