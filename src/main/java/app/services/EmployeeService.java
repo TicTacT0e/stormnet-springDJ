@@ -76,24 +76,23 @@ public class EmployeeService {
     private TimesheetDto getTimesheetCurrentWeek(Employee employee) {
         TimesheetDto currentWeekTimesheet = new TimesheetDto();
         List<Assignment> assignments = employee.getAssignments();
-        List<LogDto> currentWeekLogs = getCurrentWeekLogs(assignments);
-        currentWeekTimesheet.setLogs(currentWeekLogs);
+        List<Log> currentWeekLogs = getCurrentWeekLogs(assignments);
+        List<LogDto> currentWeekLogsDto = getLogDtoFromLog(currentWeekLogs);
+        currentWeekTimesheet.setLogs(currentWeekLogsDto);
         currentWeekTimesheet.setPlanned(Double.valueOf(employee.getWorkLoad()));
         currentWeekTimesheet.setActual(getActualWorkloadCurrentWeek(employee));
-
-        List<TimesheetProjectItem> projectItems = assignments.stream()
-                .map(assignment -> {
+        List<TimesheetProjectItem> projectItems = currentWeekLogs.stream()
+                .map(log -> {
                     TimesheetProjectItem projectItem = new TimesheetProjectItem();
-                    projectItem.setColor(assignment.getProject().getColor());
-                    projectItem.setName(assignment.getProject().getName());
-                    projectItem.setPlanned(Double.valueOf(assignment.getWorkLoad()));
+                    projectItem.setColor(log.getAssignment().getProject().getColor());
+                    projectItem.setName(log.getAssignment().getProject().getName());
+                    projectItem.setPlanned(Double
+                            .valueOf(log.getAssignment().getWorkLoad()));
                     projectItem
-                            .setActual(getActualWorkloadThisWeekByAssignment(assignment));
+                            .setActual(getActualWorkloadThisWeekByAssignment(log.getAssignment()));
                     return projectItem;
                 }).collect(Collectors.toList());
-
         currentWeekTimesheet.setProjects(projectItems);
-
         return currentWeekTimesheet;
     }
 
@@ -106,15 +105,7 @@ public class EmployeeService {
                 .mapToDouble(Log::getTime).sum();
     }
 
-
-    private List<LogDto> getCurrentWeekLogs(List<Assignment> assignments) {
-        List<Log> logs = assignments.stream()
-                .flatMap(assignment -> assignment.getLogs().stream()
-                        .filter(log ->
-                                log.getDate().after(START_WEEK_DATE)
-                                        && log.getDate().before(END_WEEK_DATE)))
-                .collect(Collectors.toList());
-
+    private List<LogDto> getLogDtoFromLog(List<Log> logs) {
         return logs.stream()
                 .map(log -> {
                     LogDto logDto = new LogDto();
@@ -125,10 +116,18 @@ public class EmployeeService {
                 }).collect(Collectors.toList());
     }
 
+    private List<Log> getCurrentWeekLogs(List<Assignment> assignments) {
+        return assignments.stream()
+                .flatMap(assignment -> assignment.getLogs().stream()
+                        .filter(log ->
+                                log.getDate().after(START_WEEK_DATE)
+                                        && log.getDate().before(END_WEEK_DATE)))
+                .collect(Collectors.toList());
+    }
+
     private EmployeesPageDto getEmployeesPageDto() {
         EmployeesPageDto employeesPageDto = new EmployeesPageDto();
         List<Employee> employees = employeeDao.findAll();
-
         List<EmployeesPageItemDto> items
                 = employees.stream()
                 .map(employee -> {
@@ -148,7 +147,6 @@ public class EmployeeService {
                     );
                     return employeesPageItem;
                 }).collect(Collectors.toList());
-
         employeesPageDto.setEmployeeItems(items);
         return employeesPageDto;
     }
@@ -170,12 +168,10 @@ public class EmployeeService {
 
     private List<TimesheetItemsDto> getEmployeeTimesheets(Employee employee) {
         List<Assignment> assignments = employee.getAssignments();
-
         List<Timesheet> timesheetsByEmployee =
                 assignments.stream()
                         .flatMap(assignment -> assignment.getTimesheets().stream())
                         .collect(Collectors.toList());
-
         return timesheetsByEmployee.stream()
                 .map(timesheet -> {
                     TimesheetItemsDto timesheetItem

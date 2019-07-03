@@ -56,7 +56,7 @@ public class Employee {
             updatable = false, insertable = false)
     private Role role;
 
-    @OneToOne(targetEntity = Invitation.class,
+    @OneToOne(optional = false, targetEntity = Invitation.class,
             cascade = CascadeType.ALL, mappedBy = "employee")
     private Invitation invitation;
 
