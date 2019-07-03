@@ -67,15 +67,25 @@ public class EmployeeService {
         employeeProfileDto
                 .setTimesheetCurrentWeek(getTimesheetCurrentWeek(employee));
         employeeProfileDto
+                .setEmployeeProjects(getProjectItemsForEmployeeProfile(employee));
+        employeeProfileDto
                 .setTimesheetsPending(getPendingForApprovalTimesheets(employee));
-
         return employeeProfileDto;
     }
 
     private List<EmployeeProjectItemDto> getProjectItemsForEmployeeProfile(
             Employee employee
     ) {
-        return null;
+        return employee.getAssignments().stream()
+                .map(assignment -> {
+                    EmployeeProjectItemDto projectItem = new EmployeeProjectItemDto();
+                    projectItem.setName(assignment.getProject().getName());
+                    projectItem.setColor(assignment.getProject().getColor());
+                    projectItem.setActivity(assignment.getActivity().getName());
+                    projectItem.setWorkload(assignment.getWorkLoad());
+                    return projectItem;
+                })
+                .collect(Collectors.toList());
     }
 
     private List<TimesheetDto> getPendingForApprovalTimesheets(Employee employee) {
