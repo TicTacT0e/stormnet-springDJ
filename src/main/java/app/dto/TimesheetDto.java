@@ -1,15 +1,34 @@
 package app.dto;
 
+import java.util.Date;
 import java.util.List;
 
 public class TimesheetDto {
 
+    private Date fromDate;
+    private Date toDate;
     private List<LogDto> logs;
     private Double planned;
     private Double actual;
     private List<TimesheetProjectItem> projects;
 
     public TimesheetDto() {
+    }
+
+    public Date getFromDate() {
+        return fromDate;
+    }
+
+    public void setFromDate(Date fromDate) {
+        this.fromDate = fromDate;
+    }
+
+    public Date getToDate() {
+        return toDate;
+    }
+
+    public void setToDate(Date toDate) {
+        this.toDate = toDate;
     }
 
     public List<LogDto> getLogs() {

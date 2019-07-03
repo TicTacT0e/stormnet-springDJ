@@ -12,12 +12,12 @@ import app.entities.Assignment;
 import app.entities.Employee;
 import app.entities.Log;
 import app.entities.Timesheet;
+import app.services.util.WeekPeriodUtil;
 import org.joda.time.DateTime;
-import org.joda.time.DateTimeConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -27,12 +27,15 @@ public class EmployeeService {
     @Autowired
     private BasicCrudDao<Employee> employeeDao;
 
-    private static final Date START_WEEK_DATE = DateTime.now()
-            .withDayOfWeek(DateTimeConstants.MONDAY)
-            .withTimeAtStartOfDay().toDate();
-    private static final Date END_WEEK_DATE = DateTime.now()
-            .withDayOfWeek(DateTimeConstants.SUNDAY)
-            .withTimeAtStartOfDay().toDate();
+    private WeekPeriodUtil currentWeekPeriod
+            = new WeekPeriodUtil(DateTime.now().toDate());
+
+//    private static final Date START_WEEK_DATE = DateTime.now()
+//            .withDayOfWeek(DateTimeConstants.MONDAY)
+//            .withTimeAtStartOfDay().toDate();
+//    private static final Date END_WEEK_DATE = DateTime.now()
+//            .withDayOfWeek(DateTimeConstants.SUNDAY)
+//            .withTimeAtStartOfDay().toDate();
 
     public EmployeesPageDto getAll() {
         return getEmployeesPageDto();
@@ -58,6 +61,16 @@ public class EmployeeService {
         employeeDao.delete(employee);
     }
 
+    public List<Log> testMethod(int id) {
+        Employee employee = employeeDao.findById(id);
+        List<Log> logs = employee.getAssignments().stream()
+                .flatMap(assignment -> assignment.getLogs().stream())
+                .sorted(Comparator.comparing(Log::getDate))
+                .collect(Collectors.toList());
+        return logs;
+    }
+
+
     private EmployeeProfileDto getEmployeeProfile(int id) {
         Employee employee = employeeDao.findById(id);
         EmployeeProfileDto employeeProfileDto = new EmployeeProfileDto();
@@ -71,6 +84,33 @@ public class EmployeeService {
                 .setTimesheetCurrentWeek(getTimesheetCurrentWeek(employee));
 
         return employeeProfileDto;
+    }
+
+    private List<TimesheetDto> getPendingForApprovalTimesheets(Employee employee) {
+//        List<Timesheet> timesheets = employee.getAssignments().stream()
+//                .flatMap(assignment -> assignment.getTimesheets().stream()
+//                .filter(timesheet ->
+//                        timesheet.getToDate().before(START_WEEK_DATE)))
+//                .collect(Collectors.toList());
+//        List<TimesheetDto> pendingApprovalTimesheets = timesheets.stream()
+//                .map(timesheet -> {
+//                    TimesheetDto timesheetDto = new TimesheetDto();
+//                    List<LogDto> logsDto = getLogDtoFromLog(timesheet
+//                            .getAssignment().getLogs());
+//                    timesheetDto.setLogs(logsDto);
+//                    timesheetDto.setPlanned(Double
+//                            .valueOf(timesheet.getAssignment().getWorkLoad()));
+//                    return timesheetDto;
+//                }).collect(Collectors.toList());
+
+//        List<Assignment> assignments = employee.getAssignments();
+//        List<TimesheetDto> pendingApprovalTimesheets = assignments.stream()
+//                .map(assignment -> {
+//                    TimesheetDto timesheetDto = new TimesheetDto();
+//                    List<Log> logs = get
+//                    return timesheetDto;
+//                }).collect(Collectors.toList());
+        return null;
     }
 
     private TimesheetDto getTimesheetCurrentWeek(Employee employee) {
@@ -100,8 +140,8 @@ public class EmployeeService {
         List<Log> logs = assignment.getLogs();
         return logs.stream()
                 .filter(log ->
-                        log.getDate().after(START_WEEK_DATE)
-                                && log.getDate().before(END_WEEK_DATE))
+                        log.getDate().after(currentWeekPeriod.getStartWeek())
+                                && log.getDate().before(currentWeekPeriod.getEndWeek()))
                 .mapToDouble(Log::getTime).sum();
     }
 
@@ -116,12 +156,20 @@ public class EmployeeService {
                 }).collect(Collectors.toList());
     }
 
+    private List<Log> getLogForPendingApprovalTimesheet(List<Assignment> assignments) {
+        return assignments.stream()
+                .flatMap(assignment -> assignment.getLogs().stream()
+                        .filter(log ->
+                                log.getDate().before(currentWeekPeriod.getStartWeek())))
+                .collect(Collectors.toList());
+    }
+
     private List<Log> getCurrentWeekLogs(List<Assignment> assignments) {
         return assignments.stream()
                 .flatMap(assignment -> assignment.getLogs().stream()
                         .filter(log ->
-                                log.getDate().after(START_WEEK_DATE)
-                                        && log.getDate().before(END_WEEK_DATE)))
+                                log.getDate().after(currentWeekPeriod.getStartWeek())
+                                        && log.getDate().before(currentWeekPeriod.getEndWeek())))
                 .collect(Collectors.toList());
     }
 
@@ -158,8 +206,10 @@ public class EmployeeService {
                 .map(assignment ->
                         assignment.getLogs().stream()
                                 .filter(log ->
-                                        log.getDate().after(START_WEEK_DATE)
-                                                && log.getDate().before(END_WEEK_DATE))
+                                        log.getDate()
+                                                .after(currentWeekPeriod.getStartWeek())
+                                                && log.getDate()
+                                                .before(currentWeekPeriod.getEndWeek()))
                                 .mapToDouble(Log::getTime).sum()
                 ).collect(Collectors.toList());
         return actualWorkLoadByAssignments.stream()
