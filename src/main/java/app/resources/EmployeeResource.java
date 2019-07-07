@@ -3,12 +3,17 @@ package app.resources;
 import app.dto.EmployeeProfileDto;
 import app.dto.EmployeesPageDto;
 import app.entities.Employee;
+import app.entities.Role;
 import app.services.EmployeeService;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import com.itextpdf.text.Chunk;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfWriter;
+import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -22,11 +27,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import javax.ws.rs.core.StreamingOutput;
 import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.IOException;
-import java.io.OutputStream;
 
 @Component
 @Path("company/{companyId}/employee")
@@ -74,31 +75,29 @@ public class EmployeeResource {
     @GET
     @Path("/{id}/pdf")
     @Produces("application/pdf")
-    public Response getEmployeePdf(@PathParam("id") int id) {
-//        File file = employeeService.getEmployeePdf(id);
-//        Response.ResponseBuilder response = Response
-//                .ok(file);
-//        return response.build();
-    }
-
-
-    @GET
-    @Path("generate")
-    public Response generate() {
+    public Response getEmployeePdf(@PathParam("id") int id)
+            throws JsonProcessingException {
+        EmployeeProfileDto employeeProfileDto = employeeService.get(id);
+        ObjectMapper objectMapper = new ObjectMapper()
+                .enable(SerializationFeature.INDENT_OUTPUT);
+        String jsonEmployeeProfile
+                = objectMapper.writeValueAsString(employeeProfileDto);
         try {
-            // mock document creation
-            com.itextpdf.text.Document document = new Document();
-            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-            com.itextpdf.text.pdf.PdfWriter.getInstance(document, byteArrayOutputStream);
+            Document document = new Document();
+            ByteArrayOutputStream byteArrayOutputStream
+                    = new ByteArrayOutputStream();
+            PdfWriter.getInstance(document, byteArrayOutputStream);
             document.open();
-            document.add(new Chunk("Sample text"));
+            document.add(new Paragraph(jsonEmployeeProfile));
             document.close();
-
-            // mock response
-            return Response.ok(byteArrayOutputStream.toByteArray(), MediaType.APPLICATION_OCTET_STREAM)
-                    .header("content-disposition", "attachment; filename = mockFile.pdf")
+            return Response.ok(byteArrayOutputStream.toByteArray(),
+                    MediaType.APPLICATION_OCTET_STREAM)
+                    .header("content-disposition", "attachment;"
+                            + "filename = "
+                            + employeeProfileDto.getClass().getSimpleName()
+                            + "_" + DateTime.now().getMillis())
                     .build();
-        } catch (DocumentException ignored) {
+        } catch (DocumentException exception) {
             return Response.serverError().build();
         }
     }
