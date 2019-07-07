@@ -17,6 +17,7 @@ import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.ByteArrayOutputStream;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -26,6 +27,8 @@ public class EmployeeService {
 
     @Autowired
     private BasicCrudDao<Employee> employeeDao;
+    @Autowired
+    private PdfService pdfService;
 
     private WeekPeriodUtil currentWeekPeriod
             = new WeekPeriodUtil(DateTime.now().toDate());
@@ -241,5 +244,10 @@ public class EmployeeService {
                             getActualWorkloadByLogs(item.getValue()));
                     return timesheetItem;
                 }).collect(Collectors.toList());
+    }
+
+    public ByteArrayOutputStream getEmployeeProfilePdf(int id) {
+        EmployeeProfileDto employeeProfileDto = get(id);
+        return pdfService.generate(employeeProfileDto);
     }
 }

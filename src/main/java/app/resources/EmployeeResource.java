@@ -75,31 +75,14 @@ public class EmployeeResource {
     @GET
     @Path("/{id}/pdf")
     @Produces("application/pdf")
-    public Response getEmployeePdf(@PathParam("id") int id)
-            throws JsonProcessingException {
-        EmployeeProfileDto employeeProfileDto = employeeService.get(id);
-        ObjectMapper objectMapper = new ObjectMapper()
-                .enable(SerializationFeature.INDENT_OUTPUT);
-        String jsonEmployeeProfile
-                = objectMapper.writeValueAsString(employeeProfileDto);
-        try {
-            Document document = new Document();
-            ByteArrayOutputStream byteArrayOutputStream
-                    = new ByteArrayOutputStream();
-            PdfWriter.getInstance(document, byteArrayOutputStream);
-            document.open();
-            document.add(new Paragraph(jsonEmployeeProfile));
-            document.close();
-            return Response.ok(byteArrayOutputStream.toByteArray(),
+    public Response getEmployeePdf(@PathParam("id") int id) {
+        return Response.ok(employeeService
+                        .getEmployeeProfilePdf(id).toByteArray(),
                     MediaType.APPLICATION_OCTET_STREAM)
                     .header("content-disposition", "attachment;"
-                            + "filename = "
-                            + employeeProfileDto.getClass().getSimpleName()
-                            + "_" + DateTime.now().getMillis())
+                            + "filename = EmployeeProfile_"
+                            + DateTime.now().getMillis())
                     .build();
-        } catch (DocumentException exception) {
-            return Response.serverError().build();
-        }
     }
 
 }
