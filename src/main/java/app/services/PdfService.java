@@ -29,7 +29,7 @@ public class PdfService {
         } catch (DocumentException | JsonProcessingException exception) {
             exception.printStackTrace();
         }
-        if(byteArrayOutputStream == null) {
+        if (byteArrayOutputStream == null) {
             throw new IllegalArgumentException();
         }
         return byteArrayOutputStream;

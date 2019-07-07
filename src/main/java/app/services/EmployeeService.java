@@ -246,6 +246,11 @@ public class EmployeeService {
                 }).collect(Collectors.toList());
     }
 
+    public ByteArrayOutputStream getEmployeesPdf() {
+        EmployeesPageDto employeesPageDto = getAll();
+        return pdfService.generate(employeesPageDto);
+    }
+
     public ByteArrayOutputStream getEmployeeProfilePdf(int id) {
         EmployeeProfileDto employeeProfileDto = get(id);
         return pdfService.generate(employeeProfileDto);

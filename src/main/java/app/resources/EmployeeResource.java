@@ -63,6 +63,19 @@ public class EmployeeResource {
     }
 
     @GET
+    @Path("/pdf")
+    @Produces("application/pdf")
+    public Response getEmployeesPdf() {
+        return Response.ok(employeeService
+                        .getEmployeesPdf().toByteArray(),
+                MediaType.APPLICATION_OCTET_STREAM)
+                .header("content-disposition", "attachment;"
+                        + "filename = Employees_"
+                        + DateTime.now().getMillis())
+                .build();
+    }
+
+    @GET
     @Path("/{id}/pdf")
     @Produces("application/pdf")
     public Response getEmployeePdf(@PathParam("id") int id) {
