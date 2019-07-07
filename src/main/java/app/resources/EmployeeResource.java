@@ -3,16 +3,7 @@ package app.resources;
 import app.dto.EmployeeProfileDto;
 import app.dto.EmployeesPageDto;
 import app.entities.Employee;
-import app.entities.Role;
 import app.services.EmployeeService;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
-import com.itextpdf.text.Chunk;
-import com.itextpdf.text.Document;
-import com.itextpdf.text.DocumentException;
-import com.itextpdf.text.Paragraph;
-import com.itextpdf.text.pdf.PdfWriter;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -27,7 +18,6 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.io.ByteArrayOutputStream;
 
 @Component
 @Path("company/{companyId}/employee")
@@ -78,11 +68,11 @@ public class EmployeeResource {
     public Response getEmployeePdf(@PathParam("id") int id) {
         return Response.ok(employeeService
                         .getEmployeeProfilePdf(id).toByteArray(),
-                    MediaType.APPLICATION_OCTET_STREAM)
-                    .header("content-disposition", "attachment;"
-                            + "filename = EmployeeProfile_"
-                            + DateTime.now().getMillis())
-                    .build();
+                MediaType.APPLICATION_OCTET_STREAM)
+                .header("content-disposition", "attachment;"
+                        + "filename = EmployeeProfile_"
+                        + DateTime.now().getMillis())
+                .build();
     }
 
 }
