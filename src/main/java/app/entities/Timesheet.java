@@ -6,6 +6,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import java.util.Date;
+import java.util.Objects;
 
 @Entity
 @Table(name = "Timesheets")
@@ -17,7 +18,7 @@ public class Timesheet {
     private String status;
     private Date fromDate;
     private Date toDate;
-  
+
     @ManyToOne(targetEntity = Assignment.class)
     @JoinColumn(name = "assignmentId",
             updatable = false, insertable = false)
@@ -90,5 +91,22 @@ public class Timesheet {
 
     public void setToDate(Date toDate) {
         this.toDate = toDate;
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        if (this == object) {
+            return true;
+        }
+        if (!(object instanceof Timesheet)) {
+            return false;
+        }
+        Timesheet timesheet = (Timesheet) object;
+        return Objects.equals(getId(), timesheet.getId());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId());
     }
 }
