@@ -1,5 +1,9 @@
 package app.entities;
 
+
+import javax.persistence.*;
+import java.sql.Date;
+
 import javax.json.bind.annotation.JsonbTransient;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -10,8 +14,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import java.util.Date;
 import java.util.List;
+
 import java.util.Objects;
 
 @Entity
@@ -32,6 +36,12 @@ public class Project {
     private String code;
     private String color;
     private String description;
+
+
+    @ManyToOne(targetEntity = Company.class)
+    @JoinColumn(name = "id",
+            updatable = false, insertable = false)
+    private Company company;
 
     @OneToMany(fetch = FetchType.LAZY, targetEntity = Assignment.class,
             mappedBy = "project", cascade = CascadeType.ALL)
@@ -67,6 +77,11 @@ public class Project {
                 project.getCode(),
                 project.getColor(),
                 project.getDescription());
+    }
+
+
+    public Company getCompany() {
+        return company;
     }
 
     public Integer getId() {

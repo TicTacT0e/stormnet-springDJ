@@ -32,12 +32,18 @@ public class Company {
 
     @OneToMany(fetch = FetchType.LAZY, targetEntity = Settings.class,
             mappedBy = "company")
+    @JsonbTransient
     private List<Settings> settings;
 
     @OneToMany(fetch = FetchType.LAZY, targetEntity = Integration.class,
             mappedBy = "company", cascade = CascadeType.ALL)
     @JsonbTransient
     private List<Integration> integrations;
+  
+    @OneToMany(fetch = FetchType.LAZY, targetEntity = Project.class,
+            mappedBy = "company")
+    @JsonbTransient
+    private List<Project> projects;
 
     public Company() {
     }
@@ -103,7 +109,7 @@ public class Company {
     public void setSettings(List<Settings> settings) {
         this.settings = settings;
     }
-
+  
     public List<Integration> getIntegrations() {
         return integrations;
     }
@@ -111,6 +117,13 @@ public class Company {
     public void setIntegrations(List<Integration> integrations) {
         this.integrations = integrations;
     }
+  
+    public List<Project> getProjects() {
+        return projects;
+    }
+
+    public void setProjects(List<Project> projects) {
+        this.projects = projects;
 
     @Override
     public boolean equals(Object object) {
