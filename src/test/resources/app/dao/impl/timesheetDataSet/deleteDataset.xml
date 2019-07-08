@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <dataset>
-    <Timesheet id="1" assignmentId="1" periodId="1" timesheetJson="null" status="ok" />
-    <Timesheet id="2" assignmentId="2" periodId="2" timesheetJson="null" status="ok"/>
-    <Timesheet id="4" assignmentId="4" periodId="4" timesheetJson="null" status="ok"/>
+    <Timesheets id="1" assignmentId="1" fromDate="2019-04-01" toDate="2019-05-01" timesheetJson="null" status="ok" />
+    <Timesheets id="2" assignmentId="2" fromDate="2019-04-02" toDate="2019-05-02" timesheetJson="null" status="ok"/>
 </dataset>

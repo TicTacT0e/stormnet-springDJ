@@ -18,7 +18,7 @@ import javax.ws.rs.core.Response;
 import java.util.List;
 
 @Component
-@Path("/Timesheet")
+@Path("/timesheet")
 public class TimesheetResource {
 
     @Autowired

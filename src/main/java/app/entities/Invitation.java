@@ -1,20 +1,35 @@
 package app.entities;
 
+import javax.json.bind.annotation.JsonbTransient;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import java.sql.Date;
+import java.util.Date;
 import java.util.Objects;
 
 @Entity
 @Table(name = "Invitations")
 public class Invitation {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private int id;
     private int employeeId;
     private String code;
     private Date dateEnd;
     private String status;
+
+    @OneToOne(targetEntity = Employee.class,
+            cascade = CascadeType.ALL)
+    @JoinColumn(name = "employeeId", updatable = false, insertable = false)
+    @JsonbTransient
+    private Employee employee;
 
     public Invitation() {
     }
@@ -58,6 +73,10 @@ public class Invitation {
         return status;
     }
 
+    public Employee getEmployee() {
+        return employee;
+    }
+
     public void setId(int id) {
         this.id = id;
     }
@@ -76,6 +95,10 @@ public class Invitation {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
     }
 
     @Override
@@ -117,7 +140,6 @@ public class Invitation {
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getEmployeeId(), getCode(),
-                getDateEnd(), getStatus());
+        return Objects.hash(getId());
     }
 }

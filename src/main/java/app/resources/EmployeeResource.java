@@ -1,8 +1,9 @@
 package app.resources;
 
-import app.dao.impl.EmployeeDaoImpl;
-import app.dao.impl.ProjectDaoImpl;
+import app.dto.EmployeeProfileDto;
+import app.dto.EmployeesPageDto;
 import app.entities.Employee;
+import app.services.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -16,52 +17,47 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.util.List;
 
 @Component
-@Path("/employee")
+@Path("company/{companyId}/employee")
 public class EmployeeResource {
 
     @Autowired
-    private EmployeeDaoImpl employeeDao;
-    @Autowired
-    private ProjectDaoImpl projectDao;
+    private EmployeeService employeeService;
 
     @GET
-    @Path("/all")
     @Produces(MediaType.APPLICATION_JSON)
-    public List<Employee> getAll() {
-        return employeeDao.findAll();
+    public EmployeesPageDto getAll() {
+        return employeeService.getAll();
     }
 
     @GET
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Employee get(@PathParam("id") int id) {
-        return employeeDao.findById(id);
+    public EmployeeProfileDto get(@PathParam("id") int id) {
+        return employeeService.get(id);
     }
 
     @POST
-    @Path("/add")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response add(Employee employee) {
-        employeeDao.create(employee);
+        employeeService.add(employee);
         return Response.status(Response.Status.CREATED.getStatusCode()).build();
     }
 
     @PUT
-    @Path("/edit/{id}")
+    @Path("/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response edit(@PathParam("id") int id, Employee employee) {
-        employeeDao.update(employee);
+        employeeService.edit(employee);
         return Response.status(Response.Status.CREATED.getStatusCode()).build();
     }
 
     @DELETE
-    @Path("/delete/{id}")
+    @Path("/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response delete(@PathParam("id") int id, Employee employee) {
-        employeeDao.delete(employee);
+    public Response delete(@PathParam("id") int id) {
+        employeeService.delete(id);
         return Response.status(Response.Status.OK.getStatusCode()).build();
     }
 }
