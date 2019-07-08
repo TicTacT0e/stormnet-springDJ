@@ -71,7 +71,7 @@ public class EmployeeResource {
                 MediaType.APPLICATION_OCTET_STREAM)
                 .header("content-disposition", "attachment;"
                         + "filename = Employees_"
-                        + DateTime.now().getMillis())
+                        + DateTime.now().getMillis() + ".pdf")
                 .build();
     }
 
@@ -84,7 +84,7 @@ public class EmployeeResource {
                 MediaType.APPLICATION_OCTET_STREAM)
                 .header("content-disposition", "attachment;"
                         + "filename = EmployeeProfile_"
-                        + DateTime.now().getMillis())
+                        + DateTime.now().getMillis() + ".pdf")
                 .build();
     }
 
