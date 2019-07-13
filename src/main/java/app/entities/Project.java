@@ -1,8 +1,6 @@
 package app.entities;
 
-
-import javax.persistence.*;
-import java.sql.Date;
+import java.util.Date;
 
 import javax.json.bind.annotation.JsonbTransient;
 import javax.persistence.CascadeType;
@@ -12,6 +10,8 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import java.util.List;
@@ -39,7 +39,7 @@ public class Project {
 
 
     @ManyToOne(targetEntity = Company.class)
-    @JoinColumn(name = "id",
+    @JoinColumn(name = "companyId",
             updatable = false, insertable = false)
     private Company company;
 
@@ -77,11 +77,6 @@ public class Project {
                 project.getCode(),
                 project.getColor(),
                 project.getDescription());
-    }
-
-
-    public Company getCompany() {
-        return company;
     }
 
     public Integer getId() {
@@ -170,6 +165,14 @@ public class Project {
 
     public void setAssignments(List<Assignment> assignments) {
         this.assignments = assignments;
+    }
+
+    public Company getCompany() {
+        return company;
+    }
+
+    public void setCompany(Company company) {
+        this.company = company;
     }
 
     @Override

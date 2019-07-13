@@ -124,6 +124,7 @@ public class Company {
 
     public void setProjects(List<Project> projects) {
         this.projects = projects;
+    }
 
     @Override
     public boolean equals(Object object) {
