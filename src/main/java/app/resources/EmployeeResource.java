@@ -4,6 +4,7 @@ import app.dto.EmployeeProfileDto;
 import app.dto.EmployeesPageDto;
 import app.entities.Employee;
 import app.services.EmployeeService;
+import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -60,4 +61,31 @@ public class EmployeeResource {
         employeeService.delete(id);
         return Response.status(Response.Status.OK.getStatusCode()).build();
     }
+
+    @GET
+    @Path("/pdf")
+    @Produces("application/pdf")
+    public Response getEmployeesPdf() {
+        return Response.ok(employeeService
+                        .getEmployeesPdf().toByteArray(),
+                MediaType.APPLICATION_OCTET_STREAM)
+                .header("content-disposition", "attachment;"
+                        + "filename = Employees_"
+                        + DateTime.now().getMillis() + ".pdf")
+                .build();
+    }
+
+    @GET
+    @Path("/{id}/pdf")
+    @Produces("application/pdf")
+    public Response getEmployeePdf(@PathParam("id") int id) {
+        return Response.ok(employeeService
+                        .getEmployeeProfilePdf(id).toByteArray(),
+                MediaType.APPLICATION_OCTET_STREAM)
+                .header("content-disposition", "attachment;"
+                        + "filename = EmployeeProfile_"
+                        + DateTime.now().getMillis() + ".pdf")
+                .build();
+    }
+
 }
